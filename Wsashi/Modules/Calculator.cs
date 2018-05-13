@@ -1,4 +1,5 @@
-﻿using System.Threading.Tasks;
+﻿using System;
+using System.Threading.Tasks;
 using Discord;
 using Discord.Commands;
 
@@ -10,7 +11,7 @@ namespace Wsashi.Modules
         [Command("Addition")]
         [Summary("Adds 2 numbers together.")]
         [Alias("Add")]
-        public async Task AddAsync(int num1, int num2)
+        public async Task AddAsync(float num1, float num2)
         {
             var embed = new EmbedBuilder();
             embed.WithColor(37, 152, 255);
@@ -21,7 +22,7 @@ namespace Wsashi.Modules
         [Command("Subtract")]
         [Summary("Subtracts 2 numbers.")]
         [Alias("Minus")]
-        public async Task SubstractAsync(int num1, int num2)
+        public async Task SubstractAsync(float num1, float num2)
         {
             var embed = new EmbedBuilder();
             embed.WithColor(37, 152, 255);
@@ -32,7 +33,7 @@ namespace Wsashi.Modules
         [Command("Multiply")]
         [Summary("Multiplys 2 Numbers.")]
         [Alias("Times")]
-        public async Task MultiplyAsync(int num1, int num2)
+        public async Task MultiplyAsync(float num1, float num2)
         {
             var embed = new EmbedBuilder();
             embed.WithColor(37, 152, 255);
@@ -42,7 +43,7 @@ namespace Wsashi.Modules
 
         [Command("Divide")]
         [Summary("Divides 2 Numbers.")]
-        public async Task DivideAsync(int num1, int num2)
+        public async Task DivideAsync(float num1, float num2)
         {
             var embed = new EmbedBuilder();
             embed.WithColor(37, 152, 255);

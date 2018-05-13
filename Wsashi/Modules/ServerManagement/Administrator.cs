@@ -667,29 +667,6 @@ namespace Watchdog.Modules
             }
         }
 
-        [Command("setAvatar")]
-        [RequireUserPermission(GuildPermission.Administrator)]
-        public async Task SetAvatar(string link)
-        {
-            var s = Context.Message.DeleteAsync();
-
-            try
-            {
-                var webClient = new WebClient();
-                byte[] imageBytes = webClient.DownloadData(link);
-
-                var stream = new MemoryStream(imageBytes);
-
-                var image = new Image(stream);
-                await Context.Client.CurrentUser.ModifyAsync(k => k.Avatar = image);
-            }
-            catch (Exception)
-            {
-                var embed = EmbedHandler.CreateEmbed("Avatar", "Could not set the avatar!", EmbedHandler.EmbedMessageType.Exception);
-                await Context.Channel.SendMessageAsync("", false, embed);
-            }
-        }
-
         [Command("FilterOn")]
         public async Task TurnFilteringOn()
         {

@@ -7,7 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Net;
-using NReco.ImageGenerator;
+using ImageMagick;
 using System.IO;
 using Wsashi.Handlers;
 using Wsashi.Preconditions;
@@ -16,18 +16,31 @@ namespace Watchdog.Modules
 {
     public class ImageGeneration : ModuleBase
     {
+
+
         [Command("captcha")]
         [Summary("Sends a captcha with what you inputed")]
-        public async Task Hello([Remainder] string input)
+        public async Task Captcha([Remainder] string input)
         {
-            string html = String.Format(input);
-            var converter = new HtmlToImageConverter
+            MagickReadSettings settings = new MagickReadSettings();
+            settings.Width = 308;
+            settings.Height = 81;
+            using (MemoryStream memStream = new MemoryStream(@Desktop))
             {
-                Width = 800,
-                Height = 500
-            };
-            var jpgBytes = converter.GenerateImageFromFile("https://i.imgur.com/dj58QLj.png" + html, NReco.ImageGenerator.ImageFormat.Jpeg);
-            await Context.Channel.SendFileAsync(new MemoryStream(jpgBytes), "captcha.jpg");
+                using (MagickImage image = new MagickImage(memStream))
+                {
+                    new Drawables()
+                    .FontPointSize(72)
+                    .Font("Monaco")
+                    .StrokeColor(new MagickColor("black"))
+                    .FillColor(MagickColors.Black)
+                    .TextAlignment(TextAlignment.Left)
+                    .Text(66, 37, input)
+                    .Draw(image);
+                    image.Format = MagickFormat.Png;
+                    await Context.Channel.SendFileAsync(new MemoryStream(image.ToByteArray()), "captcha.png");
+                }
+            }
         }
     }
 }

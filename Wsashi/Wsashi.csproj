@@ -6,11 +6,13 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="Modules\ImageGeneration.cs" />
     <Compile Remove="Modules\Prefix2.cs" />
   </ItemGroup>
 
   <ItemGroup>
     <PackageReference Include="Discord.Net" Version="1.0.2" />
+    <PackageReference Include="Magick.NET-Q16-AnyCPU" Version="7.4.5" />
     <PackageReference Include="Newtonsoft.Json" Version="11.0.2" />
     <PackageReference Include="NReco.ImageGenerator" Version="1.1.1" />
   </ItemGroup>
