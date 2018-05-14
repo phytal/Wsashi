@@ -16,8 +16,6 @@ namespace Watchdog.Modules
 {
     public class ImageGeneration : ModuleBase
     {
-
-
         [Command("captcha")]
         [Summary("Sends a captcha with what you inputed")]
         public async Task Captcha([Remainder] string input)
