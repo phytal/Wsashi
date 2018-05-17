@@ -28,7 +28,7 @@ namespace Wsashi.Helpers
         private static void OnTimerTicked(object sender, ElapsedEventArgs e)
         {
             var general = _client.GetChannel(389628620462620675) as SocketTextChannel;
-            general.SendMessageAsync("If you have any problems using this bot, please use '/help'!");
+            general.SendMessageAsync("If you have any problems using this bot, please use 'w!help'!");
         }
     }
 }

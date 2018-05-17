@@ -7,10 +7,12 @@ using Discord.Commands;
 using Discord;
 using Discord.WebSocket;
 using Wsashi.Preconditions;
+using Wsashi.Core.Modules;
+using Wsashi.Features.GlobalAccounts;
 
 namespace Wsashi
 {
-    public class Information : ModuleBase
+    public class Information : WsashiModule
     {
         private CommandService _service;
 
@@ -94,6 +96,28 @@ namespace Wsashi
             await ReplyAsync("", false, embed);
         }
 
+
+        [Command("ServerInfo"), Alias("sinfo", "serveri", "si")]
+        public async Task ServerInformationCommand()
+        {
+            var config = GlobalGuildAccounts.GetGuildAccount(Context.Guild.Id);
+            var embed = new EmbedBuilder();
+            embed.WithTitle("Server Information");
+            embed.AddField("Name", Context.Guild.Name);
+            embed.AddField("Created", Context.Guild.CreatedAt.UtcDateTime);
+            embed.AddField("Users", Context.Guild.Users.Count);
+            embed.AddField("Text Channels", Context.Guild.TextChannels.Count);
+            embed.AddField("Voice Channels", Context.Guild.VoiceChannels.Count);
+            embed.AddField("Region", Context.Guild.VoiceRegionId);
+            embed.WithThumbnailUrl(Context.Guild.IconUrl);
+            embed.AddField("Roles", Context.Guild.Roles.Count);
+            embed.AddField("Donator Guild", config.VerifiedGuild);
+
+            embed.WithColor(37, 152, 255);
+
+            await ReplyAsync("", false, embed);
+        }
+
         //[Command("userinfo")]
         //[Summary("Shows info about the requested user")]
         //[Alias("whois")]
@@ -152,11 +176,12 @@ namespace Wsashi
         [Summary("Shows Wsashi's information")]
         public async Task Info()
         {
+            string version = Config.bot.Version;
             var embed = new EmbedBuilder();
             embed.WithColor(37, 152, 255);
             embed.AddInlineField("Creator", "Phytal#8213");
             embed.AddInlineField("Last Updated", "5/1/2018");
-            embed.AddInlineField("Bot version", "Beta 1.4.09");
+            embed.AddInlineField("Bot version", $"Beta {version}");
             embed.WithImageUrl(Global.Client.CurrentUser.GetAvatarUrl());
 
             await Context.Channel.SendMessageAsync("", embed: embed);
@@ -176,7 +201,7 @@ namespace Wsashi
             "**1. Core -** `help` `invite` `ping` \n" +
             "**2. Social -** `xp` `level` `stats` \n" +
             "**2.5. Interaction -** `cuddle` `feed` `hug` `kiss` `pat` `poke` `tickle`\n" +
-            "**3. Fun -** `8ball` `pick` `roast` `hello` `normalhello` `goodmorning` `goodnight` `fortune` `echo`\n" +
+            "**3. Fun -** `8ball` `pick` `roast` `hello` `normalhello` `goodmorning` `goodnight` `fortune` `echo` `lenny`\n" +
             "**4. Duels -** `slash` `giveup` `duel` \n" +
             "**5. Gambling -** `roll` `coinflip` `newslots` `slots`\n" +
             "**5. Economy -** `balance` `daily` `rank`\n" +
@@ -184,11 +209,12 @@ namespace Wsashi
             "**7. Calculator (Quik Mafs)-** `add` `minus` `multiply` `divide`\n" +
             "**8. Music (Under Development) -** `join` `leave` `play`\n" +
             "**8. Information -** `info` `userinfo` `command` `update`\n" +
-            "**9. APIs -** `dog` `cat` `catfact` `person` `birb` `define`\n" +
+            "**9. APIs -** `dog` `cat` `catfact` `person` `birb` `define` `meme`\n" +
             "**10. Neko API -** `neko` `catemoticon` `foxgirl`\n" +
             "**11. Shibe API -** `shiba` `bird`\n" +
             "**12. Games -** `2048 start` `trivia`\n" +
-            "**13. Blog (w!blog <command>) -** `create` `post` `subscribe` `unsubscribe`" +
+            "**13. Blog (w!blog <command>) -** `create` `post` `subscribe` `unsubscribe`\n" +
+            "**14. Self Roles -** `Iam` `Iamnot` \n" +
             "\n" +
             "```\n" +
             "# Don't include the example brackets when using commands!\n" +
@@ -211,10 +237,14 @@ namespace Wsashi
             "```\n" +
             "Use `/command [command]` to get more info on a specific command. Ex: `/command xp`  `[Prefix 'w!']`\n" +
             "\n" +
-            "**Promotions -** `promote helper` `promote moderator` `promote admin` `demote moderator` `demote helper` `demote member` \n" +
-            "**Server Management -** `ban` `kick` `mute` `unmute` `clear` `warn` `say` \n" +
-            "**Economy/Social -** `add potatos` `add xp` `add points` \n" +
-            "**Prefix Settings (w!prefix <command>) -** `add` `remove` `list` "+
+            "**Filters -** `antilink` `filter` `pingchecks` `antilinkignore`\n" +
+            "**User Management -** `ban` `kick` `mute` `unmute` `clear` `warn` `say` `softban` `idban`\n" +
+            "**Bot Settings -** `serverprefix` `leveling` `list` \n"+
+            "**Welcome Messages (w!welcome <command>) -** `channel` `add` `remove` `list`\n" +
+            "**Leaving Messages (w!leave <command>) -** `add` `remove` `list`\n" +
+            "**Announcements (w!announcements <command>) -** `setchannel` `unsetchannel`" +
+            "**Server Management -** `rename` `serverlogging` `"+
+            "**Roles -** `ModRole` `AdminRole` `selfroleadd` selfrolerem` `selfroleclear"+
             "\n"+
             "```\n" +
             "# Don't include the example brackets when using commands!\n" +
@@ -326,12 +356,12 @@ namespace Wsashi
             await Context.Channel.SendMessageAsync("", false, builder.Build());
         }
 
-        [Command("link")]
-        [Summary("Provides Phytal's server invite link")]
+        [Command("wsashilink")]
+        [Summary("Provides Wsashi's server invite link")]
         [Alias("serverinvitelink")]
         public async Task SendAsync()
         {
-            await ReplyAsync("https://discord.gg/xDRvgPw");
+            await ReplyAsync("https://discord.gg/NuUdx4h");
         }
 
         [Command("invite")]
@@ -348,18 +378,21 @@ namespace Wsashi
         public async Task Update()
         {
             {
+                string version = Config.bot.Version;
                 var embed = new EmbedBuilder();
                 embed.WithColor(37, 152, 255);
                 embed.WithTitle("Update Notes");
                 embed.WithDescription("**<<Last Updated on 5/1>>**\n"
-                    + "**• Bot version Beta 1.4.09**\n"
+                    + $"**• Bot version Beta {version}**\n"
                     + "`----- LAST UPDATE -----`\n"
-                    + "• Added NSFW Hentai commands. Use w!helpnsfw (why did i do this)\n"
-                    + "• Added Interaction commands! Use w!help to view them!"
-                    + "• Added an Urban Dictionary Command! Use w!define <word> to start!"
-                    + "`----- CURRENT UPDATE -----`\n"
                     + "• Added commmands for the Shibi API! Use w!help to view them!\n"
-                    + "• Fixed the Trivia Game, should function now."
+                    + "• Fixed the Trivia Game, should function now.\n"
+                    + "`----- CURRENT UPDATE -----`\n"
+                    + " -**Large** update incoming!-"
+                    + "• Added *alot* and improved administrator commands. Use `w!helpmod` to see them (lol you have to have some perms tho)!"
+                    + "• Added Server Logging! Activate it by using `w!serverlogging true`!"
+                    + "• Change the command you use to activate Wsashi! Use `w!server prefix <prefix>` to add one! (You cannot get rid of `w!` >:3)"
+                    + "• Squished some ~~alot of~~ bugs."
                     );
 
                 await ReplyAsync("", embed: embed);

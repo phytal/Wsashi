@@ -8,47 +8,45 @@ namespace Wsashi.Modules
 {
     public class Calculator : ModuleBase
     {
-        [Command("Addition")]
-        [Summary("Adds 2 numbers together.")]
-        [Alias("Add")]
-        public async Task AddAsync(float num1, float num2)
+        [Command("Calculator"), Alias("Calc")]
+        public async Task Calculate(string oper, float val1, float val2 = 0) //this code is fucking nasty, i will fix it in the future.
         {
             var embed = new EmbedBuilder();
             embed.WithColor(37, 152, 255);
-            embed.WithTitle($"The Answer To That Is: {num1 + num2}");
-            await Context.Channel.SendMessageAsync("", false, embed);
-        }
+            embed.WithTitle("Calculator");
 
-        [Command("Subtract")]
-        [Summary("Subtracts 2 numbers.")]
-        [Alias("Minus")]
-        public async Task SubstractAsync(float num1, float num2)
-        {
-            var embed = new EmbedBuilder();
-            embed.WithColor(37, 152, 255);
-            embed.WithTitle($"The Answer To That Is: {num1 - num2}");
-            await Context.Channel.SendMessageAsync("", false, embed);
-        }
+            int result;
+            double result2;
 
-        [Command("Multiply")]
-        [Summary("Multiplys 2 Numbers.")]
-        [Alias("Times")]
-        public async Task MultiplyAsync(float num1, float num2)
-        {
-            var embed = new EmbedBuilder();
-            embed.WithColor(37, 152, 255);
-            embed.WithTitle($"The Answer To That Is {num1 * num2}");
-            await Context.Channel.SendMessageAsync("", false, embed);
-        }
+            switch (oper)
+            {
+                case "add":
+                    embed.WithDescription($"The answer is `{val1 + val2}`");
+                    break;
+                case "sub":
+                    embed.WithDescription($"The answer is `{val1 - val2}`");
+                    break;
+                case "mult":
+                    embed.WithDescription($"The answer is `{val1 * val2}`");
+                    break;
+                case "div":
+                    embed.WithDescription($"The answer is `{val1 / val2}`");
+                    break;
+                case "sqrt":
+                    result2 = Math.Sqrt(val1);
+                    embed.WithDescription($"The answer is `{result2}`");
+                    break;
+                case "power":
+                    result2 = Math.Pow(val1, val2);
+                    embed.WithDescription($"The answer is `{result2}`");
+                    break;
+                default:
+                    embed.WithDescription("You didn't specify a valid operation. Valid operations are `add`, `sub`, `mult`, `div`, `power`, and `sqrt`.");
+                    break;
 
-        [Command("Divide")]
-        [Summary("Divides 2 Numbers.")]
-        public async Task DivideAsync(float num1, float num2)
-        {
-            var embed = new EmbedBuilder();
-            embed.WithColor(37, 152, 255);
-            embed.WithTitle($"The Answer To That Is: {num1 / num2}");
-            await Context.Channel.SendMessageAsync("", false, embed);
+
+            }
+            await ReplyAsync("", false, embed);
         }
     }
 }

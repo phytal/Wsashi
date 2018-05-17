@@ -38,6 +38,9 @@ namespace Wsashi
     {
         public string token;
         public string cmdPrefix;
+        public string BotGameToSet;
+        public string TwitchStreamer;
+        public string Version;
     }
 }
 

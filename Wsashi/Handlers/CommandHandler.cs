@@ -29,37 +29,36 @@ namespace Wsashi
 
         private async Task HandleCommandAsync(SocketMessage s)
         {
-            var msg = s as SocketUserMessage;
-            if (msg == null) return;
-            if (msg.Channel == msg.Author.GetOrCreateDMChannelAsync()) return;
+            if (!(s is SocketUserMessage msg)) return;
+            if (msg.Channel is SocketDMChannel) return;
 
             var context = new SocketCommandContext(_client, msg);
             if (context.User.IsBot) return;
 
-            int argPos = 0;
-            if (msg.HasMentionPrefix(_client.CurrentUser, ref argPos))
-                if (msg.HasMentionPrefix(_client.CurrentUser, ref argPos) || CheckPrefix(ref argPos, context))
-                {
-                    var cmdSearchResult = _service.Search(context, argPos);
-                    if (cmdSearchResult.Commands.Count == 0) return;
+            var config = GlobalGuildAccounts.GetGuildAccount(context.Guild.Id);
+            var prefix = config.CommandPrefix ?? Config.bot.cmdPrefix;
 
-                    var executionTask = _service.ExecuteAsync(context, argPos);
+            var argPos = 0;
+            if (msg.HasMentionPrefix(_client.CurrentUser, ref argPos) || msg.HasStringPrefix(prefix, ref argPos))//|| CheckPrefix(ref argPos, context))
+            {
+                var cmdSearchResult = _service.Search(context, argPos);
+                if (cmdSearchResult.Commands.Count == 0) return;
+
+                var executionTask = _service.ExecuteAsync(context, argPos);
 
 #pragma warning disable CS4014 // Because this call is not awaited, execution of the current method continues before the call is completed
-                    executionTask.ContinueWith(task =>
-                    {
-                        if (!task.Result.IsSuccess && task.Result.Error != CommandError.UnknownCommand)
-                        {
-                            string errTemplate = "{0}, Error: {1}.";
-                            string errMessage = String.Format(errTemplate, context.User.Mention, task.Result.ErrorReason);
-                            context.Channel.SendMessageAsync(errMessage);
-                        }
-                    });
+                executionTask.ContinueWith(task =>
+                {
+                    if (task.Result.IsSuccess || task.Result.Error == CommandError.UnknownCommand) return;
+                    const string errTemplate = "{0}, Error: {1}.";
+                    var errMessage = string.Format(errTemplate, context.User.Mention, task.Result.ErrorReason);
+                    context.Channel.SendMessageAsync(errMessage);
+                });
 #pragma warning restore CS4014 // Because this call is not awaited, execution of the current method continues before the call is completed
-                }
+            }
 
-        // Mute check
-        var userAccount = GlobalUserAccounts.GetUserAccount(context.User);
+            // Mute check
+            var userAccount = GlobalUserAccounts.GetUserAccount(context.User);
             if (userAccount.IsMuted)
             {
                 await context.Message.DeleteAsync();
@@ -81,46 +80,49 @@ namespace Wsashi
             }
         }
 
-        private static bool CheckPrefix(ref int argPos, SocketCommandContext context)
-        {
-            var prefixes = GlobalGuildAccounts.GetGuildAccount(context.Guild.Id).Prefixes;
-            var tmpArgPos = 0;
-            var success = prefixes.Any(pre =>
-            {
-                if (context.Message.Content.StartsWith(pre))
-                {
-                    tmpArgPos = pre.Length + 1;
-                    return true;
-                }
-                return false;
-            });
-            argPos = tmpArgPos;
-            return success;
-        }
-
         private async Task ReactionWasAdded(global::Discord.Cacheable<global::Discord.IUserMessage, ulong> message, ISocketMessageChannel channel, SocketReaction reaction)
         {
             if (Timeouts.HasCommandTimeout(reaction.UserId, "REACTION", 1)) return;
             G1024ReactionInput.HandleReaction(reaction);
         }
 
+        /*private static bool CheckPrefix(ref int argPos, SocketCommandContext context)
+        {
+            var prefixes = GlobalGuildAccounts.GetGuildAccount(context.Guild.Id).Prefixes;
+            var tmpArgPos = 0;
+            var success = prefixes.Any(pre =>
+            {
+                if (!context.Message.Content.StartsWith(pre)) return false;
+                tmpArgPos = pre.Length + 1;
+                return true;
+            });
+            argPos = tmpArgPos;
+            return success;
+        }
+        */
+
         private async Task _client_UserJoined(SocketGuildUser user)
         {
-            var possibleMessages = GlobalGuildAccounts.GetGuildAccount(user.Guild.Id).WelcomeMessages;
-            var channel = _client.GetChannel(414989014551232512) as SocketTextChannel;
-            var member = user.Guild.Roles.Where(input => input.Name.ToUpper() == "MEMBER").FirstOrDefault() as SocketRole;
-
-            await user.AddRoleAsync(member);
-            await channel.SendMessageAsync($"Welcome **{user.Username}** to **{user.Guild.Name}**! Have fun!");
+            var guildAcc = GlobalGuildAccounts.GetGuildAccount(user.Guild.Id);
+            if (guildAcc.WelcomeChannel == 0) return;
+            if (!(_client.GetChannel(guildAcc.WelcomeChannel) is SocketTextChannel channel)) return;
+            var possibleMessages = guildAcc.WelcomeMessages;
+            var messageString = possibleMessages[Global.Rng.Next(possibleMessages.Count)];
+            messageString = messageString.ReplacePlacehoderStrings(user);
+            if (string.IsNullOrEmpty(messageString)) return;
+            await channel.SendMessageAsync(messageString);
         }
 
         private async Task _client_UserLeft(SocketGuildUser user)
         {
-            if (user.Guild.Name == "Phytal's Public Discord")
-            {
-                var channel = _client.GetChannel(414989014551232512) as SocketTextChannel;
-                await channel.SendMessageAsync($"**{user.Username}** has left **{user.Guild.Name}**.. :cry: :wave: ");
-            }
+            var guildAcc = GlobalGuildAccounts.GetGuildAccount(user.Guild.Id);
+            if (guildAcc.WelcomeChannel == 0) return;
+            if (!(_client.GetChannel(guildAcc.WelcomeChannel) is SocketTextChannel channel)) return;
+            var possibleMessages = guildAcc.LeaveMessages;
+            var messageString = possibleMessages[Global.Rng.Next(possibleMessages.Count)];
+            messageString = messageString.ReplacePlacehoderStrings(user);
+            if (string.IsNullOrEmpty(messageString)) return;
+            await channel.SendMessageAsync(messageString);
         }
     }
 }

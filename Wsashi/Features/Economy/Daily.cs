@@ -10,19 +10,23 @@ namespace Wsashi.Economy
 {
     public static class Daily
     {
-        public enum DailyResult { Success, AlreadyRecieved }
-
-        public static DailyResult GetDaily(SocketUser user)
+        public struct DailyResult
         {
-            var userAccount = GlobalUserAccounts.GetUserAccount(user);
-            var difference = DateTime.Now - userAccount.LastDaily;
+            public bool Success;
+            public TimeSpan RefreshTimeSpan;
+        }
 
-            if (difference.TotalHours < 24) return DailyResult.AlreadyRecieved;
+        public static DailyResult GetDaily(ulong userId)
+        {
+            var account = GlobalUserAccounts.GetUserAccount(userId);
+            var difference = DateTime.UtcNow - account.LastDaily.AddDays(1);
 
-            userAccount.Money += Constants.DailyMoneyGain;
-            userAccount.LastDaily = DateTime.UtcNow;
-            GlobalUserAccounts.SaveAccounts();
-            return DailyResult.Success;
+            if (difference.TotalHours < 0) return new DailyResult { Success = false, RefreshTimeSpan = difference };
+
+            account.Money += Constants.DailyMoneyGain;
+            account.LastDaily = DateTime.UtcNow;
+            GlobalUserAccounts.SaveAccounts(userId);
+            return new DailyResult { Success = true };
         }
     }
 }

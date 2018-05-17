@@ -21,24 +21,22 @@ namespace Wsashi.Core.LevelingSystem
         [Summary("Claims the daily Potatos!")]
         public async Task GetDaily()
         {
-            var user = Context.User as SocketGuildUser;
-            var result = Daily.GetDaily(Context.User);
-            switch (result)
+            var result = Daily.GetDaily(Context.User.Id);
+
+            if (result.Success)
             {
-                case Daily.DailyResult.AlreadyRecieved:
-                    var userAccount = GlobalUserAccounts.GetUserAccount(user);
-                    var time = userAccount.LastDaily.Subtract(DateTime.Now);
-                    var embed = new EmbedBuilder();
-                    embed.WithColor(37, 152, 255);
-                    embed.WithDescription($":potato:  | **You have already claimed your free daily Potatos, {Context.User.Mention}.\nYou have {time.Hours} hours  {time.Minutes} minutes and {time.Seconds} seconds until you can claim your next daily.**");
-                    await Context.Channel.SendMessageAsync("", false, embed);
-                    break;
-                case Daily.DailyResult.Success:
-                    var embedd = new EmbedBuilder();
-                    embedd.WithColor(37, 152, 255);
-                    embedd.WithDescription($":potato:  | Here's **{Constants.DailyMoneyGain}** Potatos, {Context.User.Mention}! Come back tomorrow for more!");
-                    await Context.Channel.SendMessageAsync("", false, embedd);
-                    break;
+                var embedd = new EmbedBuilder();
+                embedd.WithColor(37, 152, 255);
+                embedd.WithDescription($":potato:  | Here's **{Constants.DailyMoneyGain}** Potatos, {Context.User.Mention}! Come back tomorrow for more!");
+                await Context.Channel.SendMessageAsync("", false, embedd);
+            }
+            else
+            {
+                var timeSpanString = string.Format("{0:%h} hours {0:%m} minutes {0:%s} seconds", result.RefreshTimeSpan);
+                var embed = new EmbedBuilder();
+                embed.WithColor(37, 152, 255);
+                embed.WithDescription($":potato:  | **You have already claimed your free daily Potatos, {Context.User.Mention}.\nCome back in {timeSpanString}.**");
+                await Context.Channel.SendMessageAsync("", false, embed);
             }
         }
 
@@ -111,7 +109,6 @@ namespace Wsashi.Core.LevelingSystem
             }
 
             var guildUserIds = Context.Guild.Users.Select(user => user.Id);
-            // Get only accounts of this server
             var accounts = GlobalUserAccounts.GetFilteredAccounts(acc => guildUserIds.Contains(acc.Id));
 
             const int usersPerPage = 9;
@@ -130,13 +127,9 @@ namespace Wsashi.Core.LevelingSystem
                 .WithTitle($"Leaderboard:")
                 .WithFooter($"Page {page}/{lastPageNumber}");
 
-            // Add fields to the embed with information of users according to the provided page we should show
-            // Two conditions because:  1. Only get as many as we want 
-            //                          2. The last page might not be completely filled so we have to interrupt early
             page--;
             for (var i = 1; i <= usersPerPage && i + usersPerPage * page <= ordered.Count; i++)
             {
-                // -1 because we take the users non zero based input
                 var account = ordered[i - 1 + usersPerPage * page];
                 var user = Global.Client.GetUser(account.Id);
                 embB.WithColor(37, 152, 255);
@@ -149,7 +142,7 @@ namespace Wsashi.Core.LevelingSystem
         [Command("balance")]
         [Alias("Cash", "Money", "bal")]
         [Summary("Checks the balance for your, or an mentioned account")]
-        public async Task CheckMiunies()
+        public async Task CheckPotatos()
         {
             var account = GlobalUserAccounts.GetUserAccount(Context.User.Id);
             await ReplyAsync(GetPotatosReport(account.Money, Context.User.Mention));
@@ -158,7 +151,7 @@ namespace Wsashi.Core.LevelingSystem
         [Command("balance")]
         [Alias("Cash", "Money", "bal")]
         [Summary("Checks the balance for your, or an mentioned account")]
-        public async Task CheckMiuniesOther(IGuildUser target)
+        public async Task CheckPotatosOther(IGuildUser target)
         {
             var account = GlobalUserAccounts.GetUserAccount(target.Id);
             await ReplyAsync(GetPotatosReport(account.Money, target.Mention));

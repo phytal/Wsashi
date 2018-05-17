@@ -1,6 +1,7 @@
 ﻿using System.Threading.Tasks;
 using Discord;
 using Discord.Commands;
+using Discord.WebSocket;
 using Wsashi.Features.GlobalAccounts;
 
 namespace Wsashi.Modules
@@ -33,6 +34,20 @@ namespace Wsashi.Modules
     [Summary("DM a joining user a random message out of the ones defined.")]
     public class WelcomeMessages : ModuleBase<SocketCommandContext>
     {
+
+        [Command("channel"), Alias("Wc")]
+        [RequireUserPermission(GuildPermission.ManageGuild)]
+        public async Task SetIdIntoConfig(SocketGuildChannel chnl)
+        {
+            var config = GlobalGuildAccounts.GetGuildAccount(Context.Guild.Id);
+            var embed = new EmbedBuilder();
+            embed.WithColor(37, 152, 255);
+            embed.WithDescription($"Set this guild's welcome channel to #{chnl}.");
+            config.WelcomeChannel = chnl.Id;
+            GlobalGuildAccounts.SaveAccounts();
+            await Context.Channel.SendMessageAsync("", false, embed);
+        }
+
         [Command("add"), RequireUserPermission(GuildPermission.Administrator)]
         [Remarks("Example: `welcome add <usermention>, welcome to **<guildname>**! " +
                  "Try using ```@<botname>#<botdiscriminator> help``` for all the commands of <botmention>!`\n" +
@@ -48,8 +63,7 @@ namespace Wsashi.Modules
                 GlobalGuildAccounts.SaveAccounts(Context.Guild.Id);
                 response = $"Successfully added ```\n{message}\n``` as Welcome Message!";
             }
-
-            await ReplyAsync(response);
+            await Context.Channel.SendMessageAsync(response);
         }
 
         [Command("remove"), Remarks("Removes a Welcome Message from the ones availabe")]

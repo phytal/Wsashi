@@ -11,6 +11,7 @@ using NReco.ImageGenerator;
 using System.IO;
 using Wsashi.Handlers;
 using Wsashi.Preconditions;
+using Wsashi.Features.GlobalAccounts;
 
 namespace Wsashi.Modules
 {
@@ -263,6 +264,43 @@ namespace Wsashi.Modules
         {
             link = link.Replace(' ', '+');
             await ReplyAsync("https://www.google.com/search?q=" + link);
+        }
+
+        [Command("YouTube"), Alias("Yt")]
+        public async Task SearchYouTube([Remainder]string query)
+        {
+            var embed = new EmbedBuilder();
+            embed.WithThumbnailUrl("https://www.freepnglogos.com/uploads/youtube-logo-hd-8.png");
+
+            var url = "https://youtube.com/results?search_query=";
+            var newQuery = query.Replace(' ', '+');
+            embed.WithDescription(url + newQuery);
+
+            await Context.Channel.SendMessageAsync("", false, embed);
+        }
+
+        [Command("Lenny")]
+        public async Task LennyLol()
+        {
+            await Context.Channel.SendMessageAsync("( ͡° ͜ʖ ͡°)");
+        }
+
+        [Command("Prefix")]
+        public async Task GetPrefixForServer()
+        {
+            var config = GlobalGuildAccounts.GetGuildAccount(Context.Guild.Id);
+            string prefix;
+            switch (config)
+            {
+                case null:
+                    prefix = "w!";
+                    break;
+                default:
+                    prefix = config.CommandPrefix;
+                    break;
+            }
+
+            await Context.Channel.SendMessageAsync($"The prefix for this server is {prefix}.");
         }
     }
 }

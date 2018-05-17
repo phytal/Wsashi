@@ -17,7 +17,7 @@ namespace Wsashi.Features.GlobalAccounts
             {
                 foreach (var file in files)
                 {
-                    var server = Wsashi.Configuration.DataStorage.RestoreObject<GlobalGuildAccount>(Path.Combine(file.Directory.Name, file.Name));
+                    var server = Configuration.DataStorage.RestoreObject<GlobalGuildAccount>(Path.Combine(file.Directory.Name, file.Name));
                     serverAccounts.TryAdd(server.Id, server);
                 }
             }
@@ -32,7 +32,7 @@ namespace Wsashi.Features.GlobalAccounts
             return serverAccounts.GetOrAdd(id, (key) =>
             {
                 var newAccount = new GlobalGuildAccount { Id = id };
-                Wsashi.Configuration.DataStorage.StoreObject(newAccount, Path.Combine(Constants.ServerAccountsFolder, $"{id}.json"), useIndentations: true);
+                Configuration.DataStorage.StoreObject(newAccount, Path.Combine(Constants.ServerAccountsFolder, $"{id}.json"), useIndentations: true);
                 return newAccount;
             });
         }
@@ -60,7 +60,7 @@ namespace Wsashi.Features.GlobalAccounts
         {
             foreach (var id in ids)
             {
-                Wsashi.Configuration.DataStorage.StoreObject(GetGuildAccount(id), Path.Combine(Constants.ServerAccountsFolder, $"{id}.json"), useIndentations: true);
+                Configuration.DataStorage.StoreObject(GetGuildAccount(id), Path.Combine(Constants.ServerAccountsFolder, $"{id}.json"), useIndentations: true);
             }
         }
     }

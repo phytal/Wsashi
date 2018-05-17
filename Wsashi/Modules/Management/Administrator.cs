@@ -6,15 +6,12 @@ using System.Text;
 using System.Threading.Tasks;
 using Discord.WebSocket;
 using Discord;
-using System.Net;
-using System.IO;
-using Wsashi.Handlers;
 using Wsashi.Features.GlobalAccounts;
-using Wsashi;
+using Wsashi.Helpers;
 
-namespace Watchdog.Modules
+namespace Wsashi.Core.Modules
 {
-    public class Administrator : ModuleBase
+    public class Administrator : WsashiModule
     {
         private static readonly OverwritePermissions denyOverwrite = new OverwritePermissions(addReactions: PermValue.Deny, sendMessages: PermValue.Deny, attachFiles: PermValue.Deny);
         DiscordSocketClient _client;
@@ -78,6 +75,55 @@ namespace Watchdog.Modules
             }
         }
 
+        [Command("Softban"), Alias("Sb")]
+        [RequireUserPermission(GuildPermission.BanMembers)]
+        public async Task BanThenUnbanUser(SocketGuildUser user)
+        {
+            var config = GlobalGuildAccounts.GetGuildAccount(Context.Guild.Id);
+            if (MiscHelpers.UserHasRole(Context, config.ModRole))
+            {
+                var embed = MiscHelpers.CreateEmbed(Context, $"{Context.User.Mention} softbanned <@{user.Id}>, deleting the last 7 days of messages from that user.");
+                await MiscHelpers.SendMessage(Context, embed);
+                await Context.Guild.AddBanAsync(user, 7);
+                await Context.Guild.RemoveBanAsync(user);
+            }
+            else
+            {
+                var embed = new EmbedBuilder();
+                embed.WithColor(37, 152, 255);
+                embed.Title = $":x:  | You need the Ban Members Permission to do that {Context.User.Username}";
+                await MiscHelpers.SendMessage(Context, embed);
+            }
+
+        }
+
+        [Command("IdBan")]
+        [RequireUserPermission(GuildPermission.BanMembers)]
+        public async Task BanUserById(ulong userid, [Remainder]string reason = "")
+        {
+            var config = GlobalGuildAccounts.GetGuildAccount(Context.Guild.Id);
+            if (MiscHelpers.UserHasRole(Context, config.ModRole))
+            {
+                if (reason == "")
+                {
+                    reason = $"Banned by {Context.User.Username}#{Context.User.Discriminator}";
+                }
+                await Context.Guild.AddBanAsync(userid, 7, reason);
+                    var embed = new EmbedBuilder();
+                    embed.WithColor(new Color(37, 152, 255));
+                    embed.Title = $"**{userid}** was banned";
+                    embed.Description = $"**Username: **{userid}\n**Banned by: **{Context.User.Mention}\n**Reason: **{reason}";
+                await MiscHelpers.SendMessage(Context, embed);
+            }
+            else
+            {
+                var embed = new EmbedBuilder();
+                embed.WithColor(37, 152, 255);
+                embed.Title = $":x:  | You need the Ban Members Permission to do that {Context.User.Username}";
+                await MiscHelpers.SendMessage(Context, embed);
+            }
+
+        }
 
         [Command("kick")]
         [Summary("Kicks @Username")]
@@ -261,12 +307,13 @@ namespace Watchdog.Modules
             }
         }
 
-        [Command("promote admin")]
+        /*[Command("promote admin")]
         [Alias("promote Admin", "promo admin" , "Promote administrator")]
         [Summary("Promotes a user to a Administrator")]
         [RequireBotPermission(GuildPermission.ManageRoles)]
         public async Task PromoteAdmin(IGuildUser user = null)
         {
+            var config = GlobalGuildAccounts.GetGuildAccount(Context.Guild.Id);
             var guser = Context.User as SocketGuildUser;
             if (guser.GuildPermissions.ManageRoles)
             {
@@ -281,8 +328,7 @@ namespace Watchdog.Modules
                 }
                 else
                 {
-                    var admin = user.Guild.Roles.Where(input => input.Name.ToUpper() == "ADMIN").FirstOrDefault() as SocketRole;
-                    var mod = user.Guild.Roles.Where(input => input.Name.ToUpper() == "MODERATOR").FirstOrDefault() as SocketRole;
+                    var admin = config.AdminRole;
                     await user.AddRoleAsync(admin);
                     await user.RemoveRoleAsync(mod);
                     await ReplyAsync(":exclamation:  | " + Context.User.Mention + " promoted " + user.Mention + " to Admin rank! Congratulations!");
@@ -493,17 +539,17 @@ namespace Watchdog.Modules
                 await use.DeleteAsync();
             }
         }
-
+        */
         private static IUser ThisIsMe;
 
-        [Command("dm")]
+/*        [Command("dm")]
         [Summary("DMs Phytal (The bot creator), Please do not abuse.")]
         public async Task Dm([Remainder] string dm)
         {
             var myId = Context.User.Mention;
             if (ThisIsMe == null)
             {
-                foreach (var user in Context.Guild.GetUsersAsync().Result)
+                foreach (var user in Context.Guild.().Result)
                 {
                     if (user.Id == 264897146837270529)
                     {
@@ -528,7 +574,7 @@ namespace Watchdog.Modules
             embed.Description = $"You have sent a message to {myId}, he will read the message soon.";
 
             await Context.Channel.SendMessageAsync("", false, embed);
-        }
+        */
 
         [Command("Warn")]
         [Summary("Warns a User")]
@@ -667,21 +713,362 @@ namespace Watchdog.Modules
             }
         }
 
-        [Command("FilterOn")]
-        public async Task TurnFilteringOn()
+        [Command("Filter"), Alias("blacklist", "bl", "fil")]
+        [Summary("Turns on or off filter. Usage: w!filter true/false")]
+        public async Task SetBoolIntoConfigFilter(bool setting)
         {
-            Global.Client.MessageReceived += Filter.Filtering;
-            //var guildAcc = GlobalGuildAccounts.GetGuildAccount(Context.Guild.Id);
-            //await guildAcc.(x => x.Filter = true);
-            await Context.Channel.SendMessageAsync(":white_check_mark:  | Filter successfully turned back on. Stay safe!");
+            var config = GlobalGuildAccounts.GetGuildAccount(Context.Guild.Id);
+            config.Filter = setting;
+            GlobalGuildAccounts.SaveAccounts();
+            var embed = new EmbedBuilder();
+            embed.WithColor(37, 152, 255);
+            if (setting)
+            {
+                embed.WithDescription(":white_check_mark:  | Filter successfully turned back on. Stay safe!");
+            }
+            if (setting == false)
+            {
+                embed.WithDescription(":white_check_mark:  | Filter successfully turned off. Daredevil!");
+            }
+            await ReplyAsync("", false, embed);
+
         }
 
-        [Command("FilterOff")]
-        public async Task TurnFilteringOff()
+        [Command("ServerName")]
+        [RequireUserPermission(GuildPermission.Administrator)]
+        public async Task ModifyServerName([Remainder]string name)
         {
-            Global.Client.MessageReceived -= Filter.Filtering;
-            await Context.Channel.SendMessageAsync(":white_check_mark:  | Filter successfully turned off. Daredevil!");
+            await Context.Guild.ModifyAsync(x => x.Name = name);
+            var embed = new EmbedBuilder();
+            embed.WithDescription($"Set this server's name to **{name}**!");
+            embed.WithColor(37, 152, 255);
+
+            await ReplyAsync("", false, embed);
         }
 
+        [Command("PingChecks"), Alias("Pc")]
+        [RequireUserPermission(GuildPermission.Administrator)]
+        public async Task SetBoolToJson(bool arg)
+        {
+            var config = GlobalGuildAccounts.GetGuildAccount(Context.Guild.Id);
+            var embed = new EmbedBuilder();
+            embed.WithColor(37, 152, 255);
+            embed.WithDescription(arg
+                ? "Enabled mass ping checks for this server."
+                : "Disabled mass ping checks for this server.");
+
+            config.MassPingChecks = arg;
+            GlobalGuildAccounts.SaveAccounts();
+            await ReplyAsync("", false, embed);
+        }
+
+        [Command("Antilink"), Alias("Al")]
+        [Summary("Turns on or off the link filter. Usage: w!al true/false")]
+        public async Task SetBoolIntoConfig(bool setting)
+        {
+            var config = GlobalGuildAccounts.GetGuildAccount(Context.Guild.Id);
+            config.Antilink = setting;
+            GlobalGuildAccounts.SaveAccounts();
+            var embed = new EmbedBuilder();
+            embed.WithColor(37, 152, 255);
+            if (setting)
+            {
+                embed.WithDescription("Enabled Antilink for this server.");
+            }
+            if (setting == false)
+            {
+                embed.WithDescription("Disabled Antilink for this server.");
+            }
+            await ReplyAsync("", false, embed);
+
+        }
+
+        [Command("AntilinkIgnore"), Alias("Ali")]
+        [RequireUserPermission(GuildPermission.Administrator)]
+        public async Task SetChannelToBeIgnored(string type, SocketGuildChannel chnl = null)
+        {
+            var config = GlobalGuildAccounts.GetGuildAccount(Context.Guild.Id);
+            var embed = new EmbedBuilder();
+            embed.WithColor(37, 152, 255);
+            switch (type)
+            {
+                case "add":
+                case "Add":
+                    config.AntilinkIgnoredChannels.Add(chnl.Id);
+                    GlobalGuildAccounts.SaveAccounts();
+                    embed.WithDescription($"Added <#{chnl.Id}> to the list of ignored channels for Antilink.");
+                    break;
+                case "rem":
+                case "Rem":
+                    config.AntilinkIgnoredChannels.Remove(chnl.Id);
+                    GlobalGuildAccounts.SaveAccounts();
+                    embed.WithDescription($"Removed <#{chnl.Id}> from the list of ignored channels for Antilink.");
+                    break;
+                case "clear":
+                case "Clear":
+                    config.AntilinkIgnoredChannels.Clear();
+                    GlobalGuildAccounts.SaveAccounts();
+                    embed.WithDescription("List of channels to be ignored by Antilink has been cleared.");
+                    break;
+                default:
+                    embed.WithDescription($"Valid types are `add`, `rem`, and `clear`. Syntax: `w!ali {{add/rem/clear}} [channelMention]`");
+                    break;
+            }
+
+            await Context.Channel.SendMessageAsync("", false, embed);
+        }
+
+        [Command("Rename")]
+        [RequireUserPermission(GuildPermission.Administrator)]
+        public async Task SetUsersNickname(SocketGuildUser user, [Remainder]string nick)
+        {
+            await user.ModifyAsync(x => x.Nickname = nick);
+            var embed = MiscHelpers.CreateEmbed(Context, $"Set <@{user.Id}>'s nickname on this server to **{nick}**!");
+
+            await MiscHelpers.SendMessage(Context, embed);
+        }
+
+
+        /*[Command("WelcomeMessage"), Alias("Wmsg"), Priority(0)]
+        [RequireUserPermission(GuildPermission.ManageGuild)]
+        public async Task SetTextIntoConfig([Remainder]string msg)
+        {
+            {
+                var config = GlobalGuildAccounts.GetGuildAccount(Context.Guild.Id);
+                var embed = new EmbedBuilder();
+                embed.WithColor(37, 152, 255);
+                embed.WithDescription($"Set this guild's welcome message to:\n\n ```{msg}```");
+                config.WelcomeMessage = msg;
+                GlobalGuildAccounts.SaveAccounts();
+                await Context.Channel.SendMessageAsync("", false, embed);
+
+                if (config.WelcomeChannel != 0)
+                {
+                    var a = config.WelcomeMessage.Replace("{UserMention}", Context.User.Mention);
+                    var b = a.Replace("{ServerName}", Context.Guild.Name);
+                    var c = b.Replace("{UserName}", Context.User.Username);
+                    var d = c.Replace("{OwnerMention}", Context.Guild.Owner.Mention);
+                    var e = d.Replace("{UserTag}", Context.User.DiscriminatorValue.ToString());
+
+                    var channel = Context.Guild.GetTextChannel(config.WelcomeChannel);
+                    var embed2 = new EmbedBuilder();
+                    embed.WithColor(37, 152, 255);
+                    embed2.WithDescription(e);
+                    embed2.WithThumbnailUrl(Context.Guild.IconUrl);
+                    await channel.SendMessageAsync("", false, embed2);
+                }
+            }
+        }
+
+        [Command("WelcomeMessage"), Alias("Wmsg"), Priority(1)]
+        [RequireUserPermission(GuildPermission.ManageGuild)]
+        public async Task SendWMSGToUser()
+        {
+            var config = GlobalGuildAccounts.GetGuildAccount(Context.Guild.Id);
+            var embed = new EmbedBuilder();
+            embed.WithColor(37, 152, 255);
+            embed.WithDescription($"The welcome message for this server is: `{config.WelcomeMessage}`");
+            await Context.Channel.SendMessageAsync("", false, embed);
+        }
+
+        [Command("LeavingMessage"), Alias("Lmsg")]
+        [RequireUserPermission(GuildPermission.ManageGuild)]
+        public async Task SetTextIntoConfigLol([Remainder]string msg)
+        {
+            var config = GlobalGuildAccounts.GetGuildAccount(Context.Guild.Id);
+            var embed = new EmbedBuilder();
+            embed.WithDescription($"Set this guild's leaving message to:\n\n ```{msg}```\n\nSending a test welcome message to <#{config.WelcomeChannel}>");
+            config.LeavingMessage = msg;
+            GlobalGuildAccounts.SaveAccounts();
+            await Context.Channel.SendMessageAsync("", false, embed);
+
+            if (config.WelcomeChannel != 0)
+            {
+                var a = config.LeavingMessage.Replace("{UserMention}", Context.User.Mention);
+                var b = a.Replace("{ServerName}", Context.Guild.Name);
+                var c = b.Replace("{UserName}", Context.User.Username);
+                var d = c.Replace("{OwnerMention}", Context.Guild.Owner.Mention);
+                var e = d.Replace("{UserTag}", Context.User.DiscriminatorValue.ToString());
+
+                var channel = Context.Guild.GetTextChannel(config.WelcomeChannel);
+                var embed2 = new EmbedBuilder();
+                embed2.WithDescription(e);
+                embed.WithColor(37, 152, 255);
+                embed2.WithFooter($"Guild Owner: {Context.Guild.Owner.Username}#{Context.Guild.Owner.Discriminator}");
+                embed2.WithThumbnailUrl(Context.Guild.IconUrl);
+                await channel.SendMessageAsync("", false, embed2);
+            }
+        }
+        */
+
+        [Command("ServerPrefix")]
+        [RequireUserPermission(GuildPermission.Administrator)]
+        public async Task SetGuildPrefix([Remainder]string prefix)
+        {
+            var config = GlobalGuildAccounts.GetGuildAccount(Context.Guild.Id);
+            var embed = new EmbedBuilder();
+            embed.WithColor(37, 152, 255);
+            embed.WithDescription($"Set server prefix to {prefix}");
+
+            config.CommandPrefix = prefix;
+            GlobalGuildAccounts.SaveAccounts();
+            await Context.Channel.SendMessageAsync("", false, embed);
+        }
+
+        [Command("ServerLogging"), Alias("Sl", "logging")]
+        [RequireUserPermission(GuildPermission.Administrator)]
+        public async Task SetServerLoggingChannel(bool isEnabled)
+        {
+            var chnl = Context.Guild.TextChannels.FirstOrDefault(r => r.Name == "logs");
+            if (chnl == null)
+            {
+                var role = Context.Guild.Roles.FirstOrDefault(r => r.Name == "@everyone");
+                var perms = new OverwritePermissions(
+                    sendMessages: PermValue.Deny,
+                    addReactions: PermValue.Deny,
+                    readMessages: PermValue.Deny
+                    );
+                var channel = await Context.Guild.CreateTextChannelAsync("logs");
+            }
+            var cjhale = chnl as SocketTextChannel;
+            string lol;
+            var config = GlobalGuildAccounts.GetGuildAccount(Context.Guild.Id);
+            if (isEnabled) { lol = "Enabled server logging"; } else { lol = "Disabled server logging"; }
+
+            config.IsServerLoggingEnabled = isEnabled;
+            config.ServerLoggingChannel = cjhale.Id;
+            GlobalGuildAccounts.SaveAccounts();
+            var embed = MiscHelpers.CreateEmbed(Context, $"{lol}, and set the channel to <#{cjhale.Id}>.");
+            await MiscHelpers.SendMessage(Context, embed);
+        }
+
+        [Command("AdminRole")]
+        [RequireUserPermission(GuildPermission.Administrator)]
+        public async Task SetServerAdminRole(string roleName)
+        {
+            var config = GlobalGuildAccounts.GetGuildAccount(Context.Guild.Id);
+            var embed = new EmbedBuilder();
+            embed.WithColor(37, 152, 255);
+
+            var role = Context.Guild.Roles.FirstOrDefault(x => x.Name == roleName);
+            if (role == null)
+            {
+                embed.WithDescription($"The role `{roleName}` doesn't exist on this server. Remember that this command is cAsE sEnSiTiVe.");
+            }
+            else
+            {
+                embed.WithDescription($"Set the Administrator role to **{roleName}** for this server!");
+                config.AdminRole = role.Id;
+                GlobalGuildAccounts.SaveAccounts();
+            }
+
+            await Context.Channel.SendMessageAsync("", false, embed);
+        }
+
+        [Command("ModRole")]
+        [RequireUserPermission(GuildPermission.Administrator)]
+        public async Task SetServerModRole(string roleName)
+        {
+            var config = GlobalGuildAccounts.GetGuildAccount(Context.Guild.Id);
+            var embed = new EmbedBuilder();
+            embed.WithColor(37, 152, 255);
+
+            var role = Context.Guild.Roles.FirstOrDefault(x => x.Name == roleName);
+            if (role == null)
+            {
+                embed.WithDescription($"The role `{roleName}` doesn't exist on this server. Remember that this command is cAsE sEnSiTiVe.");
+            }
+            else
+            {
+                embed.WithDescription($"Set the Moderator role to **{roleName}** for this server!");
+                config.ModRole = role.Id;
+                GlobalGuildAccounts.SaveAccounts();
+            }
+
+            await Context.Channel.SendMessageAsync("", false, embed);
+        }
+
+        [Command("PengChecks"), Alias("Pc")]
+        [RequireUserPermission(GuildPermission.Administrator)]
+        public async Task SetBoolToJsonPing(bool arg)
+        {
+            var config = GlobalGuildAccounts.GetGuildAccount(Context.Guild.Id); ;
+            var embed = new EmbedBuilder();
+            embed.WithColor(37, 152, 255);
+            embed.WithDescription(arg
+                ? "Enabled mass peng checks for this server."
+                : "Disabled mass peng checks for this server.");
+
+            config.MassPingChecks = arg;
+            GlobalGuildAccounts.SaveAccounts();
+            await Context.Channel.SendMessageAsync("", false, embed);
+        }
+
+        [Command("SelfRoleAdd"), Alias("SRA")]
+        [RequireUserPermission(GuildPermission.Administrator)]
+        public async Task AddStringToList([Remainder]string role)
+        {
+            var config = GlobalGuildAccounts.GetGuildAccount(Context.Guild.Id);
+            var embed = new EmbedBuilder()
+                .WithColor(37, 152, 255)
+                .WithDescription($"Added the {role} to the Config.");
+            config.SelfRoles.Add(role);
+            GlobalGuildAccounts.SaveAccounts();
+            await Context.Channel.SendMessageAsync("", false, embed);
+        }
+
+        [Command("SelfRoleRem"), Alias("SRR")]
+        [RequireUserPermission(GuildPermission.Administrator)]
+        public async Task RemoveStringFromList([Remainder]string role)
+        {
+            var config = GlobalGuildAccounts.GetGuildAccount(Context.Guild.Id);
+            var embed = new EmbedBuilder();
+            embed.WithColor(37, 152, 255);
+            if (config.SelfRoles.Contains(role))
+            {
+                config.SelfRoles.Remove(role);
+                embed.WithDescription($"Removed {role} from the Self Roles list.");
+            }
+            else
+            {
+                embed.WithDescription("That role doesn't exist in your Guild Config.");
+            }
+
+            await Context.Channel.SendMessageAsync("", false, embed);
+        }
+
+        [Command("SelfRoleClear"), Alias("SRC")]
+        [RequireUserPermission(GuildPermission.Administrator)]
+        public async Task ClearListFromConfig()
+        {
+            var config = GlobalGuildAccounts.GetGuildAccount(Context.Guild.Id);
+            var embed = new EmbedBuilder();
+            embed.WithColor(37, 152, 255);
+            if (config == null)
+            {
+                embed.WithDescription("You don't have a Guild Config created.");
+            }
+            else
+            {
+                embed.WithDescription($"Cleared {config.SelfRoles.Count} roles from the self role list.");
+                config.SelfRoles.Clear();
+            }
+
+            await Context.Channel.SendMessageAsync("", false, embed);
+        }
+
+        [Command("Leveling"), Alias("L")]
+        [RequireUserPermission(GuildPermission.Administrator)]
+        public async Task Leveling(bool arg)
+        {
+            var config = GlobalGuildAccounts.GetGuildAccount(Context.Guild.Id);
+            var embed = new EmbedBuilder();
+            embed.WithColor(37, 152, 255);
+            embed.WithDescription(arg ? "Enabled leveling for this server." : "Disabled leveling for this server.");
+            config.Leveling = arg;
+            GlobalGuildAccounts.SaveAccounts();
+
+            await Context.Channel.SendMessageAsync("", false, embed);
+        }
     }
 }

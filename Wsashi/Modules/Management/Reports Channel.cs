@@ -24,14 +24,13 @@ namespace Watchdog.Modules.ServerManagement
                 readMessages: PermValue.Allow
                 );
             var channel = await Context.Guild.CreateTextChannelAsync("Reports");
-            channel.AddPermissionOverwriteAsync(role, perms);
+            await channel.AddPermissionOverwriteAsync(role, perms);
         }
 
         [Command("Report")]
         [Summary("Reports @Username")]
         public async Task ReportAsync(SocketGuildUser user, [Remainder] string reason)
         {
-            //var reportchannel = await 
             if ((user == null)
                 || (string.IsNullOrWhiteSpace(reason)))
             {
@@ -44,24 +43,33 @@ namespace Watchdog.Modules.ServerManagement
             }
             else
             {
-                var muteRoleName = "Reports";
-                var channels = Context.Guild.TextChannels;
-                var reports = channels.FirstOrDefault(r => r.Name == muteRoleName) as SocketTextChannel;
+                var chnl = Context.Guild.TextChannels.FirstOrDefault(r => r.Name == "reports");
+                if (chnl == null)
+                {
+                    var role = Context.Guild.Roles.FirstOrDefault(r => r.Name == "@everyone");
+                    var perms = new OverwritePermissions(
+                        sendMessages: PermValue.Deny,
+                        addReactions: PermValue.Deny,
+                        readMessages: PermValue.Allow
+                        );
+                    var channel = await Context.Guild.CreateTextChannelAsync("reports");
+                    await channel.AddPermissionOverwriteAsync(role, perms);
+                }
+                var cjhale = chnl as SocketTextChannel;
                 var embed = new EmbedBuilder();
                 embed.WithColor(37, 152, 255);
                 embed.Title = $"{Context.User}'s report of {user.Username}";
                 embed.Description = $"**Username: **{user.Username}\n**Reported by: **{Context.User.Mention}\n**Reason: **{reason}";
-                await reports.SendMessageAsync("", false, embed);
+                await cjhale.SendMessageAsync("", false, embed);
                 await ReplyAsync(":white_check_mark:  | *Your report has been furthered to staff.* ***(ABUSE OF THIS COMMAND IS PUNISHABLE)***");
             }
         }
 
         public async Task GetReportChannel(IGuild guild)
         {
-            var muteRoleName = "Reports";
-            var channels = Context.Guild.TextChannels;
+            var channelName = "Reports";
 
-            var TextChannel = channels.FirstOrDefault(r => r.Name == muteRoleName);
+            var TextChannel = Context.Guild.TextChannels.FirstOrDefault(r => r.Name == channelName);
 
             if (TextChannel == null)
             {
@@ -72,7 +80,7 @@ namespace Watchdog.Modules.ServerManagement
                     readMessages: PermValue.Allow
                     );
                 var channel = await Context.Guild.CreateTextChannelAsync("Reports");
-                channel.AddPermissionOverwriteAsync(role, perms);
+                await channel.AddPermissionOverwriteAsync(role, perms);
             }
 
             return;

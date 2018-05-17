@@ -9,7 +9,7 @@ using Wsashi.Features.GlobalAccounts;
 
 namespace Wsashi.Core.LevelingSystem
 {
-    internal static class Leveling
+    internal static class Leveling 
     {
         internal static async void UserSentMessage(SocketGuildUser user, SocketTextChannel channel)
         {
@@ -30,8 +30,10 @@ namespace Wsashi.Core.LevelingSystem
                     embed.AddInlineField("Level", newLevel);
                     embed.AddInlineField("XP", userAccount.XP);
 
-                    await dmChannel.SendMessageAsync("", embed: embed);
-                }
+                    var msg = await channel.SendMessageAsync("", embed: embed);
+                    //await dmChannel.SendMessageAsync("", embed: embed);
+                    await msg.DeleteAsync();
+            }
             
         }
     }

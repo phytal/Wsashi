@@ -10,20 +10,30 @@ using Discord.Commands;
 using Wsashi.Handlers;
 using Watchdog.Modules;
 using Wsashi.Features.Trivia;
+using Wsashi.Entities;
+using Wsashi.Features.GlobalAccounts;
 
 namespace Wsashi
 {
-    class Program
+    internal class Program
     {
-        DiscordSocketClient _client;
+        public static DiscordSocketClient _client;
         CommandHandler _handler;
         CommandService _service;
 
-        static void Main(string[] args)
-        => new Program().StartAsync().GetAwaiter().GetResult();
-
-        public async Task StartAsync()
+        private static void Main()
         {
+            Console.Title = "Wsashi";
+            Console.CursorVisible = false;
+            Console.ForegroundColor = ConsoleColor.Green;
+            new Program().StartAsync().GetAwaiter().GetResult();
+        }
+
+
+        private async Task StartAsync()
+        {
+
+
             if (Config.bot.token == "" || Config.bot.token == null) return;
             _client = new DiscordSocketClient(new DiscordSocketConfig
             {
@@ -33,17 +43,34 @@ namespace Wsashi
             _client.Log += Logger.Log;
             _client.ReactionAdded += OnReactionAdded;
             _client.MessageReceived += MessageRewardHandler.HandleMessageRewards;
-            _client.MessageReceived += Filter.Filtering;
-            _client.MessageReceived -= Filter.Filtering;
-            _client.MessageReceived += Filter.LinkFiltering;
+            _client.UserJoined += Events.Welcome;
+            _client.UserJoined += Events.Autorole;
+            _client.JoinedGuild += Events.GuildUtils;
+            _client.UserLeft += Events.Goodbye;
+            _client.UserBanned += Logging.HandleBans;
+            _client.ChannelCreated += Logging.HandleChannelCreate;
+            _client.ChannelDestroyed += Logging.HandleChannelDelete;
+            _client.GuildUpdated += Logging.HandleServerUpdate;
+            _client.MessageDeleted += Logging.HandleMessageDelete;
+            _client.MessageUpdated += Logging.HandleMessageUpdate;
+            _client.UserUpdated += Logging.HandleUserUpdate;
+            _client.RoleCreated += Logging.HandleRoleCreation;
+            _client.RoleUpdated += Logging.HandleRoleUpdate;
+            _client.RoleDeleted += Logging.HandleRoleDelete;
 
             await _client.LoginAsync(TokenType.Bot, Config.bot.token);
             await _client.StartAsync();
             _handler = new CommandHandler();
             await _handler.InitializeAsync(_client);
-            await _client.SetGameAsync("w!help | Wsashi");
+            await _client.SetGameAsync(Config.bot.BotGameToSet, $"https://twitch.tv/{Config.bot.TwitchStreamer}", StreamType.Twitch);
+            await _client.SetStatusAsync(UserStatus.Online);
+            //await _client.SetGameAsync("w!help | Wsashi");
             await Task.Delay(-1);
+
         }
+
+                
+            
 
         private async Task OnReactionAdded(Cacheable<IUserMessage, ulong> cache, ISocketMessageChannel channel, SocketReaction reaction)
         {
@@ -83,6 +110,7 @@ namespace Wsashi
             }
         }
 
+
         //private static IAudioClient _audioclient;
 
         //private async Task AttemptJoin()
@@ -101,6 +129,8 @@ namespace Wsashi
                 //Environment.Exit(0);
             //}
         //}
+
+
     }
 }
 
