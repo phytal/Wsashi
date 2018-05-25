@@ -20,7 +20,7 @@ namespace Wsashi.Entities
 
         public ulong AnnouncementChannelId { get; set; }
 
-        public List<string> Prefixes { get; set; } = new List<string>();
+        //public List<string> Prefixes { get; set; } = new List<string>();
 
         public List<string> WelcomeMessages { get; set; } = new List<string> { };
 
@@ -32,9 +32,17 @@ namespace Wsashi.Entities
 
         public List<ulong> AntilinkIgnoredChannels { get; set; }
 
+        public string HelperRoleName { get; set; }
+
+        public ulong HelperRole { get; set; }
+
         public ulong ModRole { get; set; }
 
         public ulong AdminRole { get; set; }
+
+        public string ModRoleName { get; set; }
+
+        public string AdminRoleName { get; set; }
 
         public string CommandPrefix { get; set; }
 

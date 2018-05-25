@@ -82,7 +82,6 @@ namespace Watchdog.Modules.ServerManagement
                 var channel = await Context.Guild.CreateTextChannelAsync("Reports");
                 await channel.AddPermissionOverwriteAsync(role, perms);
             }
-
             return;
         }
     }   

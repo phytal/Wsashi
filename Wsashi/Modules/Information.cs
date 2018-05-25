@@ -98,6 +98,7 @@ namespace Wsashi
 
 
         [Command("ServerInfo"), Alias("sinfo", "serveri", "si")]
+        [Summary("Provides information for the current server")]
         public async Task ServerInformationCommand()
         {
             var config = GlobalGuildAccounts.GetGuildAccount(Context.Guild.Id);
@@ -218,14 +219,14 @@ namespace Wsashi
             "\n" +
             "```\n" +
             "# Don't include the example brackets when using commands!\n" +
-            "# To view Moderator commands, use w!helpm\n" +
+            "# To view Moderator commands, use w!helpmod\n" +
             "# To view NSFW commands, use w!helpnsfw\n" +
             "```";
 
             await ReplyAsync(helpMessage);
         }
 
-        [Command("helpm")]
+        [Command("helpmod")]
         [Summary("Shows all possible Moderator Commands for this bot")]
         [Cooldown(15)]
         [RequireUserPermission(GuildPermission.Administrator)]
@@ -242,9 +243,9 @@ namespace Wsashi
             "**Bot Settings -** `serverprefix` `leveling` `list` \n"+
             "**Welcome Messages (w!welcome <command>) -** `channel` `add` `remove` `list`\n" +
             "**Leaving Messages (w!leave <command>) -** `add` `remove` `list`\n" +
-            "**Announcements (w!announcements <command>) -** `setchannel` `unsetchannel`" +
-            "**Server Management -** `rename` `serverlogging` `"+
-            "**Roles -** `ModRole` `AdminRole` `selfroleadd` selfrolerem` `selfroleclear"+
+            "**Announcements (w!announcements <command>) -** `setchannel` `unsetchannel`\n" +
+            "**Server Management -** `rename` `serverlogging` \n"+
+            "**Roles -** `ModRole` `AdminRole` `selfroleadd` `selfrolerem` `selfroleclear`\n"+
             "\n"+
             "```\n" +
             "# Don't include the example brackets when using commands!\n" +
@@ -273,7 +274,7 @@ namespace Wsashi
             "```\n" +
             "# Don't include the example brackets when using commands!\n" +
             "# To view Standard commands, use w!help\n" +
-            "# To view Moderator commands, use w!helpnsfw\n" +
+            "# To view Moderator commands, use w!helpmod\n" +
             "```";
 
             await ReplyAsync(helpMessageMod);
@@ -382,17 +383,18 @@ namespace Wsashi
                 var embed = new EmbedBuilder();
                 embed.WithColor(37, 152, 255);
                 embed.WithTitle("Update Notes");
-                embed.WithDescription("**<<Last Updated on 5/1>>**\n"
-                    + $"**• Bot version Beta {version}**\n"
-                    + "`----- LAST UPDATE -----`\n"
-                    + "• Added commmands for the Shibi API! Use w!help to view them!\n"
-                    + "• Fixed the Trivia Game, should function now.\n"
+                embed.WithDescription($"`Bot version {version} **<<Last Updated on 5/25>>**\n"
+                    + " -**Large** update incoming!\n-"
+                    + "• Added *alot* and improved administrator commands. Use `w!helpmod` to see them (lol you have to have some perms tho)!\n"
+                    + "• Added Server Logging! Activate it by using `w!serverlogging true`!\n"
+                    + "• Change the command you use to activate Wsashi! Use `w!server prefix <prefix>` to add one!\n"
+                    + "• Squished some ~~alot of~~ bugs.\n"
                     + "`----- CURRENT UPDATE -----`\n"
-                    + " -**Large** update incoming!-"
-                    + "• Added *alot* and improved administrator commands. Use `w!helpmod` to see them (lol you have to have some perms tho)!"
-                    + "• Added Server Logging! Activate it by using `w!serverlogging true`!"
-                    + "• Change the command you use to activate Wsashi! Use `w!server prefix <prefix>` to add one! (You cannot get rid of `w!` >:3)"
-                    + "• Squished some ~~alot of~~ bugs."
+                    + "• Restored promoting/demoting. But now it relies on the Admin/Mod/Helper role you set for the server.\n"
+                    + "• Added a Helper role optiom, use `w!HelperRole` to set it.\n"
+                    + "• Added Reputation Points, use `w!rep <user>` to give them a point! It can be used once every 24 hours.\n"
+                    + "• Added a 'Master Config' panel, just use w!config to see the settings of Wsashi in this guild.\n"
+                    + "• Removed the 'Points' system, as it was replaced by Rep Points.\n"
                     );
 
                 await ReplyAsync("", embed: embed);

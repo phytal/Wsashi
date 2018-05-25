@@ -11,13 +11,15 @@ namespace Wsashi.Entities
     
         public ulong Id { get; set; }
 
-        public uint Points { get; set; }
+        public uint Reputation { get; set; }
 
         public uint XP { get; set; }
 
         public ulong Money { get; set; } = 1;
 
         public DateTime LastDaily { get; set; } = DateTime.UtcNow.AddDays(-2);
+
+        public DateTime LastRep { get; set; } = DateTime.UtcNow.AddDays(-2);
 
         public DateTime LastMessage { get; set; } = DateTime.UtcNow;
 

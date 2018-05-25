@@ -40,6 +40,41 @@ namespace Wsashi.Core.LevelingSystem
             }
         }
 
+        [Command("Reputation")]
+        [Alias("rep")]
+        [Summary("Gives a mentioned user reputation points, you can only use this once every 24 hours.")]
+        public async Task GetRep(IGuildUser userB)
+        {
+            if (Context.User.Id == userB.Id)
+            {
+                await Context.Channel.SendMessageAsync("You can't use this command on yourself");
+            }
+            else
+            {
+                var result = Daily.GetRep(Context.User.Id);
+
+                if (result.Success)
+                {
+                    var mentionedUser = Context.Message.MentionedUsers.FirstOrDefault();
+                    var mentionedaccount = GlobalUserAccounts.GetUserAccount((SocketUser)userB);
+                    mentionedaccount.Reputation += 1;
+                    GlobalUserAccounts.SaveAccounts();
+                    var embedd = new EmbedBuilder();
+                    embedd.WithColor(37, 152, 255);
+                    embedd.WithDescription($":diamond_shape_with_a_dot_inside:   | {Context.User.Mention} gave {userB.Mention} a reputation point!");
+                    await Context.Channel.SendMessageAsync("", false, embedd);
+                }
+                else
+                {
+                    var timeSpanString = string.Format("{0:%h} hours {0:%m} minutes {0:%s} seconds", result.RefreshTimeSpan);
+                    var embed = new EmbedBuilder();
+                    embed.WithColor(37, 152, 255);
+                    embed.WithDescription($":diamond_shape_with_a_dot_inside::arrows_counterclockwise:  | **You already gave someone reputation points recently, {Context.User.Mention}.\nCome back in {timeSpanString}.**");
+                    await Context.Channel.SendMessageAsync("", false, embed);
+                }
+            }
+        }
+
         [Command("gift")]
         [Alias("grant", "pay")]
         [Summary("Gifts/Pays Potatos to a selected user (of course taken from your balance) Ex: /gift <amount of Potatos> @user")]

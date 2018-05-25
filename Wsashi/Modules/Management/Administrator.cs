@@ -54,7 +54,7 @@ namespace Wsashi.Core.Modules
         }
 
         [Command("unban")]
-        [Remarks("Unban A User")]
+        [Summary("Unban A User")]
         public async Task Unban([Remainder]string user2)
         {
             var user = Context.User as SocketGuildUser;
@@ -76,6 +76,7 @@ namespace Wsashi.Core.Modules
         }
 
         [Command("Softban"), Alias("Sb")]
+        [Summary("Bans then unbans a user.")]
         [RequireUserPermission(GuildPermission.BanMembers)]
         public async Task BanThenUnbanUser(SocketGuildUser user)
         {
@@ -98,6 +99,7 @@ namespace Wsashi.Core.Modules
         }
 
         [Command("IdBan")]
+        [Summary("Ban a user by their ID")]
         [RequireUserPermission(GuildPermission.BanMembers)]
         public async Task BanUserById(ulong userid, [Remainder]string reason = "")
         {
@@ -162,7 +164,7 @@ namespace Wsashi.Core.Modules
             }
         }
 
-    [Command("mute")]
+        [Command("mute")]
         [Summary("Mutes @Username")]
         [RequireBotPermission(GuildPermission.ManageRoles)]
         public async Task MuteAsync(SocketGuildUser user = null)
@@ -307,7 +309,7 @@ namespace Wsashi.Core.Modules
             }
         }
 
-        /*[Command("promote admin")]
+        [Command("promote admin")]
         [Alias("promote Admin", "promo admin" , "Promote administrator")]
         [Summary("Promotes a user to a Administrator")]
         [RequireBotPermission(GuildPermission.ManageRoles)]
@@ -321,17 +323,16 @@ namespace Wsashi.Core.Modules
                 {
                     var embed = new EmbedBuilder();
                     embed.WithColor(37, 152, 255);
-                    embed.WithTitle(":hand_splayed:  | Please say who and what you want to promote the user to. Ex: w!demote <rank> <@username>");
+                    embed.WithTitle(":hand_splayed:  | Please say who and what you want to promote the user to. Ex: w!promote <rank> <@username>");
                     var use = await Context.Channel.SendMessageAsync("", false, embed);
                     await Task.Delay(5000);
                     await use.DeleteAsync();
                 }
                 else
                 {
-                    var admin = config.AdminRole;
-                    await user.AddRoleAsync(admin);
-                    await user.RemoveRoleAsync(mod);
-                    await ReplyAsync(":exclamation:  | " + Context.User.Mention + " promoted " + user.Mention + " to Admin rank! Congratulations!");
+                    var role = Context.Guild.Roles.FirstOrDefault(x => x.Name == config.AdminRoleName);;
+                    await user.AddRoleAsync(role);
+                    await ReplyAsync(":confetti_ball:   | " + Context.User.Mention + " promoted " + user.Mention + " to the " + config.AdminRoleName + " rank! Congratulations!");
                 }
             }
             else
@@ -351,6 +352,7 @@ namespace Wsashi.Core.Modules
         [RequireBotPermission(GuildPermission.ManageRoles)]
         public async Task PromoteModerator(IGuildUser user = null)
         {
+            var config = GlobalGuildAccounts.GetGuildAccount(Context.Guild.Id);
             var guser = Context.User as SocketGuildUser;
             if (guser.GuildPermissions.ManageRoles)
             {
@@ -365,12 +367,9 @@ namespace Wsashi.Core.Modules
                 }
                 else
                 {
-                    var mod = user.Guild.Roles.Where(input => input.Name.ToUpper() == "MODERATOR").FirstOrDefault() as SocketRole;
-                    var helper = user.Guild.Roles.Where(input => input.Name.ToUpper() == "HELPER").FirstOrDefault() as SocketRole;
-
-                    await user.AddRoleAsync(mod);
-                    await user.RemoveRoleAsync(helper);
-                    await ReplyAsync(":exclamation:  | " + Context.User.Mention + " promoted " + user.Mention + " to Moderator rank! Congratulations!");
+                    var role = Context.Guild.Roles.FirstOrDefault(x => x.Name == config.ModRoleName); ;
+                    await user.AddRoleAsync(role);
+                    await ReplyAsync(":confetti_ball:   | " + Context.User.Mention + " promoted " + user.Mention + " to the " + config.ModRoleName + " rank! Congratulations!");
                 }
             }
             else
@@ -390,6 +389,7 @@ namespace Wsashi.Core.Modules
         [RequireBotPermission(GuildPermission.ManageRoles)]
         public async Task PromoteHelper(IGuildUser user = null)
         {
+            var config = GlobalGuildAccounts.GetGuildAccount(Context.Guild.Id);
             var guser = Context.User as SocketGuildUser;
             if (guser.GuildPermissions.ManageRoles)
             {
@@ -404,9 +404,9 @@ namespace Wsashi.Core.Modules
                 }
                 else
                 {
-                    var helper = user.Guild.Roles.Where(input => input.Name.ToUpper() == "HELPER").FirstOrDefault() as SocketRole;
-                    await user.AddRoleAsync(helper);
-                    await ReplyAsync(":exclamation:  | " + Context.User.Mention + " promoted " + user.Mention + " to Helper rank! Congratulations!");
+                    var role = Context.Guild.Roles.FirstOrDefault(x => x.Name == config.HelperRoleName); ;
+                    await user.AddRoleAsync(role);
+                    await ReplyAsync(":confetti_ball:   | " + Context.User.Mention + " promoted " + user.Mention + " to the " + config.HelperRoleName + " rank! Congratulations!");
                 }
             }
             else
@@ -426,6 +426,7 @@ namespace Wsashi.Core.Modules
         [RequireBotPermission(GuildPermission.ManageRoles)]
         public async Task DemoteMod(IGuildUser user = null)
         {
+            var config = GlobalGuildAccounts.GetGuildAccount(Context.Guild.Id);
             var guser = Context.User as SocketGuildUser;
             if (guser.GuildPermissions.ManageRoles)
             {
@@ -440,12 +441,11 @@ namespace Wsashi.Core.Modules
                 }
                 else
                 {
-                    var admin = user.Guild.Roles.Where(input => input.Name.ToUpper() == "ADMIN").FirstOrDefault() as SocketRole;
-                    var mod = user.Guild.Roles.Where(input => input.Name.ToUpper() == "MODERATOR").FirstOrDefault() as SocketRole;
-
-                    await user.AddRoleAsync(mod);
-                    await user.RemoveRoleAsync(admin);
-                    await ReplyAsync(":exclamation:  | " + Context.User.Mention + " demoted " + user.Mention + " to Moderator rank due to inappropiate behavior.");
+                    var role = Context.Guild.Roles.FirstOrDefault(x => x.Name == config.ModRoleName); ;
+                    await user.AddRoleAsync(role);
+                    var role2 = Context.Guild.Roles.FirstOrDefault(x => x.Name == config.AdminRoleName); ;
+                    await user.RemoveRoleAsync(role2);
+                    await ReplyAsync(":exclamation:  | " + Context.User.Mention + " demoted " + user.Mention + " to the " + config.HelperRoleName + " rank due to inappropiate behavior.");
                 }
             }
             else
@@ -464,6 +464,7 @@ namespace Wsashi.Core.Modules
         [RequireBotPermission(GuildPermission.ManageRoles)]
         public async Task DemoteHelper(IGuildUser user = null)
         {
+            var config = GlobalGuildAccounts.GetGuildAccount(Context.Guild.Id);
             var guser = Context.User as SocketGuildUser;
             if (guser.GuildPermissions.ManageRoles)
             {
@@ -478,14 +479,13 @@ namespace Wsashi.Core.Modules
                 }
                 else
                 {
-                    var helper = user.Guild.Roles.Where(input => input.Name.ToUpper() == "HELPER").FirstOrDefault() as SocketRole;
-                    var mod = user.Guild.Roles.Where(input => input.Name.ToUpper() == "MODERATOR").FirstOrDefault() as SocketRole;
-                    var admin = user.Guild.Roles.Where(input => input.Name.ToUpper() == "ADMIN").FirstOrDefault() as SocketRole;
-
-                    await user.AddRoleAsync(helper);
-                    await user.RemoveRoleAsync(mod);
-                    await user.RemoveRoleAsync(admin);
-                    await ReplyAsync(":exclamation:  | " + Context.User.Mention + " demoted " + user.Mention + " to Helper rank due to inappropiate behavior.");
+                    var role = Context.Guild.Roles.FirstOrDefault(x => x.Name == config.HelperRoleName);
+                    var role2 = Context.Guild.Roles.FirstOrDefault(x => x.Name == config.ModRoleName);
+                    var role3 = Context.Guild.Roles.FirstOrDefault(x => x.Name == config.AdminRoleName);
+                    await user.AddRoleAsync(role);
+                    await user.RemoveRoleAsync(role2);
+                    await user.RemoveRoleAsync(role3);
+                    await ReplyAsync(":exclamation:  | " + Context.User.Mention + " demoted " + user.Mention + " to the " + config.HelperRoleName + " rank due to inappropiate behavior.");
                 }
             }
             else
@@ -504,6 +504,7 @@ namespace Wsashi.Core.Modules
         [RequireBotPermission(GuildPermission.ManageRoles)]
         public async Task DemoteMember(IGuildUser user = null)
         {
+            var config = GlobalGuildAccounts.GetGuildAccount(Context.Guild.Id);
             var guser = Context.User as SocketGuildUser;
             if (guser.GuildPermissions.ManageRoles)
             {
@@ -518,13 +519,12 @@ namespace Wsashi.Core.Modules
                 }
                 else
                 {
-                    var admin = user.Guild.Roles.Where(input => input.Name.ToUpper() == "ADMIN").FirstOrDefault() as SocketRole;
-                    var mod = user.Guild.Roles.Where(input => input.Name.ToUpper() == "MODERATOR").FirstOrDefault() as SocketRole;
-                    var helper = user.Guild.Roles.Where(input => input.Name.ToUpper() == "HELPER").FirstOrDefault() as SocketRole;
-
-                    await user.RemoveRoleAsync(admin);
-                    await user.RemoveRoleAsync(mod);
-                    await user.RemoveRoleAsync(helper);
+                    var role = Context.Guild.Roles.FirstOrDefault(x => x.Name == config.HelperRoleName);
+                    var role2 = Context.Guild.Roles.FirstOrDefault(x => x.Name == config.ModRoleName);
+                    var role3 = Context.Guild.Roles.FirstOrDefault(x => x.Name == config.AdminRoleName);
+                    await user.RemoveRoleAsync(role);
+                    await user.RemoveRoleAsync(role2);
+                    await user.RemoveRoleAsync(role3);
 
                     await ReplyAsync(":exclamation:  | " + Context.User.Mention + " demoted " + user.Mention + " due to inappropiate behavior.");
                 }
@@ -539,10 +539,10 @@ namespace Wsashi.Core.Modules
                 await use.DeleteAsync();
             }
         }
-        */
-        private static IUser ThisIsMe;
+        
+        /*private static IUser ThisIsMe;
 
-/*        [Command("dm")]
+        [Command("dm")]
         [Summary("DMs Phytal (The bot creator), Please do not abuse.")]
         public async Task Dm([Remainder] string dm)
         {
@@ -681,7 +681,6 @@ namespace Wsashi.Core.Modules
             return muteRole;
         }
 
-
         [Command("Vote")]
         [Summary("Creates a voting poll")]
         public async Task Vote([Remainder] string Input)
@@ -735,6 +734,7 @@ namespace Wsashi.Core.Modules
         }
 
         [Command("ServerName")]
+        [Summary("Changes the name of the server")]
         [RequireUserPermission(GuildPermission.Administrator)]
         public async Task ModifyServerName([Remainder]string name)
         {
@@ -747,6 +747,7 @@ namespace Wsashi.Core.Modules
         }
 
         [Command("PingChecks"), Alias("Pc")]
+        [Summary("Turns on or off mass ping checks. Usage: w!pc true/false")]
         [RequireUserPermission(GuildPermission.Administrator)]
         public async Task SetBoolToJson(bool arg)
         {
@@ -784,6 +785,7 @@ namespace Wsashi.Core.Modules
         }
 
         [Command("AntilinkIgnore"), Alias("Ali")]
+        [Summary("Sets a channel that if Antilink is turned on, it will be disabled there")]
         [RequireUserPermission(GuildPermission.Administrator)]
         public async Task SetChannelToBeIgnored(string type, SocketGuildChannel chnl = null)
         {
@@ -819,12 +821,12 @@ namespace Wsashi.Core.Modules
         }
 
         [Command("Rename")]
+        [Summary("Changes a user's nickname")]
         [RequireUserPermission(GuildPermission.Administrator)]
         public async Task SetUsersNickname(SocketGuildUser user, [Remainder]string nick)
         {
             await user.ModifyAsync(x => x.Nickname = nick);
-            var embed = MiscHelpers.CreateEmbed(Context, $"Set <@{user.Id}>'s nickname on this server to **{nick}**!");
-
+            var embed = MiscHelpers.CreateEmbed(Context, $"Set <@{user.Id}>'s nickname on this server to **{nick}**!").WithColor(37, 152, 255);
             await MiscHelpers.SendMessage(Context, embed);
         }
 
@@ -902,6 +904,7 @@ namespace Wsashi.Core.Modules
         */
 
         [Command("ServerPrefix")]
+        [Summary("Sets teh prefix for the server")]
         [RequireUserPermission(GuildPermission.Administrator)]
         public async Task SetGuildPrefix([Remainder]string prefix)
         {
@@ -916,6 +919,7 @@ namespace Wsashi.Core.Modules
         }
 
         [Command("ServerLogging"), Alias("Sl", "logging")]
+        [Summary("Enables server logging (such as bans, message edits, deletions, kicks, channel additions, etc)")]
         [RequireUserPermission(GuildPermission.Administrator)]
         public async Task SetServerLoggingChannel(bool isEnabled)
         {
@@ -924,11 +928,10 @@ namespace Wsashi.Core.Modules
             {
                 var role = Context.Guild.Roles.FirstOrDefault(r => r.Name == "@everyone");
                 var perms = new OverwritePermissions(
-                    sendMessages: PermValue.Deny,
-                    addReactions: PermValue.Deny,
                     readMessages: PermValue.Deny
                     );
                 var channel = await Context.Guild.CreateTextChannelAsync("logs");
+                await channel.AddPermissionOverwriteAsync(role, perms);
             }
             var cjhale = chnl as SocketTextChannel;
             string lol;
@@ -938,11 +941,12 @@ namespace Wsashi.Core.Modules
             config.IsServerLoggingEnabled = isEnabled;
             config.ServerLoggingChannel = cjhale.Id;
             GlobalGuildAccounts.SaveAccounts();
-            var embed = MiscHelpers.CreateEmbed(Context, $"{lol}, and set the channel to <#{cjhale.Id}>.");
+            var embed = MiscHelpers.CreateEmbed(Context, $"{lol}, and set the channel to <#{cjhale.Id}>.").WithColor(37, 152, 255);
             await MiscHelpers.SendMessage(Context, embed);
         }
 
         [Command("AdminRole")]
+        [Summary("Sets the server Admin role")]
         [RequireUserPermission(GuildPermission.Administrator)]
         public async Task SetServerAdminRole(string roleName)
         {
@@ -959,6 +963,7 @@ namespace Wsashi.Core.Modules
             {
                 embed.WithDescription($"Set the Administrator role to **{roleName}** for this server!");
                 config.AdminRole = role.Id;
+                config.AdminRoleName = role.Name;
                 GlobalGuildAccounts.SaveAccounts();
             }
 
@@ -966,6 +971,7 @@ namespace Wsashi.Core.Modules
         }
 
         [Command("ModRole")]
+        [Summary("Sets the server Moderator role")]
         [RequireUserPermission(GuildPermission.Administrator)]
         public async Task SetServerModRole(string roleName)
         {
@@ -982,13 +988,40 @@ namespace Wsashi.Core.Modules
             {
                 embed.WithDescription($"Set the Moderator role to **{roleName}** for this server!");
                 config.ModRole = role.Id;
+                config.ModRoleName = role.Name;
                 GlobalGuildAccounts.SaveAccounts();
             }
 
             await Context.Channel.SendMessageAsync("", false, embed);
         }
 
-        [Command("PengChecks"), Alias("Pc")]
+        [Command("HelperRole")]
+        [Summary("Sets the server Moderator role")]
+        [RequireUserPermission(GuildPermission.Administrator)]
+        public async Task SetServerHelperRole(string roleName)
+        {
+            var config = GlobalGuildAccounts.GetGuildAccount(Context.Guild.Id);
+            var embed = new EmbedBuilder();
+            embed.WithColor(37, 152, 255);
+
+            var role = Context.Guild.Roles.FirstOrDefault(x => x.Name == roleName);
+            if (role == null)
+            {
+                embed.WithDescription($"The role `{roleName}` doesn't exist on this server. Remember that this command is cAsE sEnSiTiVe.");
+            }
+            else
+            {
+                embed.WithDescription($"Set the Helper role to **{roleName}** for this server!");
+                config.HelperRole = role.Id;
+                config.HelperRoleName = role.Name;
+                GlobalGuildAccounts.SaveAccounts();
+            }
+
+            await Context.Channel.SendMessageAsync("", false, embed);
+        }
+
+        [Command("PingChecks"), Alias("Pc")]
+        [Summary("Enables or disables mass ping checks.")]
         [RequireUserPermission(GuildPermission.Administrator)]
         public async Task SetBoolToJsonPing(bool arg)
         {
@@ -996,8 +1029,8 @@ namespace Wsashi.Core.Modules
             var embed = new EmbedBuilder();
             embed.WithColor(37, 152, 255);
             embed.WithDescription(arg
-                ? "Enabled mass peng checks for this server."
-                : "Disabled mass peng checks for this server.");
+                ? "Enabled mass ping checks for this server."
+                : "Disabled mass ping checks for this server.");
 
             config.MassPingChecks = arg;
             GlobalGuildAccounts.SaveAccounts();
@@ -1005,6 +1038,7 @@ namespace Wsashi.Core.Modules
         }
 
         [Command("SelfRoleAdd"), Alias("SRA")]
+        [Summary("Adds a role a user can add themselves with w!Iam or w!Iamnot")]
         [RequireUserPermission(GuildPermission.Administrator)]
         public async Task AddStringToList([Remainder]string role)
         {
@@ -1018,6 +1052,7 @@ namespace Wsashi.Core.Modules
         }
 
         [Command("SelfRoleRem"), Alias("SRR")]
+        [Summary("Removes a Self Role. Users can add a role themselves with w!Iam or w!Iamnot")]
         [RequireUserPermission(GuildPermission.Administrator)]
         public async Task RemoveStringFromList([Remainder]string role)
         {
@@ -1038,6 +1073,7 @@ namespace Wsashi.Core.Modules
         }
 
         [Command("SelfRoleClear"), Alias("SRC")]
+        [Summary("Clears all Self Roles. Users can add a role themselves with w!Iam or w!Iamnot")]
         [RequireUserPermission(GuildPermission.Administrator)]
         public async Task ClearListFromConfig()
         {
@@ -1058,6 +1094,7 @@ namespace Wsashi.Core.Modules
         }
 
         [Command("Leveling"), Alias("L")]
+        [Summary("Enables or disables leveling for the server. Use w!leveling <true or false>")]
         [RequireUserPermission(GuildPermission.Administrator)]
         public async Task Leveling(bool arg)
         {
@@ -1067,6 +1104,24 @@ namespace Wsashi.Core.Modules
             embed.WithDescription(arg ? "Enabled leveling for this server." : "Disabled leveling for this server.");
             config.Leveling = arg;
             GlobalGuildAccounts.SaveAccounts();
+
+            await Context.Channel.SendMessageAsync("", false, embed);
+        }
+
+        [Command("AutoRole")]
+        [Summary("Adds a role that new members will recieve automatically")]
+        [RequireUserPermission(GuildPermission.Administrator)]
+        public async Task AutoRoleRoleAdd([Remainder]string arg = "")
+        {
+
+            var config = GlobalGuildAccounts.GetGuildAccount(Context.Guild.Id);
+            config.Autorole = arg;
+            GlobalGuildAccounts.SaveAccounts();
+
+            var embed = new EmbedBuilder();
+            embed.WithDescription($"AutoroleCommandText : {arg}");
+            embed.WithThumbnailUrl(Context.Guild.IconUrl);
+            embed.WithColor(37, 152, 255);
 
             await Context.Channel.SendMessageAsync("", false, embed);
         }

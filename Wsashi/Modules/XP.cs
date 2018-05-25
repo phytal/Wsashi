@@ -32,7 +32,7 @@ namespace Wsashi.Modules
         [Command("addPoints")]
         [Summary("Grants points to selected user")]
         [Alias("givepoints")]
-        [RequireUserPermission(GuildPermission.Administrator)]
+        [RequireOwner]
         public async Task AddPoints(uint Points, IGuildUser user, [Remainder]string arg = "")
         {
             SocketUser target = null;
@@ -40,7 +40,7 @@ namespace Wsashi.Modules
             target = mentionedUser ?? Context.User;
             var userAccount = GlobalUserAccounts.GetUserAccount((SocketUser)user);
 
-            userAccount.Points += Points;
+            userAccount.Reputation += Points;
             GlobalUserAccounts.SaveAccounts();
 
             var embed = new EmbedBuilder();

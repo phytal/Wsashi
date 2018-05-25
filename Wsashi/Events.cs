@@ -96,29 +96,25 @@ namespace Wsashi
 
         public static async Task FilterChecks(SocketMessage s)
         {
-
             var msg = s as SocketUserMessage;
             var context = new SocketCommandContext(_client, msg);
+            var config = GlobalGuildAccounts.GetGuildAccount(context.Guild.Id);
             if (context.User.IsBot) return;
             if (msg == null) return;
-
-            var config = GlobalGuildAccounts.GetGuildAccount(context.Guild.Id);
+            if (msg.Author.Id == config.GuildOwnerId) return;
 
             try
             {
                 if (config.Antilink == false) return;
-
-                else
+                if (msg.Content.Contains("http") || msg.Content.Contains("www."))
                 {
-                    if (msg.Content.Contains("http") || msg.Content.Contains("www.") || msg.Content.Contains(".io") && !config.AntilinkIgnoredChannels.Contains(context.Channel.Id))
-                    {
-                        await msg.DeleteAsync();
-                        var embed = new EmbedBuilder();
-                        embed.WithDescription($":warning:  | {context.User.Mention}, Don't post your filthy links here! (No links)");
-                        var mssg = await context.Channel.SendMessageAsync("", false, embed);
-                        await Task.Delay(5000);
-                        await mssg.DeleteAsync();
-                    }
+                    await msg.DeleteAsync();
+                    var embed = new EmbedBuilder();
+                    embed.WithColor(37, 152, 255);
+                    embed.WithDescription($":warning:  | {context.User.Mention}, Don't post your filthy links here! (No links)");
+                    var mssg = await context.Channel.SendMessageAsync("", false, embed);
+                    await Task.Delay(5000);
+                    await mssg.DeleteAsync();
                 }
             }
             catch (NullReferenceException)
@@ -140,24 +136,22 @@ namespace Wsashi
                 };
             try
             {
-                if (msg.Author.IsBot) return;
                 if (config.Filter == false) return;
-                else
+                if (bannedWords.Any(msg.Content.ToLower().Contains))
                 {
-                    if (bannedWords.Any(msg.Content.ToLower().Contains))
-                    {
-                        int randomIndex = rand.Next(reactionTexts.Length);
-                        string text = reactionTexts[randomIndex];
-                        await msg.DeleteAsync();
-                        var use = await msg.Channel.SendMessageAsync(":warning:  | " + text + " (Inappropiate language)");
-                        await Task.Delay(5000);
-                        await use.DeleteAsync();
-                    }
+                    int randomIndex = rand.Next(reactionTexts.Length);
+                    string text = reactionTexts[randomIndex];
+                    await msg.DeleteAsync();
+                    var embed = new EmbedBuilder();
+                    embed.WithDescription($":warning:  |  {text} (Inappropiate language)");
+                    embed.WithColor(37, 152, 255);
+                    var mssg = await context.Channel.SendMessageAsync("", false, embed);
+                    await Task.Delay(5000);
+                    await mssg.DeleteAsync();
                 }
             }
             catch (NullReferenceException)
             {
-
                 return;
             }
 
@@ -165,14 +159,12 @@ namespace Wsashi
             {
                 if (msg.Content.Contains("@everyone") || msg.Content.Contains("@here"))
                 {
-                    if (msg.Author != context.Guild.Owner)
-                    {
-                        await msg.DeleteAsync();
-                        var msgg = await context.Channel.SendMessageAsync($":warning:  | {msg.Author.Mention}, try not to mass ping.");
-                        Thread.Sleep(4000);
-                        await msgg.DeleteAsync();
-                    }
+                    await msg.DeleteAsync();
+                    var msgg = await context.Channel.SendMessageAsync($":warning:  | {msg.Author.Mention}, try not to mass ping.");
+                    Thread.Sleep(4000);
+                    await msgg.DeleteAsync();
                 }
+
             }
         }
     }

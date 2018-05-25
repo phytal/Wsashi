@@ -21,6 +21,7 @@ namespace SIVA.Core.Modules.Management
         public void Kill() => KillProgram(); // DO. NOT. USE. THIS. This is only for deliberately causing a StackOverflowException to stop the program.
 
         [Command("Shutdown")]
+        [Summary("Shuts down Wsashi :((")]
         [RequireOwner]
         public async Task Shutdown()
         {
@@ -33,6 +34,7 @@ namespace SIVA.Core.Modules.Management
         }
 
         [Command("VerifyGuild"), Alias("Verify")]
+        [Summary("Verifys the current guild or by ID")]
         [RequireOwner]
         public async Task VerifyGuildById(ulong guildId = 0)
         {
@@ -47,16 +49,18 @@ namespace SIVA.Core.Modules.Management
         }
 
         [Command("Stream")]
+        [Summary("Sets what Wsashi is streaming")]
         [RequireOwner]
         public async Task SetBotStream(string streamer, [Remainder]string streamName)
         {
             await Program._client.SetGameAsync(streamName, $"https://twitch.tv/{streamer}", StreamType.Twitch);
-            var embed = MiscHelpers.CreateEmbed(Context, $"Set the stream name to **{streamName}**, and set the streamer to <https://twitch.tv/{streamer}>!");
+            var embed = MiscHelpers.CreateEmbed(Context, $"Set the stream name to **{streamName}**, and set the streamer to <https://twitch.tv/{streamer}>!").WithColor(37, 152, 255);
             await MiscHelpers.SendMessage(Context, embed);
         }
 
 
         [Command("Game")]
+        [Summary("Sets the game Wsashi is playing")]
         [RequireOwner]
         public async Task SetBotGame([Remainder] string game)
         {
@@ -70,6 +74,7 @@ namespace SIVA.Core.Modules.Management
         }
 
         [Command("setVersion")]
+        [Summary("Set Wsashi's version")]
         [RequireOwner]
         public async Task SetBotVersion([Remainder] string version)
         {
@@ -81,6 +86,7 @@ namespace SIVA.Core.Modules.Management
         }
 
         [Command("Status")]
+        [Summary("Sets Wsashi's user status")]
         [RequireOwner]
         public async Task SetBotStatus(string status)
         {
@@ -111,6 +117,7 @@ namespace SIVA.Core.Modules.Management
         }
 
         [Command("LeaveServer")]
+        [Summary("Make's Wsashi leave the server")]
         [RequireOwner]
         public async Task LeaveServer()
         {
@@ -121,6 +128,7 @@ namespace SIVA.Core.Modules.Management
         }
 
         [Command("ServerCount"), Alias("Sc")]
+        [Summary("Sets Wsashi's game/stream the number of guilds in")]
         [RequireOwner]
         public async Task ServerCountStream()
         {

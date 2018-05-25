@@ -29,6 +29,8 @@ namespace Wsashi
 
         private async Task HandleCommandAsync(SocketMessage s)
         {
+            await Events.FilterChecks(s);
+
             if (!(s is SocketUserMessage msg)) return;
             if (msg.Channel is SocketDMChannel) return;
 
@@ -39,7 +41,7 @@ namespace Wsashi
             var prefix = config.CommandPrefix ?? Config.bot.cmdPrefix;
 
             var argPos = 0;
-            if (msg.HasMentionPrefix(_client.CurrentUser, ref argPos) || msg.HasStringPrefix(prefix, ref argPos))//|| CheckPrefix(ref argPos, context))
+            if (msg.HasStringPrefix(prefix, ref argPos) || msg.HasMentionPrefix(_client.CurrentUser, ref argPos))//|| CheckPrefix(ref argPos, context))
             {
                 var cmdSearchResult = _service.Search(context, argPos);
                 if (cmdSearchResult.Commands.Count == 0) return;
@@ -66,17 +68,9 @@ namespace Wsashi
             }
 
             // Leveling up
-            Leveling.UserSentMessage((SocketGuildUser)context.User, (SocketTextChannel)context.Channel);
-
-            if (msg.HasStringPrefix(Config.bot.cmdPrefix, ref argPos)
-                || msg.HasMentionPrefix(_client.CurrentUser, ref argPos))
+            if (config.Leveling)
             {
-                var result = await _service.ExecuteAsync(context, argPos);
-                if (!result.IsSuccess && result.Error != CommandError.UnknownCommand)
-                {
-                    Console.WriteLine(result.ErrorReason);
-                }
-
+                await Leveling.UserSentMessage((SocketGuildUser)context.User, (SocketTextChannel)context.Channel);
             }
         }
 

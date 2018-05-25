@@ -5,13 +5,10 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Discord;
-using Discord.Audio;
+//using Discord.Audio;
 using Discord.Commands;
 using Wsashi.Handlers;
-using Watchdog.Modules;
 using Wsashi.Features.Trivia;
-using Wsashi.Entities;
-using Wsashi.Features.GlobalAccounts;
 
 namespace Wsashi
 {
@@ -37,7 +34,8 @@ namespace Wsashi
             if (Config.bot.token == "" || Config.bot.token == null) return;
             _client = new DiscordSocketClient(new DiscordSocketConfig
             {
-                LogLevel = LogSeverity.Verbose
+                LogLevel = LogSeverity.Verbose,
+                MessageCacheSize = 100
             });
 
             _client.Log += Logger.Log;
@@ -115,19 +113,19 @@ namespace Wsashi
 
         //private async Task AttemptJoin()
         //{
-            //_service.Log += Log;
-            
-            //try
-            //{
-                //IVoiceChannel channel = (Context.User as IVoiceState).VoiceChannel;
-                //audioclient = await channel.ConnectAsync();
+        //_service.Log += Log;
 
-            //}
-            //catch (Exception )
-            //{
-                //Console.WriteLine("Failed Joining");
-                //Environment.Exit(0);
-            //}
+        //try
+        //{
+        //IVoiceChannel channel = (Context.User as IVoiceState).VoiceChannel;
+        //audioclient = await channel.ConnectAsync();
+
+        //}
+        //catch (Exception )
+        //{
+        //Console.WriteLine("Failed Joining");
+        //Environment.Exit(0);
+        //}
         //}
 
 

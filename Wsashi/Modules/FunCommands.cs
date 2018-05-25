@@ -200,7 +200,7 @@ namespace Wsashi.Modules
             var embed = new EmbedBuilder();
             embed.WithTitle("Good Morning " + Context.User.Username + "!");
             embed.WithDescription(":rooster:  | Cock a Doodle Do!");
-            embed.WithColor(new Color(30, 144, 255));
+            embed.WithColor(37, 152, 255);
             embed.WithThumbnailUrl("https://cdn.pixabay.com/photo/2016/03/31/23/34/emote-1297695_960_720.png");
 
             await Context.Channel.SendMessageAsync("", false, embed);
@@ -214,7 +214,7 @@ namespace Wsashi.Modules
             var embed = new EmbedBuilder();
             embed.WithTitle("Good Night " + Context.User.Username + "!");
             embed.WithDescription(":sleeping_accommodation:  | Don't let the Bed Bugs Bite!");
-            embed.WithColor(new Color(0, 128, 0));
+            embed.WithColor(37, 152, 255);
             embed.WithThumbnailUrl("https://cdn.shopify.com/s/files/1/1061/1924/products/Dark_Blue_Moon_Emoji_large.png?v=1480481043");
 
             await Context.Channel.SendMessageAsync("", false, embed);
@@ -274,18 +274,21 @@ namespace Wsashi.Modules
 
             var url = "https://youtube.com/results?search_query=";
             var newQuery = query.Replace(' ', '+');
+            embed.WithColor(255, 0, 0);
             embed.WithDescription(url + newQuery);
 
             await Context.Channel.SendMessageAsync("", false, embed);
         }
 
         [Command("Lenny")]
-        public async Task LennyLol()
+        [Summary("Sends a lenny face ( ͡° ͜ʖ ͡°)")]
+        public async Task Lenny()
         {
             await Context.Channel.SendMessageAsync("( ͡° ͜ʖ ͡°)");
         }
 
         [Command("Prefix")]
+        [Summary("Show's you the server prefix")]
         public async Task GetPrefixForServer()
         {
             var config = GlobalGuildAccounts.GetGuildAccount(Context.Guild.Id);
@@ -301,6 +304,15 @@ namespace Wsashi.Modules
             }
 
             await Context.Channel.SendMessageAsync($"The prefix for this server is {prefix}.");
+        }
+
+        [Command("ratewaifu")]
+        [Summary("Rates your waifu :3")]
+        public async Task RateWaifu([Remainder]string input)
+        {
+            Random rnd = new Random();
+            int rating = rnd.Next(101);
+            await Context.Channel.SendMessageAsync($"I'd rate {input} a **{rating} / 100**");
         }
     }
 }

@@ -11,7 +11,7 @@ namespace Wsashi.Core.LevelingSystem
 {
     internal static class Leveling 
     {
-        internal static async void UserSentMessage(SocketGuildUser user, SocketTextChannel channel)
+        internal static async Task UserSentMessage(SocketGuildUser user, SocketTextChannel channel)
         {
             var userAccount = GlobalUserAccounts.GetUserAccount(user);
             uint oldLevel = userAccount.LevelNumber;

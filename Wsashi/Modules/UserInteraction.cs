@@ -14,6 +14,7 @@ namespace Wsashi.Modules
     class UserInteraction : WsashiModule
     {
         [Command("Iam")]
+        [Summary("Gives you a self role")]
         public async Task GiveYourselfRole([Remainder]string role)
         {
             var config = GlobalGuildAccounts.GetGuildAccount(Context.Guild.Id);
@@ -42,6 +43,7 @@ namespace Wsashi.Modules
         }
 
         [Command("Iamnot"), Alias("Iamn")]
+        [Summary("Remove a self role from you")]
         public async Task TakeAwayRole([Remainder]string role)
         {
             var config = GlobalGuildAccounts.GetGuildAccount(Context.Guild.Id);

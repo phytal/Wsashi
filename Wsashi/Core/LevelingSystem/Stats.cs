@@ -10,7 +10,7 @@ namespace Wsashi.Core.LevelingSystem
     public class StatsModule : ModuleBase<SocketCommandContext>
     {
         [Command("stats")]
-        [Summary("Checks your stats (level, xp, points)")]
+        [Summary("Checks your stats (level, xp, reputation)")]
         [Alias("givepoints")]
         public async Task Stats([Remainder]string arg = "")
         {
@@ -29,7 +29,7 @@ namespace Wsashi.Core.LevelingSystem
             embed.WithTitle(target.Username);
             embed.AddInlineField("Level", oldLevel);
             embed.AddInlineField("Exp", userAccount.XP);
-            embed.AddInlineField("Points", userAccount.Points);
+            embed.AddInlineField("Reputation Points", userAccount.Reputation);
 
             await Context.Channel.SendMessageAsync("", embed: embed);
         }

@@ -101,7 +101,7 @@ namespace Wsashi
                 .AddField("Before", message.Value.Content)
                 .AddField("After", s.Content)
                 .AddField("Time", DateTime.UtcNow + " UTC")
-                .WithThumbnailUrl("https://lh3.googleusercontent.com/G2jzG8a6-GAA4yhxx3XMJfPXsm6_pluyeEWKr9I5swUGF62d2xo_Qg3Kdnu00HAmDQ=s180")
+                .WithThumbnailUrl("https://openclipart.org/download/279778/Contact-icon.svg")
                 .WithAuthor(context.Guild.Owner)
                 .WithColor(37, 152, 255);
 
