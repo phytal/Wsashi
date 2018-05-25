@@ -206,7 +206,7 @@ namespace Wsashi
             "**4. Duels -** `slash` `giveup` `duel` \n" +
             "**5. Gambling -** `roll` `coinflip` `newslots` `slots`\n" +
             "**5. Economy -** `balance` `daily` `rank`\n" +
-            "**6. Utilities -** `party` `fortnite` `report`\n" +
+            "**6. Utilities -** `dm` `report`\n" +
             "**7. Calculator (Quik Mafs)-** `add` `minus` `multiply` `divide`\n" +
             "**8. Music (Under Development) -** `join` `leave` `play`\n" +
             "**8. Information -** `info` `userinfo` `command` `update`\n" +
@@ -246,6 +246,7 @@ namespace Wsashi
             "**Announcements (w!announcements <command>) -** `setchannel` `unsetchannel`\n" +
             "**Server Management -** `rename` `serverlogging` \n"+
             "**Roles -** `ModRole` `AdminRole` `selfroleadd` `selfrolerem` `selfroleclear`\n"+
+            "**Promoting and Demoting (w!promote/demote <command>)-** `admin` `mod` `helper` \n"+
             "\n"+
             "```\n" +
             "# Don't include the example brackets when using commands!\n" +
