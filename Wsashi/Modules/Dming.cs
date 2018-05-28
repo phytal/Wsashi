@@ -17,17 +17,18 @@ namespace Wsashi.Modules
             var rep = user.Id;
 
             var application = await Context.Client.GetApplicationInfoAsync();
-            var message = await application.Owner.GetOrCreateDMChannelAsync();
+            var message = await user.GetOrCreateDMChannelAsync();
 
             var embed = new EmbedBuilder()
             {
                 Color = new Color(37, 152, 255)
             };
 
+            embed.WithTitle($":mailbox_with_mail:  | You have recieved a DM from {Context.User.Username}!");
             embed.Description = $"{dm}";
-            embed.WithFooter(new EmbedFooterBuilder().WithText($"Message from: {Context.User.Username} | Guild: {Context.Guild.Name}"));
+            embed.WithFooter(new EmbedFooterBuilder().WithText($"Guild: {Context.Guild.Name}"));
             await message.SendMessageAsync("", false, embed);
-            embed.Description = $"You have sent a message to {user.Username}, they will read the message soon.";
+            embed.Description = $":e_mail: | You have sent a message to {user.Username}, they will read the message soon.";
 
             await Context.Channel.SendMessageAsync("", false, embed);
         }

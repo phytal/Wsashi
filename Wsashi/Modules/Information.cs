@@ -119,59 +119,60 @@ namespace Wsashi
             await ReplyAsync("", false, embed);
         }
 
-        //[Command("userinfo")]
-        //[Summary("Shows info about the requested user")]
-        //[Alias("whois")]
-        //public async Task UserIngfo([Summary("User to get info for")]IGuildUser user = null)
-        //
-        //    if (user == null)
-        //    {
-        //        await ReplyAsync("Please include a name.");
-        //    }
-        //    else
-        //    {
-        //       var application = await Context.Client.GetApplicationInfoAsync();
-        //        var thumbnailurl = user.GetAvatarUrl();
-        //var date = $"{user.CreatedAt.Month}/{user.CreatedAt.Day}/{user.CreatedAt.Year}";
-        //var auth = new EmbedAuthorBuilder()
-        //
-        //        {
-        //
-        //Name = user.Username,
-        //IconUrl = thumbnailurl,
-        //
-        // };
+        /*[Command("userinfo")]
+        [Summary("Shows info about the requested user")]
+        [Alias("whois")]
+        public async Task UserIngfo(IGuildUser user = null)
+        {
+            if (user == null)
+            {
+                await ReplyAsync("Please include a name.");
+            }
+            else
+            {
+                var application = await Context.Client.GetApplicationInfoAsync();
+                var thumbnailurl = user.GetAvatarUrl();
+                var date = $"{user.CreatedAt.Month}/{user.CreatedAt.Day}/{user.CreatedAt.Year}";
+                var auth = new EmbedAuthorBuilder()
 
-        //var embed = new EmbedBuilder()
+                {
 
-        //         {
-        // Color = new Color(37, 152, 255),
-        //                Author = auth
-        // };
+                    Name = user.Username,
+                    IconUrl = thumbnailurl,
 
-        //     var us = user as SocketGuildUser;
-        //
-        //  var username = us.Username;
+                };
 
-        //           var discr = us.Discriminator;
-        //   var id = us.Id;
-        // var dat = date;
-        //   var stat = us.Status;
-        //       var CC = us.JoinedAt;
-        //   var game = us.Game;
-        //    var nick = us.Nickname;
-        //        embed.Title = $"**{us.Username}** Information";
-        //       embed.Description = $"Username: **{username}**\n"
-        //          + $"Discriminator: **{discr}**\n"
-        //          + $"User ID: **{id}**\n"
-        //            + $"Created at: **{date}**\n"
-        //          + $"Current Status: **{stat}**\n"
-        //          + $"Joined server at: **{CC}**\n"
-        //              + $"Playing: **{game}**";
+                var embed = new EmbedBuilder()
 
-        //            await ReplyAsync("", false, embed.Build());
-        //         }
-        //}
+                {
+                    Color = new Color(37, 152, 255),
+                    Author = auth
+                };
+
+                var us = user as SocketGuildUser;
+
+                var username = us.Username;
+
+                var discr = us.Discriminator;
+                var id = us.Id;
+                var dat = date;
+                var stat = us.Status;
+                var CC = us.JoinedAt;
+                var game = us.Game;
+                var nick = us.Nickname;
+                embed.Title = $"**{us.Username}** Information";
+                embed.Description = $"Username: **{username}**\n"
+                   + $"Discriminator: **{discr}**\n"
+                   + $"User ID: **{id}**\n"
+                     + $"Created at: **{date}**\n"
+                   + $"Current Status: **{stat}**\n"
+                   + $"Joined server at: **{CC}**\n"
+                       + $"Playing: **{game}**";
+
+                await ReplyAsync("", false, embed.Build());
+            }
+        }
+        */
 
         [Command("info")]
         [Summary("Shows Wsashi's information")]
@@ -213,9 +214,11 @@ namespace Wsashi
             "**9. APIs -** `dog` `cat` `catfact` `person` `birb` `define` `meme`\n" +
             "**10. Neko API -** `neko` `catemoticon` `foxgirl`\n" +
             "**11. Shibe API -** `shiba` `bird`\n" +
-            "**12. Games -** `2048 start` `trivia`\n" +
-            "**13. Blog (w!blog <command>) -** `create` `post` `subscribe` `unsubscribe`\n" +
-            "**14. Self Roles -** `Iam` `Iamnot` \n" +
+            "**12. Overwatch API -** `owstats` `owstatscomp``owstatsqp``myowstats``myowstatscomp``myowstatsqp``owaccount`\n" +
+            "**11. osu! API -** `osustats`\n" +
+            "**14. Games -** `2048 start` `trivia`\n" +
+            "**15. Blog (w!blog <command>) -** `create` `post` `subscribe` `unsubscribe`\n" +
+            "**16. Self Roles -** `Iam` `Iamnot` \n" +
             "\n" +
             "```\n" +
             "# Don't include the example brackets when using commands!\n" +

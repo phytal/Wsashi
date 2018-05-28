@@ -15,6 +15,8 @@ namespace Wsashi.Entities
 
         public uint XP { get; set; }
 
+        public string OW { get; set; }
+
         public ulong Money { get; set; } = 1;
 
         public DateTime LastDaily { get; set; } = DateTime.UtcNow.AddDays(-2);
