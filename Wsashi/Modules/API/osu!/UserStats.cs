@@ -16,7 +16,6 @@ namespace Wsashi.Modules.API.osu_
         [Command("osustats", RunMode = RunMode.Async)]
         [Summary("Get a osu! user's statistics. Usage: w!osustats Phytal")]
         [Cooldown(10)]
-
         public async Task GetOsuStats([Remainder] string user)
         {
             var json = await Global.SendWebRequest("https://osu.ppy.sh/api/get_user?k=2ce122dfe83fb6826b3f2dfe58336006db65c138&type=string&u=" + user);

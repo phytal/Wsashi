@@ -182,7 +182,7 @@ namespace Wsashi
             var embed = new EmbedBuilder();
             embed.WithColor(37, 152, 255);
             embed.AddInlineField("Creator", "Phytal#8213");
-            embed.AddInlineField("Last Updated", "5/1/2018");
+            embed.AddInlineField("Last Updated", "5/28/2018");
             embed.AddInlineField("Bot version", $"Beta {version}");
             embed.WithImageUrl(Global.Client.CurrentUser.GetAvatarUrl());
 
@@ -382,27 +382,23 @@ namespace Wsashi
         [Alias("updatenotes")]
         public async Task Update()
         {
-            {
-                string version = Config.bot.Version;
-                var embed = new EmbedBuilder();
-                embed.WithColor(37, 152, 255);
-                embed.WithTitle("Update Notes");
-                embed.WithDescription($"`Bot version {version} **<<Last Updated on 5/25>>**\n"
-                    + " -**Large** update incoming!\n-"
-                    + "• Added *alot* and improved administrator commands. Use `w!helpmod` to see them (lol you have to have some perms tho)!\n"
-                    + "• Added Server Logging! Activate it by using `w!serverlogging true`!\n"
-                    + "• Change the command you use to activate Wsashi! Use `w!server prefix <prefix>` to add one!\n"
-                    + "• Squished some ~~alot of~~ bugs.\n"
-                    + "`----- CURRENT UPDATE -----`\n"
-                    + "• Restored promoting/demoting. But now it relies on the Admin/Mod/Helper role you set for the server.\n"
-                    + "• Added a Helper role optiom, use `w!HelperRole` to set it.\n"
-                    + "• Added Reputation Points, use `w!rep <user>` to give them a point! It can be used once every 24 hours.\n"
-                    + "• Added a 'Master Config' panel, just use w!config to see the settings of Wsashi in this guild.\n"
-                    + "• Removed the 'Points' system, as it was replaced by Rep Points.\n"
-                    );
+            string version = Config.bot.Version;
+            var embed = new EmbedBuilder();
+            embed.WithColor(37, 152, 255);
+            embed.WithTitle("Update Notes");
+            embed.WithDescription($"`Bot version {version} **<<Last Updated on 5/28>>**\n"
+                + "• Restored promoting/demoting. But now it relies on the Admin/Mod/Helper role you set for the server.\n"
+                + "• Added a Helper role optiom, use `w!HelperRole` to set it.\n"
+                + "• Added Reputation Points, use `w!rep <user>` to give them a point! It can be used once every 24 hours.\n"
+                + "• Added a 'Master Config' panel, just use w!config to see the settings of Wsashi in this guild.\n"
+                + "• Removed the 'Points' system, as it was replaced by Rep Points.\n"
+                + "`----- CURRENT UPDATE -----`\n"
+                + "• Added the osu! API to the bot! Use w!osustats <user> to start!\n"
+                + "• Added the Overwatch APi to the bot! Simply find the OWAPI section in w!help!\n"
+                + "• Added DMing! You can now DM mentioned users with a message!.\n"
+                );
 
-                await ReplyAsync("", embed: embed);
-            }
+            await ReplyAsync("", embed: embed);
         }
     }
 }

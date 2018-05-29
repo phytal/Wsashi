@@ -1,11 +1,11 @@
-# All of the recorded updates for Wsashi  
+# **All of the recorded updates for Wsashi**  
 
  ## Formatting  
 **Version, Stage of Development**  
 *The date it was released (if recorded)*  
   • A bullet-point list to show what is in the update  
 
- # **Releases**  
+ # Releases  
  ## Beta  
  ### **1.0.0 Beta Initial release.**  
  ### **1.2.8 Beta**  
@@ -27,7 +27,7 @@
  ### **1.6 Beta**  
    **-Large update incoming!-**  
   • Added a lot and improved administrator commands. Use w!helpmod to see them (lol you have to have some perms tho)!  
-  • Added Server Logging! Activate it by using w!serverlogging true!• Change the command you use to activate Wsashi! Use w!server prefix <prefix> to add one! (You cannot get rid of w! >:3)  
+  • Added Server Logging! Activate it by using w!serverlogging true!• Change the command you use to activate Wsashi! Use w!server prefix <prefix> to add one!  
   • Squished some (a lot) of bugs.  
  ### **1.6.9 Beta**  
  *5/25*  
@@ -36,6 +36,10 @@
   • Added Reputation Points, use `w!rep <user>` to give them a point! It can be used once every 24 hours.  
   • Added a 'Master Config' panel, just use w!config to see the settings of Wsashi in this guild.  
   • Removed the 'Points' system, as it was replaced by Rep Points.  
-
+ ### **1.7.4 Beta**  
+ *5/28*  
+  • Added the osu! API to the bot! Use w!osustats <user> to start!  
+  • Added the Overwatch APi to the bot! Simply find the OWAPI section in w!help!
+  • Added DMing! You can now DM mentioned users with a message!
  ## Versioning System  
     The way how everything is versioned is by x.y.z. X represents the stage it is in (In this case Beta 1.0). Y is for major updates, or when z reaches up to 10. Z is for additions and minor bugs (+2 for additions, +1 for bug fixes).

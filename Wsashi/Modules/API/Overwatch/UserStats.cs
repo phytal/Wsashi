@@ -18,7 +18,6 @@ namespace Wsashi.Modules.API.Overwatch
         [Summary("Get a Overwatch user's statistics. Usage: w!owstats <Your Battle.net username and id> <platform (pc/xbl/psn)> Ex: w!owstats Phytal-1427 pc")]
         [Alias("ows", "overwatchstats")]
         [Cooldown(10)]
-
         public async Task GetOwStats([Remainder] string message)
         {
             string platform = message.Split(' ').Last();
@@ -97,7 +96,6 @@ namespace Wsashi.Modules.API.Overwatch
         [Summary("Get a Overwatch user's Quickplay statistics. Usage: w!owstats <Your Battle.net username and id> <platform (pc/xbl/psn)> Ex: w!owstatsqp Phytal-1427 pc")]
         [Alias("owsqp", "overwatchstatsqp", "owsquickplay")]
         [Cooldown(10)]
-
         public async Task GetOwQpStats([Remainder] string message)
         {
             string platform = message.Split(' ').Last();
@@ -156,7 +154,6 @@ namespace Wsashi.Modules.API.Overwatch
         [Summary("Get a Overwatch user's Competitive statistics. Usage: w!owstats <Your Battle.net username and id> <platform (pc/xbl/psn)> Ex: w!owstatscomp Phytal-1427 pc")]
         [Alias("owsc", "overwatchstatscomp", "owscompetitive")]
         [Cooldown(10)]
-
         public async Task GetOwCompStats([Remainder] string message)
         {
             string platform = message.Split(' ').Last();
