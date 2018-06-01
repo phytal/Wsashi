@@ -218,7 +218,7 @@ namespace Wsashi
             "**11. osu! API -** `osustats`\n" +
             "**14. Games -** `2048 start` `trivia`\n" +
             "**15. Blog (w!blog <command>) -** `create` `post` `subscribe` `unsubscribe`\n" +
-            "**16. Self Roles -** `Iam` `Iamnot` \n" +
+            "**16. Self Roles -** `Iam` `Iamnot` `selfrolelist`\n" +
             "\n" +
             "```\n" +
             "# Don't include the example brackets when using commands!\n" +
@@ -232,10 +232,12 @@ namespace Wsashi
         [Command("helpmod")]
         [Summary("Shows all possible Moderator Commands for this bot")]
         [Cooldown(15)]
-        [RequireUserPermission(GuildPermission.Administrator)]
         public async Task HelpMessageMod()
         {
-            string helpMessageMod =
+            var guser = Context.User as SocketGuildUser;
+            if (guser.GuildPermissions.ManageMessages)
+            {
+                string helpMessageMod =
             "```cs\n" +
             "Moderator Command List\n" +
             "```\n" +
@@ -243,30 +245,41 @@ namespace Wsashi
             "\n" +
             "**Filters -** `antilink` `filter` `pingchecks` `antilinkignore`\n" +
             "**User Management -** `ban` `kick` `mute` `unmute` `clear` `warn` `say` `softban` `idban`\n" +
-            "**Bot Settings -** `serverprefix` `leveling` `list` \n"+
+            "**Bot Settings -** `serverprefix` `leveling` `list` \n" +
             "**Welcome Messages (w!welcome <command>) -** `channel` `add` `remove` `list`\n" +
             "**Leaving Messages (w!leave <command>) -** `add` `remove` `list`\n" +
             "**Announcements (w!announcements <command>) -** `setchannel` `unsetchannel`\n" +
-            "**Server Management -** `rename` `serverlogging` \n"+
-            "**Roles -** `ModRole` `AdminRole` `selfroleadd` `selfrolerem` `selfroleclear`\n"+
-            "**Promoting and Demoting (w!promote/demote <command>)-** `admin` `mod` `helper` \n"+
-            "\n"+
+            "**Server Management -** `rename` `serverlogging` \n" +
+            "**Roles -** `ModRole` `AdminRole` `selfroleadd` `selfrolerem` `selfroleclear`\n" +
+            "**Promoting and Demoting (w!promote/demote <command>)-** `admin` `mod` `helper` \n" +
+            "\n" +
             "```\n" +
             "# Don't include the example brackets when using commands!\n" +
             "# To view standard commands, use w!help\n" +
             "# To view NSFW commands, use w!helpnsfw\n" +
             "```";
 
-            await ReplyAsync(helpMessageMod);
+                await ReplyAsync(helpMessageMod);
+            }
+            else
+            {
+                var embed = new EmbedBuilder();
+                embed.WithColor(37, 152, 255);
+                embed.Title = $":x:  | You Need the Administrator Permission to do that {Context.User.Username}";
+                var use = await Context.Channel.SendMessageAsync("", false, embed);
+                await Task.Delay(5000);
+                await use.DeleteAsync();
+            }
         }
 
         [Command("helpnsfw")]
         [Summary("Shows all possible NSFW Commands for this bot")]
         [Cooldown(15)]
-        [RequireNsfw]
         public async Task HelpMessageNSFW()
         {
-            string helpMessageMod =
+            if (Context.Channel.IsNsfw)
+            {
+                string helpMessageNSFW =
             "```cs\n" +
             "NSFW Command List (why did i make this)\n" +
             "```\n" +
@@ -281,7 +294,17 @@ namespace Wsashi
             "# To view Moderator commands, use w!helpmod\n" +
             "```";
 
-            await ReplyAsync(helpMessageMod);
+                await ReplyAsync(helpMessageNSFW);
+            }
+            else
+            {
+                var embed = new EmbedBuilder();
+                embed.WithColor(37, 152, 255);
+                embed.Title = $":x:  | You Need to be in a NSFW channel to do that {Context.User.Username}";
+                var use = await Context.Channel.SendMessageAsync("", false, embed);
+                await Task.Delay(5000);
+                await use.DeleteAsync();
+            }
         }
         // [Command("help")]
         //[Cooldown(15)]

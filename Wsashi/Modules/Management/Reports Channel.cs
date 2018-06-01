@@ -13,19 +13,31 @@ namespace Watchdog.Modules.ServerManagement
     {
         [Command("reports")]
         [Summary("If the reports channel isn't automatically created, you can use this command to manually create it")]
-        [RequireUserPermission(GuildPermission.ManageChannels)]
         [RequireBotPermission(GuildPermission.ManageChannels)]
         public async Task Text()
         {
-            var role = Context.Guild.Roles.FirstOrDefault(r => r.Name == "@everyone");
-            var perms = new OverwritePermissions(
-                sendMessages: PermValue.Deny,
-                addReactions: PermValue.Deny,
-                readMessages: PermValue.Allow
-                );
-            var channel = await Context.Guild.CreateTextChannelAsync("Reports");
-            await channel.AddPermissionOverwriteAsync(role, perms);
-        }
+            var guser = Context.User as SocketGuildUser;
+            if (guser.GuildPermissions.ManageMessages)
+            {
+                var role = Context.Guild.Roles.FirstOrDefault(r => r.Name == "@everyone");
+                var perms = new OverwritePermissions(
+                    sendMessages: PermValue.Deny,
+                    addReactions: PermValue.Deny,
+                    readMessages: PermValue.Allow
+                    );
+                var channel = await Context.Guild.CreateTextChannelAsync("Reports");
+                await channel.AddPermissionOverwriteAsync(role, perms);
+            }
+            else
+            {
+                var embed = new EmbedBuilder();
+                embed.WithColor(37, 152, 255);
+                embed.Title = $":x:  | You Need the Administrator Permission to do that {Context.User.Username}";
+                var use = await Context.Channel.SendMessageAsync("", false, embed);
+                await Task.Delay(5000);
+                await use.DeleteAsync();
+            }
+}
 
         [Command("Report")]
         [Summary("Reports @Username")]

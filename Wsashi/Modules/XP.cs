@@ -16,7 +16,7 @@ namespace Wsashi.Modules
         [Command("addXP")]
         [Summary("Grants XP/Exp to selected user")]
         [Alias("givexp", "giveexp", "addexp")]
-        [RequireUserPermission(GuildPermission.Administrator)]
+        [RequireOwner]
         public async Task AddXP(uint xp, IGuildUser user, [Remainder]string arg = "")
         {
             SocketUser target = null;

@@ -61,7 +61,6 @@ namespace Wsashi.Core.Modules
             if (user.GuildPermissions.BanMembers)
             {
             var bans = await Context.Guild.GetBansAsync();
-
             var theUser = bans.FirstOrDefault(x => x.User.ToString().ToLowerInvariant() == user2.ToLowerInvariant());
 
             await Context.Guild.RemoveBanAsync(theUser.User).ConfigureAwait(false);
@@ -77,11 +76,11 @@ namespace Wsashi.Core.Modules
 
         [Command("Softban"), Alias("Sb")]
         [Summary("Bans then unbans a user.")]
-        [RequireUserPermission(GuildPermission.BanMembers)]
         public async Task BanThenUnbanUser(SocketGuildUser user)
         {
+            var guser = Context.User as SocketGuildUser;
             var config = GlobalGuildAccounts.GetGuildAccount(Context.Guild.Id);
-            if (MiscHelpers.UserHasRole(Context, config.ModRole))
+            if (guser.GuildPermissions.BanMembers)
             {
                 var embed = MiscHelpers.CreateEmbed(Context, $"{Context.User.Mention} softbanned <@{user.Id}>, deleting the last 7 days of messages from that user.");
                 await MiscHelpers.SendMessage(Context, embed);
@@ -100,21 +99,21 @@ namespace Wsashi.Core.Modules
 
         [Command("IdBan")]
         [Summary("Ban a user by their ID")]
-        [RequireUserPermission(GuildPermission.BanMembers)]
         public async Task BanUserById(ulong userid, [Remainder]string reason = "")
         {
+            var guser = Context.User as SocketGuildUser;
             var config = GlobalGuildAccounts.GetGuildAccount(Context.Guild.Id);
-            if (MiscHelpers.UserHasRole(Context, config.ModRole))
+            if (guser.GuildPermissions.BanMembers)
             {
                 if (reason == "")
                 {
                     reason = $"Banned by {Context.User.Username}#{Context.User.Discriminator}";
                 }
                 await Context.Guild.AddBanAsync(userid, 7, reason);
-                    var embed = new EmbedBuilder();
-                    embed.WithColor(new Color(37, 152, 255));
-                    embed.Title = $"**{userid}** was banned";
-                    embed.Description = $"**Username: **{userid}\n**Banned by: **{Context.User.Mention}\n**Reason: **{reason}";
+                var embed = new EmbedBuilder();
+                embed.WithColor(new Color(37, 152, 255));
+                embed.Title = $"**{userid}** was banned";
+                embed.Description = $"**Username: **{userid}\n**Banned by: **{Context.User.Mention}\n**Reason: **{reason}";
                 await MiscHelpers.SendMessage(Context, embed);
             }
             else
@@ -166,7 +165,6 @@ namespace Wsashi.Core.Modules
 
         [Command("mute")]
         [Summary("Mutes @Username")]
-        [RequireBotPermission(GuildPermission.ManageRoles)]
         public async Task MuteAsync(SocketGuildUser user = null)
         {
             var guser = Context.User as SocketGuildUser;
@@ -206,7 +204,6 @@ namespace Wsashi.Core.Modules
 
         [Command("unmute")]
         [Summary("Unmutes @Username")]
-        [RequireBotPermission(GuildPermission.ManageRoles)]
         public async Task UnmuteAsync(SocketGuildUser user = null)
         {
             var guser = Context.User as SocketGuildUser;
@@ -240,7 +237,6 @@ namespace Wsashi.Core.Modules
         [Command("clear")]
         [Alias("purge", "delete")]
         [Summary("Purges A User's Last 100 Messages")]
-        [RequireUserPermission(GuildPermission.ManageMessages)]
         public async Task Clear(SocketGuildUser user)
         {
             if (user.GuildPermissions.ManageMessages)
@@ -716,118 +712,190 @@ namespace Wsashi.Core.Modules
         [Summary("Turns on or off filter. Usage: w!filter true/false")]
         public async Task SetBoolIntoConfigFilter(bool setting)
         {
-            var config = GlobalGuildAccounts.GetGuildAccount(Context.Guild.Id);
-            config.Filter = setting;
-            GlobalGuildAccounts.SaveAccounts();
-            var embed = new EmbedBuilder();
-            embed.WithColor(37, 152, 255);
-            if (setting)
+            var guser = Context.User as SocketGuildUser;
+            if (guser.GuildPermissions.Administrator)
             {
-                embed.WithDescription(":white_check_mark:  | Filter successfully turned back on. Stay safe!");
+                var config = GlobalGuildAccounts.GetGuildAccount(Context.Guild.Id);
+                config.Filter = setting;
+                GlobalGuildAccounts.SaveAccounts();
+                var embed = new EmbedBuilder();
+                embed.WithColor(37, 152, 255);
+                if (setting)
+                {
+                    embed.WithDescription(":white_check_mark:  | Filter successfully turned back on. Stay safe!");
+                }
+                if (setting == false)
+                {
+                    embed.WithDescription(":white_check_mark:  | Filter successfully turned off. Daredevil!");
+                }
+                await ReplyAsync("", false, embed);
             }
-            if (setting == false)
+            else
             {
-                embed.WithDescription(":white_check_mark:  | Filter successfully turned off. Daredevil!");
+                var embed = new EmbedBuilder();
+                embed.WithColor(37, 152, 255);
+                embed.Title = $":x:  | You Need the Administrator Permission to do that {Context.User.Username}";
+                var use = await Context.Channel.SendMessageAsync("", false, embed);
+                await Task.Delay(5000);
+                await use.DeleteAsync();
             }
-            await ReplyAsync("", false, embed);
-
         }
 
         [Command("ServerName")]
         [Summary("Changes the name of the server")]
-        [RequireUserPermission(GuildPermission.Administrator)]
         public async Task ModifyServerName([Remainder]string name)
         {
-            await Context.Guild.ModifyAsync(x => x.Name = name);
-            var embed = new EmbedBuilder();
-            embed.WithDescription($"Set this server's name to **{name}**!");
-            embed.WithColor(37, 152, 255);
+            var guser = Context.User as SocketGuildUser;
+            if (guser.GuildPermissions.Administrator)
+            {
+                await Context.Guild.ModifyAsync(x => x.Name = name);
+                var embed = new EmbedBuilder();
+                embed.WithDescription($"Set this server's name to **{name}**!");
+                embed.WithColor(37, 152, 255);
 
-            await ReplyAsync("", false, embed);
+                await ReplyAsync("", false, embed);
+            }
+            else
+            {
+                var embed = new EmbedBuilder();
+                embed.WithColor(37, 152, 255);
+                embed.Title = $":x:  | You Need the Administrator Permission to do that {Context.User.Username}";
+                var use = await Context.Channel.SendMessageAsync("", false, embed);
+                await Task.Delay(5000);
+                await use.DeleteAsync();
+            }
         }
 
         [Command("PingChecks"), Alias("Pc")]
         [Summary("Turns on or off mass ping checks. Usage: w!pc true/false")]
-        [RequireUserPermission(GuildPermission.Administrator)]
         public async Task SetBoolToJson(bool arg)
         {
-            var config = GlobalGuildAccounts.GetGuildAccount(Context.Guild.Id);
-            var embed = new EmbedBuilder();
-            embed.WithColor(37, 152, 255);
-            embed.WithDescription(arg
-                ? "Enabled mass ping checks for this server."
-                : "Disabled mass ping checks for this server.");
+            var guser = Context.User as SocketGuildUser;
+            if (guser.GuildPermissions.Administrator)
+            {
+                var config = GlobalGuildAccounts.GetGuildAccount(Context.Guild.Id);
+                var embed = new EmbedBuilder();
+                embed.WithColor(37, 152, 255);
+                embed.WithDescription(arg
+                    ? "Enabled mass ping checks for this server."
+                    : "Disabled mass ping checks for this server.");
 
-            config.MassPingChecks = arg;
-            GlobalGuildAccounts.SaveAccounts();
-            await ReplyAsync("", false, embed);
+                config.MassPingChecks = arg;
+                GlobalGuildAccounts.SaveAccounts();
+                await ReplyAsync("", false, embed);
+            }
+            else
+            {
+                var embed = new EmbedBuilder();
+                embed.WithColor(37, 152, 255);
+                embed.Title = $":x:  | You Need the Administrator Permission to do that {Context.User.Username}";
+                var use = await Context.Channel.SendMessageAsync("", false, embed);
+                await Task.Delay(5000);
+                await use.DeleteAsync();
+            }
         }
 
         [Command("Antilink"), Alias("Al")]
         [Summary("Turns on or off the link filter. Usage: w!al true/false")]
         public async Task SetBoolIntoConfig(bool setting)
         {
-            var config = GlobalGuildAccounts.GetGuildAccount(Context.Guild.Id);
-            config.Antilink = setting;
-            GlobalGuildAccounts.SaveAccounts();
-            var embed = new EmbedBuilder();
-            embed.WithColor(37, 152, 255);
-            if (setting)
+            var guser = Context.User as SocketGuildUser;
+            if (guser.GuildPermissions.ManageMessages)
             {
-                embed.WithDescription("Enabled Antilink for this server.");
+                var config = GlobalGuildAccounts.GetGuildAccount(Context.Guild.Id);
+                config.Antilink = setting;
+                GlobalGuildAccounts.SaveAccounts();
+                var embed = new EmbedBuilder();
+                embed.WithColor(37, 152, 255);
+                if (setting)
+                {
+                    embed.WithDescription("Enabled Antilink for this server.");
+                }
+                if (setting == false)
+                {
+                    embed.WithDescription("Disabled Antilink for this server.");
+                }
+                await ReplyAsync("", false, embed);
             }
-            if (setting == false)
+            else
             {
-                embed.WithDescription("Disabled Antilink for this server.");
+                var embed = new EmbedBuilder();
+                embed.WithColor(37, 152, 255);
+                embed.Title = $":x:  | You Need the Administrator Permission to do that {Context.User.Username}";
+                var use = await Context.Channel.SendMessageAsync("", false, embed);
+                await Task.Delay(5000);
+                await use.DeleteAsync();
             }
-            await ReplyAsync("", false, embed);
-
         }
 
         [Command("AntilinkIgnore"), Alias("Ali")]
         [Summary("Sets a channel that if Antilink is turned on, it will be disabled there")]
-        [RequireUserPermission(GuildPermission.Administrator)]
         public async Task SetChannelToBeIgnored(string type, SocketGuildChannel chnl = null)
         {
-            var config = GlobalGuildAccounts.GetGuildAccount(Context.Guild.Id);
-            var embed = new EmbedBuilder();
-            embed.WithColor(37, 152, 255);
-            switch (type)
+            var guser = Context.User as SocketGuildUser;
+            if (guser.GuildPermissions.ManageMessages)
             {
-                case "add":
-                case "Add":
-                    config.AntilinkIgnoredChannels.Add(chnl.Id);
-                    GlobalGuildAccounts.SaveAccounts();
-                    embed.WithDescription($"Added <#{chnl.Id}> to the list of ignored channels for Antilink.");
-                    break;
-                case "rem":
-                case "Rem":
-                    config.AntilinkIgnoredChannels.Remove(chnl.Id);
-                    GlobalGuildAccounts.SaveAccounts();
-                    embed.WithDescription($"Removed <#{chnl.Id}> from the list of ignored channels for Antilink.");
-                    break;
-                case "clear":
-                case "Clear":
-                    config.AntilinkIgnoredChannels.Clear();
-                    GlobalGuildAccounts.SaveAccounts();
-                    embed.WithDescription("List of channels to be ignored by Antilink has been cleared.");
-                    break;
-                default:
-                    embed.WithDescription($"Valid types are `add`, `rem`, and `clear`. Syntax: `w!ali {{add/rem/clear}} [channelMention]`");
-                    break;
-            }
+                var config = GlobalGuildAccounts.GetGuildAccount(Context.Guild.Id);
+                var embed = new EmbedBuilder();
+                embed.WithColor(37, 152, 255);
+                switch (type)
+                {
+                    case "add":
+                    case "Add":
+                        config.AntilinkIgnoredChannels.Add(chnl.Id);
+                        GlobalGuildAccounts.SaveAccounts();
+                        embed.WithDescription($"Added <#{chnl.Id}> to the list of ignored channels for Antilink.");
+                        break;
+                    case "rem":
+                    case "Rem":
+                        config.AntilinkIgnoredChannels.Remove(chnl.Id);
+                        GlobalGuildAccounts.SaveAccounts();
+                        embed.WithDescription($"Removed <#{chnl.Id}> from the list of ignored channels for Antilink.");
+                        break;
+                    case "clear":
+                    case "Clear":
+                        config.AntilinkIgnoredChannels.Clear();
+                        GlobalGuildAccounts.SaveAccounts();
+                        embed.WithDescription("List of channels to be ignored by Antilink has been cleared.");
+                        break;
+                    default:
+                        embed.WithDescription($"Valid types are `add`, `rem`, and `clear`. Syntax: `w!ali {{add/rem/clear}} [channelMention]`");
+                        break;
+                }
 
-            await Context.Channel.SendMessageAsync("", false, embed);
+                await Context.Channel.SendMessageAsync("", false, embed);
+            }
+            else
+            {
+                var embed = new EmbedBuilder();
+                embed.WithColor(37, 152, 255);
+                embed.Title = $":x:  | You Need the Administrator Permission to do that {Context.User.Username}";
+                var use = await Context.Channel.SendMessageAsync("", false, embed);
+                await Task.Delay(5000);
+                await use.DeleteAsync();
+            }
         }
 
         [Command("Rename")]
         [Summary("Changes a user's nickname")]
-        [RequireUserPermission(GuildPermission.Administrator)]
         public async Task SetUsersNickname(SocketGuildUser user, [Remainder]string nick)
         {
-            await user.ModifyAsync(x => x.Nickname = nick);
-            var embed = MiscHelpers.CreateEmbed(Context, $"Set <@{user.Id}>'s nickname on this server to **{nick}**!").WithColor(37, 152, 255);
-            await MiscHelpers.SendMessage(Context, embed);
+            var guser = Context.User as SocketGuildUser;
+            if (guser.GuildPermissions.ManageMessages)
+            {
+                await user.ModifyAsync(x => x.Nickname = nick);
+                var embed = MiscHelpers.CreateEmbed(Context, $"Set <@{user.Id}>'s nickname on this server to **{nick}**!").WithColor(37, 152, 255);
+                await MiscHelpers.SendMessage(Context, embed);
+            }
+            else
+            {
+                var embed = new EmbedBuilder();
+                embed.WithColor(37, 152, 255);
+                embed.Title = $":x:  | You Need the Administrator Permission to do that {Context.User.Username}";
+                var use = await Context.Channel.SendMessageAsync("", false, embed);
+                await Task.Delay(5000);
+                await use.DeleteAsync();
+            }
         }
 
 
@@ -904,198 +972,303 @@ namespace Wsashi.Core.Modules
         */
 
         [Command("ServerPrefix")]
-        [Summary("Sets teh prefix for the server")]
-        [RequireUserPermission(GuildPermission.Administrator)]
+        [Summary("Sets the prefix for the server")]
         public async Task SetGuildPrefix([Remainder]string prefix)
         {
-            var config = GlobalGuildAccounts.GetGuildAccount(Context.Guild.Id);
-            var embed = new EmbedBuilder();
-            embed.WithColor(37, 152, 255);
-            embed.WithDescription($"Set server prefix to {prefix}");
+            var guser = Context.User as SocketGuildUser;
+            if (guser.GuildPermissions.Administrator)
+            {
+                var config = GlobalGuildAccounts.GetGuildAccount(Context.Guild.Id);
+                var embed = new EmbedBuilder();
+                embed.WithColor(37, 152, 255);
+                embed.WithDescription($"Set server prefix to {prefix}");
 
-            config.CommandPrefix = prefix;
-            GlobalGuildAccounts.SaveAccounts();
-            await Context.Channel.SendMessageAsync("", false, embed);
+                config.CommandPrefix = prefix;
+                GlobalGuildAccounts.SaveAccounts();
+                await Context.Channel.SendMessageAsync("", false, embed);
+            }
+            else
+            {
+                var embed = new EmbedBuilder();
+                embed.WithColor(37, 152, 255);
+                embed.Title = $":x:  | You Need the Administrator Permission to do that {Context.User.Username}";
+                var use = await Context.Channel.SendMessageAsync("", false, embed);
+                await Task.Delay(5000);
+                await use.DeleteAsync();
+            }
         }
 
         [Command("ServerLogging"), Alias("Sl", "logging")]
         [Summary("Enables server logging (such as bans, message edits, deletions, kicks, channel additions, etc)")]
-        [RequireUserPermission(GuildPermission.Administrator)]
         public async Task SetServerLoggingChannel(bool isEnabled)
         {
-            var chnl = Context.Guild.TextChannels.FirstOrDefault(r => r.Name == "logs");
-            if (chnl == null)
+            var guser = Context.User as SocketGuildUser;
+            if (guser.GuildPermissions.Administrator)
             {
-                var role = Context.Guild.Roles.FirstOrDefault(r => r.Name == "@everyone");
-                var perms = new OverwritePermissions(
-                    readMessages: PermValue.Deny
-                    );
-                var channel = await Context.Guild.CreateTextChannelAsync("logs");
-                await channel.AddPermissionOverwriteAsync(role, perms);
-            }
-            var cjhale = chnl as SocketTextChannel;
-            string lol;
-            var config = GlobalGuildAccounts.GetGuildAccount(Context.Guild.Id);
-            if (isEnabled) { lol = "Enabled server logging"; } else { lol = "Disabled server logging"; }
+                var chnl = Context.Guild.TextChannels.FirstOrDefault(r => r.Name == "logs");
+                if (chnl == null)
+                {
+                    var role = Context.Guild.Roles.FirstOrDefault(r => r.Name == "@everyone");
+                    var perms = new OverwritePermissions(
+                        readMessages: PermValue.Deny
+                        );
+                    var channel = await Context.Guild.CreateTextChannelAsync("logs");
+                    await channel.AddPermissionOverwriteAsync(role, perms);
+                }
+                var cjhale = chnl as SocketTextChannel;
+                string lol;
+                var config = GlobalGuildAccounts.GetGuildAccount(Context.Guild.Id);
+                if (isEnabled) { lol = "Enabled server logging"; } else { lol = "Disabled server logging"; }
 
-            config.IsServerLoggingEnabled = isEnabled;
-            config.ServerLoggingChannel = cjhale.Id;
-            GlobalGuildAccounts.SaveAccounts();
-            var embed = MiscHelpers.CreateEmbed(Context, $"{lol}, and set the channel to <#{cjhale.Id}>.").WithColor(37, 152, 255);
-            await MiscHelpers.SendMessage(Context, embed);
+                config.IsServerLoggingEnabled = isEnabled;
+                config.ServerLoggingChannel = cjhale.Id;
+                GlobalGuildAccounts.SaveAccounts();
+                var embed = MiscHelpers.CreateEmbed(Context, $"{lol}, and set the channel to <#{cjhale.Id}>.").WithColor(37, 152, 255);
+                await MiscHelpers.SendMessage(Context, embed);
+            }
+            else
+            {
+                var embed = new EmbedBuilder();
+                embed.WithColor(37, 152, 255);
+                embed.Title = $":x:  | You Need the Administrator Permission to do that {Context.User.Username}";
+                var use = await Context.Channel.SendMessageAsync("", false, embed);
+                await Task.Delay(5000);
+                await use.DeleteAsync();
+            }
         }
 
         [Command("AdminRole")]
         [Summary("Sets the server Admin role")]
-        [RequireUserPermission(GuildPermission.Administrator)]
         public async Task SetServerAdminRole(string roleName)
         {
-            var config = GlobalGuildAccounts.GetGuildAccount(Context.Guild.Id);
-            var embed = new EmbedBuilder();
-            embed.WithColor(37, 152, 255);
-
-            var role = Context.Guild.Roles.FirstOrDefault(x => x.Name == roleName);
-            if (role == null)
+            var guser = Context.User as SocketGuildUser;
+            if (guser.GuildPermissions.Administrator)
             {
-                embed.WithDescription($"The role `{roleName}` doesn't exist on this server. Remember that this command is cAsE sEnSiTiVe.");
+                var config = GlobalGuildAccounts.GetGuildAccount(Context.Guild.Id);
+                var embed = new EmbedBuilder();
+                embed.WithColor(37, 152, 255);
+
+                var role = Context.Guild.Roles.FirstOrDefault(x => x.Name == roleName);
+                if (role == null)
+                {
+                    embed.WithDescription($"The role `{roleName}` doesn't exist on this server. Remember that this command is cAsE sEnSiTiVe.");
+                }
+                else
+                {
+                    embed.WithDescription($"Set the Administrator role to **{roleName}** for this server!");
+                    config.AdminRole = role.Id;
+                    config.AdminRoleName = role.Name;
+                    GlobalGuildAccounts.SaveAccounts();
+                }
+
+                await Context.Channel.SendMessageAsync("", false, embed);
             }
             else
             {
-                embed.WithDescription($"Set the Administrator role to **{roleName}** for this server!");
-                config.AdminRole = role.Id;
-                config.AdminRoleName = role.Name;
-                GlobalGuildAccounts.SaveAccounts();
+                var embed = new EmbedBuilder();
+                embed.WithColor(37, 152, 255);
+                embed.Title = $":x:  | You Need the Administrator Permission to do that {Context.User.Username}";
+                var use = await Context.Channel.SendMessageAsync("", false, embed);
+                await Task.Delay(5000);
+                await use.DeleteAsync();
             }
-
-            await Context.Channel.SendMessageAsync("", false, embed);
         }
 
         [Command("ModRole")]
         [Summary("Sets the server Moderator role")]
-        [RequireUserPermission(GuildPermission.Administrator)]
         public async Task SetServerModRole(string roleName)
         {
-            var config = GlobalGuildAccounts.GetGuildAccount(Context.Guild.Id);
-            var embed = new EmbedBuilder();
-            embed.WithColor(37, 152, 255);
-
-            var role = Context.Guild.Roles.FirstOrDefault(x => x.Name == roleName);
-            if (role == null)
+            var guser = Context.User as SocketGuildUser;
+            if (guser.GuildPermissions.Administrator)
             {
-                embed.WithDescription($"The role `{roleName}` doesn't exist on this server. Remember that this command is cAsE sEnSiTiVe.");
+                var config = GlobalGuildAccounts.GetGuildAccount(Context.Guild.Id);
+                var embed = new EmbedBuilder();
+                embed.WithColor(37, 152, 255);
+
+                var role = Context.Guild.Roles.FirstOrDefault(x => x.Name == roleName);
+                if (role == null)
+                {
+                    embed.WithDescription($"The role `{roleName}` doesn't exist on this server. Remember that this command is cAsE sEnSiTiVe.");
+                }
+                else
+                {
+                    embed.WithDescription($"Set the Moderator role to **{roleName}** for this server!");
+                    config.ModRole = role.Id;
+                    config.ModRoleName = role.Name;
+                    GlobalGuildAccounts.SaveAccounts();
+                }
+
+                await Context.Channel.SendMessageAsync("", false, embed);
             }
             else
             {
-                embed.WithDescription($"Set the Moderator role to **{roleName}** for this server!");
-                config.ModRole = role.Id;
-                config.ModRoleName = role.Name;
-                GlobalGuildAccounts.SaveAccounts();
+                var embed = new EmbedBuilder();
+                embed.WithColor(37, 152, 255);
+                embed.Title = $":x:  | You Need the Administrator Permission to do that {Context.User.Username}";
+                var use = await Context.Channel.SendMessageAsync("", false, embed);
+                await Task.Delay(5000);
+                await use.DeleteAsync();
             }
-
-            await Context.Channel.SendMessageAsync("", false, embed);
         }
 
         [Command("HelperRole")]
         [Summary("Sets the server Moderator role")]
-        [RequireUserPermission(GuildPermission.Administrator)]
         public async Task SetServerHelperRole(string roleName)
         {
-            var config = GlobalGuildAccounts.GetGuildAccount(Context.Guild.Id);
-            var embed = new EmbedBuilder();
-            embed.WithColor(37, 152, 255);
-
-            var role = Context.Guild.Roles.FirstOrDefault(x => x.Name == roleName);
-            if (role == null)
+            var guser = Context.User as SocketGuildUser;
+            if (guser.GuildPermissions.Administrator)
             {
-                embed.WithDescription($"The role `{roleName}` doesn't exist on this server. Remember that this command is cAsE sEnSiTiVe.");
+                var config = GlobalGuildAccounts.GetGuildAccount(Context.Guild.Id);
+                var embed = new EmbedBuilder();
+                embed.WithColor(37, 152, 255);
+
+                var role = Context.Guild.Roles.FirstOrDefault(x => x.Name == roleName);
+                if (role == null)
+                {
+                    embed.WithDescription($"The role `{roleName}` doesn't exist on this server. Remember that this command is cAsE sEnSiTiVe.");
+                }
+                else
+                {
+                    embed.WithDescription($"Set the Helper role to **{roleName}** for this server!");
+                    config.HelperRole = role.Id;
+                    config.HelperRoleName = role.Name;
+                    GlobalGuildAccounts.SaveAccounts();
+                }
+                await Context.Channel.SendMessageAsync("", false, embed);
             }
             else
             {
-                embed.WithDescription($"Set the Helper role to **{roleName}** for this server!");
-                config.HelperRole = role.Id;
-                config.HelperRoleName = role.Name;
-                GlobalGuildAccounts.SaveAccounts();
+                var embed = new EmbedBuilder();
+                embed.WithColor(37, 152, 255);
+                embed.Title = $":x:  | You Need the Administrator Permission to do that {Context.User.Username}";
+                var use = await Context.Channel.SendMessageAsync("", false, embed);
+                await Task.Delay(5000);
+                await use.DeleteAsync();
             }
-
-            await Context.Channel.SendMessageAsync("", false, embed);
         }
 
         [Command("PingChecks"), Alias("Pc")]
         [Summary("Enables or disables mass ping checks.")]
-        [RequireUserPermission(GuildPermission.Administrator)]
         public async Task SetBoolToJsonPing(bool arg)
         {
-            var config = GlobalGuildAccounts.GetGuildAccount(Context.Guild.Id); ;
-            var embed = new EmbedBuilder();
-            embed.WithColor(37, 152, 255);
-            embed.WithDescription(arg
-                ? "Enabled mass ping checks for this server."
-                : "Disabled mass ping checks for this server.");
+            var guser = Context.User as SocketGuildUser;
+            if (guser.GuildPermissions.Administrator)
+            {
+                var config = GlobalGuildAccounts.GetGuildAccount(Context.Guild.Id); ;
+                var embed = new EmbedBuilder();
+                embed.WithColor(37, 152, 255);
+                embed.WithDescription(arg
+                    ? "Enabled mass ping checks for this server."
+                    : "Disabled mass ping checks for this server.");
 
-            config.MassPingChecks = arg;
-            GlobalGuildAccounts.SaveAccounts();
-            await Context.Channel.SendMessageAsync("", false, embed);
+                config.MassPingChecks = arg;
+                GlobalGuildAccounts.SaveAccounts();
+                await Context.Channel.SendMessageAsync("", false, embed);
+            }
+            else
+            {
+                var embed = new EmbedBuilder();
+                embed.WithColor(37, 152, 255);
+                embed.Title = $":x:  | You Need the Administrator Permission to do that {Context.User.Username}";
+                var use = await Context.Channel.SendMessageAsync("", false, embed);
+                await Task.Delay(5000);
+                await use.DeleteAsync();
+            }
         }
 
         [Command("SelfRoleAdd"), Alias("SRA")]
         [Summary("Adds a role a user can add themselves with w!Iam or w!Iamnot")]
-        [RequireUserPermission(GuildPermission.Administrator)]
         public async Task AddStringToList([Remainder]string role)
         {
-            var config = GlobalGuildAccounts.GetGuildAccount(Context.Guild.Id);
-            var embed = new EmbedBuilder()
-                .WithColor(37, 152, 255)
-                .WithDescription($"Added the {role} to the Config.");
-            config.SelfRoles.Add(role);
-            GlobalGuildAccounts.SaveAccounts();
-            await Context.Channel.SendMessageAsync("", false, embed);
+            var guser = Context.User as SocketGuildUser;
+            if (guser.GuildPermissions.Administrator)
+            {
+                var config = GlobalGuildAccounts.GetGuildAccount(Context.Guild.Id);
+                var embed = new EmbedBuilder()
+                    .WithColor(37, 152, 255)
+                    .WithDescription($"Added the {role} to the Config.");
+                config.SelfRoles.Add(role);
+                GlobalGuildAccounts.SaveAccounts();
+                await Context.Channel.SendMessageAsync("", false, embed);
+            }
+            else
+            {
+                var embed = new EmbedBuilder();
+                embed.WithColor(37, 152, 255);
+                embed.Title = $":x:  | You Need the Administrator Permission to do that {Context.User.Username}";
+                var use = await Context.Channel.SendMessageAsync("", false, embed);
+                await Task.Delay(5000);
+                await use.DeleteAsync();
+            }
         }
 
         [Command("SelfRoleRem"), Alias("SRR")]
         [Summary("Removes a Self Role. Users can add a role themselves with w!Iam or w!Iamnot")]
-        [RequireUserPermission(GuildPermission.Administrator)]
         public async Task RemoveStringFromList([Remainder]string role)
         {
-            var config = GlobalGuildAccounts.GetGuildAccount(Context.Guild.Id);
-            var embed = new EmbedBuilder();
-            embed.WithColor(37, 152, 255);
-            if (config.SelfRoles.Contains(role))
+            var guser = Context.User as SocketGuildUser;
+            if (guser.GuildPermissions.Administrator)
             {
-                config.SelfRoles.Remove(role);
-                embed.WithDescription($"Removed {role} from the Self Roles list.");
+                var config = GlobalGuildAccounts.GetGuildAccount(Context.Guild.Id);
+                var embed = new EmbedBuilder();
+                embed.WithColor(37, 152, 255);
+                if (config.SelfRoles.Contains(role))
+                {
+                    config.SelfRoles.Remove(role);
+                    embed.WithDescription($"Removed {role} from the Self Roles list.");
+                }
+                else
+                {
+                    embed.WithDescription("That role doesn't exist in your Guild Config.");
+                }
+                await Context.Channel.SendMessageAsync("", false, embed);
             }
             else
             {
-                embed.WithDescription("That role doesn't exist in your Guild Config.");
+                var embed = new EmbedBuilder();
+                embed.WithColor(37, 152, 255);
+                embed.Title = $":x:  | You Need the Administrator Permission to do that {Context.User.Username}";
+                var use = await Context.Channel.SendMessageAsync("", false, embed);
+                await Task.Delay(5000);
+                await use.DeleteAsync();
             }
-
-            await Context.Channel.SendMessageAsync("", false, embed);
         }
 
         [Command("SelfRoleClear"), Alias("SRC")]
         [Summary("Clears all Self Roles. Users can add a role themselves with w!Iam or w!Iamnot")]
-        [RequireUserPermission(GuildPermission.Administrator)]
         public async Task ClearListFromConfig()
         {
-            var config = GlobalGuildAccounts.GetGuildAccount(Context.Guild.Id);
-            var embed = new EmbedBuilder();
-            embed.WithColor(37, 152, 255);
-            if (config == null)
+            var guser = Context.User as SocketGuildUser;
+            if (guser.GuildPermissions.Administrator)
             {
-                embed.WithDescription("You don't have a Guild Config created.");
+                var config = GlobalGuildAccounts.GetGuildAccount(Context.Guild.Id);
+                var embed = new EmbedBuilder();
+                embed.WithColor(37, 152, 255);
+                if (config == null)
+                {
+                    embed.WithDescription("You don't have a Guild Config created.");
+                }
+                else
+                {
+                    embed.WithDescription($"Cleared {config.SelfRoles.Count} roles from the self role list.");
+                    config.SelfRoles.Clear();
+                }
+
+                await Context.Channel.SendMessageAsync("", false, embed);
             }
             else
             {
-                embed.WithDescription($"Cleared {config.SelfRoles.Count} roles from the self role list.");
-                config.SelfRoles.Clear();
+                var embed = new EmbedBuilder();
+                embed.WithColor(37, 152, 255);
+                embed.Title = $":x:  | You Need the Administrator Permission to do that {Context.User.Username}";
+                var use = await Context.Channel.SendMessageAsync("", false, embed);
+                await Task.Delay(5000);
+                await use.DeleteAsync();
             }
-
-            await Context.Channel.SendMessageAsync("", false, embed);
         }
 
         [Command("SelfRoleList"), Summary("Shows all currently set Self Roles")]
-        [RequireUserPermission(GuildPermission.Administrator)]
-        public async Task ListWelcomeMessages()
+        public async Task SelfRoleList()
         {
             var sr = GlobalGuildAccounts.GetGuildAccount(Context.Guild.Id).SelfRoles;
             var embB = new EmbedBuilder().WithTitle("No Self Roles set yet..");
@@ -1110,35 +1283,58 @@ namespace Wsashi.Core.Modules
 
         [Command("Leveling"), Alias("L")]
         [Summary("Enables or disables leveling for the server. Use w!leveling <true or false>")]
-        [RequireUserPermission(GuildPermission.Administrator)]
         public async Task Leveling(bool arg)
         {
-            var config = GlobalGuildAccounts.GetGuildAccount(Context.Guild.Id);
-            var embed = new EmbedBuilder();
-            embed.WithColor(37, 152, 255);
-            embed.WithDescription(arg ? "Enabled leveling for this server." : "Disabled leveling for this server.");
-            config.Leveling = arg;
-            GlobalGuildAccounts.SaveAccounts();
+            var guser = Context.User as SocketGuildUser;
+            if (guser.GuildPermissions.Administrator)
+            {
+                var config = GlobalGuildAccounts.GetGuildAccount(Context.Guild.Id);
+                var embed = new EmbedBuilder();
+                embed.WithColor(37, 152, 255);
+                embed.WithDescription(arg ? "Enabled leveling for this server." : "Disabled leveling for this server.");
+                config.Leveling = arg;
+                GlobalGuildAccounts.SaveAccounts();
 
-            await Context.Channel.SendMessageAsync("", false, embed);
+                await Context.Channel.SendMessageAsync("", false, embed);
+            }
+            else
+            {
+                var embed = new EmbedBuilder();
+                embed.WithColor(37, 152, 255);
+                embed.Title = $":x:  | You Need the Administrator Permission to do that {Context.User.Username}";
+                var use = await Context.Channel.SendMessageAsync("", false, embed);
+                await Task.Delay(5000);
+                await use.DeleteAsync();
+            }
         }
 
         [Command("AutoRole")]
         [Summary("Adds a role that new members will recieve automatically")]
-        [RequireUserPermission(GuildPermission.Administrator)]
         public async Task AutoRoleRoleAdd([Remainder]string arg = "")
         {
+            var guser = Context.User as SocketGuildUser;
+            if (guser.GuildPermissions.Administrator)
+            {
+                var config = GlobalGuildAccounts.GetGuildAccount(Context.Guild.Id);
+                config.Autorole = arg;
+                GlobalGuildAccounts.SaveAccounts();
 
-            var config = GlobalGuildAccounts.GetGuildAccount(Context.Guild.Id);
-            config.Autorole = arg;
-            GlobalGuildAccounts.SaveAccounts();
+                var embed = new EmbedBuilder();
+                embed.WithDescription($"AutoroleCommandText : {arg}");
+                embed.WithThumbnailUrl(Context.Guild.IconUrl);
+                embed.WithColor(37, 152, 255);
 
-            var embed = new EmbedBuilder();
-            embed.WithDescription($"AutoroleCommandText : {arg}");
-            embed.WithThumbnailUrl(Context.Guild.IconUrl);
-            embed.WithColor(37, 152, 255);
-
-            await Context.Channel.SendMessageAsync("", false, embed);
+                await Context.Channel.SendMessageAsync("", false, embed);
+            }
+            else
+            {
+                var embed = new EmbedBuilder();
+                embed.WithColor(37, 152, 255);
+                embed.Title = $":x:  | You Need the Administrator Permission to do that {Context.User.Username}";
+                var use = await Context.Channel.SendMessageAsync("", false, embed);
+                await Task.Delay(5000);
+                await use.DeleteAsync();
+            }
         }
     }
 }
