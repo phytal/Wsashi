@@ -11,9 +11,10 @@ using Wsashi.Features.GlobalAccounts;
 
 namespace Wsashi.Modules
 {
-    class UserInteraction : WsashiModule
+    public class UserInteraction : WsashiModule
     {
         [Command("Iam")]
+        [Alias("iam")]
         [Summary("Gives you a self role")]
         public async Task GiveYourselfRole([Remainder]string role)
         {
@@ -42,7 +43,7 @@ namespace Wsashi.Modules
             await ReplyAsync("", false, embed);
         }
 
-        [Command("Iamnot"), Alias("Iamn")]
+        [Command("Iamnot"), Alias("Iamn", "iamnot", "iamn")]
         [Summary("Remove a self role from you")]
         public async Task TakeAwayRole([Remainder]string role)
         {

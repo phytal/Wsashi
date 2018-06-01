@@ -314,5 +314,52 @@ namespace Wsashi.Modules
             int rating = rnd.Next(101);
             await Context.Channel.SendMessageAsync($"I'd rate {input} a **{rating} / 100**");
         }
+
+        [Command("reverse")]
+        [Summary("): dias uoy thaw sesrever")]
+        public async Task ReverseString([Remainder]string s)
+        {
+            char[] charArray = s.ToCharArray();
+            Array.Reverse(charArray);
+            var embed = new EmbedBuilder()
+                .WithTitle("Reversed String Result~")
+                .WithDescription(new string(charArray))
+                ;
+            await Context.Channel.SendMessageAsync("", false, embed);
+        }
+
+        [Command("bigletter")]
+        [Summary("Changes everything to BIG emoji letters (duh)")]
+        public async Task BigLetter([Remainder]string s)
+        {
+            s = s.Replace("a", "🇦 ");
+            s = s.Replace("b", "🇧 ");
+            s = s.Replace("c", "🇨 ");
+            s = s.Replace("d", "🇩 ");
+            s = s.Replace("e", "🇪 ");
+            s = s.Replace("f", "🇫 ");
+            s = s.Replace("g", "🇬 ");
+            s = s.Replace("h", "🇭 ");
+            s = s.Replace("i", "🇮 ");
+            s = s.Replace("j", "🇯 ");
+            s = s.Replace("k", "🇰 ");
+            s = s.Replace("l", "🇱 ");
+            s = s.Replace("m", "🇲 ");
+            s = s.Replace("n", "🇳 ");
+            s = s.Replace("o", "🇴 ");
+            s = s.Replace("p", "🇵 ");
+            s = s.Replace("q", "🇶 ");
+            s = s.Replace("r", "🇷 ");
+            s = s.Replace("s", "🇸 ");
+            s = s.Replace("t", "🇹 ");
+            s = s.Replace("u", "🇺 ");
+            s = s.Replace("v", "🇻 ");
+            s = s.Replace("w", "🇼 ");
+            s = s.Replace("x", "🇽 ");
+            s = s.Replace("y", "🇾 ");
+            s = s.Replace("z", "🇿 ");
+
+            await Context.Channel.SendMessageAsync(s);
+        }
     }
 }

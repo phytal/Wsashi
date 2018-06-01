@@ -203,7 +203,7 @@ namespace Wsashi
             "**1. Core -** `help` `invite` `ping` \n" +
             "**2. Social -** `xp` `level` `stats` \n" +
             "**2.5. Interaction -** `cuddle` `feed` `hug` `kiss` `pat` `poke` `tickle`\n" +
-            "**3. Fun -** `8ball` `pick` `roast` `hello` `normalhello` `goodmorning` `goodnight` `fortune` `echo` `lenny`\n" +
+            "**3. Fun -** `8ball` `pick` `roast` `hello` `normalhello` `goodmorning` `goodnight` `fortune` `echo` `lenny` `ratewaifu` `reverse`\n" +
             "**4. Duels -** `slash` `giveup` `duel` \n" +
             "**5. Gambling -** `roll` `coinflip` `newslots` `slots`\n" +
             "**5. Economy -** `balance` `daily` `rank`\n" +
@@ -386,15 +386,16 @@ namespace Wsashi
             var embed = new EmbedBuilder();
             embed.WithColor(37, 152, 255);
             embed.WithTitle("Update Notes");
-            embed.WithDescription($"`Bot version {version} **<<Last Updated on 5/28>>**\n"
+            embed.WithDescription($"`Bot version {version}` **<<Last Updated on 5/28>>**\n"
+                + "`----- LAST UPDATE -----`\n"
                 + "• Restored promoting/demoting. But now it relies on the Admin/Mod/Helper role you set for the server.\n"
-                + "• Added a Helper role optiom, use `w!HelperRole` to set it.\n"
+                + "• Added a Helper role option, use `w!HelperRole` to set it.\n"
                 + "• Added Reputation Points, use `w!rep <user>` to give them a point! It can be used once every 24 hours.\n"
                 + "• Added a 'Master Config' panel, just use w!config to see the settings of Wsashi in this guild.\n"
                 + "• Removed the 'Points' system, as it was replaced by Rep Points.\n"
                 + "`----- CURRENT UPDATE -----`\n"
                 + "• Added the osu! API to the bot! Use w!osustats <user> to start!\n"
-                + "• Added the Overwatch APi to the bot! Simply find the OWAPI section in w!help!\n"
+                + "• Added the Overwatch API to the bot! Simply find the OWAPI section in w!help!\n"
                 + "• Added DMing! You can now DM mentioned users with a message!.\n"
                 );
 

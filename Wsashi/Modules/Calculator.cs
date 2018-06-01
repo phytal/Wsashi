@@ -9,7 +9,7 @@ namespace Wsashi.Modules
     public class Calculator : ModuleBase
     {
         [Command("Calculator"), Alias("Calc")]
-        public async Task Calculate(string oper, float val1, float val2 = 0) //this code is fucking nasty, i will fix it in the future.
+        public async Task Calculate(string oper, float val1, float val2 = 0) 
         {
             var embed = new EmbedBuilder();
             embed.WithColor(37, 152, 255);

@@ -32,7 +32,7 @@
  ### **1.6.9 Beta**  
  *5/25*  
   • Restored promoting/demoting. But now it relies on the Admin/Mod/Helper role you set for the server.  
-  • Added a Helper role optiom, use `w!HelperRole` to set it.  
+  • Added a Helper role option, use `w!HelperRole` to set it.  
   • Added Reputation Points, use `w!rep <user>` to give them a point! It can be used once every 24 hours.  
   • Added a 'Master Config' panel, just use w!config to see the settings of Wsashi in this guild.  
   • Removed the 'Points' system, as it was replaced by Rep Points.  

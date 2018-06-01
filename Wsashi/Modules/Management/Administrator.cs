@@ -1093,6 +1093,21 @@ namespace Wsashi.Core.Modules
             await Context.Channel.SendMessageAsync("", false, embed);
         }
 
+        [Command("SelfRoleList"), Summary("Shows all currently set Self Roles")]
+        [RequireUserPermission(GuildPermission.Administrator)]
+        public async Task ListWelcomeMessages()
+        {
+            var sr = GlobalGuildAccounts.GetGuildAccount(Context.Guild.Id).SelfRoles;
+            var embB = new EmbedBuilder().WithTitle("No Self Roles set yet..");
+            if (sr.Count > 0) embB.WithTitle("All Self Roles:");
+
+            for (var i = 0; i < sr.Count; i++)
+            {
+                embB.AddField($"Self Role #{i + 1}:", sr[i]);
+            }
+            await ReplyAsync("", false, embB.Build());
+        }
+
         [Command("Leveling"), Alias("L")]
         [Summary("Enables or disables leveling for the server. Use w!leveling <true or false>")]
         [RequireUserPermission(GuildPermission.Administrator)]
