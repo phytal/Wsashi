@@ -29,8 +29,8 @@ namespace Wsashi.Modules
             await Context.Channel.SendMessageAsync($":white_check_mark:  | **{xp}** Exp were added to " + target.Username + "'s account.");
         }
 
-        [Command("addPoints")]
-        [Summary("Grants points to selected user")]
+        [Command("addrep")]
+        [Summary("Grants reputation points to selected user")]
         [Alias("givepoints")]
         [RequireOwner]
         public async Task AddPoints(uint Points, IGuildUser user, [Remainder]string arg = "")
@@ -45,7 +45,7 @@ namespace Wsashi.Modules
 
             var embed = new EmbedBuilder();
             embed.WithColor(37, 152, 255);
-            embed.WithTitle($":white_check_mark:  | **{Points}** points were added to " + target.Username + "'s account.");
+            embed.WithTitle($":white_check_mark:  | **{Points}** reputation points were added to " + target.Username + "'s account.");
             await Context.Channel.SendMessageAsync("", false, embed);
         }
 

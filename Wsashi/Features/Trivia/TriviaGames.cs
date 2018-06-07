@@ -189,7 +189,7 @@ namespace Wsashi.Features.Trivia
             }
             // Set Color and Description
             embB.WithColor(emb.Color.GetValueOrDefault(Color.Blue))
-                .WithDescription($"[{TriviaGames.Difficulties[q.difficulty]} | {q.category}]\n" +
+                .WithDescription($"[{Difficulties[q.difficulty]} | {q.category}]\n" +
                                  $"**{WebUtility.HtmlDecode(q.question)}**");
 
             // Merge correct with incorrect answers and shuffle them

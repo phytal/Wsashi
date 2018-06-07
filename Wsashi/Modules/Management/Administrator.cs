@@ -49,7 +49,9 @@ namespace Wsashi.Core.Modules
                 var embed = new EmbedBuilder();
                 embed.WithColor(37, 152, 255);
                 embed.Title = $":x:  | You need the Ban Members Permission to do that {Context.User.Username}";
-                await Context.Channel.SendMessageAsync("", false, embed);
+                var use = await Context.Channel.SendMessageAsync("", false, embed);
+                await Task.Delay(5000);
+                await use.DeleteAsync();
             }
         }
 
@@ -70,7 +72,9 @@ namespace Wsashi.Core.Modules
                 var embed = new EmbedBuilder();
                 embed.WithColor(37, 152, 255);
                 embed.Title = $":x:  | You need the Ban Members Permission to do that {Context.User.Username}";
-                await Context.Channel.SendMessageAsync("", false, embed);
+                var use = await Context.Channel.SendMessageAsync("", false, embed);
+                await Task.Delay(5000);
+                await use.DeleteAsync();
             }
         }
 
@@ -92,9 +96,10 @@ namespace Wsashi.Core.Modules
                 var embed = new EmbedBuilder();
                 embed.WithColor(37, 152, 255);
                 embed.Title = $":x:  | You need the Ban Members Permission to do that {Context.User.Username}";
-                await MiscHelpers.SendMessage(Context, embed);
+                var use = await Context.Channel.SendMessageAsync("", false, embed);
+                await Task.Delay(5000);
+                await use.DeleteAsync();
             }
-
         }
 
         [Command("IdBan")]
@@ -121,7 +126,9 @@ namespace Wsashi.Core.Modules
                 var embed = new EmbedBuilder();
                 embed.WithColor(37, 152, 255);
                 embed.Title = $":x:  | You need the Ban Members Permission to do that {Context.User.Username}";
-                await MiscHelpers.SendMessage(Context, embed);
+                var use = await Context.Channel.SendMessageAsync("", false, embed);
+                await Task.Delay(5000);
+                await use.DeleteAsync();
             }
 
         }

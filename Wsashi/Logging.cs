@@ -64,7 +64,7 @@ namespace Wsashi
                 .AddField("Owner", $"{guild.Owner.Username}#{guild.Owner.Discriminator}")
                 .WithTitle("Server Updated")
                 .AddField("Time", DateTime.UtcNow + " UTC")
-                .WithThumbnailUrl("https://autisable.com/wp-content/uploads/2016/12/8b9f927f763b78de890fdff3bf5041bda5210d4e_updatestamp.png")
+                .WithThumbnailUrl("https://i.imgur.com/fqwyqT1.png")
                 .WithAuthor(guild.Owner)
                 .WithColor(37, 152, 255);
 
@@ -101,7 +101,7 @@ namespace Wsashi
                 .AddField("Before", message.Value.Content)
                 .AddField("After", s.Content)
                 .AddField("Time", DateTime.UtcNow + " UTC")
-                .WithThumbnailUrl("https://openclipart.org/download/279778/Contact-icon.svg")
+                .WithThumbnailUrl("https://i.imgur.com/fqwyqT1.png")
                 .WithAuthor(context.Guild.Owner)
                 .WithColor(37, 152, 255);
 

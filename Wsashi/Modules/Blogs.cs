@@ -11,7 +11,7 @@ using Discord.Commands;
 using Newtonsoft.Json;
 using Wsashi;
 
-namespace Wsahsi.Modules
+namespace Wsashi.Modules
 {
     [Group("Blog"), Summary("Enables you to create a block that people can subscribe to so they don't miss out if you publish a new one")]
     public class Blogs : ModuleBase<SocketCommandContext>

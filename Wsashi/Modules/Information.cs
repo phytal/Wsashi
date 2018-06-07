@@ -203,7 +203,7 @@ namespace Wsashi
             "**1. Core -** `help` `invite` `ping` \n" +
             "**2. Social -** `xp` `level` `stats` \n" +
             "**2.5. Interaction -** `cuddle` `feed` `hug` `kiss` `pat` `poke` `tickle`\n" +
-            "**3. Fun -** `8ball` `pick` `roast` `hello` `normalhello` `goodmorning` `goodnight` `fortune` `echo` `lenny` `ratewaifu` `reverse`\n" +
+            "**3. Fun -** `8ball` `pick` `roast` `hello` `normalhello` `goodmorning` `goodnight` `fortune` `echo` `lenny` `ratewaifu` `reverse` `bigletter` `playsong`\n" +
             "**4. Duels -** `slash` `giveup` `duel` \n" +
             "**5. Gambling -** `roll` `coinflip` `newslots` `slots`\n" +
             "**5. Economy -** `balance` `daily` `rank`\n" +
@@ -377,7 +377,8 @@ namespace Wsashi
                 {
                     x.Name = string.Join(", ", cmd.Aliases);
                     x.Value = $"Parameters: {string.Join(", ", cmd.Parameters.Select(p => p.Name))}\n" +
-                                $"Remarks/Summary: {cmd.Summary}";
+                                $"Remarks/Summary: {cmd.Summary}\n" +
+                                $"Usage: {cmd.Remarks}";
                     x.IsInline = false;
                 });
             }

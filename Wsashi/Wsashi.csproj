@@ -6,18 +6,34 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="Handlers\CommandHandler.cs" />
     <Compile Remove="Modules\API\Weather.cs" />
-    <Compile Remove="Modules\ImageGeneration.cs" />
     <Compile Remove="Modules\Prefix.cs" />
     <Compile Remove="Modules\Prefix2.cs" />
+    <Compile Remove="Modules\Wasagotchi\Interactive.cs" />
   </ItemGroup>
 
   <ItemGroup>
+    <PackageReference Include="Discord.Addons.Interactive" Version="1.0.1" />
     <PackageReference Include="Discord.Net" Version="1.0.2" />
     <PackageReference Include="Discord.Net.Core" Version="1.0.2" />
-    <PackageReference Include="Magick.NET-Q16-AnyCPU" Version="7.4.5" />
+    <PackageReference Include="Magick.NET-Q16-AnyCPU" Version="7.4.6" />
     <PackageReference Include="Newtonsoft.Json" Version="11.0.2" />
-    <PackageReference Include="NReco.ImageGenerator" Version="1.1.1" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Update="Some Memes\butterfly anime man idk meme tem.jpg">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="Some Memes\f to respec.jpg">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="Some Memes\grumeme.jpg">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="Some Memes\woop.gif">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
   </ItemGroup>
 
 </Project>

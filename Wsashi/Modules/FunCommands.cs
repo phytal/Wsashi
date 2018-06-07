@@ -7,7 +7,6 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Net;
-using NReco.ImageGenerator;
 using System.IO;
 using Wsashi.Handlers;
 using Wsashi.Preconditions;
@@ -18,21 +17,6 @@ namespace Wsashi.Modules
     public class FunCommands : ModuleBase
 
     {
-        [Command("normalhello")]
-        [Summary("A simple hello command made with html")]
-        public async Task Hello(string color = "blue")
-        {
-            string css = "<style>\n    h1{\n        background-color: " + color + ";\n    }\n</style>\n";
-            string html = String.Format("<h1>Hello {0}!</h1>", Context.User.Username);
-            var converter = new HtmlToImageConverter
-            {
-                Width = 250,
-                Height = 55
-            };
-            var jpgBytes = converter.GenerateImage(css + html, NReco.ImageGenerator.ImageFormat.Jpeg);
-            await Context.Channel.SendFileAsync(new MemoryStream(jpgBytes), "hello.jpg");
-        }
-
         [Command("ping")]
         [Summary("Ping Pong!")]
         public async Task Ping()
@@ -360,6 +344,20 @@ namespace Wsashi.Modules
             s = s.Replace("z", "🇿 ");
 
             await Context.Channel.SendMessageAsync(s);
+        }
+
+        [Command("playsong")]
+        [Summary("Makes the bot send a 'song' (that is specified) in the chat (It doesn't actually plays a song it just makes a visual representation)")]
+        public async Task PlaySong([Remainder]string song)
+        {
+            await Context.Channel.SendMessageAsync($"ɴᴏᴡ ᴘʟᴀʏɪɴɢ: {song}\n ──────────────────:white_circle:─────────────────────────\n◄◄⠀▐▐ ⠀►►⠀⠀　　⠀ 𝟸:𝟷𝟾 / 4:36　　⠀ ───○ :loud_sound: ⠀　　　ᴴᴰ:gear: ❐ ⊏⊐");
+        }
+
+        [Command("woop")]
+        [Summary("Woop! <o/")]
+        public async Task Woop()
+        {
+            await Context.Channel.SendFileAsync(@"C:\Users\Sir.Potato\source\repos\Wsashi\Wsashi\Some Memes\woop.gif");
         }
     }
 }

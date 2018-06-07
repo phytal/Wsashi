@@ -32,7 +32,7 @@ namespace Wsashi.Core.LevelingSystem
 
                     var msg = await channel.SendMessageAsync("", embed: embed);
                     //await dmChannel.SendMessageAsync("", embed: embed);
-                    await msg.DeleteAsync();
+                    //await msg.DeleteAsync();
             }
             
         }

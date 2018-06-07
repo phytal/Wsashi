@@ -16,29 +16,116 @@ namespace Watchdog.Modules
 {
     public class ImageGeneration : ModuleBase
     {
-        [Command("captcha")]
-        [Summary("Sends a captcha with what you inputed")]
-        public async Task Captcha([Remainder] string input)
+        [Command("gru")]
+        [Summary("Sends a gru meme with what you inputed")]
+        [Remarks("w!gru f+d/l")]
+        public async Task Gru([Remainder] string input)
         {
-            MagickReadSettings settings = new MagickReadSettings();
-            settings.Width = 308;
-            settings.Height = 81;
-            using (MemoryStream memStream = new MemoryStream(@Desktop))
+            string thirdf = input.Split('/').Last();
+            string g = input.Remove(input.IndexOf(thirdf));
+            string second = g.Split('+').Last();
+            string first = input.Split('+').First();
+            second = second.Replace('/', ' ');
+
+            using (MagickImage image = new MagickImage(@"C:\Users\Sir.Potato\source\repos\Wsashi\Wsashi\Some Memes\grumeme.jpg"))
             {
-                using (MagickImage image = new MagickImage(memStream))
+                new Drawables()
+                .FontPointSize(18)
+                .Font("Monaco")
+                .StrokeColor(new MagickColor("black"))
+                .FillColor(MagickColors.Black)
+                .TextAlignment(TextAlignment.Left)
+                .Text(307, 98, first) 
+                .Text(816, 94, second)
+                .Text(316, 434, thirdf)
+                .Text(829, 434, thirdf)
+                .Draw(image);
+                image.Format = MagickFormat.Jpg;
+                await Context.Channel.SendFileAsync(new MemoryStream(image.ToByteArray()), "grumeme.jpg");
+
+            }
+        }
+
+        [Command("butterflyman")]
+        [Summary("Sends a butterfly man meme with what you inputed")]
+        [Remarks("w!gru f+d/l")]
+        public async Task Bman([Remainder] string input)
+        {
+            string ann = input.Split('/').Last();
+            string g = input.Remove(input.IndexOf(ann));
+            string bfly = g.Split('+').Last();
+            string man = input.Split('+').First();
+            bfly = bfly.Replace('/', ' ');
+
+            using (MagickImage image = new MagickImage(@"C:\Users\Sir.Potato\source\repos\Wsashi\Wsashi\Some Memes\butterfly anime man idk meme tem.jpg"))
+            {
+                new Drawables()
+                .FontPointSize(50)
+                .Font("Impact")
+                .StrokeColor(new MagickColor("black"))
+                .StrokeWidth(3)
+                .FillColor(MagickColors.White)
+                .TextAlignment(TextAlignment.Center)
+                .Text(431, 395, man)
+                .Text(916, 203, bfly)
+                .TextAlignment(TextAlignment.Left)
+                .Text(607, 857, ann)
+                .Draw(image);
+                image.Format = MagickFormat.Jpg;
+                await Context.Channel.SendFileAsync(new MemoryStream(image.ToByteArray()), "meme.jpg");
+
+            }
+        }
+        /*[Command("merge")]
+        [Summary("Sends a captcha with what you inputed")]
+        public async Task Ca()
+        {
+            using (MagickImageCollection images = new MagickImageCollection())
+            {
+                // Add the first image
+                MagickImage first = new MagickImage("Snakeware.png");
+                images.Add(first);
+
+                var url = Context.User.GetAvatarUrl();
+                // Add the second image
+                MagickImage second = new MagickImage("Snakeware.png");
+                images.Add(second);
+
+                // Create a mosaic from both images
+                using (IMagickImage result = images.Add())
                 {
-                    new Drawables()
-                    .FontPointSize(72)
-                    .Font("Monaco")
-                    .StrokeColor(new MagickColor("black"))
-                    .FillColor(MagickColors.Black)
-                    .TextAlignment(TextAlignment.Left)
-                    .Text(66, 37, input)
-                    .Draw(image);
-                    image.Format = MagickFormat.Png;
-                    await Context.Channel.SendFileAsync(new MemoryStream(image.ToByteArray()), "captcha.png");
+                    // Save the result
+                    result.Write("Mosaic.png");
                 }
             }
         }
+        [Command("quant")]
+        [Summary("Sends a captcha with what you inputed")]
+        public async Task Cqu([Remainder] string input)
+        {
+            using (MagickImageCollection collection = new MagickImageCollection())
+            {
+                // Add first image and set the animation delay (in 1/100th of a second) 
+                collection.Add("Snakeware.png");
+                collection[0].AnimationDelay = 100; // in this example delay is 1000ms/1sec
+
+                // Add second image, set the animation delay (in 1/100th of a second) and flip the image
+                collection.Add("Snakeware.png");
+                collection[1].AnimationDelay = 100; // in this example delay is 1000ms/1sec
+                collection[1].Flip();
+
+                // Optionally reduce colors
+                QuantizeSettings settings = new QuantizeSettings();
+                settings.Colors = 256;
+                collection.Quantize(settings);
+
+                // Optionally optimize the images (images should have the same size).
+                collection.Optimize();
+
+                // Save gif
+                collection.Write("Snakeware.Animated.gif");
+            }
+        }
+        */
     }
 }
