@@ -13,11 +13,8 @@ namespace Wsashi.Core.LevelingSystem
     {
         internal static async void UserSentMessage(SocketGuildUser user)
         {
-
             var userAccount = GlobalUserAccounts.GetUserAccount(user);
             uint oldLevel = userAccount.LevelNumber;
-            userAccount.XP += 13;
-            GlobalUserAccounts.SaveAccounts();
 
             if (oldLevel != 10)
             {
@@ -26,16 +23,6 @@ namespace Wsashi.Core.LevelingSystem
                 await user.AddRoleAsync(mplus);
                 await user.RemoveRoleAsync(m);
             }
-        }
-
-        internal static async void UserSentMessagem(SocketGuildUser user)
-        {
-
-            var userAccount = GlobalUserAccounts.GetUserAccount(user);
-            uint oldLevel = userAccount.LevelNumber;
-            userAccount.XP += 13;
-            GlobalUserAccounts.SaveAccounts();
-
             if (oldLevel != 30)
             {
                 var mplus = user.Guild.Roles.Where(input => input.Name.ToUpper() == "MEMBER++").FirstOrDefault() as SocketRole;

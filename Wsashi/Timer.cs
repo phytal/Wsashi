@@ -26,7 +26,7 @@ namespace Wsashi
             };
             loopingtimer.Elapsed += OnTimerTicked;
 
-            Console.WriteLine("Started Timer(s)");
+            Console.WriteLine("Initialized Mission - Cripple Wasagotchi");
             return Task.CompletedTask;
         }
         //try to get something so that all pets will experience soemthing

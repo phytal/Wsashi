@@ -28,7 +28,7 @@ namespace Wsashi.Modules
                 {
                     if (configg.Money < config.RoomCost)
                     {
-                        await shop.ModifyAsync(m => { m.Content = $"**:no:  |  {Context.User.Username}, you don't have enough Potatos for that! **You require **{900 - configg.Money}** more Potatos!";});
+                        await shop.ModifyAsync(m => { m.Content = $"**<:no:453716729525174273>  |  {Context.User.Username}, you don't have enough Potatos for that! **You require **{900 - configg.Money}** more Potatos!"; });
                         return;
                     }
                     config.Have = true;
@@ -40,31 +40,31 @@ namespace Wsashi.Modules
                 }
                 if (newresponse.Content.Equals("cancel", StringComparison.CurrentCultureIgnoreCase) && (response.Author.Equals(Context.User)))
                 {
-                    await shop.ModifyAsync(m => { m.Content = $":feet:  |  **{Context.User.Username}**, purchase cancelled.";});
+                    await shop.ModifyAsync(m => { m.Content = $":feet:  |  **{Context.User.Username}**, purchase cancelled."; });
                     return;
                 }
                 else
                 {
-                    await shop.ModifyAsync(m => { m.Content = ":no:  | That is an invalid response. Please try again.";});
+                    await shop.ModifyAsync(m => { m.Content = "<:no:453716729525174273>  | That is an invalid response. Please try again."; });
                     return;
                 }
             }
             if (response.Content.Equals("cancel", StringComparison.CurrentCultureIgnoreCase) && (response.Author.Equals(Context.User)))
             {
-                await shop.ModifyAsync(m => { m.Content = $":feet:  |  **{Context.User.Username}**, purchase cancelled.";});
+                await shop.ModifyAsync(m => { m.Content = $":feet:  |  **{Context.User.Username}**, purchase cancelled."; });
                 return;
             }
 
             if (response.Content.Equals("2", StringComparison.CurrentCultureIgnoreCase) && (response.Author.Equals(Context.User)))
             {
-                await shop.ModifyAsync(m => { m.Content = $":house:  |  Your current room is: **{GetRooms(config.rLvl)}**. Are you sure you want to upgrade to **{GetRooms(config.rLvl + 1)}**? (**{config.RoomCost}** :potato:) \n\nType `confirm` to continue or `cancel` to cancel.";});
+                await shop.ModifyAsync(m => { m.Content = $":house:  |  Your current room is: **{GetRooms(config.rLvl)}**. Are you sure you want to upgrade to **{GetRooms(config.rLvl + 1)}**? (**{config.RoomCost}** :potato:) \n\nType `confirm` to continue or `cancel` to cancel."; });
                 //await Task.Delay(80000);
                 var newresponse = await NextMessageAsync();
                 if (newresponse.Content.Equals("confirm", StringComparison.CurrentCultureIgnoreCase) && (response.Author.Equals(Context.User)))
                 {
                     if (configg.Money < config.RoomCost)
                     {
-                        await Context.Channel.SendMessageAsync($"**:no:  |  {Context.User.Username}, you don't have enough Potatos for that! **You require **{config.RoomCost - configg.Money}** more Potatos!");
+                        await Context.Channel.SendMessageAsync($"**<:no:453716729525174273>  |  {Context.User.Username}, you don't have enough Potatos for that! **You require **{config.RoomCost - configg.Money}** more Potatos!");
                         return;
                     }
                     else
@@ -78,50 +78,70 @@ namespace Wsashi.Modules
                 }
                 if (newresponse.Content.Equals("cancel", StringComparison.CurrentCultureIgnoreCase) && (response.Author.Equals(Context.User)))
                 {
-                    await shop.ModifyAsync(m => { m.Content = $":feet:  |  **{Context.User.Username}**, purchase cancelled.";});
+                    await shop.ModifyAsync(m => { m.Content = $":feet:  |  **{Context.User.Username}**, purchase cancelled."; });
                     return;
                 }
                 if (response == null)
                 {
-                    await shop.ModifyAsync(m => { m.Content = $":no:  |  **{Context.User.Username}**, the command menu has closed due to inactivity.";});
+                    await shop.ModifyAsync(m => { m.Content = $"<:no:453716729525174273>  |  **{Context.User.Username}**, the command menu has closed due to inactivity."; });
                     return;
                 }
                 else
                 {
-                    await shop.ModifyAsync(m => { m.Content = ":no:  | That is an invalid response. Please try again.";});
+                    await shop.ModifyAsync(m => { m.Content = "<:no:453716729525174273>  | That is an invalid response. Please try again."; });
                     return;
                 }
-
-
-
             }
 
             if (response.Content.Equals("3", StringComparison.CurrentCultureIgnoreCase) && (response.Author.Equals(Context.User)))
             {
-                await shop.ModifyAsync(m => { m.Content = $":house:  |  **Your current room is: {GetRooms(config.rLvl)}. Are you sure you want to downgrade to {GetRooms(config.rLvl - 1)}? This will not refund your Potatos!** \n\nType `confirm` to continue or `cancel` to cancel.";});
+                await shop.ModifyAsync(m => { m.Content = $":house:  |  **Your current room is: {GetRooms(config.rLvl)}. Are you sure you want to downgrade to {GetRooms(config.rLvl - 1)}? This will not refund your Potatos!** \n\nType `confirm` to continue or `cancel` to cancel."; });
                 //await Task.Delay(80000);
                 var newresponse = await NextMessageAsync();
                 if (newresponse.Content.Equals("confirm", StringComparison.CurrentCultureIgnoreCase) && (response.Author.Equals(Context.User)))
                 {
                     config.rLvl -= 1;
                     GlobalWasagotchiUserAccounts.SaveAccounts(user.Id);
-                    await shop.ModifyAsync(m => { m.Content = $":house:  |  **{Context.User.Username}**, your room has been downgraded to **{GetRooms(config.rLvl)}**";});
+                    await shop.ModifyAsync(m => { m.Content = $":house:  |  **{Context.User.Username}**, your room has been downgraded to **{GetRooms(config.rLvl)}**"; });
                     return;
                 }
                 if (newresponse.Content.Equals("cancel", StringComparison.CurrentCultureIgnoreCase) && (response.Author.Equals(Context.User)))
                 {
-                    await shop.ModifyAsync(m => { m.Content = $":feet:  |  **{Context.User.Username}**, purchase cancelled.";});
+                    await shop.ModifyAsync(m => { m.Content = $":feet:  |  **{Context.User.Username}**, purchase cancelled."; });
                     return;
                 }
                 else
                 {
-                    await shop.ModifyAsync(m => { m.Content = ":no:  | That is an invalid response. Please try again.";});
+                    await shop.ModifyAsync(m => { m.Content = "<:no:453716729525174273>  | That is an invalid response. Please try again."; });
+                    return;
+                }
+            }
+            if (response.Content.Equals("4", StringComparison.CurrentCultureIgnoreCase) && (response.Author.Equals(Context.User)))
+            {
+                await shop.ModifyAsync(m => { m.Content = $"```xl\n[1] Gotchi Sitter I - takes care of your Wasagotchi - 3 days [422 Potatos]\n[2] Gotchi Sitter II - takes care of your Wasagotchi -6 days[719 Potatos]\n[3] Level Transfer -applies to next capsule purchase[{config.LevelNumber} Potatos]\n[4] Medicine - cures your Wasagotchi's sickness [500 Potatos]\n\nType the respective number beside the purchase you would like to select.\nType 'cancel' to cancel your purchase."; });
+                //await Task.Delay(80000);
+                var newresponse = await NextMessageAsync();
+                if (newresponse.Content.Equals("4", StringComparison.CurrentCultureIgnoreCase) && (response.Author.Equals(Context.User)))
+                {
+                    config.Sick = false;
+                    GlobalWasagotchiUserAccounts.SaveAccounts(user.Id);
+                    await shop.ModifyAsync(m => { m.Content = $":pill:  |  **{Context.User.Username}**, your Wasagotchi has been cured of it's sickness!"; });
+                    return;
+                }
+                if (newresponse.Content.Equals("cancel", StringComparison.CurrentCultureIgnoreCase) && (response.Author.Equals(Context.User)))
+                {
+                    await shop.ModifyAsync(m => { m.Content = $":feet:  |  **{Context.User.Username}**, purchase cancelled."; });
+                    return;
+                }
+                else
+                {
+                    await shop.ModifyAsync(m => { m.Content = "<:no:453716729525174273>  | That is an invalid response. Please try again."; });
                     return;
                 }
             }
             else
             {
-                await shop.ModifyAsync(m => { m.Content = ":no:  | That is an invalid response. Please try again.";});
+                await shop.ModifyAsync(m => { m.Content = "<:no:453716729525174273>  | That is an invalid response. Please try again."; });
                 return;
             }
         }

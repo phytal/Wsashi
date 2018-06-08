@@ -36,7 +36,10 @@ namespace Wsashi.Modules.Wasagotchi
                 {
                     Author = auth
                 };
-                embed.WithThumbnailUrl("https://i.imgur.com/hXbmIOu.png");
+                if (config.pfp == null)
+                    embed.WithThumbnailUrl("https://i.imgur.com/hXbmIOu.png");
+                else
+                    embed.WithThumbnailUrl(config.pfp);
                 embed.WithColor(37, 152, 255);
                 embed.AddInlineField("Name", config.Name);
                 embed.AddInlineField("Exp", config.XP);
@@ -45,6 +48,9 @@ namespace Wsashi.Modules.Wasagotchi
                 embed.AddInlineField("Waste", config.Waste);
                 embed.AddInlineField("Attention", config.Attention);
                 embed.AddInlineField("Hunger", config.Hunger);
+                embed.AddInlineField("Sick", config.Sick);
+                embed.AddInlineField("Ran Away", config.RanAway);
+                embed.AddInlineField("Picture", config.pfp);
 
                 await Context.Channel.SendMessageAsync("", false, embed);
             }
@@ -67,6 +73,25 @@ namespace Wsashi.Modules.Wasagotchi
                 await Context.Channel.SendMessageAsync($":white_check_mark:   |  **{Context.User.Username}**, you successfully changed your Wasagotchi's name to **{name}**!");
             }
         }
+
+        [Command("wasagotchi picture")]
+        public async Task WasagotchiPfp([Remainder] string name)
+        {
+            var config = GlobalWasagotchiUserAccounts.GetWasagotchiAccount(Context.User);
+            if (config.Have == false) //if they own a Wasagotchi or not
+            {
+                var no = Emote.Parse("<:no:453716729525174273>");
+                await Context.Channel.SendMessageAsync($"{no}  |  **{Context.User.Username}**, you don't own a Wasagotchi! \n\nPurchase one with w!wasagotchi buy!");
+                return;
+            }
+            else
+            {
+                config.pfp = name;
+                GlobalWasagotchiUserAccounts.SaveAccounts(Context.User.Id);
+                await Context.Channel.SendMessageAsync($":white_check_mark:   |  **{Context.User.Username}**, you successfully changed your Wasagotchi's picture to **{name}**!");
+            }
+        }
+
 
         [Command("wasagotchi feed")]
         public async Task WasagotchiFeed()
@@ -101,6 +126,7 @@ namespace Wsashi.Modules.Wasagotchi
             }
         }
 
+
         string[] cleanTexts = new string[]
 {
                 "you hold your nose and start cleaning up the mess. ",
@@ -125,15 +151,17 @@ namespace Wsashi.Modules.Wasagotchi
                 }
                 {
                     Random rand = new Random();
+                    int randomIndex = rand.Next(cleanTexts.Length);
+                    string text = cleanTexts[randomIndex];
                     int much = rand.Next(4, 8);
                     uint clean = Convert.ToUInt32(much);
                     config.Waste -= clean;
-                    if (config.Waste < 20)
+                    if (config.Waste > 20)
                     {
                         config.Waste = 0;
                     }
                     GlobalWasagotchiUserAccounts.SaveAccounts(Context.User.Id);
-                    await Context.Channel.SendMessageAsync($":sparkles:  |  **{Context.User.Mention}**, {cleanTexts} **(-{clean} waste)**");
+                    await Context.Channel.SendMessageAsync($":sparkles:  |  **{Context.User.Username}**, {text} **(-{clean} waste)**");
                 }
             }
         }
@@ -161,15 +189,18 @@ namespace Wsashi.Modules.Wasagotchi
                 }
                 {
                     Random rand = new Random();
-                    int much = rand.Next(4, 8);
-                    uint attn = Convert.ToUInt32(much);
-                    config.Attention += attn;
+                    Random randd = new Random();
+                    int randomIndex = rand.Next(playTexts.Length);
+                    string text = playTexts[randomIndex];
+                    int much = randd.Next(4, 8);
+                    uint clean = Convert.ToUInt32(much);
+                    config.Attention += clean;
                     if (config.Attention > 20)
                     {
                         config.Attention = 0;
                     }
                     GlobalWasagotchiUserAccounts.SaveAccounts(Context.User.Id);
-                    await Context.Channel.SendMessageAsync($":soccer:  |  **{Context.User.Username}, {playTexts} **(+{attn} attention)**");
+                    await Context.Channel.SendMessageAsync($":soccer:  |  **{Context.User.Username}**, {text} **(+{clean} attention)**");
                 }
             }
         }
@@ -220,7 +251,10 @@ namespace Wsashi.Modules.Wasagotchi
                         Author = auth
                     };
                     embed.WithColor(0, 255, 0);
+                    if (config.pfp == null)
                     embed.WithThumbnailUrl("https://i.imgur.com/hXbmIOu.png");
+                    else
+                        embed.WithThumbnailUrl(config.pfp);
                     embed.WithDescription($"{text} \n**(+{attn} exp)**");
                     await Context.Channel.SendMessageAsync("", false, embed);
                 }

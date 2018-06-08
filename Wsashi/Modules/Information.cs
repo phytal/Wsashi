@@ -219,6 +219,7 @@ namespace Wsashi
             "**14. Games -** `2048 start` `trivia`\n" +
             "**15. Blog (w!blog <command>) -** `create` `post` `subscribe` `unsubscribe`\n" +
             "**16. Self Roles -** `Iam` `Iamnot` `selfrolelist`\n" +
+            "**17. Wasagotchi (w!wasagotchi <command>) - `stats` `feed` `clean` `train` `play` `name` `buy`** " +
             "\n" +
             "```\n" +
             "# Don't include the example brackets when using commands!\n" +
@@ -390,7 +391,7 @@ namespace Wsashi
         [Alias("serverinvitelink")]
         public async Task SendAsync()
         {
-            await ReplyAsync("https://discord.gg/NuUdx4h");
+            await ReplyAsync("https://discord.gg/NuUdx4h ~~ Here's our server! :blush: ");
         }
 
         [Command("invite")]
@@ -398,7 +399,7 @@ namespace Wsashi
         [Alias("Wsashiinvitelink")]
         public async Task InviteAsync()
         {
-            await ReplyAsync("https://discordapp.com/api/oauth2/authorize?client_id=417160957010116608&permissions=8&scope=bot");
+            await ReplyAsync("https://discordapp.com/api/oauth2/authorize?client_id=417160957010116608&permissions=8&scope=bot ~~ Invite me to your servers! :blush: ");
         }
 
         [Command("Update")]
@@ -412,15 +413,14 @@ namespace Wsashi
             embed.WithTitle("Update Notes");
             embed.WithDescription($"`Bot version {version}` **<<Last Updated on 5/28>>**\n"
                 + "`----- LAST UPDATE -----`\n"
-                + "• Restored promoting/demoting. But now it relies on the Admin/Mod/Helper role you set for the server.\n"
-                + "• Added a Helper role option, use `w!HelperRole` to set it.\n"
-                + "• Added Reputation Points, use `w!rep <user>` to give them a point! It can be used once every 24 hours.\n"
-                + "• Added a 'Master Config' panel, just use w!config to see the settings of Wsashi in this guild.\n"
-                + "• Removed the 'Points' system, as it was replaced by Rep Points.\n"
-                + "`----- CURRENT UPDATE -----`\n"
                 + "• Added the osu! API to the bot! Use w!osustats <user> to start!\n"
                 + "• Added the Overwatch API to the bot! Simply find the OWAPI section in w!help!\n"
-                + "• Added DMing! You can now DM mentioned users with a message!.\n"
+                + "• Added DMing! You can now DM mentioned users with a message!\n"
+                + "`----- CURRENT UPDATE -----`\n"
+                + "• Added a pet (Wasagotchi) system! See all commands in `w!help`!\n"
+                + "• Added the `bigletter` `reverse` `playsong` `woop` commands!\n"
+                + "• Added Image Generation! Current commands include `gru` and `butterflyman`\n"
+                + "• Squished a few typos and bugs..\n"
                 );
 
             await ReplyAsync("", embed: embed);

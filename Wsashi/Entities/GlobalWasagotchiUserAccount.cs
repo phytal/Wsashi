@@ -51,6 +51,8 @@ namespace Wsashi.Entities
 
         public bool RanAway { get; set; }
 
+        public string pfp { get; set; }
+
         public Dictionary<string, string> Tags { get; set; } = new Dictionary<string, string>();
     }
 }
