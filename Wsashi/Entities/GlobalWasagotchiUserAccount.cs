@@ -41,7 +41,7 @@ namespace Wsashi.Entities
 
         public uint Attention { get; set; }
 
-        public string Owner { get; set; }
+        //public string Owner { get; set; }
 
         public uint Waste { get; set; }
 

@@ -22,7 +22,7 @@ namespace Wsashi.Modules
 
             if (response.Content.Equals("1", StringComparison.CurrentCultureIgnoreCase) && (response.Author.Equals(Context.User)))
             {
-                await shop.ModifyAsync(m => { m.Content = $":feet:  |  **Are you sure you want to purchase a Wasagotchi? (**900** :potato:)**\n\nType `confirm` to continue or `cancel` to cancel.\n\n**Warning: this will replace your current Wasagotchi!**"; });
+                await shop.ModifyAsync(m => { m.Content = $":feet:  |  **Are you sure you want to purchase a <:wasagotchi:454535808079364106> Wasagotchi? (**900** :potato:)**\n\nType `confirm` to continue or `cancel` to cancel.\n\n**Warning: this will replace your current Wasagotchi!**"; });
                 var newresponse = await NextMessageAsync();
                 if (newresponse.Content.Equals("confirm", StringComparison.CurrentCultureIgnoreCase) && (response.Author.Equals(Context.User)))
                 {
@@ -34,8 +34,9 @@ namespace Wsashi.Modules
                     config.Have = true;
                     configg.Money -= config.RoomCost;
                     config.BoughtSince = DateTime.UtcNow;
+                    //config.Owner = Context.User.Username;
                     GlobalWasagotchiUserAccounts.SaveAccounts(user.Id);
-                    await Context.Channel.SendMessageAsync("You have successfully bought a Wasagotchi!");
+                    await Context.Channel.SendMessageAsync("You have successfully bought a <:wasagotchi:454535808079364106> Wasagotchi!");
                     return;
                 }
                 if (newresponse.Content.Equals("cancel", StringComparison.CurrentCultureIgnoreCase) && (response.Author.Equals(Context.User)))
@@ -118,14 +119,15 @@ namespace Wsashi.Modules
             }
             if (response.Content.Equals("4", StringComparison.CurrentCultureIgnoreCase) && (response.Author.Equals(Context.User)))
             {
-                await shop.ModifyAsync(m => { m.Content = $"```xl\n[1] Gotchi Sitter I - takes care of your Wasagotchi - 3 days [422 Potatos]\n[2] Gotchi Sitter II - takes care of your Wasagotchi -6 days[719 Potatos]\n[3] Level Transfer -applies to next capsule purchase[{config.LevelNumber} Potatos]\n[4] Medicine - cures your Wasagotchi's sickness [500 Potatos]\n\nType the respective number beside the purchase you would like to select.\nType 'cancel' to cancel your purchase."; });
+                await shop.ModifyAsync(m => { m.Content = $"```xl\n[1] Medicine - cures your Wasagotchi's sickness [{config.Waste * 30} :Potato:]\n\nType the respective number beside the purchase you would like to select.\nType 'cancel' to cancel your purchase."; });
                 //await Task.Delay(80000);
                 var newresponse = await NextMessageAsync();
-                if (newresponse.Content.Equals("4", StringComparison.CurrentCultureIgnoreCase) && (response.Author.Equals(Context.User)))
+                if (newresponse.Content.Equals("1", StringComparison.CurrentCultureIgnoreCase) && (response.Author.Equals(Context.User)))
                 {
                     config.Sick = false;
+                    config.Waste = 0;
                     GlobalWasagotchiUserAccounts.SaveAccounts(user.Id);
-                    await shop.ModifyAsync(m => { m.Content = $":pill:  |  **{Context.User.Username}**, your Wasagotchi has been cured of it's sickness!"; });
+                    await shop.ModifyAsync(m => { m.Content = $":pill:  |  **{Context.User.Username}**, your <:wasagotchi:454535808079364106> Wasagotchi has been cured of it's sickness!"; });
                     return;
                 }
                 if (newresponse.Content.Equals("cancel", StringComparison.CurrentCultureIgnoreCase) && (response.Author.Equals(Context.User)))

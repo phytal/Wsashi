@@ -4,6 +4,7 @@ using Discord.Commands;
 using Discord.WebSocket;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Wsashi.Core.Modules;
@@ -14,14 +15,16 @@ namespace Wsashi.Modules.Wasagotchi
     public class General : WsashiModule
     {
         [Command("wasagotchi stats")]
-        public async Task WasagotchiUser()
+        public async Task WasagotchiUser([Remainder]string arg = "")
         {
-            var user = Context.User as SocketGuildUser;
+            SocketUser user = null;
+            var mentionedUser = Context.Message.MentionedUsers.FirstOrDefault();
+            user = mentionedUser ?? Context.User;
             var config = GlobalWasagotchiUserAccounts.GetWasagotchiAccount(user);
             var configg = GlobalUserAccounts.GetUserAccount(user);
             if (config.Have == false) //if they own a Wasagotchi or not
             {
-                await Context.Channel.SendMessageAsync($":no:  |  **{Context.User.Username}**, you don't own a Wasagotchi! \n\nPurchase one with w!wasagotchi buy!");
+                await Context.Channel.SendMessageAsync($":no:  |  **{Context.User.Username}**, you don't own a <:wasagotchi:454535808079364106> Wasagotchi! \n\nPurchase one with w!wasagotchi buy!");
                 return;
             }
             else //show their Wasagotchi status
@@ -37,11 +40,15 @@ namespace Wsashi.Modules.Wasagotchi
                     Author = auth
                 };
                 if (config.pfp == null)
-                    embed.WithThumbnailUrl("https://i.imgur.com/hXbmIOu.png");
+                    embed.WithThumbnailUrl("https://i.imgur.com/6AaY08I.png");
                 else
                     embed.WithThumbnailUrl(config.pfp);
                 embed.WithColor(37, 152, 255);
-                embed.AddInlineField("Name", config.Name);
+                embed.AddInlineField("Owner", user);
+                if (config.Name == null)
+                    embed.AddInlineField("Name", "*(Name your wasagotchi!)*");
+                else
+                    embed.AddInlineField("Name", config.Name);
                 embed.AddInlineField("Exp", config.XP);
                 embed.AddInlineField("Level", config.LevelNumber);
                 embed.AddInlineField("Room",  GetRooms(config.rLvl));
@@ -50,10 +57,40 @@ namespace Wsashi.Modules.Wasagotchi
                 embed.AddInlineField("Hunger", config.Hunger);
                 embed.AddInlineField("Sick", config.Sick);
                 embed.AddInlineField("Ran Away", config.RanAway);
-                embed.AddInlineField("Picture", config.pfp);
+                if (config.pfp == null)
+                    embed.AddInlineField("Picture", "*Default*");
+                else
+                embed.AddInlineField("Picture", "*Custom*");
 
                 await Context.Channel.SendMessageAsync("", false, embed);
             }
+        }
+
+        [Command("wasagotchi help")]
+        public async Task WasagotchiHelp()
+        {
+            string[] footers = new string[]
+{
+                "Every 4 hours all Wasagotchis will have a time modifier, -1 hunger, -1 attention, and +1 waste. Make sure to check on your Wasagotchi often!",
+                "If the living conditions you provide for your Wasagotchi are too low - never clean, never play, etc - it will run away! (Your room will remain the same)",
+                "If your Wasagotchi is sick, buy it some medicine with w!buy"
+};
+            Random rand = new Random();
+            int randomIndex = rand.Next(footers.Length);
+            string text = footers[randomIndex];
+
+            var embed = new EmbedBuilder();
+            embed.WithTitle("<:wasagotchi:454535808079364106> Wasagotchi Command List");
+            embed.AddInlineField("w!wasagotchi help", "Brings up the help commmand (lol)");
+            embed.AddInlineField("w!wasagotchi stats", "Brings up the stats/info of your or someone else's Wasagotchi!");
+            embed.AddInlineField("w!wasagotchi name", "Set the name of your Wasagotchi!");
+            embed.AddInlineField("w!wasagotchi picture", "Set the picture of your Wasagotchi! (Note: It must be a direct link)");
+            embed.AddInlineField("w!wasagotchi feed", "Feeds your Wasagtochi at the cost of Potatos! Otherwise it will starve!");
+            embed.AddInlineField("w!wasagotchi clean", "Clean up your Wasagotchi's waste, Otherwise it'll get sick!");
+            embed.AddInlineField("w!wasagotchi play", "Play with your wasagotchi! Your Wasagotchi must have high attention levels at all time!");
+            embed.AddInlineField("w!wasagotchi train", "Train your Wasagotchi to earn Exp and level up!");
+            embed.WithFooter(text);
+            await Context.Channel.SendMessageAsync("", false, embed);
         }
 
         [Command("wasagotchi name")]
@@ -63,14 +100,14 @@ namespace Wsashi.Modules.Wasagotchi
             if (config.Have == false) //if they own a Wasagotchi or not
             {
                 var no = Emote.Parse("<:no:453716729525174273>");
-                await Context.Channel.SendMessageAsync($"{no}  |  **{Context.User.Username}**, you don't own a Wasagotchi! \n\nPurchase one with w!wasagotchi buy!");
+                await Context.Channel.SendMessageAsync($"{no}  |  **{Context.User.Username}**, you don't own a <:wasagotchi:454535808079364106> Wasagotchi! \n\nPurchase one with w!wasagotchi buy!");
                 return;
             }
             else
             {
                 config.Name = name;
                 GlobalWasagotchiUserAccounts.SaveAccounts(Context.User.Id);
-                await Context.Channel.SendMessageAsync($":white_check_mark:   |  **{Context.User.Username}**, you successfully changed your Wasagotchi's name to **{name}**!");
+                await Context.Channel.SendMessageAsync($":white_check_mark:   |  **{Context.User.Username}**, you successfully changed your <:wasagotchi:454535808079364106> Wasagotchi's name to **{name}**!");
             }
         }
 
@@ -81,14 +118,14 @@ namespace Wsashi.Modules.Wasagotchi
             if (config.Have == false) //if they own a Wasagotchi or not
             {
                 var no = Emote.Parse("<:no:453716729525174273>");
-                await Context.Channel.SendMessageAsync($"{no}  |  **{Context.User.Username}**, you don't own a Wasagotchi! \n\nPurchase one with w!wasagotchi buy!");
+                await Context.Channel.SendMessageAsync($"{no}  |  **{Context.User.Username}**, you don't own a <:wasagotchi:454535808079364106> Wasagotchi! \n\nPurchase one with w!wasagotchi buy!");
                 return;
             }
             else
             {
                 config.pfp = name;
                 GlobalWasagotchiUserAccounts.SaveAccounts(Context.User.Id);
-                await Context.Channel.SendMessageAsync($":white_check_mark:   |  **{Context.User.Username}**, you successfully changed your Wasagotchi's picture to **{name}**!");
+                await Context.Channel.SendMessageAsync($":white_check_mark:   |  **{Context.User.Username}**, you successfully changed your <:wasagotchi:454535808079364106> Wasagotchi's picture to **{name}**!");
             }
         }
 
@@ -99,14 +136,14 @@ namespace Wsashi.Modules.Wasagotchi
             var config = GlobalWasagotchiUserAccounts.GetWasagotchiAccount(Context.User);
             if (config.Have == false) //if they own a Wasagotchi or not
             {
-                await Context.Channel.SendMessageAsync($":no:  |  **{Context.User.Username}**, you don't own a Wasagotchi! \n\nPurchase one with w!wasagotchi buy!");
+                await Context.Channel.SendMessageAsync($":no:  |  **{Context.User.Username}**, you don't own a <:wasagotchi:454535808079364106> Wasagotchi! \n\nPurchase one with w!wasagotchi buy!");
                 return;
             }
             else
             {
                 if (config.Hunger == 20)
                 {
-                    await Context.Channel.SendMessageAsync($":poultry_leg:  |  **{Context.User.Username}**, your Wasagotchi is full!");
+                    await Context.Channel.SendMessageAsync($":poultry_leg:  |  **{Context.User.Username}**, your <:wasagotchi:454535808079364106> Wasagotchi is full!");
                     return;
                 }
                 {
@@ -121,7 +158,7 @@ namespace Wsashi.Modules.Wasagotchi
                         config.Hunger = 20;
                     }
                     GlobalWasagotchiUserAccounts.SaveAccounts(Context.User.Id);
-                    await Context.Channel.SendMessageAsync($":poultry_leg:  |  **{Context.User.Username}**, you fill your Wasagotchi's bowl with food. It looks happy! **(+{hungerr} food [-{cost} :potato:])**");
+                    await Context.Channel.SendMessageAsync($":poultry_leg:  |  **{Context.User.Username}**, you fill your <:wasagotchi:454535808079364106> Wasagotchi's bowl with food. It looks happy! **(+{hungerr} food [-{cost} :potato:])**");
                 }
             }
         }
@@ -130,7 +167,7 @@ namespace Wsashi.Modules.Wasagotchi
         string[] cleanTexts = new string[]
 {
                 "you hold your nose and start cleaning up the mess. ",
-                "you clean up your Wasagotchi's...business!",
+                "you clean up your <:wasagotchi:454535808079364106> Wasagotchi's...business!",
 };
 
         [Command("wasagotchi clean")]
@@ -139,14 +176,14 @@ namespace Wsashi.Modules.Wasagotchi
             var config = GlobalWasagotchiUserAccounts.GetWasagotchiAccount(Context.User);
             if (config.Have == false) //if they own a Wasagotchi or not
             {
-                await Context.Channel.SendMessageAsync($":no:  |  **{Context.User.Username}**, you don't own a Wasagotchi! \n\nPurchase one with w!wasagotchi buy!");
+                await Context.Channel.SendMessageAsync($":no:  |  **{Context.User.Username}**, you don't own a <:wasagotchi:454535808079364106> Wasagotchi! \n\nPurchase one with w!wasagotchi buy!");
                 return;
             }
             else
             {
                 if (config.Waste == 0)
                 {
-                    await Context.Channel.SendMessageAsync($":sparkles:  | **{Context.User.Username}, your Wasagotchi's room is squeaky clean!**");
+                    await Context.Channel.SendMessageAsync($":sparkles:  | **{Context.User.Username}, your <:wasagotchi:454535808079364106> Wasagotchi's room is squeaky clean!**");
                     return;
                 }
                 {
@@ -167,8 +204,8 @@ namespace Wsashi.Modules.Wasagotchi
         }
         string[] playTexts = new string[]
     {
-                "you entertain your Wasagotchi. It seems to like you!",
-                "you throw a ball and your Wasagotchi fetches it!",
+                "you entertain your <:wasagotchi:454535808079364106> Wasagotchi. It seems to like you!",
+                "you throw a ball and your <:wasagotchi:454535808079364106> Wasagotchi fetches it!",
     };
 
         [Command("wasagotchi play")]
@@ -177,14 +214,14 @@ namespace Wsashi.Modules.Wasagotchi
             var config = GlobalWasagotchiUserAccounts.GetWasagotchiAccount(Context.User);
             if (config.Have == false) //if they own a Wasagotchi or not
             {
-                await Context.Channel.SendMessageAsync($":no:  |  **{Context.User.Username}**, you don't own a Wasagotchi! \n\nPurchase one with w!wasagotchi buy!");
+                await Context.Channel.SendMessageAsync($":no:  |  **{Context.User.Username}**, you don't own a <:wasagotchi:454535808079364106> Wasagotchi! \n\nPurchase one with w!wasagotchi buy!");
                 return;
             }
             else
             {
                 if (config.Attention == 20)
                 {
-                    await Context.Channel.SendMessageAsync($":soccer:  |  **{Context.User.Username}, your Wasagotchi is bored of playing right now!**");
+                    await Context.Channel.SendMessageAsync($":soccer:  |  **{Context.User.Username}, your <:wasagotchi:454535808079364106> Wasagotchi is bored of playing right now!**");
                     return;
                 }
                 {
@@ -207,16 +244,16 @@ namespace Wsashi.Modules.Wasagotchi
 
         string[] yesTrainTexts = new string[]
 {
-                "Somehow, you managed to get your Wasagotchi to listen! It is making progress.",
-                "Your Wasagotchi seems to respond well to the training! It looks happy.",
+                "Somehow, you managed to get your <:wasagotchi:454535808079364106> Wasagotchi to listen! It is making progress.",
+                "Your <:wasagotchi:454535808079364106> Wasagotchi seems to respond well to the training! It looks happy.",
 };
 
         string[] noTrainTexts = new string[]
 {
-                "Despite your best attempts, your Wasagotchi does not want to learn. Persistence is key!",
-                "You wonder why your Wasagotchi won't listen. Maybe you should give it a few more tries.",
-                "Your Wasagotchi sits down and looks excited, but doesn't do what you wanted.",
-                "Your Wasagotchi doesn't quite understand what you are trying to do. Try again!",
+                "Despite your best attempts, your <:wasagotchi:454535808079364106> Wasagotchi does not want to learn. Persistence is key!",
+                "You wonder why your <:wasagotchi:454535808079364106> Wasagotchi won't listen. Maybe you should give it a few more tries.",
+                "Your <:wasagotchi:454535808079364106> Wasagotchi sits down and looks excited, but doesn't do what you wanted.",
+                "Your <:wasagotchi:454535808079364106> Wasagotchi doesn't quite understand what you are trying to do. Try again!",
 };
 
         [Command("wasagotchi train")]
@@ -225,7 +262,7 @@ namespace Wsashi.Modules.Wasagotchi
             var config = GlobalWasagotchiUserAccounts.GetWasagotchiAccount(Context.User);
             if (config.Have == false) //if they own a Wasagotchi or not
             {
-                await Context.Channel.SendMessageAsync($":no:  |  **{Context.User.Username}**, you don't own a Wasagotchi! \n\nPurchase one with w!wasagotchi buy!");
+                await Context.Channel.SendMessageAsync($":no:  |  **{Context.User.Username}**, you don't own a <:wasagotchi:454535808079364106> Wasagotchi! \n\nPurchase one with w!wasagotchi buy!");
                 return;
             }
             else
@@ -252,7 +289,7 @@ namespace Wsashi.Modules.Wasagotchi
                     };
                     embed.WithColor(0, 255, 0);
                     if (config.pfp == null)
-                    embed.WithThumbnailUrl("https://i.imgur.com/hXbmIOu.png");
+                    embed.WithThumbnailUrl("https://i.imgur.com/6AaY08I.png");
                     else
                         embed.WithThumbnailUrl(config.pfp);
                     embed.WithDescription($"{text} \n**(+{attn} exp)**");

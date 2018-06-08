@@ -177,22 +177,16 @@ namespace Wsashi.Core.LevelingSystem
         [Command("balance")]
         [Alias("Cash", "Money", "bal")]
         [Summary("Checks the balance for your, or an mentioned account")]
-        public async Task CheckPotatos()
+        public async Task CheckPotatos([Remainder]string arg = "")
         {
-            var account = GlobalUserAccounts.GetUserAccount(Context.User.Id);
-            await ReplyAsync(GetPotatosReport(account.Money, Context.User.Mention));
+            SocketUser target = null;
+            var mentionedUser = Context.Message.MentionedUsers.FirstOrDefault();
+            target = mentionedUser ?? Context.User;
+            var account = GlobalUserAccounts.GetUserAccount(target);
+            await ReplyAsync(GetPotatosReport(account.Money, target.Username, target.Mention));
         }
 
-        [Command("balance")]
-        [Alias("Cash", "Money", "bal")]
-        [Summary("Checks the balance for your, or an mentioned account")]
-        public async Task CheckPotatosOther(IGuildUser target)
-        {
-            var account = GlobalUserAccounts.GetUserAccount(target.Id);
-            await ReplyAsync(GetPotatosReport(account.Money, target.Mention));
-        }
-
-        public string GetPotatosReport(ulong Potatos, string mention)
+        public string GetPotatosReport(ulong Potatos, string mention, string mentionn)
         {
             return $":potato:  | {mention} has **{Potatos} Potatos**! {GetPotatoCountReaction(Potatos, mention)}";
         }
@@ -202,47 +196,47 @@ namespace Wsashi.Core.LevelingSystem
 
             if (value > 100000)
             {
-                return $"Holy sh!t, {mention}! You're either cheating or you're really dedicated.";
+                return $"Holy sh!t, **{mention}**! You're either cheating or you're really dedicated.";
             }
             else if (value > 50000)
             {
-                return $"Damn, you must be here often, {mention}. Do you have a crush on me or something?";
+                return $"Damn, you must be here often, **{mention}**. Do you have a crush on me or something?";
             }
             else if (value > 20000)
             {
-                return $"That's enough to buy a house... In Wsashi land... \n\nIt's a real place, shut up, {mention}!";
+                return $"That's enough to buy a house... In Wsashi land... \n\nIt's a real place, shut up, **{mention}**!";
             }
             else if (value > 10000)
             {
-                return $"{mention} is kinda getting rich. Do we rob them or what?";
+                return $"**{mention}** is kinda getting rich. Do we rob them or what?";
             }
             else if (value > 5000)
             {
-                return $"Is it just me or is {mention} taking this economy a little too seriously?";
+                return $"Is it just me or is **{mention}** taking this economy a little too seriously?";
             }
             else if (value > 2500)
             {
-                return $"Great, {mention}! Now you can give all those Potatos to your superior mistress, ME.";
+                return $"Great, **{mention}!** Now you can give all those Potatos to your superior mistress, ME.";
             }
             else if (value > 1100)
             {
-                return $"{mention} is showing their wealth on the internet again.";
+                return $"**{mention}** is showing their wealth on the internet again.";
             }
             else if (value > 800)
             {
-                return $"Alright, {mention}. Put the Potatos in the bag and nobody gets hurt.";
+                return $"Alright, **{mention}**. Put the Potatos in the bag and nobody gets hurt.";
             }
             else if (value > 550)
             {
-                return $"I like how {mention} think that's impressive.";
+                return $"I like how **{mention}** thinks that's impressive.";
             }
             else if (value > 200)
             {
-                return $"Ouch, {mention}! If I knew that is all you've got, I would've just DM'd you the amount! Embarrassing!";
+                return $"Ouch, **{mention}**! If I knew that is all you've got, I would've just DM'd you the amount! Embarrassing!";
             }
             else if (value == 0)
             {
-                return $"Yeah, {mention} is broke. What a surprise.";
+                return $"Yeah, **{mention}** is broke. What a surprise.";
             }
 
             return $"The whole concept of Potatos is fake. I hope you know that";

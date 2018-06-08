@@ -214,12 +214,12 @@ namespace Wsashi
             "**9. APIs -** `dog` `cat` `catfact` `person` `birb` `define` `meme`\n" +
             "**10. Neko API -** `neko` `catemoticon` `foxgirl`\n" +
             "**11. Shibe API -** `shiba` `bird`\n" +
-            "**12. Overwatch API -** `owstats` `owstatscomp``owstatsqp``myowstats``myowstatscomp``myowstatsqp``owaccount`\n" +
+            "**12. Overwatch API -** `owstats` `owstatscomp` `owstatsqp` `myowstats` `myowstatscomp` `myowstatsqp` `owaccount`\n" +
             "**11. osu! API -** `osustats`\n" +
             "**14. Games -** `2048 start` `trivia`\n" +
             "**15. Blog (w!blog <command>) -** `create` `post` `subscribe` `unsubscribe`\n" +
             "**16. Self Roles -** `Iam` `Iamnot` `selfrolelist`\n" +
-            "**17. Wasagotchi (w!wasagotchi <command>) - `stats` `feed` `clean` `train` `play` `name` `buy`** " +
+            "**17. Wasagotchi (w!wasagotchi <command>) - `stats` `feed` `clean` `train` `play` `name` `buy` `picture` `help`** " +
             "\n" +
             "```\n" +
             "# Don't include the example brackets when using commands!\n" +

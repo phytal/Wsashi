@@ -20,6 +20,10 @@ namespace Wsashi.Modules.Wasagotchi
             }
             if ((userAccount.Waste == 20) && (userAccount.Hunger <= 5) && (userAccount.Attention <= 5))
             {
+                userAccount.XP = 0;
+                userAccount.Name = null;
+                userAccount.Have = false;
+                userAccount.pfp = null;
                 userAccount.RanAway = true;
                 GlobalWasagotchiUserAccounts.SaveAccounts();
                 await message.SendMessageAsync($":exclamation:  | {user.Mention}, **{userAccount.Name}** ran away! The living conditions you provided were too low... Maybe try to pay more attention to your Wasagotchi next time! ");
