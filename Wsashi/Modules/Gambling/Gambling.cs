@@ -28,7 +28,7 @@ namespace Watchdog.Modules
             var embed = new EmbedBuilder();
             embed.WithColor(37, 152, 255);
             embed.WithTitle(":dvd:  | " + Context.User.Username + ", " + text + ".");
-            await Context.Channel.SendMessageAsync("", false, embed);
+            await Context.Channel.SendMessageAsync("", embed: embed.Build());
         }
 
         [Command("roll")]
@@ -42,7 +42,7 @@ namespace Watchdog.Modules
             var embed = new EmbedBuilder();
             embed.WithColor(37, 152, 255);
             embed.WithTitle(":game_die:  | You Rolled **" + randomNumber + "**");
-            await Context.Channel.SendMessageAsync("", false, embed);
+            await Context.Channel.SendMessageAsync("", embed: embed.Build());
         }
     }
 }

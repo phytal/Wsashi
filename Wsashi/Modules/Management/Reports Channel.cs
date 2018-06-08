@@ -33,7 +33,7 @@ namespace Watchdog.Modules.ServerManagement
                 var embed = new EmbedBuilder();
                 embed.WithColor(37, 152, 255);
                 embed.Title = $":x:  | You Need the Administrator Permission to do that {Context.User.Username}";
-                var use = await Context.Channel.SendMessageAsync("", false, embed);
+                var use = await Context.Channel.SendMessageAsync("", embed: embed.Build());
                 await Task.Delay(5000);
                 await use.DeleteAsync();
             }
@@ -49,7 +49,7 @@ namespace Watchdog.Modules.ServerManagement
                 var embed = new EmbedBuilder();
                 embed.WithColor(37, 152, 255);
                 embed.WithTitle(":hand_splayed:  | You must mention a user and provide a reason. Ex: w!report @Username <reason>");
-                var use = await Context.Channel.SendMessageAsync("", false, embed);
+                var use = await Context.Channel.SendMessageAsync("", embed: embed.Build());
                 await Task.Delay(5000);
                 await use.DeleteAsync();
             }
@@ -72,7 +72,7 @@ namespace Watchdog.Modules.ServerManagement
                 embed.WithColor(37, 152, 255);
                 embed.Title = $"{Context.User}'s report of {user.Username}";
                 embed.Description = $"**Username: **{user.Username}\n**Reported by: **{Context.User.Mention}\n**Reason: **{reason}";
-                await cjhale.SendMessageAsync("", false, embed);
+                await cjhale.SendMessageAsync("", embed: embed.Build());
                 await ReplyAsync(":white_check_mark:  | *Your report has been furthered to staff.* ***(ABUSE OF THIS COMMAND IS PUNISHABLE)***");
             }
         }

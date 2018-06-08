@@ -46,7 +46,7 @@ namespace Wsashi.Modules
             var embed = new EmbedBuilder();
             embed.WithColor(37, 152, 255);
             embed.WithTitle($":white_check_mark:  | **{Points}** reputation points were added to " + target.Username + "'s account.");
-            await Context.Channel.SendMessageAsync("", false, embed);
+            await Context.Channel.SendMessageAsync("", embed: embed.Build());
         }
 
         [Command("xp")]
@@ -76,7 +76,7 @@ namespace Wsashi.Modules
             };
             embed.WithColor(37, 152, 255);
             embed.WithTitle($"{target.Username} has {account.XP} XP");
-            await Context.Channel.SendMessageAsync("", false, embed);
+            await Context.Channel.SendMessageAsync("", embed: embed.Build());
         }
 
         [Command("level")]
@@ -105,7 +105,7 @@ namespace Wsashi.Modules
             };
 
             embed.WithTitle("You are level " + level);
-            await Context.Channel.SendMessageAsync("", false, embed);
+            await Context.Channel.SendMessageAsync("", embed: embed.Build());
         }
 
         [Command("data")]

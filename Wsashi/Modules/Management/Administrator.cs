@@ -40,8 +40,8 @@ namespace Wsashi.Core.Modules
                     embed.Description = $"**Username: **{user.Username}\n**Guild Name: **{user.Guild.Name}\n**Banned by: **{Context.User.Mention}\n**Reason: **{reason}";
                     if (user == null) throw new ArgumentException("You must mention a user");
                     await gld.AddBanAsync(user);
-                    await Context.Channel.SendMessageAsync("", false, embed);
-                    await kb.SendMessageAsync("", false, embed);
+                    await Context.Channel.SendMessageAsync("", embed: embed.Build());
+                    await kb.SendMessageAsync("", embed: embed.Build());
                 }
             }
             else
@@ -49,7 +49,7 @@ namespace Wsashi.Core.Modules
                 var embed = new EmbedBuilder();
                 embed.WithColor(37, 152, 255);
                 embed.Title = $":x:  | You need the Ban Members Permission to do that {Context.User.Username}";
-                var use = await Context.Channel.SendMessageAsync("", false, embed);
+                var use = await Context.Channel.SendMessageAsync("", embed: embed.Build());
                 await Task.Delay(5000);
                 await use.DeleteAsync();
             }
@@ -72,7 +72,7 @@ namespace Wsashi.Core.Modules
                 var embed = new EmbedBuilder();
                 embed.WithColor(37, 152, 255);
                 embed.Title = $":x:  | You need the Ban Members Permission to do that {Context.User.Username}";
-                var use = await Context.Channel.SendMessageAsync("", false, embed);
+                var use = await Context.Channel.SendMessageAsync("", embed: embed.Build());
                 await Task.Delay(5000);
                 await use.DeleteAsync();
             }
@@ -96,7 +96,7 @@ namespace Wsashi.Core.Modules
                 var embed = new EmbedBuilder();
                 embed.WithColor(37, 152, 255);
                 embed.Title = $":x:  | You need the Ban Members Permission to do that {Context.User.Username}";
-                var use = await Context.Channel.SendMessageAsync("", false, embed);
+                var use = await Context.Channel.SendMessageAsync("", embed: embed.Build());
                 await Task.Delay(5000);
                 await use.DeleteAsync();
             }
@@ -126,7 +126,7 @@ namespace Wsashi.Core.Modules
                 var embed = new EmbedBuilder();
                 embed.WithColor(37, 152, 255);
                 embed.Title = $":x:  | You need the Ban Members Permission to do that {Context.User.Username}";
-                var use = await Context.Channel.SendMessageAsync("", false, embed);
+                var use = await Context.Channel.SendMessageAsync("", embed: embed.Build());
                 await Task.Delay(5000);
                 await use.DeleteAsync();
             }
@@ -155,8 +155,8 @@ namespace Wsashi.Core.Modules
                     embed.WithColor(37, 152, 255);
                     embed.Title = $" {user.Username} has been kicked from {user.Guild.Name}";
                     embed.Description = $"**Username: **{user.Username}\n**Guild Name: **{user.Guild.Name}\n**Kicked by: **{Context.User.Mention}\n**Reason: **{reason}";
-                    await Context.Channel.SendMessageAsync("", false, embed);
-                    await kb.SendMessageAsync("", false, embed);
+                    await Context.Channel.SendMessageAsync("", embed: embed.Build());
+                    await kb.SendMessageAsync("", embed: embed.Build());
                 }
             }
             else
@@ -164,7 +164,7 @@ namespace Wsashi.Core.Modules
                 var embed = new EmbedBuilder();
                 embed.WithColor(37, 152, 255);
                 embed.Title = $":x:  | You need the Kick Members Permission to do that {Context.User.Username}";
-                var use = await Context.Channel.SendMessageAsync("", false, embed);
+                var use = await Context.Channel.SendMessageAsync("", embed: embed.Build());
                 await Task.Delay(5000);
                 await use.DeleteAsync();
             }
@@ -195,7 +195,7 @@ namespace Wsashi.Core.Modules
                     embed.Title = $"**{user.Username}** was muted";
                     embed.Description = $"**Username: **{user.Username}\n**Muted by: **{Context.User.Username}";
                     await user.AddRoleAsync(muted);
-                    await Context.Channel.SendMessageAsync("", false, embed);
+                    await Context.Channel.SendMessageAsync("", embed: embed.Build());
                 }
             }
             else
@@ -203,7 +203,7 @@ namespace Wsashi.Core.Modules
                 var embed = new EmbedBuilder();
                 embed.WithColor(37, 152, 255);
                 embed.Title = $":x:  | You need the Manange Roles Permission to do that {Context.User.Username}";
-                var use = await Context.Channel.SendMessageAsync("", false, embed);
+                var use = await Context.Channel.SendMessageAsync("", embed: embed.Build());
                 await Task.Delay(5000);
                 await use.DeleteAsync();
             }
@@ -235,7 +235,7 @@ namespace Wsashi.Core.Modules
                 var embed = new EmbedBuilder();
                 embed.WithColor(37, 152, 255);
                 embed.Title = $":x:  | You need the Manange Roles Permission to do that {Context.User.Username}";
-                var use = await Context.Channel.SendMessageAsync("", false, embed);
+                var use = await Context.Channel.SendMessageAsync("", embed: embed.Build());
                 await Task.Delay(5000);
                 await use.DeleteAsync();
             }
@@ -259,7 +259,7 @@ namespace Wsashi.Core.Modules
                 var embed = new EmbedBuilder();
                 embed.WithColor(37, 152, 255);
                 embed.Title = $":x:  | You need the Manange Messages Permission to do that {Context.User.Username}";
-                var use = await Context.Channel.SendMessageAsync("", false, embed);
+                var use = await Context.Channel.SendMessageAsync("", embed: embed.Build());
                 await Task.Delay(5000);
                 await use.DeleteAsync();
             }
@@ -296,7 +296,7 @@ namespace Wsashi.Core.Modules
                     var embed = new EmbedBuilder();
                     embed.WithColor(37, 152, 255);
                     embed.Title = ":x:  | You cannot delete more than 100 messages at once!";
-                    var use = await Context.Channel.SendMessageAsync("", false, embed);
+                    var use = await Context.Channel.SendMessageAsync("", embed: embed.Build());
                     await Task.Delay(5000);
                     await use.DeleteAsync();
                 }
@@ -306,7 +306,7 @@ namespace Wsashi.Core.Modules
                 var embed = new EmbedBuilder();
                 embed.WithColor(37, 152, 255);
                 embed.Title = $":x:  | You need the Manange Messages Permission to do that {Context.User.Username}";
-                var use = await Context.Channel.SendMessageAsync("", false, embed);
+                var use = await Context.Channel.SendMessageAsync("", embed: embed.Build());
                 await Task.Delay(5000);
                 await use.DeleteAsync();
             }
@@ -327,7 +327,7 @@ namespace Wsashi.Core.Modules
                     var embed = new EmbedBuilder();
                     embed.WithColor(37, 152, 255);
                     embed.WithTitle(":hand_splayed:  | Please say who and what you want to promote the user to. Ex: w!promote <rank> <@username>");
-                    var use = await Context.Channel.SendMessageAsync("", false, embed);
+                    var use = await Context.Channel.SendMessageAsync("", embed: embed.Build());
                     await Task.Delay(5000);
                     await use.DeleteAsync();
                 }
@@ -343,7 +343,7 @@ namespace Wsashi.Core.Modules
                 var embed = new EmbedBuilder();
                 embed.WithColor(37, 152, 255);
                 embed.Title = $":x:  | You need the Manange Roles Permission to do that {Context.User.Username}";
-                var use = await Context.Channel.SendMessageAsync("", false, embed);
+                var use = await Context.Channel.SendMessageAsync("", embed: embed.Build());
                 await Task.Delay(5000);
                 await use.DeleteAsync();
             }
@@ -364,7 +364,7 @@ namespace Wsashi.Core.Modules
                     var embed = new EmbedBuilder();
                     embed.WithColor(37, 152, 255);
                     embed.WithTitle(":hand_splayed:  | Please say who and what you want to promote the user to. Ex: w!demote <rank> <@username>");
-                    var use = await Context.Channel.SendMessageAsync("", false, embed);
+                    var use = await Context.Channel.SendMessageAsync("", embed: embed.Build());
                     await Task.Delay(5000);
                     await use.DeleteAsync();
                 }
@@ -380,7 +380,7 @@ namespace Wsashi.Core.Modules
                 var embed = new EmbedBuilder();
                 embed.WithColor(37, 152, 255);
                 embed.Title = $":x:  | You need the Manange Roles Permission to do that {Context.User.Username}";
-                var use = await Context.Channel.SendMessageAsync("", false, embed);
+                var use = await Context.Channel.SendMessageAsync("", embed: embed.Build());
                 await Task.Delay(5000);
                 await use.DeleteAsync();
             }
@@ -401,7 +401,7 @@ namespace Wsashi.Core.Modules
                     var embed = new EmbedBuilder();
                     embed.WithColor(37, 152, 255);
                     embed.WithTitle(":hand_splayed:  | Please say who and what you want to promote the user to. Ex: w!demote <rank> <@username>");
-                    var use = await Context.Channel.SendMessageAsync("", false, embed);
+                    var use = await Context.Channel.SendMessageAsync("", embed: embed.Build());
                     await Task.Delay(5000);
                     await use.DeleteAsync();
                 }
@@ -417,7 +417,7 @@ namespace Wsashi.Core.Modules
                 var embed = new EmbedBuilder();
                 embed.WithColor(37, 152, 255);
                 embed.Title = $":x:  | You need the Manange Roles Permission to do that {Context.User.Username}";
-                var use = await Context.Channel.SendMessageAsync("", false, embed);
+                var use = await Context.Channel.SendMessageAsync("", embed: embed.Build());
                 await Task.Delay(5000);
                 await use.DeleteAsync();
             }
@@ -438,7 +438,7 @@ namespace Wsashi.Core.Modules
                     var embed = new EmbedBuilder();
                     embed.WithColor(37, 152, 255);
                     embed.WithTitle(":hand_splayed:  | Please say who and what you want to demote the user to. Ex: w!demote <rank> <@username>");
-                    var use = await Context.Channel.SendMessageAsync("", false, embed);
+                    var use = await Context.Channel.SendMessageAsync("", embed: embed.Build());
                     await Task.Delay(5000);
                     await use.DeleteAsync();
                 }
@@ -456,7 +456,7 @@ namespace Wsashi.Core.Modules
                 var embed = new EmbedBuilder();
                 embed.WithColor(37, 152, 255);
                 embed.Title = $":x:  | You need the Manange Roles Permission to do that {Context.User.Username}";
-                var use = await Context.Channel.SendMessageAsync("", false, embed);
+                var use = await Context.Channel.SendMessageAsync("", embed: embed.Build());
                 await Task.Delay(5000);
                 await use.DeleteAsync();
             }
@@ -476,7 +476,7 @@ namespace Wsashi.Core.Modules
                     var embed = new EmbedBuilder();
                     embed.WithColor(37, 152, 255);
                     embed.WithTitle(":hand_splayed:  | Please say who and what you want to demote the user to. Ex: w!demote <rank> <@username>");
-                    var use = await Context.Channel.SendMessageAsync("", false, embed);
+                    var use = await Context.Channel.SendMessageAsync("", embed: embed.Build());
                     await Task.Delay(5000);
                     await use.DeleteAsync();
                 }
@@ -496,7 +496,7 @@ namespace Wsashi.Core.Modules
                 var embed = new EmbedBuilder();
                 embed.WithColor(37, 152, 255);
                 embed.Title = $":x:  | You need the Manange Roles Permission to do that {Context.User.Username}";
-                var use = await Context.Channel.SendMessageAsync("", false, embed);
+                var use = await Context.Channel.SendMessageAsync("", embed: embed.Build());
                 await Task.Delay(5000);
                 await use.DeleteAsync();
             }
@@ -516,7 +516,7 @@ namespace Wsashi.Core.Modules
                     var embed = new EmbedBuilder();
                     embed.WithColor(37, 152, 255);
                     embed.WithTitle(":hand_splayed:  | Please say who and what you want to demote the user to. Ex: w!demote <rank> <@username>");
-                    var use = await Context.Channel.SendMessageAsync("", false, embed);
+                    var use = await Context.Channel.SendMessageAsync("", embed: embed.Build());
                     await Task.Delay(5000);
                     await use.DeleteAsync();
                 }
@@ -537,7 +537,7 @@ namespace Wsashi.Core.Modules
                 var embed = new EmbedBuilder();
                 embed.WithColor(37, 152, 255);
                 embed.Title = $":x:  | You need the Manange Roles Permission to do that {Context.User.Username}";
-                var use = await Context.Channel.SendMessageAsync("", false, embed);
+                var use = await Context.Channel.SendMessageAsync("", embed: embed.Build());
                 await Task.Delay(5000);
                 await use.DeleteAsync();
             }
@@ -573,10 +573,10 @@ namespace Wsashi.Core.Modules
 
             embed.Description = $"{dm}";
             embed.WithFooter(new EmbedFooterBuilder().WithText($"Message from: {Context.User.Username} | Guild: {Context.Guild.Name}"));
-            await message.SendMessageAsync("", false, embed);
+            await message.SendMessageAsync("", embed: embed.Build());
             embed.Description = $"You have sent a message to {myId}, he will read the message soon.";
 
-            await Context.Channel.SendMessageAsync("", false, embed);
+            await Context.Channel.SendMessageAsync("", embed: embed.Build());
         */
 
         [Command("Warn")]
@@ -612,7 +612,7 @@ namespace Wsashi.Core.Modules
                 var embed = new EmbedBuilder();
                 embed.WithColor(37, 152, 255);
                 embed.Title = $":x:  | You Need the Administrator Permission to do that {Context.User.Username}";
-                var use = await Context.Channel.SendMessageAsync("", false, embed);
+                var use = await Context.Channel.SendMessageAsync("", embed: embed.Build());
                 await Task.Delay(5000);
                 await use.DeleteAsync();
             }
@@ -630,14 +630,14 @@ namespace Wsashi.Core.Modules
                 var embed = new EmbedBuilder();
                 embed.WithColor(37, 152, 255);
                 embed.WithTitle(input);
-                await Context.Channel.SendMessageAsync("", false, embed);
+                await Context.Channel.SendMessageAsync("", embed: embed.Build());
             }
             else
             {
                 var embed = new EmbedBuilder();
                 embed.WithColor(37, 152, 255);
                 embed.Title = $":x:  | You Need the Administrator Permission to do that {Context.User.Username}";
-                var use = await Context.Channel.SendMessageAsync("", false, embed);
+                var use = await Context.Channel.SendMessageAsync("", embed: embed.Build());
                 await Task.Delay(5000);
                 await use.DeleteAsync();
             }
@@ -700,7 +700,7 @@ namespace Wsashi.Core.Modules
                 var CheckMark = new Emoji("✅");
                 var XMark = new Emoji("❌");
 
-                var msg = await Context.Channel.SendMessageAsync("", false, embed);
+                var msg = await Context.Channel.SendMessageAsync("", embed: embed.Build());
                 await msg.AddReactionAsync(CheckMark);
                 await msg.AddReactionAsync(XMark);
             }
@@ -709,7 +709,7 @@ namespace Wsashi.Core.Modules
                 var embed = new EmbedBuilder();
                 embed.WithColor(37, 152, 255);
                 embed.Title = $":x:  | You Need the Administrator Permission to do that {Context.User.Username}";
-                var use = await Context.Channel.SendMessageAsync("", false, embed);
+                var use = await Context.Channel.SendMessageAsync("", embed: embed.Build());
                 await Task.Delay(5000);
                 await use.DeleteAsync();
             }
@@ -735,14 +735,14 @@ namespace Wsashi.Core.Modules
                 {
                     embed.WithDescription(":white_check_mark:  | Filter successfully turned off. Daredevil!");
                 }
-                await ReplyAsync("", false, embed);
+                await ReplyAsync("", embed: embed.Build());
             }
             else
             {
                 var embed = new EmbedBuilder();
                 embed.WithColor(37, 152, 255);
                 embed.Title = $":x:  | You Need the Administrator Permission to do that {Context.User.Username}";
-                var use = await Context.Channel.SendMessageAsync("", false, embed);
+                var use = await Context.Channel.SendMessageAsync("", embed: embed.Build());
                 await Task.Delay(5000);
                 await use.DeleteAsync();
             }
@@ -760,14 +760,14 @@ namespace Wsashi.Core.Modules
                 embed.WithDescription($"Set this server's name to **{name}**!");
                 embed.WithColor(37, 152, 255);
 
-                await ReplyAsync("", false, embed);
+                await ReplyAsync("", embed: embed.Build());
             }
             else
             {
                 var embed = new EmbedBuilder();
                 embed.WithColor(37, 152, 255);
                 embed.Title = $":x:  | You Need the Administrator Permission to do that {Context.User.Username}";
-                var use = await Context.Channel.SendMessageAsync("", false, embed);
+                var use = await Context.Channel.SendMessageAsync("", embed: embed.Build());
                 await Task.Delay(5000);
                 await use.DeleteAsync();
             }
@@ -789,14 +789,14 @@ namespace Wsashi.Core.Modules
 
                 config.MassPingChecks = arg;
                 GlobalGuildAccounts.SaveAccounts();
-                await ReplyAsync("", false, embed);
+                await ReplyAsync("", embed: embed.Build());
             }
             else
             {
                 var embed = new EmbedBuilder();
                 embed.WithColor(37, 152, 255);
                 embed.Title = $":x:  | You Need the Administrator Permission to do that {Context.User.Username}";
-                var use = await Context.Channel.SendMessageAsync("", false, embed);
+                var use = await Context.Channel.SendMessageAsync("", embed: embed.Build());
                 await Task.Delay(5000);
                 await use.DeleteAsync();
             }
@@ -822,14 +822,14 @@ namespace Wsashi.Core.Modules
                 {
                     embed.WithDescription("Disabled Antilink for this server.");
                 }
-                await ReplyAsync("", false, embed);
+                await ReplyAsync("", embed: embed.Build());
             }
             else
             {
                 var embed = new EmbedBuilder();
                 embed.WithColor(37, 152, 255);
                 embed.Title = $":x:  | You Need the Administrator Permission to do that {Context.User.Username}";
-                var use = await Context.Channel.SendMessageAsync("", false, embed);
+                var use = await Context.Channel.SendMessageAsync("", embed: embed.Build());
                 await Task.Delay(5000);
                 await use.DeleteAsync();
             }
@@ -870,14 +870,14 @@ namespace Wsashi.Core.Modules
                         break;
                 }
 
-                await Context.Channel.SendMessageAsync("", false, embed);
+                await Context.Channel.SendMessageAsync("", embed: embed.Build());
             }
             else
             {
                 var embed = new EmbedBuilder();
                 embed.WithColor(37, 152, 255);
                 embed.Title = $":x:  | You Need the Administrator Permission to do that {Context.User.Username}";
-                var use = await Context.Channel.SendMessageAsync("", false, embed);
+                var use = await Context.Channel.SendMessageAsync("", embed: embed.Build());
                 await Task.Delay(5000);
                 await use.DeleteAsync();
             }
@@ -899,7 +899,7 @@ namespace Wsashi.Core.Modules
                 var embed = new EmbedBuilder();
                 embed.WithColor(37, 152, 255);
                 embed.Title = $":x:  | You Need the Administrator Permission to do that {Context.User.Username}";
-                var use = await Context.Channel.SendMessageAsync("", false, embed);
+                var use = await Context.Channel.SendMessageAsync("", embed: embed.Build());
                 await Task.Delay(5000);
                 await use.DeleteAsync();
             }
@@ -917,7 +917,7 @@ namespace Wsashi.Core.Modules
                 embed.WithDescription($"Set this guild's welcome message to:\n\n ```{msg}```");
                 config.WelcomeMessage = msg;
                 GlobalGuildAccounts.SaveAccounts();
-                await Context.Channel.SendMessageAsync("", false, embed);
+                await Context.Channel.SendMessageAsync("", embed: embed.Build());
 
                 if (config.WelcomeChannel != 0)
                 {
@@ -945,7 +945,7 @@ namespace Wsashi.Core.Modules
             var embed = new EmbedBuilder();
             embed.WithColor(37, 152, 255);
             embed.WithDescription($"The welcome message for this server is: `{config.WelcomeMessage}`");
-            await Context.Channel.SendMessageAsync("", false, embed);
+            await Context.Channel.SendMessageAsync("", embed: embed.Build());
         }
 
         [Command("LeavingMessage"), Alias("Lmsg")]
@@ -957,7 +957,7 @@ namespace Wsashi.Core.Modules
             embed.WithDescription($"Set this guild's leaving message to:\n\n ```{msg}```\n\nSending a test welcome message to <#{config.WelcomeChannel}>");
             config.LeavingMessage = msg;
             GlobalGuildAccounts.SaveAccounts();
-            await Context.Channel.SendMessageAsync("", false, embed);
+            await Context.Channel.SendMessageAsync("", embed: embed.Build());
 
             if (config.WelcomeChannel != 0)
             {
@@ -992,14 +992,14 @@ namespace Wsashi.Core.Modules
 
                 config.CommandPrefix = prefix;
                 GlobalGuildAccounts.SaveAccounts();
-                await Context.Channel.SendMessageAsync("", false, embed);
+                await Context.Channel.SendMessageAsync("", embed: embed.Build());
             }
             else
             {
                 var embed = new EmbedBuilder();
                 embed.WithColor(37, 152, 255);
                 embed.Title = $":x:  | You Need the Administrator Permission to do that {Context.User.Username}";
-                var use = await Context.Channel.SendMessageAsync("", false, embed);
+                var use = await Context.Channel.SendMessageAsync("", embed: embed.Build());
                 await Task.Delay(5000);
                 await use.DeleteAsync();
             }
@@ -1038,7 +1038,7 @@ namespace Wsashi.Core.Modules
                 var embed = new EmbedBuilder();
                 embed.WithColor(37, 152, 255);
                 embed.Title = $":x:  | You Need the Administrator Permission to do that {Context.User.Username}";
-                var use = await Context.Channel.SendMessageAsync("", false, embed);
+                var use = await Context.Channel.SendMessageAsync("", embed: embed.Build());
                 await Task.Delay(5000);
                 await use.DeleteAsync();
             }
@@ -1068,14 +1068,14 @@ namespace Wsashi.Core.Modules
                     GlobalGuildAccounts.SaveAccounts();
                 }
 
-                await Context.Channel.SendMessageAsync("", false, embed);
+                await Context.Channel.SendMessageAsync("", embed: embed.Build());
             }
             else
             {
                 var embed = new EmbedBuilder();
                 embed.WithColor(37, 152, 255);
                 embed.Title = $":x:  | You Need the Administrator Permission to do that {Context.User.Username}";
-                var use = await Context.Channel.SendMessageAsync("", false, embed);
+                var use = await Context.Channel.SendMessageAsync("", embed: embed.Build());
                 await Task.Delay(5000);
                 await use.DeleteAsync();
             }
@@ -1105,14 +1105,14 @@ namespace Wsashi.Core.Modules
                     GlobalGuildAccounts.SaveAccounts();
                 }
 
-                await Context.Channel.SendMessageAsync("", false, embed);
+                await Context.Channel.SendMessageAsync("", embed: embed.Build());
             }
             else
             {
                 var embed = new EmbedBuilder();
                 embed.WithColor(37, 152, 255);
                 embed.Title = $":x:  | You Need the Administrator Permission to do that {Context.User.Username}";
-                var use = await Context.Channel.SendMessageAsync("", false, embed);
+                var use = await Context.Channel.SendMessageAsync("", embed: embed.Build());
                 await Task.Delay(5000);
                 await use.DeleteAsync();
             }
@@ -1141,14 +1141,14 @@ namespace Wsashi.Core.Modules
                     config.HelperRoleName = role.Name;
                     GlobalGuildAccounts.SaveAccounts();
                 }
-                await Context.Channel.SendMessageAsync("", false, embed);
+                await Context.Channel.SendMessageAsync("", embed: embed.Build());
             }
             else
             {
                 var embed = new EmbedBuilder();
                 embed.WithColor(37, 152, 255);
                 embed.Title = $":x:  | You Need the Administrator Permission to do that {Context.User.Username}";
-                var use = await Context.Channel.SendMessageAsync("", false, embed);
+                var use = await Context.Channel.SendMessageAsync("", embed: embed.Build());
                 await Task.Delay(5000);
                 await use.DeleteAsync();
             }
@@ -1170,14 +1170,14 @@ namespace Wsashi.Core.Modules
 
                 config.MassPingChecks = arg;
                 GlobalGuildAccounts.SaveAccounts();
-                await Context.Channel.SendMessageAsync("", false, embed);
+                await Context.Channel.SendMessageAsync("", embed: embed.Build());
             }
             else
             {
                 var embed = new EmbedBuilder();
                 embed.WithColor(37, 152, 255);
                 embed.Title = $":x:  | You Need the Administrator Permission to do that {Context.User.Username}";
-                var use = await Context.Channel.SendMessageAsync("", false, embed);
+                var use = await Context.Channel.SendMessageAsync("", embed: embed.Build());
                 await Task.Delay(5000);
                 await use.DeleteAsync();
             }
@@ -1196,14 +1196,14 @@ namespace Wsashi.Core.Modules
                     .WithDescription($"Added the {role} to the Config.");
                 config.SelfRoles.Add(role);
                 GlobalGuildAccounts.SaveAccounts();
-                await Context.Channel.SendMessageAsync("", false, embed);
+                await Context.Channel.SendMessageAsync("", embed: embed.Build());
             }
             else
             {
                 var embed = new EmbedBuilder();
                 embed.WithColor(37, 152, 255);
                 embed.Title = $":x:  | You Need the Administrator Permission to do that {Context.User.Username}";
-                var use = await Context.Channel.SendMessageAsync("", false, embed);
+                var use = await Context.Channel.SendMessageAsync("", embed: embed.Build());
                 await Task.Delay(5000);
                 await use.DeleteAsync();
             }
@@ -1228,14 +1228,14 @@ namespace Wsashi.Core.Modules
                 {
                     embed.WithDescription("That role doesn't exist in your Guild Config.");
                 }
-                await Context.Channel.SendMessageAsync("", false, embed);
+                await Context.Channel.SendMessageAsync("", embed: embed.Build());
             }
             else
             {
                 var embed = new EmbedBuilder();
                 embed.WithColor(37, 152, 255);
                 embed.Title = $":x:  | You Need the Administrator Permission to do that {Context.User.Username}";
-                var use = await Context.Channel.SendMessageAsync("", false, embed);
+                var use = await Context.Channel.SendMessageAsync("", embed: embed.Build());
                 await Task.Delay(5000);
                 await use.DeleteAsync();
             }
@@ -1261,14 +1261,14 @@ namespace Wsashi.Core.Modules
                     config.SelfRoles.Clear();
                 }
 
-                await Context.Channel.SendMessageAsync("", false, embed);
+                await Context.Channel.SendMessageAsync("", embed: embed.Build());
             }
             else
             {
                 var embed = new EmbedBuilder();
                 embed.WithColor(37, 152, 255);
                 embed.Title = $":x:  | You Need the Administrator Permission to do that {Context.User.Username}";
-                var use = await Context.Channel.SendMessageAsync("", false, embed);
+                var use = await Context.Channel.SendMessageAsync("", embed: embed.Build());
                 await Task.Delay(5000);
                 await use.DeleteAsync();
             }
@@ -1302,14 +1302,14 @@ namespace Wsashi.Core.Modules
                 config.Leveling = arg;
                 GlobalGuildAccounts.SaveAccounts();
 
-                await Context.Channel.SendMessageAsync("", false, embed);
+                await Context.Channel.SendMessageAsync("", embed: embed.Build());
             }
             else
             {
                 var embed = new EmbedBuilder();
                 embed.WithColor(37, 152, 255);
                 embed.Title = $":x:  | You Need the Administrator Permission to do that {Context.User.Username}";
-                var use = await Context.Channel.SendMessageAsync("", false, embed);
+                var use = await Context.Channel.SendMessageAsync("", embed: embed.Build());
                 await Task.Delay(5000);
                 await use.DeleteAsync();
             }
@@ -1331,14 +1331,14 @@ namespace Wsashi.Core.Modules
                 embed.WithThumbnailUrl(Context.Guild.IconUrl);
                 embed.WithColor(37, 152, 255);
 
-                await Context.Channel.SendMessageAsync("", false, embed);
+                await Context.Channel.SendMessageAsync("", embed: embed.Build());
             }
             else
             {
                 var embed = new EmbedBuilder();
                 embed.WithColor(37, 152, 255);
                 embed.Title = $":x:  | You Need the Administrator Permission to do that {Context.User.Username}";
-                var use = await Context.Channel.SendMessageAsync("", false, embed);
+                var use = await Context.Channel.SendMessageAsync("", embed: embed.Build());
                 await Task.Delay(5000);
                 await use.DeleteAsync();
             }

@@ -26,7 +26,7 @@ namespace Wsashi.Modules.Games
                 var embed = new EmbedBuilder();
                 embed.WithColor(37, 152, 255);
                 embed.WithTitle(":white_check_mark:  Removed Party role.");
-                await Context.Channel.SendMessageAsync("", false, embed);
+                await Context.Channel.SendMessageAsync("", embed: embed.Build());
             }
             else
             {
@@ -34,7 +34,7 @@ namespace Wsashi.Modules.Games
                 var embed = new EmbedBuilder();
                 embed.WithColor(37, 152, 255);
                 embed.WithTitle(":white_check_mark:  Added Party role");
-                await Context.Channel.SendMessageAsync("", false, embed);
+                await Context.Channel.SendMessageAsync("", embed: embed.Build());
             }
         }
     }

@@ -31,13 +31,13 @@ namespace Wsashi.Modules.API.Nekos.life.Anime
 
             if (user == null)
             {
-                var embedd = new EmbedBuilder();
-                embedd.WithColor(37, 152, 255);
-                embedd.WithTitle("Poke!");
-                embedd.WithDescription($"{Context.User.Mention} poked themselves... I guess you can poke yourself if you're lonely... \n **(Include a user with your command! Example: w!poke <person you want to poke>)**");
-                embedd.WithImageUrl(nekolink);
+                var embed = new EmbedBuilder();
+                embed.WithColor(37, 152, 255);
+                embed.WithTitle("Poke!");
+                embed.WithDescription($"{Context.User.Mention} poked themselves... I guess you can poke yourself if you're lonely... \n **(Include a user with your command! Example: w!poke <person you want to poke>)**");
+                embed.WithImageUrl(nekolink);
 
-                await Context.Channel.SendMessageAsync("", false, embedd);
+                await Context.Channel.SendMessageAsync("", embed: embed.Build());
             }
             else
             {

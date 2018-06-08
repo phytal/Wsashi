@@ -31,13 +31,13 @@ namespace Wsashi.Modules.API.Nekos.life.Anime
 
             if (user == null)
             {
-                var embedd = new EmbedBuilder();
-                embedd.WithColor(37, 152, 255);
-                embedd.WithTitle("Hug!");
-                embedd.WithDescription($"{Context.User.Mention} hugged themselves... Aw, don't be sad, you can hug me! \n **(Include a user with your command! Example: w!hug <person you want to hug>)**");
-                embedd.WithImageUrl(nekolink);
+                var embed = new EmbedBuilder();
+                embed.WithColor(37, 152, 255);
+                embed.WithTitle("Hug!");
+                embed.WithDescription($"{Context.User.Mention} hugged themselves... Aw, don't be sad, you can hug me! \n **(Include a user with your command! Example: w!hug <person you want to hug>)**");
+                embed.WithImageUrl(nekolink);
 
-                await Context.Channel.SendMessageAsync("", false, embedd);
+                await Context.Channel.SendMessageAsync("", embed: embed.Build());
             }
             else
             {

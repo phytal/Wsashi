@@ -93,7 +93,7 @@ namespace Wsashi
             embed.AddField("Playing", $"**{game}**", true);
             embed.AddField("Status", $"**{user.Status}**", true);
 
-            await ReplyAsync("", false, embed);
+            await ReplyAsync("", embed: embed.Build());
         }
 
 
@@ -116,7 +116,7 @@ namespace Wsashi
 
             embed.WithColor(37, 152, 255);
 
-            await ReplyAsync("", false, embed);
+            await ReplyAsync("", embed: embed.Build());
         }
 
         /*[Command("userinfo")]
@@ -267,7 +267,7 @@ namespace Wsashi
                 var embed = new EmbedBuilder();
                 embed.WithColor(37, 152, 255);
                 embed.Title = $":x:  | You Need the Administrator Permission to do that {Context.User.Username}";
-                var use = await Context.Channel.SendMessageAsync("", false, embed);
+                var use = await Context.Channel.SendMessageAsync("", embed: embed.Build());
                 await Task.Delay(5000);
                 await use.DeleteAsync();
             }
@@ -302,7 +302,7 @@ namespace Wsashi
                 var embed = new EmbedBuilder();
                 embed.WithColor(37, 152, 255);
                 embed.Title = $":x:  | You Need to be in a NSFW channel to do that {Context.User.Username}";
-                var use = await Context.Channel.SendMessageAsync("", false, embed);
+                var use = await Context.Channel.SendMessageAsync("", embed: embed.Build());
                 await Task.Delay(5000);
                 await use.DeleteAsync();
             }

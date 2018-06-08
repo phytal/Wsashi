@@ -53,7 +53,7 @@ namespace Watchdog.Modules.API
             embed.WithDescription(CatFact);
             embed.WithColor(new Color(19, 100, 140));
 
-            await Context.Channel.SendMessageAsync("", false, embed);
+            await Context.Channel.SendMessageAsync("", embed: embed.Build());
         }
 
         public class CatFactReply

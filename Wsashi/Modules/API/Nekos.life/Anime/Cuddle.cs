@@ -31,13 +31,13 @@ namespace Wsashi.Modules.API
 
             if (user == null)
             {
-                var embedd = new EmbedBuilder();
-                embedd.WithColor(37, 152, 255);
-                embedd.WithTitle("Cuddle!");
-                embedd.WithDescription($"{Context.User.Mention} cuddled with themselves... Maybe you can cuddle with a friend? \n **(Include a user with your command! Example: w!cuddle <person you want to cuddle with>)**");
-                embedd.WithImageUrl(nekolink);
+                var embed = new EmbedBuilder();
+                embed.WithColor(37, 152, 255);
+                embed.WithTitle("Cuddle!");
+                embed.WithDescription($"{Context.User.Mention} cuddled with themselves... Maybe you can cuddle with a friend? \n **(Include a user with your command! Example: w!cuddle <person you want to cuddle with>)**");
+                embed.WithImageUrl(nekolink);
 
-                await Context.Channel.SendMessageAsync("", false, embedd);
+                await Context.Channel.SendMessageAsync("", embed: embed.Build());
             }
             else
             {

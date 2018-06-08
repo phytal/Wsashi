@@ -27,10 +27,10 @@ namespace Wsashi.Modules
             embed.WithTitle($":mailbox_with_mail:  | You have recieved a DM from {Context.User.Username}!");
             embed.Description = $"{dm}";
             embed.WithFooter(new EmbedFooterBuilder().WithText($"Guild: {Context.Guild.Name}"));
-            await message.SendMessageAsync("", false, embed);
+            await message.SendMessageAsync("", embed: embed.Build());
             embed.Description = $":e_mail: | You have sent a message to {user.Username}, they will read the message soon.";
 
-            await Context.Channel.SendMessageAsync("", false, embed);
+            await Context.Channel.SendMessageAsync("", embed: embed.Build());
         }
     }
 }

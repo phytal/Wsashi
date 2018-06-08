@@ -31,13 +31,13 @@ namespace Wsashi.Modules.API.Nekos.life.Anime
 
             if (user == null)
             {
-                var embedd = new EmbedBuilder();
-                embedd.WithColor(37, 152, 255);
-                embedd.WithTitle("Pat!");
-                embedd.WithDescription($"{Context.User.Mention} patted thin air... You can pat me if you would like! \n **(Include a user with your command! Example: w!pat <person you want to pat>)**");
-                embedd.WithImageUrl(nekolink);
+                var embed = new EmbedBuilder();
+                embed.WithColor(37, 152, 255);
+                embed.WithTitle("Pat!");
+                embed.WithDescription($"{Context.User.Mention} patted thin air... You can pat me if you would like! \n **(Include a user with your command! Example: w!pat <person you want to pat>)**");
+                embed.WithImageUrl(nekolink);
 
-                await Context.Channel.SendMessageAsync("", false, embedd);
+                await Context.Channel.SendMessageAsync("", embed: embed.Build());
             }
             else
             {

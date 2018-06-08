@@ -21,7 +21,7 @@ namespace Wsashi
                 .WithAuthor(user)
                 .WithColor(37, 152, 255);
 
-            await loggingChannel.SendMessageAsync("", false, embed);
+            await loggingChannel.SendMessageAsync("", embed: embed.Build());
         }
 
         public static async Task HandleChannelCreate(SocketChannel chnl)
@@ -36,7 +36,7 @@ namespace Wsashi
                 .WithAuthor((chnl as SocketGuildChannel).Guild.Owner)
                 .WithColor(37, 152, 255);
 
-            await loggingChannel.SendMessageAsync("", false, embed);
+            await loggingChannel.SendMessageAsync("", embed: embed.Build());
         }
 
         public static async Task HandleChannelDelete(SocketChannel chnl)
@@ -51,7 +51,7 @@ namespace Wsashi
                 .WithAuthor((chnl as SocketGuildChannel).Guild.Owner)
                 .WithColor(37, 152, 255);
 
-            await loggingChannel.SendMessageAsync("", false, embed);
+            await loggingChannel.SendMessageAsync("", embed: embed.Build());
         }
 
         public static async Task HandleServerUpdate(SocketGuild server, SocketGuild guild)
@@ -68,7 +68,7 @@ namespace Wsashi
                 .WithAuthor(guild.Owner)
                 .WithColor(37, 152, 255);
 
-            await loggingChannel.SendMessageAsync("", false, embed);
+            await loggingChannel.SendMessageAsync("", embed: embed.Build());
         }
 
         public static async Task HandleMessageDelete(Cacheable<IMessage, ulong> message, ISocketMessageChannel channel)
@@ -86,7 +86,7 @@ namespace Wsashi
                 .WithAuthor(context.Guild.Owner)
                 .WithColor(37, 152, 255);
 
-            await loggingChannel.SendMessageAsync("", false, embed);
+            await loggingChannel.SendMessageAsync("", embed: embed.Build());
         }
 
         public static async Task HandleMessageUpdate(Cacheable<IMessage, ulong> message, SocketMessage s, ISocketMessageChannel channel)
@@ -105,7 +105,7 @@ namespace Wsashi
                 .WithAuthor(context.Guild.Owner)
                 .WithColor(37, 152, 255);
 
-            await loggingChannel.SendMessageAsync("", false, embed);
+            await loggingChannel.SendMessageAsync("", embed: embed.Build());
         }
 
         public static async Task HandleRoleCreation(SocketRole role)
@@ -124,7 +124,7 @@ namespace Wsashi
                 .WithAuthor(role.Guild.Owner)
                 .WithColor(37, 152, 255);
 
-            await loggingChannel.SendMessageAsync("", false, embed);
+            await loggingChannel.SendMessageAsync("", embed: embed.Build());
         }
 
         public static async Task HandleRoleUpdate(SocketRole roleBefore, SocketRole roleAfter)
@@ -150,7 +150,7 @@ namespace Wsashi
                 .WithThumbnailUrl("https://content.mycutegraphics.com/graphics/pencil/sharp-pencil.png")
                 .WithColor(37, 152, 255);
 
-            await loggingChannel.SendMessageAsync("", false, embed);
+            await loggingChannel.SendMessageAsync("", embed: embed.Build());
         }
 
         public static async Task HandleRoleDelete(SocketRole role)
@@ -166,7 +166,7 @@ namespace Wsashi
                 .WithAuthor(role.Guild.Owner)
                 .WithColor(37, 152, 255);
 
-            await loggingChannel.SendMessageAsync("", false, embed);
+            await loggingChannel.SendMessageAsync("", embed: embed.Build());
         }
 
         public static async Task HandleUserUpdate(SocketUser userBefore, SocketUser userAfter)
@@ -194,7 +194,7 @@ namespace Wsashi
                 .WithThumbnailUrl("https://content.mycutegraphics.com/graphics/pencil/sharp-pencil.png")
                 .WithColor(37, 152, 255);
 
-            await loggingChannel.SendMessageAsync("", false, embed);
+            await loggingChannel.SendMessageAsync("", embed: embed.Build());
         }
     }
 }

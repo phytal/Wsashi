@@ -46,7 +46,7 @@ namespace Wsashi.Modules
 
 
             }
-            await ReplyAsync("", false, embed);
+            await ReplyAsync("", embed: embed.Build());
         }
     }
 }

@@ -45,7 +45,7 @@ namespace SIVA.Core.Modules.Management
             var embed = new EmbedBuilder()
                 .WithDescription("Successfully verified this server.")
                 .WithColor(37, 152, 255);
-            await ReplyAsync("", false, embed);
+            await ReplyAsync("", embed: embed.Build());
         }
 
         [Command("Stream")]
@@ -70,7 +70,7 @@ namespace SIVA.Core.Modules.Management
             embed.WithDescription($"Set the bot's game to {game}");
             embed.WithColor(37, 152, 255);
             await client.SetGameAsync(game);
-            await ReplyAsync("", false, embed);
+            await ReplyAsync("", embed: embed.Build());
         }
 
         [Command("setVersion")]
@@ -82,7 +82,7 @@ namespace SIVA.Core.Modules.Management
             var embed = new EmbedBuilder();
             embed.WithDescription($"Set the bot's version to {version}");
             embed.WithColor(37, 152, 255);
-            await ReplyAsync("", false, embed);
+            await ReplyAsync("", embed: embed.Build());
         }
 
         [Command("Status")]
@@ -113,7 +113,7 @@ namespace SIVA.Core.Modules.Management
                     break;
             }
 
-            await ReplyAsync("", false, embed);
+            await ReplyAsync("", embed: embed.Build());
         }
 
         [Command("LeaveServer")]
@@ -123,7 +123,7 @@ namespace SIVA.Core.Modules.Management
         {
             var embed = new EmbedBuilder();
             embed.WithColor(37, 152, 255);
-            await ReplyAsync("", false, embed);
+            await ReplyAsync("", embed: embed.Build());
             await Context.Guild.LeaveAsync();
         }
 
@@ -137,7 +137,7 @@ namespace SIVA.Core.Modules.Management
             var embed = new EmbedBuilder();
             embed.WithDescription("Done.");
             embed.WithColor(37, 152, 255);
-            await ReplyAsync("", false, embed);
+            await ReplyAsync("", embed: embed.Build());
             await client.SetGameAsync($"in {guilds} servers!", $"https://twitch.tv/{Config.bot.TwitchStreamer}", StreamType.Twitch);
 
         }
