@@ -15,6 +15,7 @@ namespace Wsashi
         internal static readonly string InvisibleString = "\u200b";
         public const ulong DailyMoneyGain = 100;
         public const int MessageRewardCooldown = 30;
+        public const int MessageXPCooldown = 6;
         public const int MessageRewardMinLenght = 20;
         public static readonly Tuple<int, int> MessagRewardMinMax = Tuple.Create(1, 5);
     }

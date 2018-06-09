@@ -25,6 +25,8 @@ namespace Wsashi.Entities
 
         public DateTime LastMessage { get; set; } = DateTime.UtcNow;
 
+        public DateTime LastXPMessage { get; set; } = DateTime.UtcNow;
+
         public List<ReminderEntry> Reminders { get; internal set; } = new List<ReminderEntry>();
         /* Add more values to store */
         public Dictionary<string, string> Tags { get; set; } = new Dictionary<string, string>();

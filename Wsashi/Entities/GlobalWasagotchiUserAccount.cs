@@ -47,6 +47,16 @@ namespace Wsashi.Entities
 
         public bool Sick { get; set; }
 
+        public DateTime LastTrain { get; set; }
+        public DateTime LastFeed { get; set; }
+        public DateTime LastPlay { get; set; }
+        public DateTime LastBuy { get; set; }
+        public DateTime LastClean { get; set; }
+        public DateTime LastStats { get; set; }
+        public DateTime LastName { get; set; }
+        public DateTime LastPicture { get; set; }
+        public DateTime LastHelp { get; set; }
+
         public DateTime SickSince { get; set; }
 
         public bool RanAway { get; set; }

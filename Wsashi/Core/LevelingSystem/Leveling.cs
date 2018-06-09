@@ -14,6 +14,15 @@ namespace Wsashi.Core.LevelingSystem
         internal static async Task UserSentMessage(SocketGuildUser user, SocketTextChannel channel)
         {
             var userAccount = GlobalUserAccounts.GetUserAccount(user);
+            DateTime now = DateTime.UtcNow;
+
+            if (now < userAccount.LastXPMessage.AddSeconds(Constants.MessageXPCooldown))
+            {
+                return; 
+            }
+
+            userAccount.LastXPMessage = now;
+
             uint oldLevel = userAccount.LevelNumber;
             userAccount.XP += 13;
             GlobalUserAccounts.SaveAccounts();
