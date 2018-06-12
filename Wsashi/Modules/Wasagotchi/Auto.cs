@@ -16,7 +16,7 @@ namespace Wsashi.Modules.Wasagotchi
             {
                 userAccount.Sick = true;
                 GlobalWasagotchiUserAccounts.SaveAccounts();
-                await message.SendMessageAsync($":exclamation:  | {user.Mention}, **{userAccount.Name}** is sick! Treat her right away and buy her some medicine with w!buy! ");
+                await message.SendMessageAsync($":exclamation:  | {user.Mention}, **{userAccount.Name}** is sick! Treat her right with medicine with w!buy! ");
             }
             if ((userAccount.Waste == 20) && (userAccount.Hunger <= 5) && (userAccount.Attention <= 5))
             {

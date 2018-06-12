@@ -37,13 +37,13 @@ namespace Wsashi
             {
                 if (userAcc.Have == true)
                 {
-                    if (userAcc.Hunger >= 20)
+                    if (userAcc.Hunger > 0)
                         userAcc.Hunger = userAcc.Hunger - 1;
                     else userAcc.Hunger = 0;
-                    if (userAcc.Waste <= 20)
+                    if (userAcc.Waste < 20)
                         userAcc.Waste = userAcc.Waste + 1;
                     else userAcc.Waste = 20;
-                    if (userAcc.Attention >= 20)
+                    if (userAcc.Attention > 0)
                         userAcc.Attention = userAcc.Attention - 1;
                     else userAcc.Attention = 0;
                     GlobalWasagotchiUserAccounts.SaveAccounts();

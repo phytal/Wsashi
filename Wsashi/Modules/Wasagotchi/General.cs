@@ -322,7 +322,6 @@ namespace Wsashi.Modules.Wasagotchi
             var config = GlobalWasagotchiUserAccounts.GetWasagotchiAccount(Context.User);
             DateTime now = DateTime.UtcNow;
             var timeSpanString = string.Format("{0:%s} seconds", config.LastTrain.AddSeconds(8) - now);
-            config.LastTrain = now;
             if (now < config.LastTrain.AddSeconds(8))
             {
                 await Context.Channel.SendMessageAsync($"**{Context.User.Username}, please cooldown! You may use this command in {timeSpanString}.**");
@@ -335,6 +334,7 @@ namespace Wsashi.Modules.Wasagotchi
             }
             else
             {
+                config.LastTrain = now;
                 Random rand = new Random();
                 int choice = rand.Next(1, 3);
 
