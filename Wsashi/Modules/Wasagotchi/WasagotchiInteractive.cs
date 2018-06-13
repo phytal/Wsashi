@@ -10,7 +10,7 @@ namespace Wsashi.Modules
 {
     public class WasagotchiInteractive : InteractiveBase
     {
-        [Command("wasagotchi buy", RunMode = RunMode.Async)]
+        [Command("wasagotchi buy", RunMode = RunMode.Async), Alias("wasagotchi shop")]
         public async Task WasagotchiBuy()
         {
             var user = Context.User as SocketGuildUser;

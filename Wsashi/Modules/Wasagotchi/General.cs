@@ -26,7 +26,7 @@ namespace Wsashi.Modules.Wasagotchi
             DateTime now = DateTime.UtcNow;
             var timeSpanString = string.Format("{0:%s} seconds", config.LastTrain.AddSeconds(8) - now);
             config.LastStats = now;
-            if (now < config.LastTrain.AddSeconds(8))
+            if (now < config.LastStats.AddSeconds(8))
             {
                 await Context.Channel.SendMessageAsync($"**{Context.User.Username}, please cooldown! You may use this command in {timeSpanString}.**");
                 return;
@@ -80,11 +80,12 @@ namespace Wsashi.Modules.Wasagotchi
         {
             var config = GlobalWasagotchiUserAccounts.GetWasagotchiAccount(Context.User);
             DateTime now = DateTime.UtcNow;
-            var timeSpanString = string.Format("{0:%s} seconds", config.LastTrain.AddSeconds(8) - now);
+            var timeSpanString = string.Format("{0:%s} seconds", config.LastHelp.AddSeconds(8) - now);
             config.LastHelp = now;
-            if (now < config.LastTrain.AddSeconds(8))
+            if (now < config.LastHelp.AddSeconds(8))
             {
                 await Context.Channel.SendMessageAsync($"**{Context.User.Username}, please cooldown! You may use this command in {timeSpanString}.**");
+                GlobalWasagotchiUserAccounts.SaveAccounts(Context.User.Id);
                 return;
             }
             
@@ -118,9 +119,9 @@ namespace Wsashi.Modules.Wasagotchi
         {
             var config = GlobalWasagotchiUserAccounts.GetWasagotchiAccount(Context.User);
             DateTime now = DateTime.UtcNow;
-            var timeSpanString = string.Format("{0:%s} seconds", config.LastTrain.AddSeconds(8) - now);
+            var timeSpanString = string.Format("{0:%s} seconds", config.LastName.AddSeconds(8) - now);
             config.LastName = now;
-            if (now < config.LastTrain.AddSeconds(8))
+            if (now < config.LastName.AddSeconds(8))
             {
                 await Context.Channel.SendMessageAsync($"**{Context.User.Username}, please cooldown! You may use this command in {timeSpanString}.**");
                 return;
@@ -129,6 +130,7 @@ namespace Wsashi.Modules.Wasagotchi
             {
                 var no = Emote.Parse("<:no:453716729525174273>");
                 await Context.Channel.SendMessageAsync($"{no}  |  **{Context.User.Username}**, you don't own a <:wasagotchi:454535808079364106> Wasagotchi! \n\nPurchase one with w!wasagotchi buy!");
+                GlobalWasagotchiUserAccounts.SaveAccounts(Context.User.Id);
                 return;
             }
             else
@@ -144,9 +146,9 @@ namespace Wsashi.Modules.Wasagotchi
         {
             var config = GlobalWasagotchiUserAccounts.GetWasagotchiAccount(Context.User);
             DateTime now = DateTime.UtcNow;
-            var timeSpanString = string.Format("{0:%s} seconds", config.LastTrain.AddSeconds(8) - now);
+            var timeSpanString = string.Format("{0:%s} seconds", config.LastPicture.AddSeconds(8) - now);
             config.LastPicture = now;
-            if (now < config.LastTrain.AddSeconds(8))
+            if (now < config.LastPicture.AddSeconds(8))
             {
                 await Context.Channel.SendMessageAsync($"**{Context.User.Username}, please cooldown! You may use this command in {timeSpanString}.**");
                 return;
@@ -155,6 +157,7 @@ namespace Wsashi.Modules.Wasagotchi
             {
                 var no = Emote.Parse("<:no:453716729525174273>");
                 await Context.Channel.SendMessageAsync($"{no}  |  **{Context.User.Username}**, you don't own a <:wasagotchi:454535808079364106> Wasagotchi! \n\nPurchase one with w!wasagotchi buy!");
+                GlobalWasagotchiUserAccounts.SaveAccounts(Context.User.Id);
                 return;
             }
             else
@@ -171,9 +174,9 @@ namespace Wsashi.Modules.Wasagotchi
         {
             var config = GlobalWasagotchiUserAccounts.GetWasagotchiAccount(Context.User);
             DateTime now = DateTime.UtcNow;
-            var timeSpanString = string.Format("{0:%s} seconds", config.LastTrain.AddSeconds(8) - now);
+            var timeSpanString = string.Format("{0:%s} seconds", config.LastFeed.AddSeconds(8) - now);
             config.LastFeed = now;
-            if (now < config.LastTrain.AddSeconds(8))
+            if (now < config.LastFeed.AddSeconds(8))
             {
                 await Context.Channel.SendMessageAsync($"**{Context.User.Username}, please cooldown! You may use this command in {timeSpanString}.**");
                 return;
@@ -181,6 +184,7 @@ namespace Wsashi.Modules.Wasagotchi
             if (config.Have == false) //if they own a Wasagotchi or not
             {
                 await Context.Channel.SendMessageAsync($":no:  |  **{Context.User.Username}**, you don't own a <:wasagotchi:454535808079364106> Wasagotchi! \n\nPurchase one with w!wasagotchi buy!");
+                GlobalWasagotchiUserAccounts.SaveAccounts(Context.User.Id);
                 return;
             }
             else
@@ -217,10 +221,10 @@ namespace Wsashi.Modules.Wasagotchi
         [Command("wasagotchi clean")]
         public async Task WasagotchiClean()
         {
-            var config = GlobalWasagotchiUserAccounts.GetWasagotchiAccount(Context.User);
+            var config = GlobalWasagotchiUserAccounts.GetWasagotchiAccount(Context.User.Id);
             DateTime now = DateTime.UtcNow;
-            var timeSpanString = string.Format("{0:%s} seconds", config.LastTrain.AddSeconds(8) - now);
-            if (now < config.LastTrain.AddSeconds(8))
+            var timeSpanString = string.Format("{0:%s} seconds", config.LastClean.AddSeconds(8) - now);
+            if (now < config.LastClean.AddSeconds(8))
             {
                 await Context.Channel.SendMessageAsync($"**{Context.User.Username}, please cooldown! You may use this command in {timeSpanString}.**");
                 return;
@@ -229,6 +233,7 @@ namespace Wsashi.Modules.Wasagotchi
             if (config.Have == false) //if they own a Wasagotchi or not
             {
                 await Context.Channel.SendMessageAsync($":no:  |  **{Context.User.Username}**, you don't own a <:wasagotchi:454535808079364106> Wasagotchi! \n\nPurchase one with w!wasagotchi buy!");
+                GlobalWasagotchiUserAccounts.SaveAccounts(Context.User.Id);
                 return;
             }
             else
@@ -275,6 +280,7 @@ namespace Wsashi.Modules.Wasagotchi
             if (config.Have == false) //if they own a Wasagotchi or not
             {
                 await Context.Channel.SendMessageAsync($":no:  |  **{Context.User.Username}**, you don't own a <:wasagotchi:454535808079364106> Wasagotchi! \n\nPurchase one with w!wasagotchi buy!");
+                GlobalWasagotchiUserAccounts.SaveAccounts(Context.User.Id);
                 return;
             }
             else
@@ -330,6 +336,7 @@ namespace Wsashi.Modules.Wasagotchi
             if (config.Have == false) //if they own a Wasagotchi or not
             {
                 await Context.Channel.SendMessageAsync($":no:  |  **{Context.User.Username}**, you don't own a <:wasagotchi:454535808079364106> Wasagotchi! \n\nPurchase one with w!wasagotchi buy!");
+                GlobalWasagotchiUserAccounts.SaveAccounts(Context.User.Id);
                 return;
             }
             else
