@@ -6,6 +6,7 @@ using Discord;
 using Discord.Commands;
 using Wsashi.Core.Modules;
 using Wsashi.Features.GlobalAccounts;
+using Wsashi.Preconditions;
 
 namespace Wsashi.Modules.API.Overwatch
 {
@@ -13,6 +14,8 @@ namespace Wsashi.Modules.API.Overwatch
     {
         [Command("owaccount")]
         [Summary("Set your Battle.net username and ID")]
+        [Remarks("w!owaccount <username> Ex: w!owaccount Username#1234")]
+        [Cooldown(10)]
         public async Task OwAccount([Remainder] string usercred)
         {
             usercred = usercred.Replace('#', '-');

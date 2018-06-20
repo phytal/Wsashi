@@ -16,8 +16,9 @@ namespace Wsashi.Modules.API.Overwatch
     public class MyUserStats : WsashiModule
     {
         [Command("myowstats", RunMode = RunMode.Async)]
-        [Summary("Get your Overwatch statistics. Usage: w!owstats <platform (pc/xbl/psn)> Ex: w!owstats pc NOTE: You must first register your Battle.net Username and ID with w!owaccount")]
+        [Summary("Get your Overwatch statistics. NOTE: You must first register your Battle.net Username and ID with w!owaccount")]
         [Alias("myows", "myoverwatchstats")]
+        [Remarks("w!myows <platform(psn/xbl/pc)> Ex: w!myows pc")]
         [Cooldown(10)]
         public async Task GetOwStats([Remainder] string message)
         {
@@ -93,8 +94,9 @@ namespace Wsashi.Modules.API.Overwatch
         }
 
         [Command("myowstatsqp", RunMode = RunMode.Async)]
-        [Summary("Get your Overwatch Quickplay statistics. Usage: w!owstats <platform (pc/xbl/psn)> Ex: w!owstatsqp pc NOTE: You must first register your Battle.net Username and ID with w!owaccount")]
+        [Summary("Get your Overwatch Quickplay statistics. NOTE: You must first register your Battle.net Username and ID with w!owaccount")]
         [Alias("myowsqp", "myoverwatchstatsqp", "myowsquickplay")]
+        [Remarks("w!myowsqp <platform (pc/xbl/psn)> Ex: w!myowsqp pc")]
         [Cooldown(10)]
         public async Task GetOwQpStats([Remainder] string message)
         {
@@ -150,8 +152,9 @@ namespace Wsashi.Modules.API.Overwatch
         }
 
         [Command("myowstatscomp", RunMode = RunMode.Async)]
-        [Summary("Get your Overwatch Competitive statistics. Usage: w!owstatscomp <platform (pc/xbl/psn)> Ex: w!owstats pc NOTE: You must first register your Battle.net Username and ID with w!owaccount")]
+        [Summary("Get your Overwatch Competitive statistics. NOTE: You must first register your Battle.net Username and ID with w!owaccount")]
         [Alias("myowsc", "myoverwatchstatscomp", "myowscompetitive")]
+        [Remarks("w!myowsc <platform (pc/xbl/psn)> Ex: w!myowsc pc")]
         [Cooldown(10)]
 
         public async Task GetOwCompStats([Remainder] string message)

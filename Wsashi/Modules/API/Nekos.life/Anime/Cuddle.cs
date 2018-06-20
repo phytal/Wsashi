@@ -9,6 +9,7 @@ using System.Net;
 using System.IO;
 using Newtonsoft.Json;
 using Discord;
+using Wsashi.Preconditions;
 
 namespace Wsashi.Modules.API
 {
@@ -16,6 +17,8 @@ namespace Wsashi.Modules.API
     {
         [Command("cuddle", RunMode = RunMode.Async)]
         [Summary("Displays an random cuddle picture!")]
+        [Remarks("w!cuddle <user you want to cuddle (if left empty you will cuddle yourself)> Ex: w!cuddle @Phytal")]
+        [Cooldown(10)]
         public async Task GetRandomNekoCuddle(IGuildUser user = null)
         {
 

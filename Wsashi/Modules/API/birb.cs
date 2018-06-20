@@ -9,6 +9,7 @@ using System.Net;
 using System.IO;
 using Newtonsoft.Json;
 using Discord;
+using Wsashi.Preconditions;
 
 namespace Watchdog.Modules.API
 {
@@ -17,6 +18,8 @@ namespace Watchdog.Modules.API
         [Command("birb", RunMode = RunMode.Async)]
         [Alias("birdmeme")]
         [Summary("Displays an random birb meme")]
+        [Remarks("Ex: w!birb")]
+        [Cooldown(5)]
         public async Task GetRandomBirb()
         {
             string url = @"https://random.birb.pw/tweet/random";

@@ -1,4 +1,5 @@
-﻿using Discord.Commands;
+﻿using Discord;
+using Discord.Commands;
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
@@ -6,6 +7,7 @@ using System.Linq;
 using System.Net;
 using System.Text;
 using System.Threading.Tasks;
+using Wsashi.Preconditions;
 
 namespace Watchdog.Modules.API
 {
@@ -13,6 +15,8 @@ namespace Watchdog.Modules.API
     {
         [Command("bird")]
         [Summary("Displays an image of a bird (not a meme lol)")]
+        [Remarks("Ex: w!bird")]
+        [Cooldown(10)]
         public async Task GetRandomShiba()
         {
             string json = "";
@@ -25,7 +29,10 @@ namespace Watchdog.Modules.API
 
             string link = dataObject[0].ToString();
 
-            await Context.Channel.SendMessageAsync(link);
+            var embed = new EmbedBuilder();
+            embed.WithTitle(":bird: | Here's a random bird!");
+            embed.WithImageUrl(link);
+            await Context.Channel.SendMessageAsync("", embed: embed.Build());
         }
     }
 }

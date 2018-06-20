@@ -6,6 +6,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Net;
+using Wsashi.Preconditions;
 
 namespace Watchdog.Modules
 {
@@ -20,6 +21,8 @@ namespace Watchdog.Modules
         [Command("coinflip")]
         [Summary("Flips a coin")]
         [Alias("Coin", "flip")]
+        [Remarks("w! <> Ex: w!")]
+        [Cooldown(5)]
         public async Task CoinFlip()
         {
             Random rand = new Random();
@@ -34,9 +37,10 @@ namespace Watchdog.Modules
         [Command("roll")]
         [Summary("Rolls a Dice")]
         [Alias("dice", "dice roll")]
+        [Remarks("Ex: w!roll")]
+        [Cooldown(5)]
         public async Task RollDice()
         {
-
             Random random = new Random();
             int randomNumber = random.Next(1, 7);
             var embed = new EmbedBuilder();

@@ -7,6 +7,7 @@ using Discord.Commands;
 using Wsashi.Helpers;
 using Wsashi.Core.Modules;
 using Wsashi.Features.GlobalAccounts;
+using Wsashi.Preconditions;
 
 namespace Wsashi.Modules.Management
 {
@@ -37,6 +38,8 @@ namespace Wsashi.Modules.Management
 
         [Command("Config")]
         [Summary("Displays all of the bot settings on this server")]
+        [Remarks("Ex: w!config")]
+        [Cooldown(10)]
         public async Task MasterConfig()
         {
             var guser = Context.User as SocketGuildUser;

@@ -99,6 +99,7 @@ namespace Wsashi
         private async Task HandleCommandAsync(SocketMessage s)
         {
             await Events.FilterChecks(s);
+            await Events.Unflip(s);
 
             if (!(s is SocketUserMessage msg)) return;
             if (msg.Channel is SocketDMChannel) return;
@@ -126,14 +127,6 @@ namespace Wsashi
                     context.Channel.SendMessageAsync(errMessage);
                 });
 #pragma warning restore CS4014 // Because this call is not awaited, execution of the current method continues before the call is completed
-            }
-
-            // Mute check
-            var userAccount = GlobalUserAccounts.GetUserAccount(context.User);
-            if (userAccount.IsMuted)
-            {
-                await context.Message.DeleteAsync();
-                return;
             }
 
             // Leveling up

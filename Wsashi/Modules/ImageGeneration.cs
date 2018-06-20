@@ -18,7 +18,8 @@ namespace Watchdog.Modules
     {
         [Command("gru")]
         [Summary("Sends a gru meme with what you inputed")]
-        [Remarks("w!gru f+d/l")]
+        [Cooldown(20, true)]
+        [Remarks("w!gru <front first box> <second box> <last boxes> Ex: w!gru f+d/l")]
         public async Task Gru([Remainder] string input)
         {
             string thirdf = input.Split('/').Last();
@@ -46,9 +47,10 @@ namespace Watchdog.Modules
             }
         }
 
-        [Command("butterflyman")]
+        [Command("butterflyman"), Alias("bfm")]
         [Summary("Sends a butterfly man meme with what you inputed")]
-        [Remarks("w!gru f+d/l")]
+        [Remarks("w!bfm <man> <butterfly> <caption> w!bfm f+d/l")]
+        [Cooldown(10, true)]
         public async Task Bman([Remainder] string input)
         {
             string ann = input.Split('/').Last();

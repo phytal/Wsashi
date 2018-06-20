@@ -22,8 +22,10 @@ namespace Wsashi
         }
 
         [Command("info")]
-        [Summary("Getting info for a user")]
+        [Summary("Gets info for a user")]
         [Alias("Whois", "userinfo")]
+        [Remarks("w!info <user you want to see> Ex: w!info @Phytal")]
+        [Cooldown(10)]
         public async Task UserInfo(IGuildUser user)
         {
             var thumbnailurl = user.GetAvatarUrl();
@@ -99,6 +101,8 @@ namespace Wsashi
 
         [Command("ServerInfo"), Alias("sinfo", "serveri", "si")]
         [Summary("Provides information for the current server")]
+        [Remarks("Ex: w!server info")]
+        [Cooldown(10)]
         public async Task ServerInformationCommand()
         {
             var config = GlobalGuildAccounts.GetGuildAccount(Context.Guild.Id);
@@ -176,13 +180,15 @@ namespace Wsashi
 
         [Command("info")]
         [Summary("Shows Wsashi's information")]
+        [Remarks("Ex: w!info")]
+        [Cooldown(10)]
         public async Task Info()
         {
             string version = Config.bot.Version;
             var embed = new EmbedBuilder();
             embed.WithColor(37, 152, 255);
             embed.AddInlineField("Creator", "Phytal#8213");
-            embed.AddInlineField("Last Updated", "5/28/2018");
+            embed.AddInlineField("Last Updated", "6/20/2018");
             embed.AddInlineField("Bot version", $"Beta {version}");
             embed.WithImageUrl(Global.Client.CurrentUser.GetAvatarUrl());
 
@@ -191,21 +197,22 @@ namespace Wsashi
 
         [Command("help")]
         [Summary("Shows all possible Standard Commands for this bot")]
-        [Cooldown(15)]
+        [Remarks("Ex: w!help")]
+        [Cooldown(30)]
         public async Task HelpMessage()
         {
             string helpMessage =
             "```cs\n" +
             "'Standard Command List'\n" +
             "```\n" +
-            "Use `/command [command]` to get more info on a specific command. Ex: `/command xp`  `[Prefix 'w!']` \n " +
+            "Use `w!command [command]` to get more info on a specific command. Ex: `w!command xp`  `[Prefix 'w!']` \n " +
             "\n" +
             "**1. Core -** `help` `invite` `ping` \n" +
             "**2. Social -** `xp` `level` `stats` \n" +
             "**2.5. Interaction -** `cuddle` `feed` `hug` `kiss` `pat` `poke` `tickle`\n" +
-            "**3. Fun -** `8ball` `pick` `roast` `hello` `normalhello` `goodmorning` `goodnight` `fortune` `echo` `lenny` `ratewaifu` `reverse` `bigletter` `playsong`\n" +
+            "**3. Fun -** `8ball` `pick` `roast` `hello` `normalhello` `goodmorning` `goodnight` `fortune` `echo` `lenny` `ratewaifu` `reverse` `bigletter` `playsong` `rps`\n" +
             "**4. Duels -** `slash` `giveup` `duel` \n" +
-            "**5. Gambling -** `roll` `coinflip` `newslots` `slots`\n" +
+            "**5. Gambling -** `roll` `coinflip` `newslots` `slots` `showslots`\n" +
             "**5. Economy -** `balance` `daily` `rank`\n" +
             "**6. Utilities -** `dm` `report`\n" +
             "**7. Calculator (Quik Mafs)-** `add` `minus` `multiply` `divide`\n" +
@@ -232,7 +239,8 @@ namespace Wsashi
 
         [Command("helpmod")]
         [Summary("Shows all possible Moderator Commands for this bot")]
-        [Cooldown(15)]
+        [Remarks("Ex: w!helpmod")]
+        [Cooldown(30)]
         public async Task HelpMessageMod()
         {
             var guser = Context.User as SocketGuildUser;
@@ -242,17 +250,18 @@ namespace Wsashi
             "```cs\n" +
             "Moderator Command List\n" +
             "```\n" +
-            "Use `/command [command]` to get more info on a specific command. Ex: `/command xp`  `[Prefix 'w!']`\n" +
+            "Use `w!command [command]` to get more info on a specific command. Ex: `w!command xp`  `[Prefix 'w!']`\n" +
             "\n" +
             "**Filters -** `antilink` `filter` `pingchecks` `antilinkignore`\n" +
             "**User Management -** `ban` `kick` `mute` `unmute` `clear` `warn` `say` `softban` `idban`\n" +
-            "**Bot Settings -** `serverprefix` `leveling` `list` \n" +
+            "**Bot Settings -** `serverprefix` `leveling` `list` `leveling` `levelingmsg`\n" +
             "**Welcome Messages (w!welcome <command>) -** `channel` `add` `remove` `list`\n" +
             "**Leaving Messages (w!leave <command>) -** `add` `remove` `list`\n" +
             "**Announcements (w!announcements <command>) -** `setchannel` `unsetchannel`\n" +
             "**Server Management -** `rename` `serverlogging` \n" +
             "**Roles -** `ModRole` `AdminRole` `selfroleadd` `selfrolerem` `selfroleclear`\n" +
             "**Promoting and Demoting (w!promote/demote <command>)-** `admin` `mod` `helper` \n" +
+            "**Fun Stuff -** `unflip` \n" +
             "\n" +
             "```\n" +
             "# Don't include the example brackets when using commands!\n" +
@@ -275,7 +284,8 @@ namespace Wsashi
 
         [Command("helpnsfw")]
         [Summary("Shows all possible NSFW Commands for this bot")]
-        [Cooldown(15)]
+        [Remarks("Ex: w!helpnsfw")]
+        [Cooldown(30)]
         public async Task HelpMessageNSFW()
         {
             if (Context.Channel.IsNsfw)
@@ -284,7 +294,7 @@ namespace Wsashi
             "```cs\n" +
             "NSFW Command List (why did i make this)\n" +
             "```\n" +
-            "Use `/command [command]` to get more info on a specific command. Ex: `/command xp`  `[Prefix 'w!']`\n" +
+            "Use `w!command [command]` to get more info on a specific command. Ex: `w!command xp`  `[Prefix 'w!']`\n" +
             "\n" +
             "**Neko -** `nekolewd` `nekonsfwgif`\n" +
             "**Hentai -** `anal` `boobs` `cum` `les` `pussy` `blowjob` `classic` `kuni`\n" +
@@ -351,7 +361,8 @@ namespace Wsashi
         // }
 
         [Command("command")]
-        [Summary("Shows what a specific command does and what parameters it takes.")]
+        [Summary("Shows what a specific command does and the usage.")]
+        [Remarks("w!command <command you want to search up> Ex: w!command xp")]
         [Cooldown(5)]
         public async Task CommandAsync(string command)
         {
@@ -364,10 +375,18 @@ namespace Wsashi
                 return;
             }
 
+            var thumbnailurl = Context.User.GetAvatarUrl();
+
+            var auth = new EmbedAuthorBuilder()
+            {
+                IconUrl = thumbnailurl,
+            };
             var builder = new EmbedBuilder()
             {
+                Author = auth,
+                Title = ":book: Command Dictionary",
                 Color = new Color(37, 152, 255),
-                Description = $"Here are commands related to {command}"
+                Description = $"Here are the aliases of **{command}**"
             };
 
             foreach (var match in result.Commands)
@@ -377,8 +396,8 @@ namespace Wsashi
                 builder.AddField(x =>
                 {
                     x.Name = string.Join(", ", cmd.Aliases);
-                    x.Value = $"Parameters: {string.Join(", ", cmd.Parameters.Select(p => p.Name))}\n" +
-                                $"Remarks/Summary: {cmd.Summary}\n" +
+                    x.Value = //$"Parameters: {string.Join(", ", cmd.Parameters.Select(p => p.Name))}\n" +
+                                $"Description: {cmd.Summary}\n" +
                                 $"Usage: {cmd.Remarks}";
                     x.IsInline = false;
                 });
@@ -389,14 +408,18 @@ namespace Wsashi
         [Command("wsashilink")]
         [Summary("Provides Wsashi's server invite link")]
         [Alias("serverinvitelink")]
+        [Remarks("Ex: w!wsashilink")]
+        [Cooldown(10)]
         public async Task SendAsync()
         {
-            await ReplyAsync("https://discord.gg/NuUdx4h ~~ Here's our server! :blush: ");
+            await ReplyAsync("https://discord.gg/NuUdx4h ~~ Here's my server! :blush: ");
         }
 
         [Command("invite")]
         [Summary("Invite Wsashi to your server!")]
         [Alias("Wsashiinvitelink")]
+        [Remarks("Ex: w!invite")]
+        [Cooldown(10)]
         public async Task InviteAsync()
         {
             await ReplyAsync("https://discordapp.com/api/oauth2/authorize?client_id=417160957010116608&permissions=8&scope=bot ~~ Invite me to your servers! :blush: ");
@@ -405,22 +428,25 @@ namespace Wsashi
         [Command("Update")]
         [Summary("Shows the latest update notes")]
         [Alias("updatenotes")]
+        [Remarks("Ex: w!update")]
+        [Cooldown(15)]
         public async Task Update()
         {
             string version = Config.bot.Version;
             var embed = new EmbedBuilder();
             embed.WithColor(37, 152, 255);
             embed.WithTitle("Update Notes");
-            embed.WithDescription($"`Bot version {version}` **<<Last Updated on 5/28>>**\n"
+            embed.WithDescription($"`Bot version {version}` **<<Last Updated on 6/20>>**\n"
                 + "`----- LAST UPDATE -----`\n"
-                + "• Added the osu! API to the bot! Use w!osustats <user> to start!\n"
-                + "• Added the Overwatch API to the bot! Simply find the OWAPI section in w!help!\n"
-                + "• Added DMing! You can now DM mentioned users with a message!\n"
-                + "`----- CURRENT UPDATE -----`\n"
                 + "• Added a pet (Wasagotchi) system! See all commands in `w!help`!\n"
                 + "• Added the `bigletter` `reverse` `playsong` `woop` commands!\n"
                 + "• Added Image Generation! Current commands include `gru` and `butterflyman`\n"
                 + "• Squished a few typos and bugs..\n"
+                + "`----- CURRENT UPDATE -----`\n"
+                + "• Added rock paper scissors!Use `w!rps`!\n"
+                + "• Made it so that you will now have a * seperate * account per server, money is carried over, but XP is different (the leveling system was also updated :D)!\n"
+                + "• Aesthetically improved the `w!command` command!\n"
+                + "• Squished a bugs and fixed typos :D..\n"
                 );
 
             await ReplyAsync("", embed: embed);

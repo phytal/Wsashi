@@ -11,6 +11,7 @@ using Wsashi.Economy;
 using Wsashi.Entities;
 using Discord.WebSocket;
 using Wsashi.Features.GlobalAccounts;
+using Wsashi.Preconditions;
 
 namespace Wsashi.Core.LevelingSystem
 {
@@ -18,7 +19,9 @@ namespace Wsashi.Core.LevelingSystem
     {
         [Command("Daily")]
         [Alias("GetDaily", "ClaimDaily")]
-        [Summary("Claims the daily Potatos!")]
+        [Summary("Claims your daily Potatos!")]
+        [Remarks("Ex: w!daily")]
+        [Cooldown(60, true)]
         public async Task GetDaily()
         {
             var result = Daily.GetDaily(Context.User.Id);
@@ -43,7 +46,9 @@ namespace Wsashi.Core.LevelingSystem
         [Command("Reputation")]
         [Alias("rep")]
         [Summary("Gives a mentioned user reputation points, you can only use this once every 24 hours.")]
-        public async Task GetRep(IGuildUser userB)
+        [Remarks("w!rep <person you want to rep> Ex: w!rep @Phytal")]
+        [Cooldown(30, true)]
+        public async Task GetRep(SocketGuildUser userB)
         {
             if (Context.User.Id == userB.Id)
             {
@@ -51,14 +56,14 @@ namespace Wsashi.Core.LevelingSystem
             }
             else
             {
-                var result = Daily.GetRep(Context.User.Id);
+                var result = Daily.GetRep((SocketGuildUser)Context.User);
 
                 if (result.Success)
                 {
                     var mentionedUser = Context.Message.MentionedUsers.FirstOrDefault();
-                    var mentionedaccount = GlobalUserAccounts.GetUserAccount((SocketUser)userB);
+                    var mentionedaccount = GlobalGuildUserAccounts.GetUserID(userB);
                     mentionedaccount.Reputation += 1;
-                    GlobalUserAccounts.SaveAccounts();
+                    GlobalGuildUserAccounts.SaveAccounts();
                     var embed = new EmbedBuilder();
                     embed.WithColor(37, 152, 255);
                     embed.WithDescription($":diamond_shape_with_a_dot_inside:   | {Context.User.Mention} gave {userB.Mention} a reputation point!");
@@ -78,6 +83,8 @@ namespace Wsashi.Core.LevelingSystem
         [Command("gift")]
         [Alias("grant", "pay")]
         [Summary("Gifts/Pays Potatos to a selected user (of course taken from your balance) Ex: /gift <amount of Potatos> @user")]
+        [Remarks("w!gift <amount> <user you want to gift to> Ex: w!")]
+        [Cooldown(10, true)]
         public async Task Gift(uint Money, IGuildUser userB, [Remainder]string arg = "")
         {
             var giveaccount = GlobalUserAccounts.GetUserAccount(Context.User);
@@ -92,7 +99,7 @@ namespace Wsashi.Core.LevelingSystem
                 {
                     var embed = new EmbedBuilder();
                     embed.WithColor(37, 152, 255);
-                    embed.WithTitle(":hand_splayed:  | Please say who you want to gift Potato(s) to. Ex: /gift <amount of Potatos> @user");
+                    embed.WithTitle(":hand_splayed:  | Please say who you want to gift Potato(s) to. Ex: w!gift <amount of Potatos> @user");
                     await Context.Channel.SendMessageAsync("", embed: embed.Build());
                 }
                 else
@@ -135,6 +142,8 @@ namespace Wsashi.Core.LevelingSystem
         [Command("levels")]
         [Summary("Shows a user list of the sorted by Potatos. Pageable to see lower ranked users.")]
         [Alias("Top", "Top10", "richest", "rank")]
+        [Remarks("w!level <page number (if left empty it will default to 1)> Ex: w!levels 2")]
+        [Cooldown(15, true)]
         public async Task ShowRichesPeople(int page = 1)
         {
             if (page < 1)
@@ -177,6 +186,8 @@ namespace Wsashi.Core.LevelingSystem
         [Command("balance")]
         [Alias("Cash", "Money", "bal")]
         [Summary("Checks the balance for your, or an mentioned account")]
+        [Remarks("w!bal <person you want to check (will default to you if left empty)> Ex: w!bal @Phytal")]
+        [Cooldown(10, true)]
         public async Task CheckPotatos([Remainder]string arg = "")
         {
             SocketUser target = null;

@@ -29,15 +29,15 @@ namespace Wsashi.Economy
             return new DailyResult { Success = true };
         }
 
-        public static DailyResult GetRep(ulong userId)
+        public static DailyResult GetRep(SocketGuildUser user)
         {
-            var account = GlobalUserAccounts.GetUserAccount(userId);
+            var account = GlobalGuildUserAccounts.GetUserID(user);
             var difference = DateTime.UtcNow - account.LastRep.AddDays(1);
 
             if (difference.TotalHours < 0) return new DailyResult { Success = false, RefreshTimeSpan = difference };
 
             account.LastRep = DateTime.UtcNow;
-            GlobalUserAccounts.SaveAccounts(userId);
+            GlobalGuildUserAccounts.SaveAccounts();
             return new DailyResult { Success = true };
         }
     }

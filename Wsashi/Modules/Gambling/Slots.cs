@@ -4,6 +4,7 @@ using Discord;
 using Wsashi.Features.Economy;
 using System;
 using Wsashi.Features.GlobalAccounts;
+using Wsashi.Preconditions;
 
 namespace Wsashi.Modules
 {
@@ -12,6 +13,8 @@ namespace Wsashi.Modules
         [Command("newslot")]
         [Alias("newslots")]
         [Summary("Generates a new slot machine (duh)")]
+        [Remarks("Ex: w!newslot")]
+        [Cooldown(10)]
         public async Task NewSlot(int amount = 0)
         {
             Global.slot = new Slot(amount);
@@ -21,6 +24,8 @@ namespace Wsashi.Modules
         [Command("slots")]
         [Alias("slot")]
         [Summary("Play a game of slots! Ex: w!slots <amount you bet on>")]
+        [Remarks("w!slots <amount you want to gamble> Ex: w!slots 50")]
+        [Cooldown(10)]
         public async Task SpinSlot(uint amount)
         {
             if (amount < 1)
@@ -56,6 +61,8 @@ namespace Wsashi.Modules
         [Command("showslots")]
         [Alias("showslot")]
         [Summary("Shows the slots wheel (don't worry it gets randomized everytime :stuck_out_tongue: ")]
+        [Remarks("Ex: w!showslots")]
+        [Cooldown(10)]
         public async Task ShowSlot()
         {
             await ReplyAsync(String.Join("\n", Global.slot.GetCylinderEmojis(true)));

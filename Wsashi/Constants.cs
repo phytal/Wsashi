@@ -12,6 +12,7 @@ namespace Wsashi
         internal static readonly string UserAccountsFolder = "users";
         internal static readonly string WasagotchiAccountsFolder = "wasagotchis";
         internal static readonly string ServerAccountsFolder = "servers";
+        internal static readonly string ServerUserAccountsFolder = "serverUsers";
         internal static readonly string InvisibleString = "\u200b";
         public const ulong DailyMoneyGain = 100;
         public const int MessageRewardCooldown = 30;

@@ -6,6 +6,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Wsashi.Preconditions;
 
 namespace Wsashi.Modules.API.Nekos.life.NSFW_Hentai
 {
@@ -13,6 +14,8 @@ namespace Wsashi.Modules.API.Nekos.life.NSFW_Hentai
     {
         [Command("anal", RunMode = RunMode.Async)]
         [Summary("Displays hentai anal")]
+        [Remarks("Ex: w!anal")]
+        [Cooldown(5)]
         public async Task GetRandomNekoAnal()
         {
             var channel = Context.Channel as IGuildChannel;
@@ -28,7 +31,10 @@ namespace Wsashi.Modules.API.Nekos.life.NSFW_Hentai
 
                 string nekolink = dataObject.url.ToString();
 
-                await Context.Channel.SendMessageAsync(nekolink);
+                var embed = new EmbedBuilder();
+                embed.WithTitle("Randomly generated anal hentai just for you <3!");
+                embed.WithImageUrl(nekolink);
+                await Context.Channel.SendMessageAsync("", embed: embed.Build());
             }
             else
             {

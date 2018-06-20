@@ -15,10 +15,11 @@ using Wsashi.Features.GlobalAccounts;
 namespace Wsashi.Modules
 {
     public class FunCommands : ModuleBase
-
     {
         [Command("ping")]
         [Summary("Ping Pong!")]
+        [Remarks("Ex: w!ping")]
+        [Cooldown(5)]
         public async Task Ping()
         {
             var embed = new EmbedBuilder();
@@ -55,6 +56,8 @@ namespace Wsashi.Modules
         [Command("8ball")]
         [Alias("eightball")]
         [Summary("Gives a prediction")]
+        [Remarks("w!8ball <your prediction> Ex: w!8ball am I loved?")]
+        [Cooldown(5, true)]
         public async Task EightBall([Remainder] string input)
         {
             int randomIndex = rand.Next(predictionsTexts.Length);
@@ -138,6 +141,8 @@ namespace Wsashi.Modules
         [Command("roast")]
         [Summary("Roasts @Username")]
         [Alias("burn")]
+        [Remarks("w!roast <user/person you want to roast> Ex: w!roast @Phytal")]
+        [Cooldown(5, true)]
         public async Task Roast(SocketGuildUser user)
         {
             if (user == null)
@@ -160,6 +165,9 @@ namespace Wsashi.Modules
 
         [Command("pick")]
         [Summary("Makes the bot pick something. Divide your choices with the '|' symbol")]
+        [Alias("choose")]
+        [Remarks("w!pick <item 1>|<item 2>|<item3> Ex: w!pick milk|orange juice")]
+        [Cooldown(5, true)]
         public async Task PickOne([Remainder]string message)
         {
             string[] options = message.Split(new char[] { '|' }, StringSplitOptions.RemoveEmptyEntries);
@@ -179,11 +187,13 @@ namespace Wsashi.Modules
         [Command("GoodMorning")]
         [Summary("Says Good Morning")]
         [Alias("Morning", "Ohayo", "Ohayōgozaimasu")]
+        [Remarks("Ex: w!morning")]
+        [Cooldown(5, true)]
         public async Task GoodMorning()
         {
             var embed = new EmbedBuilder();
             embed.WithTitle("Good Morning " + Context.User.Username + "!");
-            embed.WithDescription(":rooster:  | Cock a Doodle Do!");
+            embed.WithDescription(":rooster:  | Ohayōgozaimasu!");
             embed.WithColor(37, 152, 255);
             embed.WithThumbnailUrl("https://cdn.pixabay.com/photo/2016/03/31/23/34/emote-1297695_960_720.png");
 
@@ -192,12 +202,14 @@ namespace Wsashi.Modules
 
         [Command("GoodNight")]
         [Summary("Says Good Night")]
-        [Alias("Night", "Oyasumi")]
+        [Alias("Night", "Oyasumi", "gn")]
+        [Remarks("Ex: w!gn")]
+        [Cooldown(5, true)]
         public async Task GoodNight()
         {
             var embed = new EmbedBuilder();
             embed.WithTitle("Good Night " + Context.User.Username + "!");
-            embed.WithDescription(":sleeping_accommodation:  | Don't let the Bed Bugs Bite!");
+            embed.WithDescription(":sleeping_accommodation:  | Oyasumi!");
             embed.WithColor(37, 152, 255);
             embed.WithThumbnailUrl("https://cdn.shopify.com/s/files/1/1061/1924/products/Dark_Blue_Moon_Emoji_large.png?v=1480481043");
 
@@ -205,7 +217,9 @@ namespace Wsashi.Modules
         }
 
         [Command("echo")]
-        [Summary("Make The Bot Say A Message")]
+        [Summary("Make me say a message!")]
+        [Remarks("w!echo <what you want the bot to say> Ex: w!echo I like to eat oreos")]
+        [Cooldown(5, true)]
         public async Task Echo([Remainder] string message)
         {
             var LocalTime = DateTime.Now;
@@ -222,7 +236,8 @@ namespace Wsashi.Modules
 
         [Command("Hello")]
         [Summary("Says a formatted hello")]
-        [Cooldown(5)]
+        [Remarks("Ex: w!hello")]
+        [Cooldown(5, true)]
         public async Task SayHello()
         {
             var embed = new EmbedBuilder();
@@ -235,7 +250,9 @@ namespace Wsashi.Modules
         }
 
         [Command("lmgtfy")]
-        [Summary("Sends an Let me Google that for you link")]
+        [Summary("Sends an Let me Google that for you link with what you inputed")]
+        [Remarks("w!lmgtfy <what you want to search up> Ex: w!lmgtfy how to use discord")]
+        [Cooldown(10, true)]
         public async Task lmgtfy([Remainder]string link = "enter+something")
         {
             link = link.Replace(' ', '+');
@@ -243,7 +260,9 @@ namespace Wsashi.Modules
         }
 
         [Command("google")]
-        [Summary("Sends a Google link")]
+        [Summary("Search up whatever you inputed on Google")]
+        [Remarks("w!google <whatever you want to google> Ex: w!google how to use discord")]
+        [Cooldown(5, true)]
         public async Task google([Remainder]string link = "enter+something")
         {
             link = link.Replace(' ', '+');
@@ -251,6 +270,9 @@ namespace Wsashi.Modules
         }
 
         [Command("YouTube"), Alias("Yt")]
+        [Summary("Searches up whatever is inputed on YouTube")]
+        [Remarks("w!yt <whatever you want to search up on YouTube> Ex: w!yt some pepe memes")]
+        [Cooldown(10, true)]
         public async Task SearchYouTube([Remainder]string query)
         {
             var embed = new EmbedBuilder();
@@ -266,6 +288,8 @@ namespace Wsashi.Modules
 
         [Command("Lenny")]
         [Summary("Sends a lenny face ( ͡° ͜ʖ ͡°)")]
+        [Remarks("Ex: w!lenny")]
+        [Cooldown(5, true)]
         public async Task Lenny()
         {
             await Context.Channel.SendMessageAsync("( ͡° ͜ʖ ͡°)");
@@ -273,6 +297,8 @@ namespace Wsashi.Modules
 
         [Command("Prefix")]
         [Summary("Show's you the server prefix")]
+        [Remarks("Ex: w!prefix")]
+        [Cooldown(5)]
         public async Task GetPrefixForServer()
         {
             var config = GlobalGuildAccounts.GetGuildAccount(Context.Guild.Id);
@@ -292,6 +318,8 @@ namespace Wsashi.Modules
 
         [Command("ratewaifu")]
         [Summary("Rates your waifu :3")]
+        [Remarks("w!ratewaifu <whoever (waifu) that you want to rate> Ex: w!ratewaifu Potatoman22")]
+        [Cooldown(3, true)]
         public async Task RateWaifu([Remainder]string input)
         {
             Random rnd = new Random();
@@ -301,6 +329,8 @@ namespace Wsashi.Modules
 
         [Command("reverse")]
         [Summary("): dias uoy thaw sesrever")]
+        [Remarks("w!reverse <text you want to reverse> Ex: w!reverse Discord is the best")]
+        [Cooldown(5, true)]
         public async Task ReverseString([Remainder]string s)
         {
             char[] charArray = s.ToCharArray();
@@ -313,41 +343,31 @@ namespace Wsashi.Modules
         }
 
         [Command("bigletter")]
-        [Summary("Changes everything to BIG emoji letters (duh)")]
-        public async Task BigLetter([Remainder]string s)
+        [Alias("emoji", "emotion", "emotify")]
+        [Remarks("w!bigletter <whatever you want to 'emotify'> Ex: w!bigletter hello how is your day")]
+        [Cooldown(5)]
+        public async Task Emotify([Remainder] string args)
         {
-            s = s.Replace("a", "🇦 ");
-            s = s.Replace("b", "🇧 ");
-            s = s.Replace("c", "🇨 ");
-            s = s.Replace("d", "🇩 ");
-            s = s.Replace("e", "🇪 ");
-            s = s.Replace("f", "🇫 ");
-            s = s.Replace("g", "🇬 ");
-            s = s.Replace("h", "🇭 ");
-            s = s.Replace("i", "🇮 ");
-            s = s.Replace("j", "🇯 ");
-            s = s.Replace("k", "🇰 ");
-            s = s.Replace("l", "🇱 ");
-            s = s.Replace("m", "🇲 ");
-            s = s.Replace("n", "🇳 ");
-            s = s.Replace("o", "🇴 ");
-            s = s.Replace("p", "🇵 ");
-            s = s.Replace("q", "🇶 ");
-            s = s.Replace("r", "🇷 ");
-            s = s.Replace("s", "🇸 ");
-            s = s.Replace("t", "🇹 ");
-            s = s.Replace("u", "🇺 ");
-            s = s.Replace("v", "🇻 ");
-            s = s.Replace("w", "🇼 ");
-            s = s.Replace("x", "🇽 ");
-            s = s.Replace("y", "🇾 ");
-            s = s.Replace("z", "🇿 ");
-
-            await Context.Channel.SendMessageAsync(s);
+            string[] convertorArray = { "zero", "one", "two", "three", "four", "five", "six", "seven", "eight", "nine" };
+            args = args.ToLower();
+            var convertedText = "";
+            foreach (var c in args)
+            {
+                if (char.IsLetter(c)) convertedText += $":regional_indicator_{c}:";
+                else if (char.IsDigit(c)) convertedText += $":{convertorArray[(int)char.GetNumericValue(c)]}:";
+                else if (c == '.') convertedText += " ⏺ ";
+                else if (c == '?') convertedText += "❓ ";
+                else if (c == '!') convertedText += "❗ ";
+                else convertedText += c;
+                if (char.IsWhiteSpace(c)) convertedText += "  ";
+            }
+            await ReplyAsync(convertedText);
         }
 
         [Command("playsong")]
         [Summary("Makes the bot send a 'song' (that is specified) in the chat (It doesn't actually plays a song it just makes a visual representation)")]
+        [Remarks("w!playsong <whatever song> Ex: w!playsong Despacito 2")]
+        [Cooldown(5)]
         public async Task PlaySong([Remainder]string song)
         {
             await Context.Channel.SendMessageAsync($"ɴᴏᴡ ᴘʟᴀʏɪɴɢ: {song}\n ──────────────────:white_circle:─────────────────────────\n◄◄⠀▐▐ ⠀►►⠀⠀　　⠀ 𝟸:𝟷𝟾 / 4:36　　⠀ ───○ :loud_sound: ⠀　　　ᴴᴰ:gear: ❐ ⊏⊐");
@@ -355,9 +375,75 @@ namespace Wsashi.Modules
 
         [Command("woop")]
         [Summary("Woop! <o/")]
+        [Remarks("Ex: w!woop")]
+        [Cooldown(3, true)]
         public async Task Woop()
         {
             await Context.Channel.SendFileAsync(@"C:\Users\Sir.Potato\source\repos\Wsashi\Wsashi\Some Memes\woop.gif");
+        }
+
+        [Command("rps")]
+        [Summary("Rock, Paper Scissors!")]
+        [Remarks("w!rps <rock/paper/scissors> Ex: w!rps rock")]
+        [Cooldown(3, true)]
+        public async Task rps([Remainder] string play)
+        {
+            play = play.ToLower();
+            Random rnd = new Random();
+            int choice = rnd.Next(4); //1= rock 2= paper 3= scissors
+            if (play == "rock")
+            {
+                if (choice == 1)
+                {
+                    await Context.Channel.SendMessageAsync("I choose **Rock**! :punch: It's a tie!");
+                }
+                if (choice == 2)
+                {
+                    await Context.Channel.SendMessageAsync("I choose **Paper**! :hand_splayed: **PAPER** wins!");
+                }
+                if (choice == 3)
+                {
+                    await Context.Channel.SendMessageAsync("I choose **Scissors**! :hand_splayed: **ROCK** wins!");
+                }
+                return;
+            }
+            if (play == "paper")
+            {
+                if (choice == 1)
+                {
+                    await Context.Channel.SendMessageAsync("I choose **Rock**! :punch:  **PAPER** wins!");
+                }
+                if (choice == 2)
+                {
+                    await Context.Channel.SendMessageAsync("I choose **Paper**! :hand_splayed: It's a tie!");
+                }
+                if (choice == 3)
+                {
+                    await Context.Channel.SendMessageAsync("I choose **Scissors**! :hand_splayed: **SCISSORS** wins!");
+                }
+                return;
+            }
+            if (play == "scissors")
+            {
+                if (choice == 1)
+                {
+                    await Context.Channel.SendMessageAsync("I choose **Rock**! :punch: **ROCK** wins!");
+                }
+                if (choice == 2)
+                {
+                    await Context.Channel.SendMessageAsync("I choose **Paper**! :hand_splayed: **SCISSORS** wins!");
+                }
+                if (choice == 3)
+                {
+                    await Context.Channel.SendMessageAsync("I choose **Scissors**! :hand_splayed: It's a tie!");
+                }
+                return;
+            }
+            else
+            {
+                await Context.Channel.SendMessageAsync("Your response was invalid, use `w!rps <rock, paper, or scissors>`");
+                return;
+            }
         }
     }
 }

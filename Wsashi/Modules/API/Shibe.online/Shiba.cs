@@ -1,4 +1,5 @@
-﻿using Discord.Commands;
+﻿using Discord;
+using Discord.Commands;
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
@@ -6,6 +7,7 @@ using System.Linq;
 using System.Net;
 using System.Text;
 using System.Threading.Tasks;
+using Wsashi.Preconditions;
 
 namespace Watchdog.Modules.API
 {
@@ -13,7 +15,9 @@ namespace Watchdog.Modules.API
     {
         [Command("shiba")]
         [Alias("shibe")]
-        [Summary("Displays an image of a Shiba Inu :3")]
+        [Summary("Sends an image of a Shiba Inu :3")]
+        [Remarks("Ex: w!shiba")]
+        [Cooldown(10)]
         public async Task GetRandomShiba()
         {
             string json = "";
@@ -26,7 +30,10 @@ namespace Watchdog.Modules.API
 
             string link = dataObject[0].ToString();
 
-            await Context.Channel.SendMessageAsync(link);
+            var embed = new EmbedBuilder();
+            embed.WithTitle(":dog: | Here's a Shiba!");
+            embed.WithImageUrl(link);
+            await Context.Channel.SendMessageAsync("", embed: embed.Build());
         }
     }
 }

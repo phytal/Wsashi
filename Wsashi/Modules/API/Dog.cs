@@ -6,6 +6,8 @@ using System.Threading.Tasks;
 using Newtonsoft.Json;
 using Discord.Commands;
 using System.Net;
+using Discord;
+using Wsashi.Preconditions;
 
 namespace Watchdog.Modules.API
 {
@@ -14,6 +16,8 @@ namespace Watchdog.Modules.API
         [Command("dog")]
         [Alias("doggo")]
         [Summary("Displays an image of a dog")]
+        [Remarks("Ex: w!dog")]
+        [Cooldown(5)]
         public async Task GetRandomDog()
         {
             string json = "";
@@ -30,7 +34,10 @@ namespace Watchdog.Modules.API
 
             if(result != "success") return;
 
-            await Context.Channel.SendMessageAsync(link);
+            var embed = new EmbedBuilder();
+            embed.WithTitle(":dog: | Here's a random dog!");
+            embed.WithImageUrl(link);
+            await Context.Channel.SendMessageAsync("", embed: embed.Build());
         }
     }
 }

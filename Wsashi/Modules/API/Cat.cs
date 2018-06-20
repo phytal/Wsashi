@@ -7,6 +7,7 @@ using Newtonsoft.Json;
 using Discord.Commands;
 using System.Net;
 using Discord;
+using Wsashi.Preconditions;
 
 namespace Watchdog.Modules.API
 {
@@ -14,6 +15,8 @@ namespace Watchdog.Modules.API
     {
         [Command("cat")]
         [Summary("Displays an image of a cute cuddly cat")]
+        [Remarks("Ex: w!cat")]
+        [Cooldown(5)]
         public async Task GetRandomCat()
         {
             string json = "";
@@ -26,7 +29,10 @@ namespace Watchdog.Modules.API
 
             var catImageUrl = ReplyObject.file;
 
-            await Context.Channel.SendMessageAsync(catImageUrl);
+            var embed = new EmbedBuilder();
+            embed.WithTitle(":cat: | Here's a random cat!");
+            embed.WithImageUrl(catImageUrl);
+            await Context.Channel.SendMessageAsync("", embed: embed.Build());
         }
 
         public class CatReply
@@ -36,6 +42,8 @@ namespace Watchdog.Modules.API
 
         [Command("catfact")]
         [Summary("Displays a random cat fact")]
+        [Remarks("Ex: w!cat fact")]
+        [Cooldown(3)]
         public async Task RandomCatFact()
         {
             string json = "";

@@ -15,8 +15,9 @@ namespace Wsashi.Modules.API.Overwatch
     public class UserStats : ModuleBase
     {
         [Command("owstats", RunMode = RunMode.Async)]
-        [Summary("Get a Overwatch user's statistics. Usage: w!owstats <Your Battle.net username and id> <platform (pc/xbl/psn)> Ex: w!owstats Phytal-1427 pc")]
+        [Summary("Get a Overwatch user's statistics.")]
         [Alias("ows", "overwatchstats")]
+        [Remarks("w!owstats <Your Battle.net username and id> <platform (pc/xbl/psn)> Ex: w!owstats Phytal-1427 pc")]
         [Cooldown(10)]
         public async Task GetOwStats([Remainder] string message)
         {
@@ -93,8 +94,9 @@ namespace Wsashi.Modules.API.Overwatch
         }
 
         [Command("owstatsqp", RunMode = RunMode.Async)]
-        [Summary("Get a Overwatch user's Quickplay statistics. Usage: w!owstats <Your Battle.net username and id> <platform (pc/xbl/psn)> Ex: w!owstatsqp Phytal-1427 pc")]
+        [Summary("Get a Overwatch user's Quickplay statistics.")]
         [Alias("owsqp", "overwatchstatsqp", "owsquickplay")]
+        [Remarks("w!owstats <Your Battle.net username and id> <platform (pc/xbl/psn)> Ex: w!owstatsqp Phytal-1427 pc")]
         [Cooldown(10)]
         public async Task GetOwQpStats([Remainder] string message)
         {
@@ -151,8 +153,9 @@ namespace Wsashi.Modules.API.Overwatch
         }
 
         [Command("owstatscomp", RunMode = RunMode.Async)]
-        [Summary("Get a Overwatch user's Competitive statistics. Usage: w!owstats <Your Battle.net username and id> <platform (pc/xbl/psn)> Ex: w!owstatscomp Phytal-1427 pc")]
+        [Summary("Get a Overwatch user's Competitive statistics.")]
         [Alias("owsc", "overwatchstatscomp", "owscompetitive")]
+        [Remarks("w!owstats <Your Battle.net username and id> <platform (pc/xbl/psn)> Ex: w!owstatscomp Phytal-1427 pc")]
         [Cooldown(10)]
         public async Task GetOwCompStats([Remainder] string message)
         {

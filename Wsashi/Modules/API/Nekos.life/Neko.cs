@@ -9,6 +9,7 @@ using System.Net;
 using System.IO;
 using Newtonsoft.Json;
 using Discord;
+using Wsashi.Preconditions;
 
 namespace Watchdog.Modules.API
 {
@@ -16,6 +17,8 @@ namespace Watchdog.Modules.API
     {
         [Command("neko", RunMode = RunMode.Async)]
         [Summary("Displays an random neko :3")]
+        [Remarks("Ex: w!neko")]
+        [Cooldown(10)]
         public async Task GetRandomNeko()
         {
             string json = "";
@@ -28,7 +31,10 @@ namespace Watchdog.Modules.API
 
             string nekolink = dataObject.url.ToString();
 
-            await Context.Channel.SendMessageAsync(nekolink);
+            var embed = new EmbedBuilder();
+            embed.WithTitle("Randomly generated neko just for you <3!");
+            embed.WithImageUrl(nekolink);
+            await Context.Channel.SendMessageAsync("", embed: embed.Build());
         }
     }
 }

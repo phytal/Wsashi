@@ -3,6 +3,7 @@ using Discord.Commands;
 using Discord.WebSocket;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading;
@@ -81,6 +82,12 @@ namespace Wsashi
 
         public static async Task GuildUtils(SocketGuild s)
         {
+            var info = System.IO.Directory.CreateDirectory(Path.Combine(Constants.ResourceFolder, Constants.ServerUserAccountsFolder));
+            ulong In = s.Id;
+            string Out = Convert.ToString(In);
+            if (!Directory.Exists(Out))
+                Directory.CreateDirectory(Path.Combine(Constants.ServerUserAccountsFolder, Out));
+
             var dmChannel = await s.Owner.GetOrCreateDMChannelAsync();
             var embed = new EmbedBuilder();
             embed.WithTitle($"Thanks for adding me to your server, {s.Owner.Username}!");
@@ -164,7 +171,23 @@ namespace Wsashi
                     Thread.Sleep(4000);
                     await msgg.DeleteAsync();
                 }
+            }
+        }
 
+        public static async Task Unflip(SocketMessage s)
+        {
+            var msg = s as SocketUserMessage;
+            var context = new SocketCommandContext(_client, msg);
+            var config = GlobalGuildAccounts.GetGuildAccount(context.Guild.Id);
+            if (context.User.IsBot) return;
+            if (msg == null) return;
+
+            if (config.Unflip)
+            {
+                if (msg.Content.Contains("(╯°□°）╯︵ ┻━┻"))
+                {
+                    await context.Channel.SendMessageAsync("┬─┬ ノ( ゜-゜ノ)");
+                }
             }
         }
     }

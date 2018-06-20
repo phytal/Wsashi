@@ -13,7 +13,7 @@ namespace Wsashi.Core.LevelingSystem
     {
         internal static async void UserSentMessage(SocketGuildUser user)
         {
-            var userAccount = GlobalUserAccounts.GetUserAccount(user);
+            var userAccount = GlobalGuildUserAccounts.GetUserID(user);
             uint oldLevel = userAccount.LevelNumber;
 
             if (oldLevel != 10)

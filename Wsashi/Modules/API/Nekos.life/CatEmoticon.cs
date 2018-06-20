@@ -9,6 +9,7 @@ using System.Net;
 using System.IO;
 using Newtonsoft.Json;
 using Discord;
+using Wsashi.Preconditions;
 
 namespace Wsashi.Modules.API
 {
@@ -17,6 +18,8 @@ namespace Wsashi.Modules.API
         [Command("catemoticon", RunMode = RunMode.Async)]
         [Summary("Displays an random cat emoticon :3")]
         [Alias("cate")]
+        [Remarks("Ex: w!cate")]
+        [Cooldown(5)]
         public async Task GetRandomNeko()
         {
             string json = "";

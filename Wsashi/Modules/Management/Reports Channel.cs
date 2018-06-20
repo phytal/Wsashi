@@ -6,6 +6,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Wsashi.Preconditions;
 
 namespace Watchdog.Modules.ServerManagement
 {
@@ -13,6 +14,8 @@ namespace Watchdog.Modules.ServerManagement
     {
         [Command("reports")]
         [Summary("If the reports channel isn't automatically created, you can use this command to manually create it")]
+        [Remarks("Ex: w!reports")]
+        [Cooldown(10)]
         [RequireBotPermission(GuildPermission.ManageChannels)]
         public async Task Text()
         {
@@ -37,10 +40,12 @@ namespace Watchdog.Modules.ServerManagement
                 await Task.Delay(5000);
                 await use.DeleteAsync();
             }
-}
+        }
 
         [Command("Report")]
         [Summary("Reports @Username")]
+        [Remarks("w!report <user> <reason> Ex: w!report @Phytal abusing")]
+        [Cooldown(10)]
         public async Task ReportAsync(SocketGuildUser user, [Remainder] string reason)
         {
             if ((user == null)

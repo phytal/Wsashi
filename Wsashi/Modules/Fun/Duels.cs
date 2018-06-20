@@ -7,7 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Microsoft.Extensions.DependencyInjection;
-
+using Wsashi.Preconditions;
 
 namespace Wsashi.Modules
 {
@@ -27,7 +27,9 @@ namespace Wsashi.Modules
 
         [Command("duel")]
         [Alias("Duel", "dual")]
-        [Summary("starts a duel with the @Mention user (example: /duel Phytal")]
+        [Summary("Starts a duel with the mentioned user")]
+        [Remarks("w!duel <user you want to duel> Ex: w!duel @Phytal")]
+        [Cooldown(20, true)]
         public async Task Pvp(IUser user)
         {
 
@@ -73,6 +75,8 @@ namespace Wsashi.Modules
         [Command("giveup")]
         [Alias("GiveUp", "Giveup", "giveUp")]
         [Summary("Stops the fight and gives up.")]
+        [Remarks("Ex: w!giveup")]
+        [Cooldown(10, true)]
         public async Task GiveUp()
         {
             if (SwitchCaseString == "fight_p1")
@@ -91,6 +95,8 @@ namespace Wsashi.Modules
         [Command("Slash")]
         [Alias("slash")]
         [Summary("Slashes your foe with a sword. Good accuracy and medium damage")]
+        [Remarks("Ex: w!Ssash")]
+        [Cooldown(3)]
         public async Task Slash()
         {
             if (SwitchCaseString == "fight_p1")

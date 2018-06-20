@@ -7,6 +7,7 @@ using System.Linq;
 using System.Net;
 using System.Text;
 using System.Threading.Tasks;
+using Wsashi.Preconditions;
 
 namespace Wsashi.Modules.API.Nekos.life.NSFW_Hentai
 {
@@ -14,6 +15,8 @@ namespace Wsashi.Modules.API.Nekos.life.NSFW_Hentai
     {
         [Command("cum", RunMode = RunMode.Async)]
         [Summary("Displays a hentai cum")]
+        [Remarks("Ex: w!cum")]
+        [Cooldown(5)]
         public async Task GetRandomNekoCum()
         {
             var channel = Context.Channel as IGuildChannel;
@@ -29,7 +32,10 @@ namespace Wsashi.Modules.API.Nekos.life.NSFW_Hentai
 
                 string nekolink = dataObject.url.ToString();
 
-                await Context.Channel.SendMessageAsync(nekolink);
+                var embed = new EmbedBuilder();
+                embed.WithTitle("Randomly generated hentai cum just for you <3!");
+                embed.WithImageUrl(nekolink);
+                await Context.Channel.SendMessageAsync("", embed: embed.Build());
             }
             else
             {

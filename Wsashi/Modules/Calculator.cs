@@ -2,13 +2,16 @@
 using System.Threading.Tasks;
 using Discord;
 using Discord.Commands;
-
+using Wsashi.Preconditions;
 
 namespace Wsashi.Modules
 {
     public class Calculator : ModuleBase
     {
         [Command("Calculator"), Alias("Calc")]
+        [Summary("A built-in calculator, operations include `add` `sub` `mult` `div` `sqrt` `power`")]
+        [Remarks("w!calc <operation> <number1> <number2> Ex: w!")]
+        [Cooldown(10)]
         public async Task Calculate(string oper, float val1, float val2 = 0) 
         {
             var embed = new EmbedBuilder();

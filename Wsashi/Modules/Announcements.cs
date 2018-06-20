@@ -152,7 +152,7 @@ namespace Wsashi.Modules
                 if (guser.GuildPermissions.Administrator)
                 {
                     var welcomeMessages = GlobalGuildAccounts.GetGuildAccount(Context.Guild.Id).WelcomeMessages;
-                    var embB = new EmbedBuilder().WithTitle("No Welcome Messages set yet... add some if you want to greet incoming people! =)");
+                    var embB = new EmbedBuilder().WithTitle("No Welcome Messages set yet... add some if you want to greet incoming people!");
                     if (welcomeMessages.Count > 0) embB.WithTitle("Possible Welcome Messages:");
 
                     for (var i = 0; i < welcomeMessages.Count; i++)

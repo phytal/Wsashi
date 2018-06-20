@@ -4,6 +4,7 @@ using Discord.WebSocket;
 using Discord;
 using Discord.Commands;
 using Wsashi.Features.GlobalAccounts;
+using System.Net;
 
 namespace Wsashi
 {
@@ -70,6 +71,22 @@ namespace Wsashi
 
             await loggingChannel.SendMessageAsync("", embed: embed.Build());
         }
+
+        /*public static async Task HandleImageDelete(Cacheable<IAttachment, ulong> cacheable, ISocketMessageChannel channel)
+        {
+            var msg = cacheable.Value as SocketUserMessage;
+            var context = new SocketCommandContext(Program._client, msg);
+            var image = cacheable.ToString();
+            var request = (HttpWebRequest)WebRequest.Create(image);
+            request.AutomaticDecompression = DecompressionMethods.GZip;
+
+            using (var response = (HttpWebResponse)request.GetResponse())
+            using (var stream = response.GetResponseStream())
+            {
+                var Channel = context.Guild.GetTextChannel(123456789);
+                await context.Channel.SendFileAsync(stream, "image.jpg");
+            }
+        }*/
 
         public static async Task HandleMessageDelete(Cacheable<IMessage, ulong> message, ISocketMessageChannel channel)
         {

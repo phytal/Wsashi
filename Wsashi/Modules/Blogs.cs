@@ -10,6 +10,7 @@ using Discord;
 using Discord.Commands;
 using Newtonsoft.Json;
 using Wsashi;
+using Wsashi.Preconditions;
 
 namespace Wsashi.Modules
 {
@@ -18,8 +19,10 @@ namespace Wsashi.Modules
     {
         private static readonly string blogFile = "blogs.json";
         [Command("Create")]
-        [Summary("Create a new named block")]
+        [Summary("Create a new named blog")]
         [Alias("new")]
+        [Remarks("w!blog create <name of your blog> Ex: w!blog create How to use Wsashi")]
+        [Cooldown(10)]
         public async Task Create(string name)
         {
             await Context.Message.DeleteAsync();
@@ -51,8 +54,10 @@ namespace Wsashi.Modules
         }
 
         [Command("Post")]
-        [Summary("Publish a new post to one of your named blocks")]
+        [Summary("Publish a new post to one of your named blogs")]
         [Alias("upload")]
+        [Remarks("w!blog post <your post> Ex: w!blog post Angry Birds is the best game")]
+        [Cooldown(10)]
         public async Task Post(string name, [Remainder]string post)
         {
             await Context.Message.DeleteAsync();
@@ -93,6 +98,8 @@ namespace Wsashi.Modules
         [Command("Subscribe")]
         [Summary("Subscribe to a named blog to receive a message when a new post gets published")]
         [Alias("Sub")]
+        [Remarks("w!blog sub <name of the blog you want to subscribe to> Ex: w!blog sub Gaming")]
+        [Cooldown(10)]
         public async Task Subscribe(string name)
         {
             await Context.Message.DeleteAsync();
@@ -105,6 +112,8 @@ namespace Wsashi.Modules
         [Command("Unsubscribe")] 
         [Summary("Remove a subscription from a named block")]
         [Alias("Unsub")]
+        [Remarks("w!blog unsub <name of the blog you want to unsubscribe to> Ex: w!blog unsub Gaming")]
+        [Cooldown(10)]
         public async Task UnSubscribe(string name)
         {
             await Context.Message.DeleteAsync();

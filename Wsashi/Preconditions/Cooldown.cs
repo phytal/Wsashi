@@ -35,10 +35,11 @@ namespace Wsashi.Preconditions
             {
                 // Calculate the difference between current time and the time cooldown should end
                 var difference = endsAt.Subtract(DateTime.UtcNow);
+                var timeSpanString = string.Format("{0:%s} seconds", difference);
                 // Display message if command is on cooldown
                 if (difference.Ticks > 0)
                 {
-                    return Task.FromResult(PreconditionResult.FromError($"You can use this command in {difference.ToString(@"mm\:ss")}"));
+                    return Task.FromResult(PreconditionResult.FromError($"You can use this command in {timeSpanString}"));
                 }
                 // Update cooldown time
                 var time = DateTime.UtcNow.Add(CooldownLength);

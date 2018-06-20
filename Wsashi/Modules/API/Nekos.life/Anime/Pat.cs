@@ -9,6 +9,7 @@ using System.Net;
 using System.IO;
 using Newtonsoft.Json;
 using Discord;
+using Wsashi.Preconditions;
 
 namespace Wsashi.Modules.API.Nekos.life.Anime
 {
@@ -16,6 +17,8 @@ namespace Wsashi.Modules.API.Nekos.life.Anime
     {
         [Command("pat", RunMode = RunMode.Async)]
         [Summary("Pat someone! :3")]
+        [Remarks("w!pat <user you want to pat (if left empty you will pat yourself)> Ex: w!pat @Phytal")]
+        [Cooldown(10)]
         public async Task GetRandomNekoPat(IGuildUser user = null)
         {
 

@@ -48,5 +48,11 @@
   • Added the `bigletter` `reverse` `playsong` `woop` commands!  
   • Added Image Generation! Current commands include `gru` and `butterflyman`!  
   • Squished a few typos and bugs..  
+### **1.8.9 Beta**
+*6/20*  
+  • Added rock paper scissors! Use `w!rps`!  
+  • Made it so that you will now have a *seperate* account per server, money is carried over, but XP is different (the leveling system was also updated :D)!  
+  • Aesthetically improved the `w!command` command!  
+  • Squished a bugs and fixed typos :D..  
  ## Versioning System  
     The way how everything is versioned is by x.y.z. X represents the stage it is in (In this case Beta 1.0). Y is for major updates, or when z reaches up to 10. Z is for additions and minor bugs (+2 for additions, +1 for bug fixes). Usually it's random (sorry lol)

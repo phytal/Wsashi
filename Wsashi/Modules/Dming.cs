@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.Text;
 using System.Threading.Tasks;
 using Wsashi.Core.Modules;
+using Wsashi.Preconditions;
 
 namespace Wsashi.Modules
 {
@@ -12,6 +13,8 @@ namespace Wsashi.Modules
     {
         [Command("dm")]
         [Summary("DMs a specified user.")]
+        [Remarks("w!dm <person you want to dm> <your dm message> Ex: w!dm @Phytal Your bot is cool")]
+        [Cooldown(10, true)]
         public async Task Dm(IGuildUser user, [Remainder] string dm)
         {
             var rep = user.Id;

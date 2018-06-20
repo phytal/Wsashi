@@ -582,15 +582,16 @@ namespace Wsashi.Core.Modules
         [Command("Warn")]
         [Summary("Warns a User")]
         [RequireBotPermission(GuildPermission.BanMembers)]
-        public async Task WarnUser(IGuildUser user)
+        public async Task WarnUser(IGuildUser user, string reason = "No reason provided.")
         {
             var guser = Context.User as SocketGuildUser;
-            if (guser.GuildPermissions.Administrator)
+            if (guser.GuildPermissions.BanMembers)
             {
-                var userAccount = GlobalUserAccounts.GetUserAccount((SocketUser)user);
+                var userAccount = GlobalGuildUserAccounts.GetUserID((SocketGuildUser)user);
                 var dmchannel = await Context.User.GetOrCreateDMChannelAsync();
                 userAccount.NumberOfWarnings++;
-                GlobalUserAccounts.SaveAccounts();
+                userAccount.Warnings.Add(reason);
+                GlobalGuildUserAccounts.SaveAccounts();
 
                 if (userAccount.NumberOfWarnings >= 5)
                 {
@@ -600,7 +601,7 @@ namespace Wsashi.Core.Modules
                 else if (userAccount.NumberOfWarnings == 3)
                 {
                     await user.KickAsync();
-                    await dmchannel.SendMessageAsync($":exclamation:  **You have been kicked from {Context.Guild}. Think over your actions and you may rejoin the server once you are ready.**");
+                    await dmchannel.SendMessageAsync($":exclamation:  **You have been kicked from {Context.Guild}. Think over your actions and you may rejoin the server once you are ready. (5 Warnings = Ban)**");
                 }
                 else if (userAccount.NumberOfWarnings == 1)
                 {
@@ -611,7 +612,35 @@ namespace Wsashi.Core.Modules
             {
                 var embed = new EmbedBuilder();
                 embed.WithColor(37, 152, 255);
-                embed.Title = $":x:  | You Need the Administrator Permission to do that {Context.User.Username}";
+                embed.Title = $":x:  | You Need the Ban Members Permission to do that {Context.User.Username}";
+                var use = await Context.Channel.SendMessageAsync("", embed: embed.Build());
+                await Task.Delay(5000);
+                await use.DeleteAsync();
+            }
+        }
+
+        [Command("Warnings")]
+        [Summary("Shows all of a user's warnings")]
+        [RequireBotPermission(GuildPermission.BanMembers)]
+        public async Task Warnings(IGuildUser user)
+        {
+            var guser = Context.User as SocketGuildUser;
+            if (guser.GuildPermissions.BanMembers)
+            {
+                var warnings = GlobalGuildUserAccounts.GetUserID((SocketGuildUser)user).Warnings;
+                var embed = new EmbedBuilder();
+                embed.WithTitle($"{user}'s Warnings");
+                for (var i = 0; i < warnings.Count; i++)
+                {
+                    embed.AddField($"Warning #{i + 1}: ", warnings[i]);
+                }
+                await Context.Channel.SendMessageAsync("", embed: embed.Build());
+            }
+            else
+            {
+                var embed = new EmbedBuilder();
+                embed.WithColor(37, 152, 255);
+                embed.Title = $":x:  | You Need the Ban Members Permission to do that {Context.User.Username}";
                 var use = await Context.Channel.SendMessageAsync("", embed: embed.Build());
                 await Task.Delay(5000);
                 await use.DeleteAsync();
@@ -1005,6 +1034,48 @@ namespace Wsashi.Core.Modules
             }
         }
 
+        [Command("levelingmsg")]
+        [Alias("lvlmsg")]
+        [Summary("Sets the way leveling messages are sent")]
+        [Remarks("w!lvlmsg <dm/server> Ex: w!lvlmsg dm")]
+        public async Task SetLvlingMsgStatus([Remainder]string preset)
+        {
+            var guser = Context.User as SocketGuildUser;
+            var config = GlobalGuildAccounts.GetGuildAccount(Context.Guild.Id);
+            if (guser.GuildPermissions.Administrator)
+            {
+                if (config.Leveling == false)
+                {
+                    await Context.Channel.SendMessageAsync("You need to enable leveling on this server first!");
+                    return;
+                }
+                if (preset == "dm" || preset == "server")
+                {
+                    var embed = new EmbedBuilder();
+                    embed.WithColor(37, 152, 255);
+                    embed.WithDescription($"Set leveling messages to {preset}");
+
+                    config.LevelingMsgs = preset;
+                    GlobalGuildAccounts.SaveAccounts();
+                    await Context.Channel.SendMessageAsync("", embed: embed.Build());
+                }
+                else
+                {
+                    await Context.Channel.SendMessageAsync("Make sure you set it to either `dm` or `server`! Ex:w!lvlmsg dm");
+                    return;
+                }
+            }
+            else
+            {
+                var embed = new EmbedBuilder();
+                embed.WithColor(37, 152, 255);
+                embed.Title = $":x:  | You Need the Administrator Permission to do that {Context.User.Username}";
+                var use = await Context.Channel.SendMessageAsync("", embed: embed.Build());
+                await Task.Delay(5000);
+                await use.DeleteAsync();
+            }
+        }
+
         [Command("ServerLogging"), Alias("Sl", "logging")]
         [Summary("Enables server logging (such as bans, message edits, deletions, kicks, channel additions, etc)")]
         public async Task SetServerLoggingChannel(bool isEnabled)
@@ -1154,35 +1225,6 @@ namespace Wsashi.Core.Modules
             }
         }
 
-        [Command("PingChecks"), Alias("Pc")]
-        [Summary("Enables or disables mass ping checks.")]
-        public async Task SetBoolToJsonPing(bool arg)
-        {
-            var guser = Context.User as SocketGuildUser;
-            if (guser.GuildPermissions.Administrator)
-            {
-                var config = GlobalGuildAccounts.GetGuildAccount(Context.Guild.Id); ;
-                var embed = new EmbedBuilder();
-                embed.WithColor(37, 152, 255);
-                embed.WithDescription(arg
-                    ? "Enabled mass ping checks for this server."
-                    : "Disabled mass ping checks for this server.");
-
-                config.MassPingChecks = arg;
-                GlobalGuildAccounts.SaveAccounts();
-                await Context.Channel.SendMessageAsync("", embed: embed.Build());
-            }
-            else
-            {
-                var embed = new EmbedBuilder();
-                embed.WithColor(37, 152, 255);
-                embed.Title = $":x:  | You Need the Administrator Permission to do that {Context.User.Username}";
-                var use = await Context.Channel.SendMessageAsync("", embed: embed.Build());
-                await Task.Delay(5000);
-                await use.DeleteAsync();
-            }
-        }
-
         [Command("SelfRoleAdd"), Alias("SRA")]
         [Summary("Adds a role a user can add themselves with w!Iam or w!Iamnot")]
         public async Task AddStringToList([Remainder]string role)
@@ -1300,6 +1342,33 @@ namespace Wsashi.Core.Modules
                 embed.WithColor(37, 152, 255);
                 embed.WithDescription(arg ? "Enabled leveling for this server." : "Disabled leveling for this server.");
                 config.Leveling = arg;
+                GlobalGuildAccounts.SaveAccounts();
+
+                await Context.Channel.SendMessageAsync("", embed: embed.Build());
+            }
+            else
+            {
+                var embed = new EmbedBuilder();
+                embed.WithColor(37, 152, 255);
+                embed.Title = $":x:  | You Need the Administrator Permission to do that {Context.User.Username}";
+                var use = await Context.Channel.SendMessageAsync("", embed: embed.Build());
+                await Task.Delay(5000);
+                await use.DeleteAsync();
+            }
+        }
+
+        [Command("unflip"), Alias("uf")]
+        [Summary("Enables or disables unflipping reactions for the server. Use w!uf <true or false>")]
+        public async Task Unflip(bool arg)
+        {
+            var guser = Context.User as SocketGuildUser;
+            if (guser.GuildPermissions.Administrator)
+            {
+                var config = GlobalGuildAccounts.GetGuildAccount(Context.Guild.Id);
+                var embed = new EmbedBuilder();
+                embed.WithColor(37, 152, 255);
+                embed.WithDescription(arg ? "I'll maintain your anger! **(Enabled unflipping for this server)**" : "You may freely rampage at your own will. **(Disabled unflipping for this server)**");
+                config.Unflip = arg;
                 GlobalGuildAccounts.SaveAccounts();
 
                 await Context.Channel.SendMessageAsync("", embed: embed.Build());

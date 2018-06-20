@@ -9,6 +9,7 @@ using System.Net;
 using System.IO;
 using Newtonsoft.Json;
 using Discord;
+using Wsashi.Preconditions;
 
 namespace Wsashi.Modules.API
 {
@@ -16,6 +17,8 @@ namespace Wsashi.Modules.API
     {
         [Command("feed", RunMode = RunMode.Async)]
         [Summary("Feed someone!")]
+        [Remarks("w!feed <user you want to feed (if left empty you will feed yourself)> Ex: w!feed @Phytal")]
+        [Cooldown(10)]
         public async Task GetRandomNekoHug(IGuildUser user = null)
         {
 

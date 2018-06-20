@@ -9,6 +9,7 @@ using System.Net;
 using System.IO;
 using Newtonsoft.Json;
 using Discord;
+using Wsashi.Preconditions;
 
 namespace Wsashi.Modules.API.Nekos.life.Anime
 {
@@ -16,6 +17,8 @@ namespace Wsashi.Modules.API.Nekos.life.Anime
     {
         [Command("Tickle", RunMode = RunMode.Async)]
         [Summary("Tickle someone! :3")]
+        [Remarks("w!tickle <user you want to tickle (if left empty you will tickle yourself)> Ex: w!tickle @Phytal")]
+        [Cooldown(10)]
         public async Task GetRandomTickle(IGuildUser user = null)
         {
 

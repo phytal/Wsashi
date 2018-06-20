@@ -7,6 +7,7 @@ using Newtonsoft.Json;
 using Discord.Commands;
 using Discord;
 using System.Net;
+using Wsashi.Preconditions;
 
 namespace Wsashi.Modules.API
 {
@@ -15,6 +16,8 @@ namespace Wsashi.Modules.API
         [Command("define", RunMode = RunMode.Async)]
         [Summary("Use Urban Dictionary to define a given word")]
         [Alias("dictionary", "urban", "definition")]
+        [Remarks("w!define <word you want to define> Ex: w!define Weeb")]
+        [Cooldown(10)]
         public async Task Define([Remainder] string link)
         {
             string json = "";

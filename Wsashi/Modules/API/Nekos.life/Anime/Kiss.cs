@@ -9,6 +9,7 @@ using System.Net;
 using System.IO;
 using Newtonsoft.Json;
 using Discord;
+using Wsashi.Preconditions;
 
 namespace Wsashi.Modules.API.Nekos.life.Anime
 {
@@ -16,6 +17,8 @@ namespace Wsashi.Modules.API.Nekos.life.Anime
     {
         [Command("kiss", RunMode = RunMode.Async)]
         [Summary("Kiss someone! :3")]
+        [Remarks("w!kiss <user you want to kiss (if left empty you will kiss yourself)> Ex: w!kiss @Phytal")]
+        [Cooldown(10)]
         public async Task GetRandomNeko(IGuildUser user = null)
         {
 

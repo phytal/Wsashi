@@ -9,41 +9,38 @@ using Wsashi.Features.GlobalAccounts;
 
 namespace Wsashi.Core.LevelingSystem
 {
-    internal static class Leveling 
+    internal static class Leveling
     {
         internal static async Task UserSentMessage(SocketGuildUser user, SocketTextChannel channel)
         {
-            var userAccount = GlobalUserAccounts.GetUserAccount(user);
+            var config = GlobalGuildAccounts.GetGuildAccount(user.Guild.Id);
+            var userAccount = GlobalGuildUserAccounts.GetUserID(user);
+            var dmchannel = await user.GetOrCreateDMChannelAsync();
             DateTime now = DateTime.UtcNow;
 
             if (now < userAccount.LastXPMessage.AddSeconds(Constants.MessageXPCooldown))
             {
-                return; 
+                return;
             }
 
             userAccount.LastXPMessage = now;
 
             uint oldLevel = userAccount.LevelNumber;
             userAccount.XP += 13;
-            GlobalUserAccounts.SaveAccounts();
+            GlobalGuildUserAccounts.SaveAccounts();
             uint newLevel = userAccount.LevelNumber;
-            
-                if (oldLevel != newLevel)
-                {
-                    var dmChannel = await user.GetOrCreateDMChannelAsync();
-                    var embed = new EmbedBuilder();
+            var requiredXp = (Math.Pow(newLevel + 1, 2) * 50) - userAccount.XP;
 
-                    embed.WithColor(37, 152, 255);
-                    embed.WithTitle("LEVEL UP!");
-                    embed.WithDescription(user.Username + " has just leveled up!");
-                    embed.AddInlineField("Level", newLevel);
-                    embed.AddInlineField("XP", userAccount.XP);
-
-                    var msg = await channel.SendMessageAsync("", embed: embed);
-                    //await dmChannel.SendMessageAsync("", embed: embed);
-                    //await msg.DeleteAsync();
+            if (config.LevelingMsgs == "server")
+            {
+                await channel.SendMessageAsync($"Level Up! {user.Username}, you just advanced to level {newLevel}! (Just {requiredXp} to the next level!)");
+                return;
             }
-            
+            if (config.LevelingMsgs == "dm")
+            {
+                await channel.SendMessageAsync($"Level Up! {user.Username}, you just advanced to level {newLevel}! (Just {requiredXp} to the next level!)");
+                return;
+            }
         }
     }
 }

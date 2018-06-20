@@ -30,6 +30,10 @@ namespace Wsashi.Entities
 
         public bool Antilink { get; set; }
 
+        public bool Unflip { get; set; }
+
+        public string LevelingMsgs { get; set; }
+
         public List<ulong> AntilinkIgnoredChannels { get; set; }
 
         public string HelperRoleName { get; set; }

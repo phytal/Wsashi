@@ -3,6 +3,7 @@ using System.Threading.Tasks;
 using Wsashi.Features.GlobalAccounts;
 using Discord;
 using Wsashi.Entities;
+using Wsashi.Preconditions;
 
 namespace Wsashi.Modules
 {
@@ -12,7 +13,9 @@ namespace Wsashi.Modules
     [RequireContext(ContextType.Guild)]
     public class ServerTags : ModuleBase<SocketCommandContext>
     {
-        [Command(""), Priority(-1), Remarks("Let the bot send a message with the content of the named tag on the server")]
+        [Command(""), Priority(-1), Summary("Let the bot send a message with the content of the named tag on the server")]
+        [Remarks("w!tag <tag name> Ex: w!tag door")]
+        [Cooldown(10)]
         public async Task ShowTag(string tagName)
         {
             if (string.IsNullOrWhiteSpace(tagName))
@@ -26,7 +29,9 @@ namespace Wsashi.Modules
             await ReplyAsync(response);
         }
 
-        [Command("new"), Alias("add"), Remarks("Adds a new (not yet existing) tag to the server")]
+        [Command("new"), Alias("add"), Summary("Adds a new (not yet existing) tag to the server")]
+        [Remarks("w!tag new <tag content> Ex: w!tag :door: Get out.")]
+        [Cooldown(10)]
         public async Task AddTag(string tagName, [Remainder] string tagContent)
         {
             var guildAcc = GlobalGuildAccounts.GetGuildAccount(Context.Guild.Id);
@@ -34,7 +39,9 @@ namespace Wsashi.Modules
             await ReplyAsync(response);
         }
 
-        [Command("update"), Remarks("Updates the content of an existing tag of the server")]
+        [Command("update"), Summary("Updates the content of an existing tag of the server")]
+        [Remarks("w!tag update <tag name> <tag content> Ex: w!tag update door :door: Get in.")]
+        [Cooldown(10, true)]
         public async Task UpdateTag(string tagName, [Remainder] string tagContent)
         {
             var guildAcc = GlobalGuildAccounts.GetGuildAccount(Context.Guild.Id);
@@ -42,7 +49,9 @@ namespace Wsashi.Modules
             await ReplyAsync(response);
         }
 
-        [Command("remove"), Remarks("Removes a tag off the server")]
+        [Command("remove"), Summary("Removes a tag off the server")]
+        [Remarks("w!tag remove <tag name> Ex: w!tag remove door")]
+        [Cooldown(10)]
         public async Task RemoveTag(string tagName)
         {
             var guildAcc = GlobalGuildAccounts.GetGuildAccount(Context.Guild.Id);
@@ -50,7 +59,9 @@ namespace Wsashi.Modules
             await ReplyAsync(response);
         }
 
-        [Command("list"), Remarks("Show all tag on this server")]
+        [Command("list"), Summary("Show all tag on this server")]
+        [Remarks("Ex: w!ptag list")]
+        [Cooldown(10)]
         public async Task ListTags()
         {
             var guildAcc = GlobalGuildAccounts.GetGuildAccount(Context.Guild.Id);
@@ -65,7 +76,9 @@ namespace Wsashi.Modules
     [RequireContext(ContextType.Guild)]
     public class PersonalTags : ModuleBase<SocketCommandContext>
     {
-        [Command(""), Priority(-1), Remarks("Lets the bot send a message with the content of your named tag")]
+        [Command(""), Priority(-1), Summary("Lets the bot send a message with the content of your named tag")]
+        [Remarks("w!ptag <tag name> Ex: w!ptag door")]
+        [Cooldown(10)]
         public async Task ShowTag(string tagName = "")
         {
             if (string.IsNullOrWhiteSpace(tagName))
@@ -79,7 +92,9 @@ namespace Wsashi.Modules
             await ReplyAsync(response);
         }
 
-        [Command("new"), Alias("add"), Remarks("Adds a new (not yet existing) tag to your collection")]
+        [Command("new"), Alias("add"), Summary("Adds a new (not yet existing) tag to your collection")]
+        [Remarks("w!ptag new <tag content> Ex: w!ptag :door: Get out.")]
+        [Cooldown(10)]
         public async Task AddTag(string tagName, [Remainder] string tagContent)
         {
             var userAcc = GlobalUserAccounts.GetUserAccount(Context.User.Id);
@@ -87,7 +102,9 @@ namespace Wsashi.Modules
             await ReplyAsync(response);
         }
 
-        [Command("update"), Remarks("Updates an existing tag of yours")]
+        [Command("update"), Summary("Updates an existing tag of yours")]
+        [Remarks("w!ptag update <tag name> <tag content> Ex: w!ptag update door :door: Get in.")]
+        [Cooldown(10, true)]
         public async Task UpdateTag(string tagName, [Remainder] string tagContent)
         {
             var userAcc = GlobalUserAccounts.GetUserAccount(Context.User.Id);
@@ -95,7 +112,9 @@ namespace Wsashi.Modules
             await ReplyAsync(response);
         }
 
-        [Command("remove"), Remarks("Removes an existing tag of yours")]
+        [Command("remove"), Summary("Removes an existing tag of yours")]
+        [Remarks("w!ptag remove <tag name> Ex: w!ptag remove door")]
+        [Cooldown(10)]
         public async Task RemoveTag(string tagName)
         {
             var userAcc = GlobalUserAccounts.GetUserAccount(Context.User.Id);
@@ -103,7 +122,9 @@ namespace Wsashi.Modules
             await ReplyAsync(response);
         }
 
-        [Command("list"), Remarks("Show all your tags")]
+        [Command("list"), Summary("Show all your tags")]
+        [Remarks("Ex: w!ptag list")]
+        [Cooldown(10)]
         public async Task ListTags()
         {
             var userAcc = GlobalUserAccounts.GetUserAccount(Context.User.Id);

@@ -6,14 +6,18 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Wsashi.Preconditions;
 
 namespace Wsashi.Modules.API.Nekos.life.NSFW_Hentai
 {
     public class NekoBoobs : ModuleBase<SocketCommandContext>
     { 
     [Command("boobs", RunMode = RunMode.Async)]
+    [Alias("tits")]
     [Summary("Displays hentai boobs")]
-    public async Task GetRandomNeko()
+        [Remarks("Ex: w!boobs")]
+        [Cooldown(5)]
+        public async Task GetRandomNeko()
         {
             var channel = Context.Channel as IGuildChannel;
             if (channel.IsNsfw)
@@ -28,7 +32,10 @@ namespace Wsashi.Modules.API.Nekos.life.NSFW_Hentai
 
                 string nekolink = dataObject.url.ToString();
 
-                await Context.Channel.SendMessageAsync(nekolink);
+                var embed = new EmbedBuilder();
+                embed.WithTitle("Randomly generated hentai boobs just for you <3!");
+                embed.WithImageUrl(nekolink);
+                await Context.Channel.SendMessageAsync("", embed: embed.Build());
             }
             else
             {

@@ -1,6 +1,7 @@
 ﻿using Discord.Commands;
 using System;
 using System.Threading.Tasks;
+using Wsashi.Preconditions;
 
 namespace Watchdog.Modules.Fun
 {
@@ -10,6 +11,8 @@ namespace Watchdog.Modules.Fun
 
         [Command("fortune")]
         [Summary("Gives a fortune cookie!")]
+        [Remarks("Ex: w!fortune")]
+        [Cooldown(5)]
         public async Task Fortune()
         {
             int randomIndex = rand.Next(predictionsTexts.Length);

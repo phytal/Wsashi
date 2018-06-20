@@ -7,6 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Discord.WebSocket;
+using Wsashi.Preconditions;
 
 namespace Wsashi.Modules.API.Nekos.life.NSFW_Neko
 {
@@ -14,6 +15,8 @@ namespace Wsashi.Modules.API.Nekos.life.NSFW_Neko
     {
         [Command("nekolewd", RunMode = RunMode.Async)]
         [Summary("Displays a lewd neko")]
+        [Remarks("Ex: w!neko lewd")]
+        [Cooldown(10)]
         public async Task GetRandomNekoLewd()
         {
             var channel = Context.Channel as IGuildChannel;
@@ -29,7 +32,10 @@ namespace Wsashi.Modules.API.Nekos.life.NSFW_Neko
 
                 string nekolink = dataObject.url.ToString();
 
-                await Context.Channel.SendMessageAsync(nekolink);
+                var embed = new EmbedBuilder();
+                embed.WithTitle("Randomly generated lewd neko just for you <3!");
+                embed.WithImageUrl(nekolink);
+                await Context.Channel.SendMessageAsync("", embed: embed.Build());
             }
             else
             {

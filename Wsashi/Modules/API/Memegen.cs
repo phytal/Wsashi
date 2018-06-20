@@ -8,14 +8,17 @@ using System.Linq;
 using System.Net;
 using System.Text;
 using System.Threading.Tasks;
+using Wsashi.Preconditions;
 
 namespace Wsashi.Modules.API
 {
     public class Memegen : ModuleBase
     {
         [Command("meme")]
-        [Summary("Create a meme! Usage: w!meme top text/bottom text (Note that there is no space between top and bottom text from the slash.)")]
+        [Summary("Create a meme!")]
         [Alias("memecreate")]
+        [Remarks("w!meme <top text>/<bottom text> (Note that there is no space between top and bottom text from the slash) Ex: w!meme hi/lol")]
+        [Cooldown(10)]
         public async Task Define([Remainder] string message)
         {
             message= message.Replace(' ', '_');

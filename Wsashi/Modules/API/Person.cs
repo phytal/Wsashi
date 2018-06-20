@@ -7,12 +7,16 @@ using Newtonsoft.Json;
 using Discord.Commands;
 using Discord;
 using System.Net;
+using Wsashi.Preconditions;
 
 namespace Watchdog.Modules.API
 {
     public class Person : ModuleBase
     {
         [Command("person")]
+        [Summary("Gets a random person with random credentials")]
+        [Remarks("Ex: w!person")]
+        [Cooldown(10)]
         public async Task GetRandomPerson()
         {
             string json = "";
