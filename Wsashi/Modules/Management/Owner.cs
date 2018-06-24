@@ -135,10 +135,10 @@ namespace Wsashi.Core.Modules.Management
             var client = Program._client;
             var guilds = client.Guilds.Count;
             var embed = new EmbedBuilder();
-            embed.WithDescription("Done.");
+            embed.WithDescription($"Done. In {guilds}");
             embed.WithColor(37, 152, 255);
             await ReplyAsync("", embed: embed.Build());
-            await client.SetGameAsync($"in {guilds} servers!", $"https://twitch.tv/{Config.bot.TwitchStreamer}", StreamType.Twitch);
+            await client.SetGameAsync($"w!help | in {guilds} servers!", $"https://twitch.tv/{Config.bot.TwitchStreamer}", StreamType.Twitch);
 
         }
     }

@@ -13,7 +13,7 @@ namespace Wsashi.Modules.API
 {
     public class Cat : ModuleBase<SocketCommandContext>
     {
-        [Command("catgif")]
+        [Command("catgif", RunMode = RunMode.Async)]
         [Summary("Displays an image of a cute cuddly cat gif")]
         [Remarks("Ex: w!catgif")]
         [Cooldown(5)]
@@ -31,7 +31,7 @@ namespace Wsashi.Modules.API
             }
         }
 
-        [Command("cat")]
+        [Command("cat", RunMode = RunMode.Async)]
         [Summary("Displays an image of a cute cuddly cat")]
         [Remarks("Ex: w!cat")]
         [Cooldown(5)]

@@ -77,18 +77,18 @@ namespace Wsashi
             await _service.AddModulesAsync(Assembly.GetEntryAssembly());
 
             //_handler = new CommandHandler();
-            await InitializeAsync(_client);
+            Initialize(_client);
             await _client.SetGameAsync(Config.bot.BotGameToSet, $"https://twitch.tv/{Config.bot.TwitchStreamer}", StreamType.Twitch);
             await _client.SetStatusAsync(UserStatus.Online);
             //await _client.SetGameAsync("w!help | Wsashi");
             await Task.Delay(-1);
 
         }
-        public async Task InitializeAsync(DiscordSocketClient client)
+        public void Initialize(DiscordSocketClient client)
         {
             _client = client;
             _service = new CommandService();
-            await _service.AddModulesAsync(Assembly.GetEntryAssembly());
+            _service.AddModulesAsync(Assembly.GetEntryAssembly());
             _client.MessageReceived += HandleCommandAsync;
             Global.Client = client;
             _client.UserJoined += _client_UserJoined;
@@ -98,8 +98,8 @@ namespace Wsashi
 
         private async Task HandleCommandAsync(SocketMessage s)
         {
-            await Events.FilterChecks(s);
-            await Events.Unflip(s);
+            var _ =  Events.FilterChecks(s);
+            var __ = Events.Unflip(s);
 
             if (!(s is SocketUserMessage msg)) return;
             if (msg.Channel is SocketDMChannel) return;
@@ -111,7 +111,7 @@ namespace Wsashi
             var prefix = config.CommandPrefix ?? Config.bot.cmdPrefix;
 
             var argPos = 0;
-            if (msg.HasStringPrefix(prefix, ref argPos) || msg.HasMentionPrefix(_client.CurrentUser, ref argPos))//|| CheckPrefix(ref argPos, context))
+            if (msg.HasStringPrefix(prefix, ref argPos) && (context.Guild == null || context.Guild.Id != 377879473158356992) || msg.HasMentionPrefix(_client.CurrentUser, ref argPos))//|| CheckPrefix(ref argPos, context))
             {
                 var cmdSearchResult = _service.Search(context, argPos);
                 if (cmdSearchResult.Commands.Count == 0) return;

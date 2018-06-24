@@ -13,7 +13,7 @@ namespace Wsashi.Modules.API
 {
     public class Dog : ModuleBase<SocketCommandContext>
     {
-        [Command("dog")]
+        [Command("dog", RunMode = RunMode.Async)]
         [Alias("doggo")]
         [Summary("Displays an image of a dog")]
         [Remarks("Ex: w!dog")]
@@ -69,7 +69,7 @@ namespace Wsashi.Modules.API
             }
         }
 
-        [Command("dogg")]
+        [Command("dogg", RunMode = RunMode.Async)]
         [Alias("doggif")]
         [Summary("Displays an gif of a dog")]
         [Remarks("Ex: w!doggif")]
