@@ -9,7 +9,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Wsashi.Preconditions;
 
-namespace Watchdog.Modules.API
+namespace Wsashi.Modules.API
 {
     public class Shiba : ModuleBase<SocketCommandContext>
     {

@@ -9,7 +9,7 @@ using System.Net;
 using Discord;
 using Wsashi.Preconditions;
 
-namespace Watchdog.Modules.API
+namespace Wsashi.Modules.API
 {
     public class Dog : ModuleBase<SocketCommandContext>
     {
@@ -20,24 +20,72 @@ namespace Watchdog.Modules.API
         [Cooldown(5)]
         public async Task GetRandomDog()
         {
-            string json = "";
-            using (WebClient client = new WebClient())
+            Random rand = new Random();
+            int link = rand.Next(1, 4);
+            if (link == 1)
             {
-                json = client.DownloadString("https://dog.ceo/api/breeds/image/random");
+                string url = @"https://api.thedogapi.com/v1/images/search?format=src&mime_types=image/png";
+                var request = (HttpWebRequest)WebRequest.Create(url);
+                request.AutomaticDecompression = DecompressionMethods.GZip;
+
+                using (var response = (HttpWebResponse)request.GetResponse())
+                using (var stream = response.GetResponseStream())
+                {
+                    await Context.Channel.SendFileAsync(stream, "dog.png");
+                }
             }
+            if (link == 2)
+            {
+                string url = @"https://api.thedogapi.com/v1/images/search?format=src&mime_types=image/jpg";
+                var request = (HttpWebRequest)WebRequest.Create(url);
+                request.AutomaticDecompression = DecompressionMethods.GZip;
 
-            var dataObject = JsonConvert.DeserializeObject<dynamic>(json);
+                using (var response = (HttpWebResponse)request.GetResponse())
+                using (var stream = response.GetResponseStream())
+                {
+                    await Context.Channel.SendFileAsync(stream, "dog.jpg");
+                }
+            }
+            if (link == 3)
+            {
+                string json = "";
+                using (WebClient client = new WebClient())
+                {
+                    json = client.DownloadString("https://dog.ceo/api/breeds/image/random");
+                }
 
-            string link = dataObject.message.ToString();
+                var dataObject = JsonConvert.DeserializeObject<dynamic>(json);
 
-            string result = dataObject.status.ToString();
+                string img = dataObject.message.ToString();
 
-            if(result != "success") return;
+                string result = dataObject.status.ToString();
 
-            var embed = new EmbedBuilder();
-            embed.WithTitle(":dog: | Here's a random dog!");
-            embed.WithImageUrl(link);
-            await Context.Channel.SendMessageAsync("", embed: embed.Build());
+                if (result != "success") return;
+
+                var embed = new EmbedBuilder();
+                embed.WithTitle(":dog: | Here's a random dog!");
+                embed.WithImageUrl(img);
+                await Context.Channel.SendMessageAsync("", embed: embed.Build());
+            }
+        }
+
+        [Command("dogg")]
+        [Alias("doggif")]
+        [Summary("Displays an gif of a dog")]
+        [Remarks("Ex: w!doggif")]
+        [Cooldown(5)]
+        public async Task GetRandomDogGif()
+        {
+            string url = @"https://api.thedogapi.com/v1/images/search?format=src&mime_types=image/gif";
+
+            var request = (HttpWebRequest)WebRequest.Create(url);
+            request.AutomaticDecompression = DecompressionMethods.GZip;
+
+            using (var response = (HttpWebResponse)request.GetResponse())
+            using (var stream = response.GetResponseStream())
+            {
+                await Context.Channel.SendFileAsync(stream, "doggo.gif");
+            }
         }
     }
 }

@@ -9,7 +9,7 @@ using Discord;
 using System.Net;
 using Wsashi.Preconditions;
 
-namespace Watchdog.Modules.API
+namespace Wsashi.Modules.API
 {
     public class Person : ModuleBase
     {

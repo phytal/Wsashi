@@ -13,23 +13,27 @@ namespace Wsashi.Core.LevelingSystem
     {
         internal static async void UserSentMessage(SocketGuildUser user)
         {
-            var userAccount = GlobalGuildUserAccounts.GetUserID(user);
-            uint oldLevel = userAccount.LevelNumber;
+            if (user.Guild.Id == 389508749821345806)
+            {
+                var userAccount = GlobalGuildUserAccounts.GetUserID(user);
+                uint oldLevel = userAccount.LevelNumber;
 
-            if (oldLevel != 10)
-            {
-                var mplus = user.Guild.Roles.Where(input => input.Name.ToUpper() == "MEMBER+").FirstOrDefault() as SocketRole;
-                var m = user.Guild.Roles.Where(input => input.Name.ToUpper() == "MEMBER").FirstOrDefault() as SocketRole;
-                await user.AddRoleAsync(mplus);
-                await user.RemoveRoleAsync(m);
+                if (oldLevel != 10)
+                {
+                    var mplus = user.Guild.Roles.Where(input => input.Name.ToUpper() == "MEMBER+").FirstOrDefault() as SocketRole;
+                    var m = user.Guild.Roles.Where(input => input.Name.ToUpper() == "MEMBER").FirstOrDefault() as SocketRole;
+                    await user.AddRoleAsync(mplus);
+                    await user.RemoveRoleAsync(m);
+                }
+                if (oldLevel != 30)
+                {
+                    var mplus = user.Guild.Roles.Where(input => input.Name.ToUpper() == "MEMBER++").FirstOrDefault() as SocketRole;
+                    var m = user.Guild.Roles.Where(input => input.Name.ToUpper() == "MEMBER+").FirstOrDefault() as SocketRole;
+                    await user.AddRoleAsync(mplus);
+                    await user.RemoveRoleAsync(m);
+                }
             }
-            if (oldLevel != 30)
-            {
-                var mplus = user.Guild.Roles.Where(input => input.Name.ToUpper() == "MEMBER++").FirstOrDefault() as SocketRole;
-                var m = user.Guild.Roles.Where(input => input.Name.ToUpper() == "MEMBER+").FirstOrDefault() as SocketRole;
-                await user.AddRoleAsync(mplus);
-                await user.RemoveRoleAsync(m);
-            }
+            else return;
         }
     }
 }

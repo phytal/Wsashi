@@ -11,7 +11,7 @@ using Newtonsoft.Json;
 using Discord;
 using Wsashi.Preconditions;
 
-namespace Watchdog.Modules.API
+namespace Wsashi.Modules.API
 {
     public class Neko : ModuleBase<SocketCommandContext>
     {

@@ -12,7 +12,7 @@ using System.IO;
 using Wsashi.Handlers;
 using Wsashi.Preconditions;
 
-namespace Watchdog.Modules
+namespace Wsashi.Modules
 {
     public class ImageGeneration : ModuleBase
     {

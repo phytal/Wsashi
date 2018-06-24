@@ -5,9 +5,9 @@ using System.Threading.Tasks;
 using Discord;
 using Discord.Commands;
 using Discord.WebSocket;
-using Wsahsi.Core.Providers;
+using Wsashi.Core.Providers;
 
-namespace Wsashu.Modules.Games
+namespace Wsashi.Modules.Games
 {
     public class G1024Commands : ModuleBase<SocketCommandContext>
     {

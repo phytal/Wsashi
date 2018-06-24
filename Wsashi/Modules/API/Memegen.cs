@@ -36,5 +36,24 @@ namespace Wsashi.Modules.API
                 await Context.Channel.SendFileAsync(stream, "meme.jpg");
             }
         }
+        [Command("gif", RunMode = RunMode.Async)]
+        public async Task Image()
+        {
+            string json;
+            using (var client = new WebClient())
+            {
+                json = client.DownloadString("https://www.reddit.com/r/meme/random/.json");
+            }
+
+            var dataObject = JsonConvert.DeserializeObject<dynamic>(json);
+            string image = dataObject[0].data.children[0].data.preview.images[0].source.url.ToString();
+            string posttitle = dataObject[0].data.children[0].data.title.ToString();
+
+            var embed = new EmbedBuilder()
+                .WithTitle(posttitle)
+                .WithImageUrl(image)
+                .WithFooter("via r/meme");
+            await Context.Channel.SendMessageAsync("", embed: embed);
+        }
     }
 }

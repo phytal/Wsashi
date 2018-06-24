@@ -82,7 +82,7 @@ namespace Wsashi.Core.LevelingSystem
 
         [Command("gift")]
         [Alias("grant", "pay")]
-        [Summary("Gifts/Pays Potatos to a selected user (of course taken from your balance) Ex: /gift <amount of Potatos> @user")]
+        [Summary("Gifts/Pays Potatos to a selected user (of course taken from your balance) Ex: w!gift <amount of Potatos> @user")]
         [Remarks("w!gift <amount> <user you want to gift to> Ex: w!")]
         [Cooldown(10, true)]
         public async Task Gift(uint Money, IGuildUser userB, [Remainder]string arg = "")

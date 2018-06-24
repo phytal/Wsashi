@@ -15,7 +15,9 @@ namespace Wsashi.Modules.Wasagotchi
 {
     public class General : WsashiModule
     {
-        [Command("wasagotchi stats")]
+        [Command("wasagotchi stats"), Alias("w stats")]
+        [Summary("Brings up the stats/info of your or someone else's Wasagotchi!")]
+        [Remarks("w!w stats <specified user (will be yours if left empty)> Ex: w!w stats @Phytal")]
         public async Task WasagotchiUser([Remainder]string arg = "")
         {
             SocketUser user = null;
@@ -75,7 +77,9 @@ namespace Wsashi.Modules.Wasagotchi
             }
         }
 
-        [Command("wasagotchi help")]
+        [Command("wasagotchi help"), Alias("w help")]
+        [Summary("Displays all Wasagotchi commands with a description of what they do")]
+        [Remarks("Ex: w!help")]
         public async Task WasagotchiHelp()
         {
             var config = GlobalWasagotchiUserAccounts.GetWasagotchiAccount(Context.User);
@@ -93,7 +97,8 @@ namespace Wsashi.Modules.Wasagotchi
                 "Every 4 hours all Wasagotchis will have a time modifier, -1 hunger, -1 attention, and +1 waste. Make sure to check on your Wasagotchi often!",
                 "If the living conditions you provide for your Wasagotchi are too low - never clean, never play, etc - it will run away! (Your room will remain the same)",
                 "If your Wasagotchi is sick, buy it some medicine with w!buy.",
-                "All Wasagotchi commands have a 8 second cooldown."
+                "All Wasagotchi commands have a 8 second cooldown.",
+                "To get a direct link to a picture right click and open image in new tab. Then there's the URL! :)"
 };
             Random rand = new Random();
             int randomIndex = rand.Next(footers.Length);
@@ -102,18 +107,21 @@ namespace Wsashi.Modules.Wasagotchi
             var embed = new EmbedBuilder();
             embed.WithTitle("<:wasagotchi:454535808079364106> Wasagotchi Command List");
             embed.AddInlineField("w!wasagotchi help", "Brings up the help commmand (lol)");
+            embed.AddInlineField("w!wasagotchi shop", "Opens the Wasagotchi shop menu!");
             embed.AddInlineField("w!wasagotchi stats", "Brings up the stats/info of your or someone else's Wasagotchi!");
             embed.AddInlineField("w!wasagotchi name", "Set the name of your Wasagotchi!");
             embed.AddInlineField("w!wasagotchi picture", "Set the picture of your Wasagotchi! (Note: It must be a direct link)");
             embed.AddInlineField("w!wasagotchi feed", "Feeds your Wasagtochi at the cost of Potatos! Otherwise it will starve!");
             embed.AddInlineField("w!wasagotchi clean", "Clean up your Wasagotchi's waste, Otherwise it'll get sick!");
-            embed.AddInlineField("w!wasagotchi play", "Play with your wasagotchi! Your Wasagotchi must have high attention levels at all time!");
+            embed.AddInlineField("w!wasagotchi play", "Play with your wasagotchi! Your Wasagotchi must have high attention levels at all times!");
             embed.AddInlineField("w!wasagotchi train", "Train your Wasagotchi to earn Exp and level up!");
             embed.WithFooter(text);
             await Context.Channel.SendMessageAsync("", embed: embed.Build());
         }
 
-        [Command("wasagotchi name")]
+        [Command("wasagotchi name"), Alias("w name")]
+        [Summary("Set the name of your Wasagotchi!")]
+        [Remarks("w!w name <your desired name> Ex: w!w name Potato")]
         public async Task WasagotchiName([Remainder] string name)
         {
             var config = GlobalWasagotchiUserAccounts.GetWasagotchiAccount(Context.User);
@@ -140,7 +148,9 @@ namespace Wsashi.Modules.Wasagotchi
             }
         }
 
-        [Command("wasagotchi picture")]
+        [Command("wasagotchi picture"), Alias("w picture", "w pic")]
+        [Summary("Set the picture of your Wasagotchi! (Note: It must be a direct link)")]
+        [Remarks("w!w pic <direct URL to the picture> Ex: w!w pic https://cdn.shopify.com/s/files/1/1017/2183/t/2/assets/live-preview-potato-standing.png?4854792436625201403")]
         public async Task WasagotchiPfp([Remainder] string name)
         {
             var config = GlobalWasagotchiUserAccounts.GetWasagotchiAccount(Context.User);
@@ -168,7 +178,9 @@ namespace Wsashi.Modules.Wasagotchi
         }
 
 
-        [Command("wasagotchi feed")]
+        [Command("wasagotchi feed"), Alias("w feed")]
+        [Summary("Feeds your Wasagtochi at the cost of Potatos! Otherwise it will starve!")]
+        [Remarks("Ex: w!w feed")]
         public async Task WasagotchiFeed()
         {
             var config = GlobalWasagotchiUserAccounts.GetWasagotchiAccount(Context.User);
@@ -217,7 +229,9 @@ namespace Wsashi.Modules.Wasagotchi
                 "you clean up your <:wasagotchi:454535808079364106> Wasagotchi's...business!",
 };
 
-        [Command("wasagotchi clean")]
+        [Command("wasagotchi clean"), Alias("w clean")]
+        [Summary("Clean up your Wasagotchi's waste, Otherwise it'll get sick!")]
+        [Remarks("Ex: w!w clean")]
         public async Task WasagotchiClean()
         {
             var config = GlobalWasagotchiUserAccounts.GetWasagotchiAccount(Context.User.Id);
@@ -264,7 +278,9 @@ namespace Wsashi.Modules.Wasagotchi
                 "you throw a ball and your <:wasagotchi:454535808079364106> Wasagotchi fetches it!",
     };
 
-        [Command("wasagotchi play")]
+        [Command("wasagotchi play"), Alias("w play")]
+        [Summary("Play with your wasagotchi! Your Wasagotchi must have high attention levels at all times!")]
+        [Remarks("Ex: w!w play")]
         public async Task WasagotchiPlay()
         {
             var config = GlobalWasagotchiUserAccounts.GetWasagotchiAccount(Context.User);
@@ -321,7 +337,9 @@ namespace Wsashi.Modules.Wasagotchi
                 "Your <:wasagotchi:454535808079364106> Wasagotchi doesn't quite understand what you are trying to do. Try again!",
 };
 
-        [Command("wasagotchi train")]
+        [Command("wasagotchi train"), Alias("w train")]
+        [Summary("Train your Wasagotchi to earn Exp and level up!")]
+        [Remarks("Ex: w!w train")]
         public async Task WasagotchiTrain()
         {
             var config = GlobalWasagotchiUserAccounts.GetWasagotchiAccount(Context.User);

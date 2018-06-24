@@ -9,35 +9,60 @@ using System.Net;
 using Discord;
 using Wsashi.Preconditions;
 
-namespace Watchdog.Modules.API
+namespace Wsashi.Modules.API
 {
     public class Cat : ModuleBase<SocketCommandContext>
     {
+        [Command("catgif")]
+        [Summary("Displays an image of a cute cuddly cat gif")]
+        [Remarks("Ex: w!catgif")]
+        [Cooldown(5)]
+        public async Task GetRandomCatGif()
+        {
+            string url = @"http://thecatapi.com/api/images/get?format=src&type=gif";
+
+            var request = (HttpWebRequest)WebRequest.Create(url);
+            request.AutomaticDecompression = DecompressionMethods.GZip;
+
+            using (var response = (HttpWebResponse)request.GetResponse())
+            using (var stream = response.GetResponseStream())
+            {
+                await Context.Channel.SendFileAsync(stream, "cat.gif");
+            }
+        }
+
         [Command("cat")]
         [Summary("Displays an image of a cute cuddly cat")]
         [Remarks("Ex: w!cat")]
         [Cooldown(5)]
         public async Task GetRandomCat()
         {
-            string json = "";
-            using (WebClient client = new WebClient())
+            Random rand = new Random();
+            int link = rand.Next(1, 3);
+            if (link == 1)
             {
-                json = client.DownloadString("http://aws.random.cat/meow");
+                string url = @"http://thecatapi.com/api/images/get?format=src&type=png";
+                var request = (HttpWebRequest)WebRequest.Create(url);
+                request.AutomaticDecompression = DecompressionMethods.GZip;
+
+                using (var response = (HttpWebResponse)request.GetResponse())
+                using (var stream = response.GetResponseStream())
+                {
+                    await Context.Channel.SendFileAsync(stream, "cat.png");
+                }
             }
+            if (link == 2)
+            {
+                string url = @"http://thecatapi.com/api/images/get?format=src&type=jpg";
+                var request = (HttpWebRequest)WebRequest.Create(url);
+                request.AutomaticDecompression = DecompressionMethods.GZip;
 
-            var ReplyObject = JsonConvert.DeserializeObject<CatReply>(json);
-
-            var catImageUrl = ReplyObject.file;
-
-            var embed = new EmbedBuilder();
-            embed.WithTitle(":cat: | Here's a random cat!");
-            embed.WithImageUrl(catImageUrl);
-            await Context.Channel.SendMessageAsync("", embed: embed.Build());
-        }
-
-        public class CatReply
-        {
-            public String file { get; set; }
+                using (var response = (HttpWebResponse)request.GetResponse())
+                using (var stream = response.GetResponseStream())
+                {
+                    await Context.Channel.SendFileAsync(stream, "cat.jpg");
+                }
+            }
         }
 
         [Command("catfact")]

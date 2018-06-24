@@ -648,7 +648,7 @@ namespace Wsashi.Core.Modules
         }
 
         [Command("say")]
-        [Summary("Lets you speak for the bot")]
+        [Summary("Lets you speak for the bot anonymously")]
         public async Task Say([Remainder] string input)
         {
             var user = Context.User as SocketGuildUser;
@@ -656,10 +656,7 @@ namespace Wsashi.Core.Modules
             {
                 var messagesToDelete = await Context.Channel.GetMessagesAsync(1).Flatten();
                 await Context.Channel.DeleteMessagesAsync(messagesToDelete);
-                var embed = new EmbedBuilder();
-                embed.WithColor(37, 152, 255);
-                embed.WithTitle(input);
-                await Context.Channel.SendMessageAsync("", embed: embed.Build());
+                await Context.Channel.SendMessageAsync(input);
             }
             else
             {

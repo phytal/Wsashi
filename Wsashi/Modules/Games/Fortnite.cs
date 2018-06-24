@@ -7,7 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Watchdog.Modules.Games
+namespace Wsashi.Modules.Games
 {
     public class Fortnite : ModuleBase
     {

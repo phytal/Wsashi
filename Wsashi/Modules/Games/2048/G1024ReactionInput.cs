@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 using Discord.WebSocket;
-using Wsahsi.Core.Providers;
+using Wsashi.Core.Providers;
 using Wsashi.Core.Features.Games;
 
 namespace Wsashi.Modules.Games

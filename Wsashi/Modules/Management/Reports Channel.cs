@@ -8,7 +8,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Wsashi.Preconditions;
 
-namespace Watchdog.Modules.ServerManagement
+namespace Wsashi.Modules.ServerManagement
 {
     public class Reports_Channel : ModuleBase<SocketCommandContext>
     {

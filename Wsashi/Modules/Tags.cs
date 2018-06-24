@@ -35,6 +35,7 @@ namespace Wsashi.Modules
         public async Task AddTag(string tagName, [Remainder] string tagContent)
         {
             var guildAcc = GlobalGuildAccounts.GetGuildAccount(Context.Guild.Id);
+            tagContent.Replace("@everyone", "@\u200beveryone").Replace("@here", "@\u200bhere");
             var response = TagFunctions.AddTag(tagName, tagContent, guildAcc);
             await ReplyAsync(response);
         }
@@ -45,6 +46,7 @@ namespace Wsashi.Modules
         public async Task UpdateTag(string tagName, [Remainder] string tagContent)
         {
             var guildAcc = GlobalGuildAccounts.GetGuildAccount(Context.Guild.Id);
+            tagContent.Replace("@everyone", "@\u200beveryone").Replace("@here", "@\u200bhere");
             var response = TagFunctions.UpdateTag(tagName, tagContent, guildAcc);
             await ReplyAsync(response);
         }
@@ -98,6 +100,7 @@ namespace Wsashi.Modules
         public async Task AddTag(string tagName, [Remainder] string tagContent)
         {
             var userAcc = GlobalUserAccounts.GetUserAccount(Context.User.Id);
+            tagContent.Replace("@everyone", "@\u200beveryone").Replace("@here", "@\u200bhere");
             var response = TagFunctions.AddTag(tagName, tagContent, userAcc);
             await ReplyAsync(response);
         }
@@ -108,6 +111,7 @@ namespace Wsashi.Modules
         public async Task UpdateTag(string tagName, [Remainder] string tagContent)
         {
             var userAcc = GlobalUserAccounts.GetUserAccount(Context.User.Id);
+            tagContent.Replace("@everyone", "@\u200beveryone").Replace("@here", "@\u200bhere");
             var response = TagFunctions.UpdateTag(tagName, tagContent, userAcc);
             await ReplyAsync(response);
         }

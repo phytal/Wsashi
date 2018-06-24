@@ -1,6 +1,7 @@
 ﻿using Discord;
 using Discord.Audio;
 using Discord.Commands;
+using System;
 using System.Diagnostics;
 using System.Threading.Tasks;
 
@@ -14,7 +15,7 @@ namespace Wsashi.Core.Music
 
         [Command("join", RunMode = RunMode.Async)]
         public async Task JoinChannel(IVoiceChannel channel = null)
-        {
+        /*{
             channel = channel ?? (Context.User as IGuildUser)?.VoiceChannel;
 
             if (channel == null)
@@ -23,7 +24,34 @@ namespace Wsashi.Core.Music
                 return;
             }
                 var audioClient = await channel.ConnectAsync();
+        }*/
+        {
+            channel = channel ?? (Context.User as IGuildUser)?.VoiceChannel;
+            if (channel == null)
+            {
+                await Context.Channel.SendMessageAsync("You must be in a voice channel.");
+                return;
+            }
+
+            Console.WriteLine("Channel: " + channel.Name + " - " + channel.Id);
+            try
+            {
+                var audioClient = await channel.ConnectAsync();
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e.Message);
+            }
+    }
+        private void SendAsync(IAudioClient audioClient)
+        {
+            var ffmpeg = CreateStream("tune.mp3");
+            var output = ffmpeg.StandardOutput.BaseStream;
+            var discord = audioClient.CreatePCMStream(AudioApplication.Mixed);
+            output.CopyToAsync(discord);
+            discord.FlushAsync();
         }
+
 
         [Command("leave", RunMode = RunMode.Async)]
         public async Task StopAsync(IVoiceChannel channel = null)

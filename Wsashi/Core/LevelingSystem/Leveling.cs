@@ -30,17 +30,20 @@ namespace Wsashi.Core.LevelingSystem
             GlobalGuildUserAccounts.SaveAccounts();
             uint newLevel = userAccount.LevelNumber;
             var requiredXp = (Math.Pow(newLevel + 1, 2) * 50) - userAccount.XP;
-
-            if (config.LevelingMsgs == "server")
+            if (newLevel > oldLevel)
             {
-                await channel.SendMessageAsync($"Level Up! {user.Username}, you just advanced to level {newLevel}! (Just {requiredXp} to the next level!)");
-                return;
+                if (config.LevelingMsgs == "server")
+                {
+                    await channel.SendMessageAsync($"Level Up! {user.Username}, you just advanced to level {newLevel}! (Just {requiredXp} to the next level!)");
+                    return;
+                }
+                if (config.LevelingMsgs == "dm")
+                {
+                    await channel.SendMessageAsync($"Level Up! {user.Username}, you just advanced to level {newLevel}! (Just {requiredXp} to the next level!)");
+                    return;
+                }
             }
-            if (config.LevelingMsgs == "dm")
-            {
-                await channel.SendMessageAsync($"Level Up! {user.Username}, you just advanced to level {newLevel}! (Just {requiredXp} to the next level!)");
-                return;
-            }
+            else return;
         }
     }
 }

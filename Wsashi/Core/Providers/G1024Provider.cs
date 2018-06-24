@@ -6,7 +6,7 @@ using Discord.Rest;
 using Discord.WebSocket;
 using Wsashi.Core.Features.Games;
 
-namespace Wsahsi.Core.Providers
+namespace Wsashi.Core.Providers
 {
     public struct G1024Game
     {

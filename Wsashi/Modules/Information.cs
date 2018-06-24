@@ -188,7 +188,7 @@ namespace Wsashi
             var embed = new EmbedBuilder();
             embed.WithColor(37, 152, 255);
             embed.AddInlineField("Creator", "Phytal#8213");
-            embed.AddInlineField("Last Updated", "6/20/2018");
+            embed.AddInlineField("Last Updated", "6/24/2018");
             embed.AddInlineField("Bot version", $"Beta {version}");
             embed.WithImageUrl(Global.Client.CurrentUser.GetAvatarUrl());
 
@@ -208,17 +208,17 @@ namespace Wsashi
             "Use `w!command [command]` to get more info on a specific command. Ex: `w!command xp`  `[Prefix 'w!']` \n " +
             "\n" +
             "**1. Core -** `help` `invite` `ping` \n" +
-            "**2. Social -** `xp` `level` `stats` \n" +
+            "**2. Social -** `xp` `level` `stats` `topxp`\n" +
             "**2.5. Interaction -** `cuddle` `feed` `hug` `kiss` `pat` `poke` `tickle`\n" +
             "**3. Fun -** `8ball` `pick` `roast` `hello` `normalhello` `goodmorning` `goodnight` `fortune` `echo` `lenny` `ratewaifu` `reverse` `bigletter` `playsong` `rps`\n" +
-            "**4. Duels -** `slash` `giveup` `duel` \n" +
+            "**4. Duels -** `slash` `absorb` `block` `deflect` `heal` `giveup` `duel` \n" +
             "**5. Gambling -** `roll` `coinflip` `newslots` `slots` `showslots`\n" +
             "**5. Economy -** `balance` `daily` `rank`\n" +
-            "**6. Utilities -** `dm` `report`\n" +
+            "**6. Utilities -** `dm` `report` `voice`\n" +
             "**7. Calculator (Quik Mafs)-** `add` `minus` `multiply` `divide`\n" +
             "**8. Music (Under Development) -** `join` `leave` `play`\n" +
             "**8. Information -** `info` `userinfo` `command` `update`\n" +
-            "**9. APIs -** `dog` `cat` `catfact` `person` `birb` `define` `meme`\n" +
+            "**9. APIs -** `dog` `doggif` `cat` `catgif` `catfact` `person` `birb` `define` `meme` `gif`\n" +
             "**10. Neko API -** `neko` `catemoticon` `foxgirl`\n" +
             "**11. Shibe API -** `shiba` `bird`\n" +
             "**12. Overwatch API -** `owstats` `owstatscomp` `owstatsqp` `myowstats` `myowstatscomp` `myowstatsqp` `owaccount`\n" +
@@ -226,7 +226,8 @@ namespace Wsashi
             "**14. Games -** `2048 start` `trivia`\n" +
             "**15. Blog (w!blog <command>) -** `create` `post` `subscribe` `unsubscribe`\n" +
             "**16. Self Roles -** `Iam` `Iamnot` `selfrolelist`\n" +
-            "**17. Wasagotchi (w!wasagotchi <command>) - `stats` `feed` `clean` `train` `play` `name` `buy` `picture` `help`** " +
+            "**17. Wasagotchi (w!wasagotchi <command>) -** `stats` `feed` `clean` `train` `play` `name` `buy` `picture` `help`\n" +
+            "**18. Reminders (w!r <command>) -** `add` `remove` `list`\n" +
             "\n" +
             "```\n" +
             "# Don't include the example brackets when using commands!\n" +
@@ -254,7 +255,7 @@ namespace Wsashi
             "\n" +
             "**Filters -** `antilink` `filter` `pingchecks` `antilinkignore`\n" +
             "**User Management -** `ban` `kick` `mute` `unmute` `clear` `warn` `say` `softban` `idban`\n" +
-            "**Bot Settings -** `serverprefix` `leveling` `list` `leveling` `levelingmsg`\n" +
+            "**Bot Settings -** `serverprefix` `leveling` `list` `leveling` `levelingmsg` `config`\n" +
             "**Welcome Messages (w!welcome <command>) -** `channel` `add` `remove` `list`\n" +
             "**Leaving Messages (w!leave <command>) -** `add` `remove` `list`\n" +
             "**Announcements (w!announcements <command>) -** `setchannel` `unsetchannel`\n" +
@@ -436,17 +437,18 @@ namespace Wsashi
             var embed = new EmbedBuilder();
             embed.WithColor(37, 152, 255);
             embed.WithTitle("Update Notes");
-            embed.WithDescription($"`Bot version {version}` **<<Last Updated on 6/20>>**\n"
+            embed.WithDescription($"`Bot version {version}` **<<Last Updated on 6/24>>**\n"
                 + "`----- LAST UPDATE -----`\n"
-                + "• Added a pet (Wasagotchi) system! See all commands in `w!help`!\n"
-                + "• Added the `bigletter` `reverse` `playsong` `woop` commands!\n"
-                + "• Added Image Generation! Current commands include `gru` and `butterflyman`\n"
-                + "• Squished a few typos and bugs..\n"
-                + "`----- CURRENT UPDATE -----`\n"
                 + "• Added rock paper scissors!Use `w!rps`!\n"
                 + "• Made it so that you will now have a * seperate * account per server, money is carried over, but XP is different (the leveling system was also updated :D)!\n"
                 + "• Aesthetically improved the `w!command` command!\n"
                 + "• Squished a bugs and fixed typos :D..\n"
+                + "`----- CURRENT UPDATE -----`\n"
+                + " • Improved the old dueling system(IMPROVED IT SO MUCH) use `w!duelhelp` to see the commands!\n"
+                + " • Added more stuff to the Dog and Cat API(Cat API broke so I got a new onw :D)!\n"
+                + " • Fixed `w!help` as some commands were missing..\n"
+                + " • Added Reminders!You can use `w!reminder add < reminder > in < time >`.\n"
+                + " • Improved gambling(just `w!coinflip` i'm sorry xd)\n"
                 );
 
             await ReplyAsync("", embed: embed);

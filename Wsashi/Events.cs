@@ -152,8 +152,9 @@ namespace Wsashi
                     var embed = new EmbedBuilder();
                     embed.WithDescription($":warning:  |  {text} (Inappropiate language)");
                     embed.WithColor(37, 152, 255);
+                    //await context.Channel.SendMessageAsync("", embed: embed.Build());
                     var mssg = await context.Channel.SendMessageAsync("", embed: embed.Build());
-                    await Task.Delay(5000);
+                    Thread.Sleep(4000);
                     await mssg.DeleteAsync();
                 }
             }

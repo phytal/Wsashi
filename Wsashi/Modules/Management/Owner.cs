@@ -11,7 +11,7 @@ using Wsashi.Core.Modules;
 using Wsashi;
 using Wsashi.Features.GlobalAccounts;
 
-namespace SIVA.Core.Modules.Management
+namespace Wsashi.Core.Modules.Management
 {
     public class Owner : WsashiModule
     {

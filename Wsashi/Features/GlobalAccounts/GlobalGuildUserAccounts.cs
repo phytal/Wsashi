@@ -36,7 +36,7 @@ namespace Wsashi.Features.GlobalAccounts
         {
             return userAccounts.GetOrAdd(id, (key) =>
             {
-                var newAccount = new GlobalGuildUserAccount { UniqueId = id , Id = nid};
+                var newAccount = new GlobalGuildUserAccount { UniqueId = id , Id = nid, Health = 100, Meds = 6 };
                 Configuration.DataStorage.StoreObject(newAccount, Path.Combine(Constants.ServerUserAccountsFolder, $"{id}.json"), useIndentations: true);
                 return newAccount;
             });
@@ -61,7 +61,7 @@ namespace Wsashi.Features.GlobalAccounts
 
         internal static void SaveAccount(string uId, ulong id)
         {
-            Configuration.DataStorage.StoreObject(GetUserID(uId, id), Path.Combine(Constants.ServerUserAccountsFolder, $"{id}.json"), useIndentations: true);
+            Configuration.DataStorage.StoreObject(GetUserID(uId, id), Path.Combine(Constants.ServerUserAccountsFolder, $"{uId}.json"), useIndentations: true);
 
         }
         /// <summary>

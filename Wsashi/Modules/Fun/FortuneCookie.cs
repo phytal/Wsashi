@@ -3,7 +3,7 @@ using System;
 using System.Threading.Tasks;
 using Wsashi.Preconditions;
 
-namespace Watchdog.Modules.Fun
+namespace Wsashi.Modules.Fun
 {
     public class FortuneCookie : ModuleBase
     {
@@ -17,9 +17,9 @@ namespace Watchdog.Modules.Fun
         {
             int randomIndex = rand.Next(predictionsTexts.Length);
             string text = predictionsTexts[randomIndex];
-            await Context.Channel.SendMessageAsync(":cookie: :hammer: \n \n***Crack!***");
-
-            await Context.Channel.SendMessageAsync(":cookie:  | " + "**"+ Context.User.Username + "**" + ", " + text);
+            var msg = await Context.Channel.SendMessageAsync(":cookie: :hammer: \n \n***Crack!***");
+            await Task.Delay(1000);
+            await msg.ModifyAsync(m => { m.Content = ":cookie:  | " + "**" + Context.User.Username + "**" + ", " + text; });
         }
 
         string[] predictionsTexts = new string[]
