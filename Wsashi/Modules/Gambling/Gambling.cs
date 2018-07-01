@@ -56,7 +56,7 @@ namespace Wsashi.Modules
                     embed.WithDescription($"I guess tails. And the coin landed on tails! Sorry **{Context.User.Username}**, but your **{amount}** Potatos are mine now!");
                 }
             }
-            await Context.Channel.SendMessageAsync("", embed: embed.Build());
+            await Context.Channel.SendMessageAsync("", false, embed.Build());
         }
 
         [Command("roll")]
@@ -71,7 +71,7 @@ namespace Wsashi.Modules
             var embed = new EmbedBuilder();
             embed.WithColor(37, 152, 255);
             embed.WithTitle(":game_die:  | You Rolled **" + randomNumber + "**");
-            await Context.Channel.SendMessageAsync("", embed: embed.Build());
+            await Context.Channel.SendMessageAsync("", false, embed.Build());
         }
     }
 }

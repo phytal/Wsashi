@@ -46,7 +46,7 @@ namespace Wsashi
                 embed.WithColor(37, 152, 255);
                 embed.WithFooter($"Guild Owner: {user.Guild.Owner.Username}#{user.Guild.Owner.Discriminator}");
                 embed.WithThumbnailUrl(user.Guild.IconUrl);
-                await channel.SendMessageAsync("", embed: embed.Build());
+                await channel.SendMessageAsync("", false, embed.Build());
 
             }
         }
@@ -68,7 +68,7 @@ namespace Wsashi
                 embed.WithDescription(a);
                 embed.WithColor(37, 152, 255);
                 embed.WithThumbnailUrl(user.Guild.IconUrl);
-                await channel.SendMessageAsync("", embed: embed.Build());
+                await channel.SendMessageAsync("", false, embed.Build());
             }
 
             if (user.Guild.Id == 419612620090245140)
@@ -96,7 +96,7 @@ namespace Wsashi
             embed.WithFooter("Still need help? Visit the Wsashi Bot server linked above.");
             embed.WithColor(37, 152, 255);
 
-            await dmChannel.SendMessageAsync("", embed: embed.Build());
+            await dmChannel.SendMessageAsync("", false, embed.Build());
             GlobalGuildAccounts.SaveAccounts();
 
         }
@@ -119,7 +119,7 @@ namespace Wsashi
                     var embed = new EmbedBuilder();
                     embed.WithColor(37, 152, 255);
                     embed.WithDescription($":warning:  | {context.User.Mention}, Don't post your filthy links here! (No links)");
-                    var mssg = await context.Channel.SendMessageAsync("", embed: embed.Build());
+                    var mssg = await context.Channel.SendMessageAsync("", false, embed.Build());
                     await Task.Delay(5000);
                     await mssg.DeleteAsync();
                 }
@@ -152,8 +152,8 @@ namespace Wsashi
                     var embed = new EmbedBuilder();
                     embed.WithDescription($":warning:  |  {text} (Inappropiate language)");
                     embed.WithColor(37, 152, 255);
-                    //await context.Channel.SendMessageAsync("", embed: embed.Build());
-                    var mssg = await context.Channel.SendMessageAsync("", embed: embed.Build());
+                    //await context.Channel.SendMessageAsync("", false, embed.Build());
+                    var mssg = await context.Channel.SendMessageAsync("", false, embed.Build());
                     Thread.Sleep(4000);
                     await mssg.DeleteAsync();
                 }

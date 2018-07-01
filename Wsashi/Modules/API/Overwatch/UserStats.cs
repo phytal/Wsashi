@@ -84,13 +84,13 @@ namespace Wsashi.Modules.API.Overwatch
             };
             embed.WithThumbnailUrl(avatar);
             embed.WithColor(37, 152, 255);
-            embed.AddInlineField("Competitive Game Stats", $"Games Played: **{cgp}**\nGames Won: **{cgw}**\nGames Lost: **{cgl}**\nGames Tied: **{cgt}**\nEliminations: **{celims}**\nDeaths: **{cd}**\nWin Rate: **{cwr}**\nKills per Death: **{ckpd}**\nBest Kill Streak: **{ckbs}**\nDamage Done: **{cdd}**\nHealing Done: **{chd}**");
-            embed.AddInlineField("Quickplay Game Stats", $"Games Won: **{qgw}**\nEliminations: **{qelims}**\nDeaths: **{qd}**\nKills per Death: **{qkpd}**\nBest Kill Streak: **{qkbs}**\nDamage Done: **{qdd}**\nHealing Done: **{qhd}**");
-            embed.AddInlineField("Competitive Medals", $"Total Medals: **{cm}**\n:first_place: Gold Medals: **{cmg}**\n:second_place: Silver Medals: **{cms}**\n:third_place: Bronze Medals: **{cmb}**");
-            embed.AddInlineField("Quickplay Medals", $"Total Medals: **{qm}**\n:first_place: Gold Medals: **{qmg}**\n:second_place: Silver Medals: **{qms}**\n:third_place: Bronze Medals: **{qmb}**");
-            embed.AddInlineField("Overall", $"Level: **{clvl}**\nPrestige: **{cpres}**\nTier: **{tier}**\nCompetitive Rank: **{ccomprank}**");
+            embed.AddField("Competitive Game Stats", $"Games Played: **{cgp}**\nGames Won: **{cgw}**\nGames Lost: **{cgl}**\nGames Tied: **{cgt}**\nEliminations: **{celims}**\nDeaths: **{cd}**\nWin Rate: **{cwr}**\nKills per Death: **{ckpd}**\nBest Kill Streak: **{ckbs}**\nDamage Done: **{cdd}**\nHealing Done: **{chd}**", true);
+            embed.AddField("Quickplay Game Stats", $"Games Won: **{qgw}**\nEliminations: **{qelims}**\nDeaths: **{qd}**\nKills per Death: **{qkpd}**\nBest Kill Streak: **{qkbs}**\nDamage Done: **{qdd}**\nHealing Done: **{qhd}**", true);
+            embed.AddField("Competitive Medals", $"Total Medals: **{cm}**\n:first_place: Gold Medals: **{cmg}**\n:second_place: Silver Medals: **{cms}**\n:third_place: Bronze Medals: **{cmb}**", true);
+            embed.AddField("Quickplay Medals", $"Total Medals: **{qm}**\n:first_place: Gold Medals: **{qmg}**\n:second_place: Silver Medals: **{qms}**\n:third_place: Bronze Medals: **{qmb}**", true);
+            embed.AddField("Overall", $"Level: **{clvl}**\nPrestige: **{cpres}**\nTier: **{tier}**\nCompetitive Rank: **{ccomprank}**", true);
 
-            await Context.Channel.SendMessageAsync("", embed: embed);
+            await Context.Channel.SendMessageAsync("", false, embed.Build());
         }
 
         [Command("owstatsqp", RunMode = RunMode.Async)]
@@ -145,11 +145,11 @@ namespace Wsashi.Modules.API.Overwatch
             };
             embed.WithThumbnailUrl(avatar);
             embed.WithColor(37, 152, 255);
-            embed.AddInlineField("Quickplay Game Stats", $"Games Won: **{qgw}**\nEliminations: **{qelims}**\nDeaths: **{qd}**\nKills per Death: **{qkpd}**\nBest Kill Streak: **{qkbs}**\nDamage Done: **{qdd}**\nHealing Done: **{qhd}**");
-            embed.AddInlineField("Quickplay Medals", $"Total Medals: **{qm}**\n:first_place: Gold Medals: **{qmg}**\n:second_place: Silver Medals: **{qms}**\n:third_place: Bronze Medals: **{qmb}**");
-            embed.AddInlineField("Overall", $"Level: **{clvl}**\nPrestige: **{cpres}**\nTier: **{tier}**\nCompetitive Rank: **{ccomprank}**");
+            embed.AddField("Quickplay Game Stats", $"Games Won: **{qgw}**\nEliminations: **{qelims}**\nDeaths: **{qd}**\nKills per Death: **{qkpd}**\nBest Kill Streak: **{qkbs}**\nDamage Done: **{qdd}**\nHealing Done: **{qhd}**", true);
+            embed.AddField("Quickplay Medals", $"Total Medals: **{qm}**\n:first_place: Gold Medals: **{qmg}**\n:second_place: Silver Medals: **{qms}**\n:third_place: Bronze Medals: **{qmb}**", true);
+            embed.AddField("Overall", $"Level: **{clvl}**\nPrestige: **{cpres}**\nTier: **{tier}**\nCompetitive Rank: **{ccomprank}**", true);
 
-            await Context.Channel.SendMessageAsync("", embed: embed);
+            await Context.Channel.SendMessageAsync("", false, embed.Build());
         }
 
         [Command("owstatscomp", RunMode = RunMode.Async)]
@@ -210,11 +210,11 @@ namespace Wsashi.Modules.API.Overwatch
             };
             embed.WithThumbnailUrl(avatar);
             embed.WithColor(37, 152, 255);
-            embed.AddInlineField("Competitive Game Stats", $"Games Played: **{cgp}**\nGames Won: **{cgw}**\nGames Lost: **{cgl}**\nGames Tied: **{cgt}**\nEliminations: **{celims}**\nDeaths: **{cd}**\nWin Rate: **{cwr}**\nKills per Death: **{ckpd}**\nBest Kill Streak: **{ckbs}**\nDamage Done: **{cdd}**\nHealing Done: **{chd}**");
-            embed.AddInlineField("Competitive Medals", $"Total Medals: **{cm}**\n:first_place: Gold Medals: **{cmg}**\n:second_place: Silver Medals: **{cms}**\n:third_place: Bronze Medals: **{cmb}**");
-            embed.AddInlineField("Overall", $"Level: **{clvl}**\nPrestige: **{cpres}**\nTier: **{tier}**\nCompetitive Rank: **{ccomprank}**");
+            embed.AddField("Competitive Game Stats", $"Games Played: **{cgp}**\nGames Won: **{cgw}**\nGames Lost: **{cgl}**\nGames Tied: **{cgt}**\nEliminations: **{celims}**\nDeaths: **{cd}**\nWin Rate: **{cwr}**\nKills per Death: **{ckpd}**\nBest Kill Streak: **{ckbs}**\nDamage Done: **{cdd}**\nHealing Done: **{chd}**", true);
+            embed.AddField("Competitive Medals", $"Total Medals: **{cm}**\n:first_place: Gold Medals: **{cmg}**\n:second_place: Silver Medals: **{cms}**\n:third_place: Bronze Medals: **{cmb}**", true);
+            embed.AddField("Overall", $"Level: **{clvl}**\nPrestige: **{cpres}**\nTier: **{tier}**\nCompetitive Rank: **{ccomprank}**", true);
 
-            await Context.Channel.SendMessageAsync("", embed: embed);
+            await Context.Channel.SendMessageAsync("", false, embed.Build());
         }
     }
 }

@@ -31,7 +31,7 @@ namespace Wsashi.Core.LevelingSystem
                 var embed = new EmbedBuilder();
                 embed.WithColor(37, 152, 255);
                 embed.WithDescription($":potato:  | Here's **{Constants.DailyMoneyGain}** Potatos, {Context.User.Mention}! Come back tomorrow for more!");
-                await Context.Channel.SendMessageAsync("", embed: embed.Build());
+                await Context.Channel.SendMessageAsync("", false, embed.Build());
             }
             else
             {
@@ -39,7 +39,7 @@ namespace Wsashi.Core.LevelingSystem
                 var embed = new EmbedBuilder();
                 embed.WithColor(37, 152, 255);
                 embed.WithDescription($":potato:  | **You have already claimed your free daily Potatos, {Context.User.Mention}.\nCome back in {timeSpanString}.**");
-                await Context.Channel.SendMessageAsync("", embed: embed.Build());
+                await Context.Channel.SendMessageAsync("", false, embed.Build());
             }
         }
 
@@ -67,7 +67,7 @@ namespace Wsashi.Core.LevelingSystem
                     var embed = new EmbedBuilder();
                     embed.WithColor(37, 152, 255);
                     embed.WithDescription($":diamond_shape_with_a_dot_inside:   | {Context.User.Mention} gave {userB.Mention} a reputation point!");
-                    await Context.Channel.SendMessageAsync("", embed: embed.Build());
+                    await Context.Channel.SendMessageAsync("", false, embed.Build());
                 }
                 else
                 {
@@ -75,7 +75,7 @@ namespace Wsashi.Core.LevelingSystem
                     var embed = new EmbedBuilder();
                     embed.WithColor(37, 152, 255);
                     embed.WithDescription($":diamond_shape_with_a_dot_inside::arrows_counterclockwise:  | **You already gave someone reputation points recently, {Context.User.Mention}.\nCome back in {timeSpanString}.**");
-                    await Context.Channel.SendMessageAsync("", embed: embed.Build());
+                    await Context.Channel.SendMessageAsync("", false, embed.Build());
                 }
             }
         }
@@ -100,7 +100,7 @@ namespace Wsashi.Core.LevelingSystem
                     var embed = new EmbedBuilder();
                     embed.WithColor(37, 152, 255);
                     embed.WithTitle(":hand_splayed:  | Please say who you want to gift Potato(s) to. Ex: w!gift <amount of Potatos> @user");
-                    await Context.Channel.SendMessageAsync("", embed: embed.Build());
+                    await Context.Channel.SendMessageAsync("", false, embed.Build());
                 }
                 else
                 {
@@ -136,7 +136,7 @@ namespace Wsashi.Core.LevelingSystem
             var embed = new EmbedBuilder();
             embed.WithColor(37, 152, 255);
             embed.WithTitle($":white_check_mark:  | **{Money}** Potatos were added to " + target.Username + "'s account.");
-            await Context.Channel.SendMessageAsync("", embed: embed.Build());
+            await Context.Channel.SendMessageAsync("", false, embed.Build());
         }
 
         [Command("levels")]

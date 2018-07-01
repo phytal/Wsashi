@@ -47,21 +47,21 @@ namespace Wsashi.Modules.API.osu_
             embed.WithThumbnailUrl("https://images.discordapp.net/avatars/421879566265614337/7035b241f838c0e1de3f0ab047352d0b.png?size=512");
             embed.WithColor(37, 152, 255);
             embed.WithTitle($":video_game:  | **{Username}'s osu! Profile**");
-            embed.AddInlineField("Username", Username + $" ({country})");
-            embed.AddInlineField("UserId", UserId);
-            embed.AddInlineField("Level", lvl);
-            embed.AddInlineField("Ranked Score", rs);
-            embed.AddInlineField("Total Score", ts);
-            embed.AddInlineField("PP Rank", pprank + $" ({ppcountryrank} in {country})");
-            embed.AddInlineField("PP Raw", ppraw);
-            embed.AddInlineField("Play Count", playcount);
-            embed.AddInlineField("Accuracy", acc);
-            embed.AddInlineField("Country PP Rank", ppcountryrank);
+            embed.AddField("Username", Username + $" ({country})", true);
+            embed.AddField("UserId", UserId, true);
+            embed.AddField("Level", lvl, true);
+            embed.AddField("Ranked Score", rs, true);
+            embed.AddField("Total Score", ts, true);
+            embed.AddField("PP Rank", pprank + $" ({ppcountryrank} in {country}), true");
+            embed.AddField("PP Raw", ppraw, true);
+            embed.AddField("Play Count", playcount, true);
+            embed.AddField("Accuracy", acc, true);
+            embed.AddField("Country PP Rank", ppcountryrank, true);
             embed.WithDescription($"**SS+:** {ssh} | **SS:** {ss} | **S+:** {sh} | **S:** {s} | **A:** {a} \n**300s:** {c3} | **100s:** {c1} | **50s:** {c5}" );
 
             embed.WithFooter("Powered by the osu.ppy.sh API");
 
-            await Context.Channel.SendMessageAsync("", embed: embed);
+            await Context.Channel.SendMessageAsync("", false, embed.Build());
         }
     }
 }

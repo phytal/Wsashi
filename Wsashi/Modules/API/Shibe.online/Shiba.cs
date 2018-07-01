@@ -33,7 +33,7 @@ namespace Wsashi.Modules.API
             var embed = new EmbedBuilder();
             embed.WithTitle(":dog: | Here's a Shiba!");
             embed.WithImageUrl(link);
-            await Context.Channel.SendMessageAsync("", embed: embed.Build());
+            await Context.Channel.SendMessageAsync("", false, embed.Build());
         }
     }
 }

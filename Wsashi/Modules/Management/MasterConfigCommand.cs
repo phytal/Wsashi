@@ -69,11 +69,11 @@ namespace Wsashi.Modules.Management
                     embed.AddField("Welcome/Leaving", "On:\n" +
                                               $"- Channel: <#{config.WelcomeChannel}>\n" +
                                               $"- WelcomeMsg: {config.WelcomeMessage}\n" +
-                                              $"- LeavingMsg: {config.LeavingMessage}");
+                                              $"- LeavingMsg: {config.LeavingMessage}", true);
                 }
                 else
                 {
-                    embed.AddField("Welcome/Leaving", "Off");
+                    embed.AddField("Welcome/Leaving", "Off", true);
                 }
 
                 embed.AddField("Other", $"Antilink: {ConvertBoolean(config.Antilink)}\n" +
@@ -83,7 +83,7 @@ namespace Wsashi.Modules.Management
                                         $"Leveling: {config.Leveling}\n" +
                                         $"Server Logging: {ConvertBoolean(config.IsServerLoggingEnabled)}\n" +
                                         $"Mod Role: {modRole}\n" +
-                                        $"Admin Role: {adminRole}\n");
+                                        $"Admin Role: {adminRole}\n", true);
 
                 embed.WithThumbnailUrl(Context.Guild.IconUrl);
 
@@ -95,7 +95,7 @@ namespace Wsashi.Modules.Management
                 var embed = new EmbedBuilder();
                 embed.WithColor(37, 152, 255);
                 embed.Title = $":x:  | You Need the Administrator Permission to do that {Context.User.Username}";
-                var use = await Context.Channel.SendMessageAsync("", embed: embed.Build());
+                var use = await Context.Channel.SendMessageAsync("", false, embed.Build());
                 await Task.Delay(5000);
                 await use.DeleteAsync();
             }

@@ -40,7 +40,7 @@ namespace Wsashi.Modules
                 }
             }
 
-            await ReplyAsync("", embed: embed.Build());
+            await ReplyAsync("", false, embed.Build());
         }
 
         [Command("Iamnot"), Alias("Iamn", "iamnot", "iamn")]
@@ -69,7 +69,7 @@ namespace Wsashi.Modules
                 }
             }
 
-            await ReplyAsync("", embed: embed.Build());
+            await ReplyAsync("", false, embed.Build());
         }
     }
 }

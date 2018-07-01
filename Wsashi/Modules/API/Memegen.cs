@@ -53,7 +53,7 @@ namespace Wsashi.Modules.API
                 .WithTitle(posttitle)
                 .WithImageUrl(image)
                 .WithFooter("via r/meme");
-            await Context.Channel.SendMessageAsync("", embed: embed);
+            await Context.Channel.SendMessageAsync("", false, embed.Build());
         }
     }
 }

@@ -32,16 +32,16 @@ namespace Wsashi.Modules
 
             var embed = new EmbedBuilder();
             embed.WithTitle(":crossed_swords:  Duel Command List");
-            embed.AddInlineField("w!duels help", "Brings up the help commmand (lol)");
-            embed.AddInlineField("w!duel", "Starts a duel with the specified user!");
-            embed.AddInlineField("w!giveup", "Stops the duel and gives up.");
-            embed.AddInlineField("w!slash", "Slashes your foe with a sword. Good accuracy and medium damage");
-            embed.AddInlineField("w!heal", "Heals you 14-30 health with one of your Med Kits, but your turn gets consumed.");
-            embed.AddInlineField("w!block", "Goes into blocking formation, 75% of the damage from the next attack is absorbed, the rest still inflicts damage. You cannot use this if you are already in deflecting formation. Your turn gets consumed.");
-            embed.AddInlineField("w!absorb", "Absorbs your enemey's health, Does little damage but your health gets partially regenerated. Low accuracy. Your turn gets consumed.");
-            embed.AddInlineField("w!deflect", "Goes into deflecting formation, 50% of the damage from the next attack is deflected back, the rest still inflicts damage. You cannot use this if you are already in blocking formation.");
+            embed.AddField("w!duels help", "Brings up the help commmand (lol)", true);
+            embed.AddField("w!duel", "Starts a duel with the specified user!", true);
+            embed.AddField("w!giveup", "Stops the duel and gives up.", true);
+            embed.AddField("w!slash", "Slashes your foe with a sword. Good accuracy and medium damage", true);
+            embed.AddField("w!heal", "Heals you 14-30 health with one of your Med Kits, but your turn gets consumed.", true);
+            embed.AddField("w!block", "Goes into blocking formation, 75% of the damage from the next attack is absorbed, the rest still inflicts damage. You cannot use this if you are already in deflecting formation. Your turn gets consumed.", true);
+            embed.AddField("w!absorb", "Absorbs your enemey's health, Does little damage but your health gets partially regenerated. Low accuracy. Your turn gets consumed.", true);
+            embed.AddField("w!deflect", "Goes into deflecting formation, 50% of the damage from the next attack is deflected back, the rest still inflicts damage. You cannot use this if you are already in blocking formation.", true);
             embed.WithFooter(text);
-            await Context.Channel.SendMessageAsync("", embed: embed.Build());
+            await Context.Channel.SendMessageAsync("", false, embed.Build());
         }
 
         [Command("duel")]

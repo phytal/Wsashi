@@ -28,8 +28,17 @@ namespace Wsashi.Modules.Games
             await msg.AddReactionAsync(new Emoji("⬇"));
             await msg.AddReactionAsync(new Emoji("⬅"));
             await msg.AddReactionAsync(new Emoji("➡"));
+            await msg.AddReactionAsync(new Emoji("❌"));
 
             G1024Provider.CreateNewGame(Context.User.Id, msg);
+        }
+
+        [Command("end2048")]
+        [Alias("finish2048", "e2048", "e2")]
+        public async Task End2048Gmae()
+        {
+            G1024Provider.EndGame(Context.User.Id);
+            await Task.CompletedTask;
         }
     }
 }

@@ -45,7 +45,7 @@ namespace Wsashi.Core.Modules.Management
             var embed = new EmbedBuilder()
                 .WithDescription("Successfully verified this server.")
                 .WithColor(37, 152, 255);
-            await ReplyAsync("", embed: embed.Build());
+            await ReplyAsync("", false, embed.Build());
         }
 
         [Command("Stream")]
@@ -53,7 +53,7 @@ namespace Wsashi.Core.Modules.Management
         [RequireOwner]
         public async Task SetBotStream(string streamer, [Remainder]string streamName)
         {
-            await Program._client.SetGameAsync(streamName, $"https://twitch.tv/{streamer}", StreamType.Twitch);
+            await Program._client.SetGameAsync(streamName, $"https://twitch.tv/{streamer}", ActivityType.Streaming);
             var embed = MiscHelpers.CreateEmbed(Context, $"Set the stream name to **{streamName}**, and set the streamer to <https://twitch.tv/{streamer}>!").WithColor(37, 152, 255);
             await MiscHelpers.SendMessage(Context, embed);
         }
@@ -70,7 +70,7 @@ namespace Wsashi.Core.Modules.Management
             embed.WithDescription($"Set the bot's game to {game}");
             embed.WithColor(37, 152, 255);
             await client.SetGameAsync(game);
-            await ReplyAsync("", embed: embed.Build());
+            await ReplyAsync("", false, embed.Build());
         }
 
         [Command("setVersion")]
@@ -82,7 +82,7 @@ namespace Wsashi.Core.Modules.Management
             var embed = new EmbedBuilder();
             embed.WithDescription($"Set the bot's version to {version}");
             embed.WithColor(37, 152, 255);
-            await ReplyAsync("", embed: embed.Build());
+            await ReplyAsync("", false, embed.Build());
         }
 
         [Command("Status")]
@@ -113,7 +113,7 @@ namespace Wsashi.Core.Modules.Management
                     break;
             }
 
-            await ReplyAsync("", embed: embed.Build());
+            await ReplyAsync("", false, embed.Build());
         }
 
         [Command("LeaveServer")]
@@ -123,7 +123,7 @@ namespace Wsashi.Core.Modules.Management
         {
             var embed = new EmbedBuilder();
             embed.WithColor(37, 152, 255);
-            await ReplyAsync("", embed: embed.Build());
+            await ReplyAsync("", false, embed.Build());
             await Context.Guild.LeaveAsync();
         }
 
@@ -137,8 +137,8 @@ namespace Wsashi.Core.Modules.Management
             var embed = new EmbedBuilder();
             embed.WithDescription($"Done. In {guilds}");
             embed.WithColor(37, 152, 255);
-            await ReplyAsync("", embed: embed.Build());
-            await client.SetGameAsync($"w!help | in {guilds} servers!", $"https://twitch.tv/{Config.bot.TwitchStreamer}", StreamType.Twitch);
+            await ReplyAsync("", false, embed.Build());
+            await client.SetGameAsync($"w!help | in {guilds} servers!", $"https://twitch.tv/{Config.bot.TwitchStreamer}", ActivityType.Streaming);
 
         }
     }

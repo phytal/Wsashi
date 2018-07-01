@@ -12,14 +12,6 @@ namespace Wsashi.Modules.BotManagement
 {
     public class Owner : ModuleBase<SocketCommandContext>
     {  
-        [Command("Game"), Alias("ChangeGame", "SetGame")]
-        [Remarks("Change what the bot is currently playing.")]
-        [RequireOwner]
-        public async Task SetGame([Remainder] string gamename)
-        {
-            await Context.Client.SetGameAsync(gamename);
-            await ReplyAsync($"Changed game to {Context.Client.CurrentUser.Game?.Name}");
-        }
 
         [Command("setAvatar"), Remarks("Sets the bots Avatar")]
         [RequireOwner]

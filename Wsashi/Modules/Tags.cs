@@ -95,7 +95,7 @@ namespace Wsashi.Modules
         }
 
         [Command("new"), Alias("add"), Summary("Adds a new (not yet existing) tag to your collection")]
-        [Remarks("w!ptag new <tag content> Ex: w!ptag :door: Get out.")]
+        [Remarks("w!ptag new <tag content> Ex: w!ptag door :door: Get out.")]
         [Cooldown(10)]
         public async Task AddTag(string tagName, [Remainder] string tagContent)
         {

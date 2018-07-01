@@ -41,11 +41,11 @@ namespace Wsashi.Core.LevelingSystem
             };
 
             embed.WithColor(37, 152, 255);
-            embed.AddInlineField("Lvl.", Level);
-            embed.AddInlineField("Exp.", $"{requiredXp - levelXp}/{requiredXp} (tot. {userAccount.XP})");
-            embed.AddInlineField("Reputation Points", userAccount.Reputation);
+            embed.AddField("Lvl.", Level, true);
+            embed.AddField("Exp.", $"{requiredXp - levelXp}/{requiredXp} (tot. {userAccount.XP})", true);
+            embed.AddField("Reputation Points", userAccount.Reputation, true);
 
-            await Context.Channel.SendMessageAsync("", embed: embed);
+            await Context.Channel.SendMessageAsync("", false, embed.Build());
         }
     }
 

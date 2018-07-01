@@ -25,7 +25,7 @@ namespace Wsashi.Modules
             var embed = new EmbedBuilder();
             embed.WithColor(37, 152, 255);
             embed.WithTitle($":ping_pong:  | Pong! {(Context.Client as DiscordSocketClient).Latency}ms");
-            await Context.Channel.SendMessageAsync("", embed: embed.Build());
+            await Context.Channel.SendMessageAsync("", false, embed.Build());
         }
 
         string[] predictionsTexts = new string[]
@@ -65,7 +65,7 @@ namespace Wsashi.Modules
             var embed = new EmbedBuilder();
             embed.WithColor(37, 152, 255);
             embed.WithTitle(text + ", " + Context.User.Username);
-            await Context.Channel.SendMessageAsync("", embed: embed.Build());
+            await Context.Channel.SendMessageAsync("", false, embed.Build());
         }
 
         string[] Roasts = new string[]
@@ -150,7 +150,7 @@ namespace Wsashi.Modules
                 var embed = new EmbedBuilder();
                 embed.WithColor(37, 152, 255);
                 embed.WithTitle("You must mention a user");
-                await Context.Channel.SendMessageAsync("", embed: embed.Build());
+                await Context.Channel.SendMessageAsync("", false, embed.Build());
             }
             else
             {
@@ -159,7 +159,7 @@ namespace Wsashi.Modules
                 var embed = new EmbedBuilder();
                 embed.WithColor(37, 152, 255);
                 embed.WithTitle(":fire:  | " + user.Username + ", " + text);
-                await Context.Channel.SendMessageAsync("", embed: embed.Build());
+                await Context.Channel.SendMessageAsync("", false, embed.Build());
             }
         }
 
@@ -181,7 +181,7 @@ namespace Wsashi.Modules
             embed.WithColor(new Color(37, 152, 255));
             embed.WithThumbnailUrl("https://emojipedia-us.s3.amazonaws.com/thumbs/160/facebook/92/thinking-face_1f914.png");
 
-            await Context.Channel.SendMessageAsync("", embed: embed.Build());
+            await Context.Channel.SendMessageAsync("", false, embed.Build());
         }
 
         [Command("GoodMorning")]
@@ -197,7 +197,7 @@ namespace Wsashi.Modules
             embed.WithColor(37, 152, 255);
             embed.WithThumbnailUrl("https://cdn.pixabay.com/photo/2016/03/31/23/34/emote-1297695_960_720.png");
 
-            await Context.Channel.SendMessageAsync("", embed: embed.Build());
+            await Context.Channel.SendMessageAsync("", false, embed.Build());
         }
 
         [Command("GoodNight")]
@@ -213,7 +213,7 @@ namespace Wsashi.Modules
             embed.WithColor(37, 152, 255);
             embed.WithThumbnailUrl("https://cdn.shopify.com/s/files/1/1061/1924/products/Dark_Blue_Moon_Emoji_large.png?v=1480481043");
 
-            await Context.Channel.SendMessageAsync("", embed: embed.Build());
+            await Context.Channel.SendMessageAsync("", false, embed.Build());
         }
 
         [Command("echo")]
@@ -230,7 +230,7 @@ namespace Wsashi.Modules
             embed.WithFooter(LocalTime + " Message from " + Sender);
             embed.WithColor(37, 152, 255);
 
-            await Context.Channel.SendMessageAsync("", embed: embed.Build());
+            await Context.Channel.SendMessageAsync("", false, embed.Build());
             await Context.Message.DeleteAsync();
         }
 
@@ -246,7 +246,7 @@ namespace Wsashi.Modules
             embed.WithColor(37, 152, 255);
             embed.WithImageUrl(Global.Client.CurrentUser.GetAvatarUrl());
 
-            await Context.Channel.SendMessageAsync("", embed: embed);
+            await Context.Channel.SendMessageAsync("", false, embed.Build());
         }
 
         [Command("lmgtfy")]
@@ -283,7 +283,7 @@ namespace Wsashi.Modules
             embed.WithColor(255, 0, 0);
             embed.WithDescription(url + newQuery);
 
-            await Context.Channel.SendMessageAsync("", embed: embed.Build());
+            await Context.Channel.SendMessageAsync("", false, embed.Build());
         }
 
         [Command("Lenny")]
@@ -339,7 +339,7 @@ namespace Wsashi.Modules
                 .WithTitle("Reversed String Result~")
                 .WithDescription(new string(charArray))
                 ;
-            await Context.Channel.SendMessageAsync("", embed: embed.Build());
+            await Context.Channel.SendMessageAsync("", false, embed.Build());
         }
 
         [Command("bigletter")]

@@ -2,9 +2,11 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using Discord;
 using Discord.Rest;
 using Discord.WebSocket;
 using Wsashi.Core.Features.Games;
+using Wsashi.Features.GlobalAccounts;
 
 namespace Wsashi.Core.Providers
 {
@@ -45,7 +47,7 @@ namespace Wsashi.Core.Providers
             };
 
             games.Add(game);
-            UpdateMessage(game);
+            UpdateMessage(game, userId);
         }
 
         public static void MakeMove(ulong userId, Game1024.MoveDirection direction)
@@ -65,41 +67,76 @@ namespace Wsashi.Core.Providers
 
             games[gamesID] = game;
 
-            UpdateMessage(game);
+            UpdateMessage(game, userId);
         }
 
-        public static async void UpdateMessage(G1024Game game)
+        public static async void EndGame(ulong userId)
         {
-            var builder = new StringBuilder();
-            builder.Append("Score: ");
-            builder.Append(game.Score);
-            builder.Append("\nMove: ");
-            builder.Append(game.Move);
-            builder.Append("\n```cpp\n");
-            builder.Append(FormatBoard(game.Grid));
-
-            if (game.State == Game1024.GameState.Lost)
+            try
             {
-                builder.Clear();
-                builder.Append("YOU LOST\n");
-                builder.Append("Score: ");
-                builder.Append(game.Score);
-
+                var game = games.FirstOrDefault(g => g.PlayerId == userId);
                 games.Remove(game);
+
+                var builder = new StringBuilder();
+                builder.Append($":video_game: **Game Ended**");
+
+                await game.Message.ModifyAsync(m => m.Content = builder.ToString());
+                await game.Message.RemoveAllReactionsAsync();
             }
-            else if (game.State == Game1024.GameState.Won)
+            catch
             {
-                builder.Clear();
-                builder.Append("**YOU WON**\n");
-                builder.Append("Score: ");
-                builder.Append(game.Score);
-
-                games.Remove(game);
+                // ignored
             }
 
-            builder.Append("\n```");
+        }
 
-            await game.Message.ModifyAsync(m => m.Content = builder.ToString());
+        public static async void UpdateMessage(G1024Game game, ulong userId)
+        {
+            try
+            {
+                var globalAccount = Global.Client.GetUser(userId);
+                var chanelGuil = game.Message.Channel as IGuildChannel;
+                var account = GlobalUserAccounts.GetUserAccount(globalAccount);
+                if (game.Score > account.Best2048Score)
+                {
+                    account.Best2048Score = game.Score;
+                    GlobalUserAccounts.SaveAccounts(chanelGuil.Guild.Id);
+                }
+                var builder = new StringBuilder();
+                builder.Append("Score: ");
+                builder.Append(game.Score);
+                builder.Append("\nMove: ");
+                builder.Append(game.Move);
+                builder.Append("\n```cpp\n");
+                builder.Append(FormatBoard(game.Grid));
+
+                if (game.State == Game1024.GameState.Lost)
+                {
+                    builder.Clear();
+                    builder.Append("YOU LOST\n");
+                    builder.Append("Score: ");
+                    builder.Append(game.Score);
+
+                    games.Remove(game);
+                }
+                else if (game.State == Game1024.GameState.Won)
+                {
+                    builder.Clear();
+                    builder.Append("**YOU WON**\n");
+                    builder.Append("Score: ");
+                    builder.Append(game.Score);
+
+                    games.Remove(game);
+                }
+
+                builder.Append("\n```");
+
+                await game.Message.ModifyAsync(m => m.Content = builder.ToString());
+            }
+            catch
+            {
+                // ignored
+            }
         }
 
         public static string FormatBoard(int[][] board)

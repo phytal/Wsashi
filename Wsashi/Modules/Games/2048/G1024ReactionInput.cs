@@ -29,6 +29,11 @@ namespace Wsashi.Modules.Games
             {
                 G1024Provider.MakeMove(reaction.UserId, Game1024.MoveDirection.Right);
             }
+            else if (reaction.Emote.Name == "❌")
+            {
+                G1024Provider.EndGame(reaction.UserId);
+                return;
+            }
 
             /*
              *("⬆"));

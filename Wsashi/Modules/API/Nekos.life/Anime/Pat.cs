@@ -40,7 +40,7 @@ namespace Wsashi.Modules.API.Nekos.life.Anime
                 embed.WithDescription($"{Context.User.Mention} patted thin air... You can pat me if you would like! \n **(Include a user with your command! Example: w!pat <person you want to pat>)**");
                 embed.WithImageUrl(nekolink);
 
-                await Context.Channel.SendMessageAsync("", embed: embed.Build());
+                await Context.Channel.SendMessageAsync("", false, embed.Build());
             }
             else
             {
@@ -50,7 +50,7 @@ namespace Wsashi.Modules.API.Nekos.life.Anime
                 embed.WithTitle("Pat!");
                 embed.WithDescription($"{Context.User.Username} patted {user.Mention}!");
 
-                await Context.Channel.SendMessageAsync("", embed: embed);
+                await Context.Channel.SendMessageAsync("", false, embed.Build());
             }
         }
     }

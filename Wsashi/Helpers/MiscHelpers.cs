@@ -20,7 +20,7 @@ namespace Wsashi.Helpers
             }
             else
             {
-                await ctx.Channel.SendMessageAsync(msg, false, embed);
+                await ctx.Channel.SendMessageAsync(msg, false, embed.Build());
             }
         }
 

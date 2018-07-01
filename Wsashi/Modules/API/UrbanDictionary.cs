@@ -39,13 +39,13 @@ namespace Wsashi.Modules.API
             embed.WithColor(37, 152, 255);
             embed.WithTitle(link);
             embed.WithDescription($"By *{author}*");
-            embed.AddInlineField("Definition", definition);
-            embed.AddInlineField("Example", example + "\n" +
-                "\n:thumbsup:" + up + " :thumbsdown:" + down);
+            embed.AddField("Definition", definition, true);
+            embed.AddField("Example", example + "\n" +
+                "\n:thumbsup:" + up + " :thumbsdown:" + down, true);
             embed.WithFooter("Provided by the Urban Dictionary API");
             embed.WithUrl(permalink);
 
-            await Context.Channel.SendMessageAsync("", embed: embed.Build());
+            await Context.Channel.SendMessageAsync("", false, embed.Build());
         }
     }
 }

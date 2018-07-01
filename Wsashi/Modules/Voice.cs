@@ -25,11 +25,11 @@ namespace Wsashi.Modules
                 {
                     var embed = new EmbedBuilder();
                     embed.WithTitle("!Voice");
-                    embed.AddField("Use", "!Voice {Ammount in minutes}");
-                    embed.AddField("Maximum time", "60 minutes");
+                    embed.AddField("Use", "!Voice {Ammount in minutes}", true);
+                    embed.AddField("Maximum time", "60 minutes", true);
                     embed.WithCurrentTimestamp();
                     embed.WithColor(0, 0, 255);
-                    await Context.Channel.SendMessageAsync("", embed: embed);
+                    await Context.Channel.SendMessageAsync("", false, embed.Build());
                 }
                 else if (lifetimeInMinutes == 60000)
                 {

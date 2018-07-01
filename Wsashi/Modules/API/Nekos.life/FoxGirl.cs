@@ -34,7 +34,7 @@ namespace Wsashi.Modules.API
             var embed = new EmbedBuilder();
             embed.WithTitle("Randomly generated fox girl just for you <3!");
             embed.WithImageUrl(nekolink);
-            await Context.Channel.SendMessageAsync("", embed: embed.Build());
+            await Context.Channel.SendMessageAsync("", false, embed.Build());
         }
     }
 }

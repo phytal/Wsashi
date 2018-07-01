@@ -36,11 +36,11 @@ namespace Wsashi.Modules.API
             embed.WithThumbnailUrl(avatarURL);
             embed.WithColor(37, 152, 255);
             embed.WithTitle("Generated Person");
-            embed.AddInlineField("Gender", gender);
-            embed.AddInlineField("First Name", firstName);
-            embed.AddInlineField("Last Name", lastName);
+            embed.AddField("Gender", gender, true);
+            embed.AddField("First Name", firstName, true);
+            embed.AddField("Last Name", lastName, true);
 
-            await Context.Channel.SendMessageAsync("", embed: embed);
+            await Context.Channel.SendMessageAsync("", false, embed.Build());
         }
     }
 }

@@ -40,7 +40,7 @@ namespace Wsashi.Modules.API.Nekos.life.Anime
                 embed.WithDescription($"{Context.User.Mention} hugged themselves... Aw, don't be sad, you can hug me! \n **(Include a user with your command! Example: w!hug <person you want to hug>)**");
                 embed.WithImageUrl(nekolink);
 
-                await Context.Channel.SendMessageAsync("", embed: embed.Build());
+                await Context.Channel.SendMessageAsync("", false, embed.Build());
             }
             else
             {
@@ -50,7 +50,7 @@ namespace Wsashi.Modules.API.Nekos.life.Anime
                 embed.WithTitle("Hug!");
                 embed.WithDescription($":heart:  |  {Context.User.Username} hugged {user.Mention}!");
 
-                await Context.Channel.SendMessageAsync("", embed: embed);
+                await Context.Channel.SendMessageAsync("", false, embed.Build());
             }
         }
     }

@@ -25,7 +25,7 @@ namespace Wsashi.Modules.Games
                 var embed = new EmbedBuilder();
                 embed.WithColor(37, 152, 255);
                 embed.WithTitle(":white_check_mark:  | Removed Fortnite role.");
-                await Context.Channel.SendMessageAsync("", embed: embed.Build());
+                await Context.Channel.SendMessageAsync("", false, embed.Build());
             }
             else
             {
@@ -33,7 +33,7 @@ namespace Wsashi.Modules.Games
                 var embed = new EmbedBuilder();
                 embed.WithColor(37, 152, 255);
                 embed.WithTitle(":white_check_mark:  | Added Fortnite role");
-                await Context.Channel.SendMessageAsync("", embed: embed.Build());
+                await Context.Channel.SendMessageAsync("", false, embed.Build());
             }
         }
     }

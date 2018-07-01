@@ -81,7 +81,7 @@ namespace Wsashi
                 nickname = user.Username;
             }
 
-            string game = user.Game.ToString();
+            string game = user.Activity.ToString();
             if (string.IsNullOrEmpty(game))
             {
                 game = "Currently not playing";
@@ -95,7 +95,7 @@ namespace Wsashi
             embed.AddField("Playing", $"**{game}**", true);
             embed.AddField("Status", $"**{user.Status}**", true);
 
-            await ReplyAsync("", embed: embed.Build());
+            await ReplyAsync("", false, embed.Build());
         }
 
 
@@ -108,19 +108,20 @@ namespace Wsashi
             var config = GlobalGuildAccounts.GetGuildAccount(Context.Guild.Id);
             var embed = new EmbedBuilder();
             embed.WithTitle("Server Information");
-            embed.AddField("Name", Context.Guild.Name);
-            embed.AddField("Created", Context.Guild.CreatedAt.UtcDateTime);
-            embed.AddField("Users", Context.Guild.Users.Count);
-            embed.AddField("Text Channels", Context.Guild.TextChannels.Count);
-            embed.AddField("Voice Channels", Context.Guild.VoiceChannels.Count);
-            embed.AddField("Region", Context.Guild.VoiceRegionId);
+            embed.AddField("Name", Context.Guild.Name, true);
+            embed.AddField("Created", Context.Guild.CreatedAt.UtcDateTime, true);
+            embed.AddField("Users", Context.Guild.Users.Count, true);
+            embed.AddField("Text Channels", Context.Guild.TextChannels.Count, true);
+            embed.AddField("Voice Channels", Context.Guild.VoiceChannels.Count, true);
+            embed.AddField("Region", Context.Guild.VoiceRegionId, true);
             embed.WithThumbnailUrl(Context.Guild.IconUrl);
-            embed.AddField("Roles", Context.Guild.Roles.Count);
-            embed.AddField("Donator Guild", config.VerifiedGuild);
+            embed.AddField("Roles", Context.Guild.Roles.Count, true);
+            embed.AddField("Verification Level", Context.Guild.VerificationLevel, true);
+            embed.AddField("Donator Guild", config.VerifiedGuild, true);
 
             embed.WithColor(37, 152, 255);
 
-            await ReplyAsync("", embed: embed.Build());
+            await ReplyAsync("", false, embed.Build());
         }
 
         /*[Command("userinfo")]
@@ -187,12 +188,12 @@ namespace Wsashi
             string version = Config.bot.Version;
             var embed = new EmbedBuilder();
             embed.WithColor(37, 152, 255);
-            embed.AddInlineField("Creator", "Phytal#8213");
-            embed.AddInlineField("Last Updated", "6/24/2018");
-            embed.AddInlineField("Bot version", $"Beta {version}");
+            embed.AddField("Creator", "Phytal#8213", true);
+            embed.AddField("Last Updated", "6/24/2018", true);
+            embed.AddField("Bot version", $"Beta {version}", true);
             embed.WithImageUrl(Global.Client.CurrentUser.GetAvatarUrl());
 
-            await Context.Channel.SendMessageAsync("", embed: embed);
+            await Context.Channel.SendMessageAsync("", false, embed.Build());
         }
 
         [Command("help")]
@@ -207,7 +208,7 @@ namespace Wsashi
             "```\n" +
             "Use `w!command [command]` to get more info on a specific command. Ex: `w!command xp`  `[Prefix 'w!']` \n " +
             "\n" +
-            "**1. Core -** `help` `invite` `ping` \n" +
+            "**1. Core -** `help` `invite` `patreon` `ping` \n" +
             "**2. Social -** `xp` `level` `stats` `topxp`\n" +
             "**2.5. Interaction -** `cuddle` `feed` `hug` `kiss` `pat` `poke` `tickle`\n" +
             "**3. Fun -** `8ball` `pick` `roast` `hello` `normalhello` `goodmorning` `goodnight` `fortune` `echo` `lenny` `ratewaifu` `reverse` `bigletter` `playsong` `rps`\n" +
@@ -218,7 +219,7 @@ namespace Wsashi
             "**7. Calculator (Quik Mafs)-** `add` `minus` `multiply` `divide`\n" +
             "**8. Music (Under Development) -** `join` `leave` `play`\n" +
             "**8. Information -** `info` `userinfo` `command` `update`\n" +
-            "**9. APIs -** `dog` `doggif` `cat` `catgif` `catfact` `person` `birb` `define` `meme` `gif`\n" +
+            "**9. APIs -** `dog` `doggif` `cat` `catgif` `catfact` `person` `birb` `define` `meme` `gif` `weather` `fortnite`\n" +
             "**10. Neko API -** `neko` `catemoticon` `foxgirl`\n" +
             "**11. Shibe API -** `shiba` `bird`\n" +
             "**12. Overwatch API -** `owstats` `owstatscomp` `owstatsqp` `myowstats` `myowstatscomp` `myowstatsqp` `owaccount`\n" +
@@ -254,7 +255,7 @@ namespace Wsashi
             "Use `w!command [command]` to get more info on a specific command. Ex: `w!command xp`  `[Prefix 'w!']`\n" +
             "\n" +
             "**Filters -** `antilink` `filter` `pingchecks` `antilinkignore`\n" +
-            "**User Management -** `ban` `kick` `mute` `unmute` `clear` `warn` `say` `softban` `idban`\n" +
+            "**User Management -** `ban` `kick` `mute` `unmute` `clear` `warn` `warnings` `say` `softban` `idban`\n" +
             "**Bot Settings -** `serverprefix` `leveling` `list` `leveling` `levelingmsg` `config`\n" +
             "**Welcome Messages (w!welcome <command>) -** `channel` `add` `remove` `list`\n" +
             "**Leaving Messages (w!leave <command>) -** `add` `remove` `list`\n" +
@@ -277,7 +278,7 @@ namespace Wsashi
                 var embed = new EmbedBuilder();
                 embed.WithColor(37, 152, 255);
                 embed.Title = $":x:  | You Need the Administrator Permission to do that {Context.User.Username}";
-                var use = await Context.Channel.SendMessageAsync("", embed: embed.Build());
+                var use = await Context.Channel.SendMessageAsync("", false, embed.Build());
                 await Task.Delay(5000);
                 await use.DeleteAsync();
             }
@@ -289,33 +290,37 @@ namespace Wsashi
         [Cooldown(30)]
         public async Task HelpMessageNSFW()
         {
-            if (Context.Channel.IsNsfw)
+            if (Context.Channel is ITextChannel text)
             {
-                string helpMessageNSFW =
-            "```cs\n" +
-            "NSFW Command List (why did i make this)\n" +
-            "```\n" +
-            "Use `w!command [command]` to get more info on a specific command. Ex: `w!command xp`  `[Prefix 'w!']`\n" +
-            "\n" +
-            "**Neko -** `nekolewd` `nekonsfwgif`\n" +
-            "**Hentai -** `anal` `boobs` `cum` `les` `pussy` `blowjob` `classic` `kuni`\n" +
-            "\n" +
-            "```\n" +
-            "# Don't include the example brackets when using commands!\n" +
-            "# To view Standard commands, use w!help\n" +
-            "# To view Moderator commands, use w!helpmod\n" +
-            "```";
+                var nsfw = text.IsNsfw;
+                if (nsfw)
+                {
+                    string helpMessageNSFW =
+                "```cs\n" +
+                "NSFW Command List (why did i make this)\n" +
+                "```\n" +
+                "Use `w!command [command]` to get more info on a specific command. Ex: `w!command xp`  `[Prefix 'w!']`\n" +
+                "\n" +
+                "**Neko -** `nekolewd` `nekonsfwgif`\n" +
+                "**Hentai -** `anal` `boobs` `cum` `les` `pussy` `blowjob` `classic` `kuni`\n" +
+                "\n" +
+                "```\n" +
+                "# Don't include the example brackets when using commands!\n" +
+                "# To view Standard commands, use w!help\n" +
+                "# To view Moderator commands, use w!helpmod\n" +
+                "```";
 
-                await ReplyAsync(helpMessageNSFW);
-            }
-            else
-            {
-                var embed = new EmbedBuilder();
-                embed.WithColor(37, 152, 255);
-                embed.Title = $":x:  | You Need to be in a NSFW channel to do that {Context.User.Username}";
-                var use = await Context.Channel.SendMessageAsync("", embed: embed.Build());
-                await Task.Delay(5000);
-                await use.DeleteAsync();
+                    await ReplyAsync(helpMessageNSFW);
+                }
+                else
+                {
+                    var embed = new EmbedBuilder();
+                    embed.WithColor(37, 152, 255);
+                    embed.Title = $":x:  | You Need to be in a NSFW channel to do that {Context.User.Username}";
+                    var use = await Context.Channel.SendMessageAsync("", false, embed.Build());
+                    await Task.Delay(5000);
+                    await use.DeleteAsync();
+                }
             }
         }
         // [Command("help")]
@@ -426,6 +431,16 @@ namespace Wsashi
             await ReplyAsync("https://discordapp.com/api/oauth2/authorize?client_id=417160957010116608&permissions=8&scope=bot ~~ Invite me to your servers! :blush: ");
         }
 
+        [Command("patreon")]
+        [Summary("Sends the Patreon link to help contribue to the efforts of Wsashi")]
+        [Alias("donate")]
+        [Remarks("Ex: w!patreon")]
+        [Cooldown(10)]
+        public async Task Patreon()
+        {
+            await ReplyAsync("https://www.patreon.com/phytal ~~ Help us out! :blush: ");
+        }
+
         [Command("Update")]
         [Summary("Shows the latest update notes")]
         [Alias("updatenotes")]
@@ -451,7 +466,7 @@ namespace Wsashi
                 + " • Improved gambling(just `w!coinflip` i'm sorry xd)\n"
                 );
 
-            await ReplyAsync("", embed: embed);
+            await ReplyAsync("", false, embed.Build());
         }
     }
 }

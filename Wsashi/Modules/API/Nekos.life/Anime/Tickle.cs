@@ -40,7 +40,7 @@ namespace Wsashi.Modules.API.Nekos.life.Anime
                 embed.WithDescription($"{Context.User.Mention} tickled themselves... I'll stay out of this for now... \n **(Include a user with your command! Example: w!tickle <person you want to tickle>)**");
                 embed.WithImageUrl(nekolink);
 
-                await Context.Channel.SendMessageAsync("", embed: embed.Build());
+                await Context.Channel.SendMessageAsync("", false, embed.Build());
             }
             else
             {
@@ -50,7 +50,7 @@ namespace Wsashi.Modules.API.Nekos.life.Anime
                 embed.WithTitle("Tickle!");
                 embed.WithDescription($"{Context.User.Username} tickled {user.Mention}!");
 
-                await Context.Channel.SendMessageAsync("", embed: embed);
+                await Context.Channel.SendMessageAsync("", false, embed.Build());
             }
         }
     }

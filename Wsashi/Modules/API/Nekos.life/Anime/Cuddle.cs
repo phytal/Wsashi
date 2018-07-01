@@ -40,7 +40,7 @@ namespace Wsashi.Modules.API
                 embed.WithDescription($"{Context.User.Mention} cuddled with themselves... Maybe you can cuddle with a friend? \n **(Include a user with your command! Example: w!cuddle <person you want to cuddle with>)**");
                 embed.WithImageUrl(nekolink);
 
-                await Context.Channel.SendMessageAsync("", embed: embed.Build());
+                await Context.Channel.SendMessageAsync("", false, embed.Build());
             }
             else
             {
@@ -50,7 +50,7 @@ namespace Wsashi.Modules.API
                 embed.WithTitle("Cuddle!");
                 embed.WithDescription($"{Context.User.Username} cuddled with {user.Mention}!");
 
-                await Context.Channel.SendMessageAsync("", embed: embed);
+                await Context.Channel.SendMessageAsync("", false, embed.Build());
             }
         }
     }

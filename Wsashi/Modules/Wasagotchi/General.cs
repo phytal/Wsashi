@@ -55,25 +55,25 @@ namespace Wsashi.Modules.Wasagotchi
                 else
                     embed.WithThumbnailUrl(config.pfp);
                 embed.WithColor(37, 152, 255);
-                embed.AddInlineField("Owner", user);
+                embed.AddField("Owner", user, true);
                 if (config.Name == null)
-                    embed.AddInlineField("Name", "*(Name your wasagotchi!)*");
+                    embed.AddField("Name", "*(Name your wasagotchi!)*", true);
                 else
-                    embed.AddInlineField("Name", config.Name);
-                embed.AddInlineField("Exp", config.XP);
-                embed.AddInlineField("Level", config.LevelNumber);
-                embed.AddInlineField("Room",  GetRooms(config.rLvl));
-                embed.AddInlineField("Waste", config.Waste);
-                embed.AddInlineField("Attention", config.Attention);
-                embed.AddInlineField("Hunger", config.Hunger);
-                embed.AddInlineField("Sick", config.Sick);
-                embed.AddInlineField("Ran Away", config.RanAway);
+                    embed.AddField("Name", config.Name, true);
+                embed.AddField("Exp", config.XP, true);
+                embed.AddField("Level", config.LevelNumber, true);
+                embed.AddField("Room",  GetRooms(config.rLvl), true);
+                embed.AddField("Waste", config.Waste, true);
+                embed.AddField("Attention", config.Attention, true);
+                embed.AddField("Hunger", config.Hunger, true);
+                embed.AddField("Sick", config.Sick, true);
+                embed.AddField("Ran Away", config.RanAway, true);
                 if (config.pfp == null)
-                    embed.AddInlineField("Picture", "*Default*");
+                    embed.AddField("Picture", "*Default*", true);
                 else
-                embed.AddInlineField("Picture", "*Custom*");
+                embed.AddField("Picture", "*Custom*", true);
 
-                await Context.Channel.SendMessageAsync("", embed: embed.Build());
+                await Context.Channel.SendMessageAsync("", false, embed.Build());
             }
         }
 
@@ -106,17 +106,17 @@ namespace Wsashi.Modules.Wasagotchi
 
             var embed = new EmbedBuilder();
             embed.WithTitle("<:wasagotchi:454535808079364106> Wasagotchi Command List");
-            embed.AddInlineField("w!wasagotchi help", "Brings up the help commmand (lol)");
-            embed.AddInlineField("w!wasagotchi shop", "Opens the Wasagotchi shop menu!");
-            embed.AddInlineField("w!wasagotchi stats", "Brings up the stats/info of your or someone else's Wasagotchi!");
-            embed.AddInlineField("w!wasagotchi name", "Set the name of your Wasagotchi!");
-            embed.AddInlineField("w!wasagotchi picture", "Set the picture of your Wasagotchi! (Note: It must be a direct link)");
-            embed.AddInlineField("w!wasagotchi feed", "Feeds your Wasagtochi at the cost of Potatos! Otherwise it will starve!");
-            embed.AddInlineField("w!wasagotchi clean", "Clean up your Wasagotchi's waste, Otherwise it'll get sick!");
-            embed.AddInlineField("w!wasagotchi play", "Play with your wasagotchi! Your Wasagotchi must have high attention levels at all times!");
-            embed.AddInlineField("w!wasagotchi train", "Train your Wasagotchi to earn Exp and level up!");
+            embed.AddField("w!wasagotchi help", "Brings up the help commmand (lol)", true);
+            embed.AddField("w!wasagotchi shop", "Opens the Wasagotchi shop menu!", true);
+            embed.AddField("w!wasagotchi stats", "Brings up the stats/info of your or someone else's Wasagotchi!", true);
+            embed.AddField("w!wasagotchi name", "Set the name of your Wasagotchi!", true);
+            embed.AddField("w!wasagotchi picture", "Set the picture of your Wasagotchi! (Note: It must be a direct link)", true);
+            embed.AddField("w!wasagotchi feed", "Feeds your Wasagtochi at the cost of Potatos! Otherwise it will starve!", true);
+            embed.AddField("w!wasagotchi clean", "Clean up your Wasagotchi's waste, Otherwise it'll get sick!", true);
+            embed.AddField("w!wasagotchi play", "Play with your wasagotchi! Your Wasagotchi must have high attention levels at all times!", true);
+            embed.AddField("w!wasagotchi train", "Train your Wasagotchi to earn Exp and level up!", true);
             embed.WithFooter(text);
-            await Context.Channel.SendMessageAsync("", embed: embed.Build());
+            await Context.Channel.SendMessageAsync("", false, embed.Build());
         }
 
         [Command("wasagotchi name"), Alias("w name")]
@@ -386,7 +386,7 @@ namespace Wsashi.Modules.Wasagotchi
                     else
                         embed.WithThumbnailUrl(config.pfp);
                     embed.WithDescription($"{text} \n**(+{attn} exp)**");
-                    await Context.Channel.SendMessageAsync("", embed: embed.Build());
+                    await Context.Channel.SendMessageAsync("", false, embed.Build());
                 }
                 if (choice == 2)
                 {
@@ -408,7 +408,7 @@ namespace Wsashi.Modules.Wasagotchi
                     else
                         embed.WithThumbnailUrl(config.pfp);
                     embed.WithDescription($"{text}");
-                    await Context.Channel.SendMessageAsync("", embed: embed.Build());
+                    await Context.Channel.SendMessageAsync("", false, embed.Build());
                 }
 
             }

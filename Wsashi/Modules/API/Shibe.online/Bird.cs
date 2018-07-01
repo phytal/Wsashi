@@ -32,7 +32,7 @@ namespace Wsashi.Modules.API
             var embed = new EmbedBuilder();
             embed.WithTitle(":bird: | Here's a random bird!");
             embed.WithImageUrl(link);
-            await Context.Channel.SendMessageAsync("", embed: embed.Build());
+            await Context.Channel.SendMessageAsync("", false, embed.Build());
         }
     }
 }

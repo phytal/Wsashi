@@ -15,6 +15,8 @@ namespace Wsashi.Entities
 
         public ulong Money { get; set; } = 1;
 
+        public int Best2048Score { get; set; }
+
         public DateTime LastDaily { get; set; } = DateTime.UtcNow.AddDays(-2);
 
         public DateTime LastMessage { get; set; } = DateTime.UtcNow;

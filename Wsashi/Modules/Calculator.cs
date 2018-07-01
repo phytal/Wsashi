@@ -49,7 +49,7 @@ namespace Wsashi.Modules
 
 
             }
-            await ReplyAsync("", embed: embed.Build());
+            await ReplyAsync("", false, embed.Build());
         }
     }
 }

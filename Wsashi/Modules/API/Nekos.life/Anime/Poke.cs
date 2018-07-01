@@ -40,7 +40,7 @@ namespace Wsashi.Modules.API.Nekos.life.Anime
                 embed.WithDescription($"{Context.User.Mention} poked themselves... I guess you can poke yourself if you're lonely... \n **(Include a user with your command! Example: w!poke <person you want to poke>)**");
                 embed.WithImageUrl(nekolink);
 
-                await Context.Channel.SendMessageAsync("", embed: embed.Build());
+                await Context.Channel.SendMessageAsync("", false, embed.Build());
             }
             else
             {
@@ -50,7 +50,7 @@ namespace Wsashi.Modules.API.Nekos.life.Anime
                 embed.WithTitle("Poke!");
                 embed.WithDescription($":point_right:  |  {Context.User.Username} poked {user.Mention}!");
 
-                await Context.Channel.SendMessageAsync("", embed: embed);
+                await Context.Channel.SendMessageAsync("", false, embed.Build());
             }
         }
     }
