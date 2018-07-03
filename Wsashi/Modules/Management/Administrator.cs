@@ -590,14 +590,14 @@ namespace Wsashi.Core.Modules
             if (guser.GuildPermissions.BanMembers)
             {
                 var userAccount = GlobalGuildUserAccounts.GetUserID((SocketGuildUser)user);
-                var dmchannel = await Context.User.GetOrCreateDMChannelAsync();
+                var dmchannel = await user.GetOrCreateDMChannelAsync();
                 userAccount.NumberOfWarnings++;
                 userAccount.Warnings.Add(reason);
                 GlobalGuildUserAccounts.SaveAccounts();
 
                 if (userAccount.NumberOfWarnings >= 5)
                 {
-                    await user.Guild.AddBanAsync(user, 5);
+                    await user.Guild.AddBanAsync(user);
                     await dmchannel.SendMessageAsync($":exclamation:  **You have been banned from {Context.Guild} from having too many warnings.**");
                 }
                 else if (userAccount.NumberOfWarnings == 3)
@@ -629,9 +629,11 @@ namespace Wsashi.Core.Modules
             var guser = Context.User as SocketGuildUser;
             if (guser.GuildPermissions.BanMembers)
             {
+                var num = GlobalGuildUserAccounts.GetUserID((SocketGuildUser)user).NumberOfWarnings;
                 var warnings = GlobalGuildUserAccounts.GetUserID((SocketGuildUser)user).Warnings;
                 var embed = new EmbedBuilder();
                 embed.WithTitle($"{user}'s Warnings");
+                embed.WithDescription($"Total of **{num}** warnings");
                 for (var i = 0; i < warnings.Count; i++)
                 {
                     embed.AddField($"Warning #{i + 1}: ", warnings[i], true);

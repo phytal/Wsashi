@@ -52,6 +52,6 @@ namespace Wsashi.Entities
 
         public uint NumberOfWarnings { get; set; }
 
-        public List<string> Warnings { get; set; }
+        public List<string> Warnings { get; private set; } = new List<string>();
     }
 }

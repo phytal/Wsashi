@@ -80,7 +80,7 @@ namespace Wsashi
             Initialize(_client);
             await _client.SetGameAsync(Config.bot.BotGameToSet, $"https://twitch.tv/{Config.bot.TwitchStreamer}", ActivityType.Streaming);
             await _client.SetStatusAsync(UserStatus.Online);
-            await _client.SetGameAsync("w!help | Wsashi");
+            //await _client.SetGameAsync("w!help | Wsashi");
             await Task.Delay(-1);
 
         }
