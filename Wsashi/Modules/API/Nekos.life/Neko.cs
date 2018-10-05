@@ -15,7 +15,7 @@ namespace Wsashi.Modules.API
 {
     public class Neko : ModuleBase<SocketCommandContext>
     {
-        [Command("neko", RunMode = RunMode.Async)]
+        [Command("neko")]
         [Summary("Displays an random neko :3")]
         [Remarks("Ex: w!neko")]
         [Cooldown(10)]

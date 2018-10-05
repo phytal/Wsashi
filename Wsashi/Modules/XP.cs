@@ -104,7 +104,7 @@ namespace Wsashi.Modules
                 await ReplyAsync($"There are not that many pages...\nPage {lastPageNumber} is the last one...");
                 return;
             }
-            // Sort the accounts descending by Potatos
+            // Sort the accounts descending by Potatoes
             var ordered = accounts.OrderByDescending(acc => acc.XP).ToList();
 
             var embB = new EmbedBuilder()

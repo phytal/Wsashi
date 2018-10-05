@@ -15,7 +15,7 @@ namespace Wsashi.Modules.API
 {
     public class FoxGirl : ModuleBase<SocketCommandContext>
     {
-        [Command("foxgirl", RunMode = RunMode.Async)]
+        [Command("foxgirl")]
         [Summary("Displays an random fox girl :3")]
         [Remarks("Ex: w!neko")]
         [Cooldown(10)]

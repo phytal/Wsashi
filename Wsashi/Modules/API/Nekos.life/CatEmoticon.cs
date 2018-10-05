@@ -15,7 +15,7 @@ namespace Wsashi.Modules.API
 {
     public class CatEmoticon : ModuleBase<SocketCommandContext>
     {
-        [Command("catemoticon", RunMode = RunMode.Async)]
+        [Command("catemoticon")]
         [Summary("Displays an random cat emoticon :3")]
         [Alias("cate")]
         [Remarks("Ex: w!cate")]

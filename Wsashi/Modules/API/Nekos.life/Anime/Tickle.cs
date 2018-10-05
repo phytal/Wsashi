@@ -15,7 +15,7 @@ namespace Wsashi.Modules.API.Nekos.life.Anime
 {
     public class Tickle : ModuleBase<SocketCommandContext>
     {
-        [Command("Tickle", RunMode = RunMode.Async)]
+        [Command("Tickle")]
         [Summary("Tickle someone! :3")]
         [Remarks("w!tickle <user you want to tickle (if left empty you will tickle yourself)> Ex: w!tickle @Phytal")]
         [Cooldown(10)]

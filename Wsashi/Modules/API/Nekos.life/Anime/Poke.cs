@@ -15,7 +15,7 @@ namespace Wsashi.Modules.API.Nekos.life.Anime
 {
     public class Poke : ModuleBase<SocketCommandContext>
     {
-        [Command("poke", RunMode = RunMode.Async)]
+        [Command("poke")]
         [Summary("Poke someone! :3")]
         [Remarks("w!poke <user you want to poke (if left empty you will poke yourself)> Ex: w!poke @Phytal")]
         [Cooldown(10)]

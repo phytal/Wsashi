@@ -13,7 +13,7 @@ namespace Wsashi.Modules.API.Nekos.life.NSFW_Neko
 {
     public class NSFW_Neko_Gif : ModuleBase<SocketCommandContext>
     {
-        [Command("nekonsfwgif", RunMode = RunMode.Async)]
+        [Command("nekonsfwgif")]
         [Summary("Displays a nsfw neko gif")]
         [Remarks("Ex: w!nekonsfwgif")]
         [Cooldown(5)]

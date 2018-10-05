@@ -15,7 +15,7 @@ namespace Wsashi.Modules.API
 {
     public class Feed : ModuleBase<SocketCommandContext>
     {
-        [Command("feed", RunMode = RunMode.Async)]
+        [Command("feed")]
         [Summary("Feed someone!")]
         [Remarks("w!feed <user you want to feed (if left empty you will feed yourself)> Ex: w!feed @Phytal")]
         [Cooldown(10)]

@@ -48,7 +48,7 @@ namespace Wsashi.Modules.Management
                 var config = GlobalGuildAccounts.GetGuildAccount(Context.Guild.Id);
                 var embed = MiscHelpers.CreateEmbed(Context, $"Server ID: {config.Id}\n" +
                                                          $"Owner: <@{config.GuildOwnerId}>");
-
+                string helperRole = "**Not set**";
                 string modRole = "**Not set**";
                 string adminRole = "**Not set**";
                 if (config.ModRole != 0)
@@ -59,7 +59,10 @@ namespace Wsashi.Modules.Management
                 {
                     adminRole = $"**{Context.Guild.Roles.First(role => role.Id == config.ModRole).Name}**";
                 }
-
+                else if (config.HelperRole != 0)
+                {
+                    helperRole = $"**{Context.Guild.Roles.First(role => role.Id == config.HelperRole).Name}**";
+                }
 
 
 
@@ -80,8 +83,9 @@ namespace Wsashi.Modules.Management
                                         $"Mass Ping Checks: {ConvertBoolean(config.MassPingChecks)}\n" +
                                         $"Blacklist: {ConvertBoolean(config.Filter)}\n" +
                                         $"Autorole: {config.Autorole}\n" +
-                                        $"Leveling: {config.Leveling}\n" +
+                                        $"Leveling: {ConvertBoolean(config.Leveling)}\n" +
                                         $"Server Logging: {ConvertBoolean(config.IsServerLoggingEnabled)}\n" +
+                                        $"Helper Role: {helperRole}\n" +
                                         $"Mod Role: {modRole}\n" +
                                         $"Admin Role: {adminRole}\n", true);
 

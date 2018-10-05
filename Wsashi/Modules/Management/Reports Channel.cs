@@ -26,7 +26,7 @@ namespace Wsashi.Modules.ServerManagement
                 var perms = new OverwritePermissions(
                     sendMessages: PermValue.Deny,
                     addReactions: PermValue.Deny,
-                    readMessages: PermValue.Allow
+                    viewChannel: PermValue.Allow
                     );
                 var channel = await Context.Guild.CreateTextChannelAsync("Reports");
                 await channel.AddPermissionOverwriteAsync(role, perms);
@@ -67,7 +67,7 @@ namespace Wsashi.Modules.ServerManagement
                     var perms = new OverwritePermissions(
                         sendMessages: PermValue.Deny,
                         addReactions: PermValue.Deny,
-                        readMessages: PermValue.Allow
+                        viewChannel: PermValue.Allow
                         );
                     var channel = await Context.Guild.CreateTextChannelAsync("reports");
                     await channel.AddPermissionOverwriteAsync(role, perms);
@@ -94,7 +94,7 @@ namespace Wsashi.Modules.ServerManagement
                 var perms = new OverwritePermissions(
                     sendMessages: PermValue.Deny,
                     addReactions: PermValue.Deny,
-                    readMessages: PermValue.Allow
+                    viewChannel: PermValue.Allow
                     );
                 var channel = await Context.Guild.CreateTextChannelAsync("Reports");
                 await channel.AddPermissionOverwriteAsync(role, perms);

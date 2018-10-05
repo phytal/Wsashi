@@ -15,7 +15,7 @@ namespace Wsashi.Modules.API
 {
     public class Cuddle : ModuleBase<SocketCommandContext>
     {
-        [Command("cuddle", RunMode = RunMode.Async)]
+        [Command("cuddle")]
         [Summary("Displays an random cuddle picture!")]
         [Remarks("w!cuddle <user you want to cuddle (if left empty you will cuddle yourself)> Ex: w!cuddle @Phytal")]
         [Cooldown(10)]

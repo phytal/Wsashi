@@ -10,7 +10,7 @@ namespace Wsashi.Modules
 {
     public class WasagotchiInteractive : InteractiveBase
     {
-        [Command("wasagotchi buy", RunMode = RunMode.Async), Alias("w shop")]
+        [Command("wasagotchi buy"), Alias("w shop")]
         [Summary("Opens the Wasagotchi shop menu!")]
         [Remarks("Ex: w!w shop")]
         public async Task WasagotchiBuy()
@@ -30,7 +30,7 @@ namespace Wsashi.Modules
                 {
                     if (configg.Money < config.RoomCost)
                     {
-                        await shop.ModifyAsync(m => { m.Content = $"**<:no:453716729525174273>  |  {Context.User.Username}, you don't have enough Potatos for that! **You require **{900 - configg.Money}** more Potatos!"; });
+                        await shop.ModifyAsync(m => { m.Content = $"**<:no:453716729525174273>  |  {Context.User.Username}, you don't have enough Potatoes for that! **You require **{900 - configg.Money}** more Potatoes!"; });
                         return;
                     }
                     config.Have = true;
@@ -67,7 +67,7 @@ namespace Wsashi.Modules
                 {
                     if (configg.Money < config.RoomCost)
                     {
-                        await Context.Channel.SendMessageAsync($"**<:no:453716729525174273>  |  {Context.User.Username}, you don't have enough Potatos for that! **You require **{config.RoomCost - configg.Money}** more Potatos!");
+                        await Context.Channel.SendMessageAsync($"**<:no:453716729525174273>  |  {Context.User.Username}, you don't have enough Potatoes for that! **You require **{config.RoomCost - configg.Money}** more Potatoes!");
                         return;
                     }
                     else
@@ -98,7 +98,7 @@ namespace Wsashi.Modules
 
             if (response.Content.Equals("3", StringComparison.CurrentCultureIgnoreCase) && (response.Author.Equals(Context.User)))
             {
-                await shop.ModifyAsync(m => { m.Content = $":house:  |  **Your current room is: {GetRooms(config.rLvl)}. Are you sure you want to downgrade to {GetRooms(config.rLvl - 1)}? This will not refund your Potatos!** \n\nType `confirm` to continue or `cancel` to cancel."; });
+                await shop.ModifyAsync(m => { m.Content = $":house:  |  **Your current room is: {GetRooms(config.rLvl)}. Are you sure you want to downgrade to {GetRooms(config.rLvl - 1)}? This will not refund your Potatoes!** \n\nType `confirm` to continue or `cancel` to cancel."; });
                 //await Task.Delay(80000);
                 var newresponse = await NextMessageAsync();
                 if (newresponse.Content.Equals("confirm", StringComparison.CurrentCultureIgnoreCase) && (response.Author.Equals(Context.User)))

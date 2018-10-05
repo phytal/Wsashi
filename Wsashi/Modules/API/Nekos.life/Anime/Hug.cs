@@ -15,7 +15,7 @@ namespace Wsashi.Modules.API.Nekos.life.Anime
 {
     public class Hug : ModuleBase<SocketCommandContext>
     {
-        [Command("Hug", RunMode = RunMode.Async)]
+        [Command("Hug")]
         [Summary("Hug someone!")]
         [Remarks("w!hug <user you want to hug (if left empty you will hug yourself)> Ex: w!hug @Phytal")]
         [Cooldown(10)]

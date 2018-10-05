@@ -15,7 +15,7 @@ namespace Wsashi.Modules.API.Nekos.life.Anime
 {
     public class Pat : ModuleBase<SocketCommandContext>
     {
-        [Command("pat", RunMode = RunMode.Async)]
+        [Command("pat")]
         [Summary("Pat someone! :3")]
         [Remarks("w!pat <user you want to pat (if left empty you will pat yourself)> Ex: w!pat @Phytal")]
         [Cooldown(10)]

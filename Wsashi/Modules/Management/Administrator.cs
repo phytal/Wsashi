@@ -1089,7 +1089,7 @@ namespace Wsashi.Core.Modules
                 {
                     var role = Context.Guild.Roles.FirstOrDefault(r => r.Name == "@everyone");
                     var perms = new OverwritePermissions(
-                        readMessages: PermValue.Deny
+                        viewChannel: PermValue.Deny
                         );
                     var channel = await Context.Guild.CreateTextChannelAsync("logs");
                     await channel.AddPermissionOverwriteAsync(role, perms);

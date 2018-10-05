@@ -13,7 +13,7 @@ namespace Wsashi.Modules.API.Nekos.life.NSFW_Hentai
 {
     public class HentaiKuni : ModuleBase<SocketCommandContext>
     {
-        [Command("kuni", RunMode = RunMode.Async)]
+        [Command("kuni")]
         [Summary("Displays a hentai kuni")]
         [Remarks("Ex: w!kuni")]
         [Cooldown(5)]

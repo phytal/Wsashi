@@ -229,6 +229,7 @@ namespace Wsashi
             "**16. Self Roles -** `Iam` `Iamnot` `selfrolelist`\n" +
             "**17. Wasagotchi (w!wasagotchi <command>) -** `stats` `feed` `clean` `train` `play` `name` `buy` `picture` `help`\n" +
             "**18. Reminders (w!r <command>) -** `add` `remove` `list`\n" +
+                        "**19. Personal Tags (w!ptag <command>)-** `new` `update` `remove` `list`\n" +
             "\n" +
             "```\n" +
             "# Don't include the example brackets when using commands!\n" +
@@ -263,6 +264,7 @@ namespace Wsashi
             "**Server Management -** `rename` `serverlogging` \n" +
             "**Roles -** `ModRole` `AdminRole` `selfroleadd` `selfrolerem` `selfroleclear`\n" +
             "**Promoting and Demoting (w!promote/demote <command>)-** `admin` `mod` `helper` \n" +
+                        "**Server Tags (w!tag <command>)-** `new` `update` `remove` `list`\n" +
             "**Fun Stuff -** `unflip` \n" +
             "\n" +
             "```\n" +

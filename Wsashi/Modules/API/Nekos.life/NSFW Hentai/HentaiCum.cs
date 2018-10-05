@@ -13,7 +13,7 @@ namespace Wsashi.Modules.API.Nekos.life.NSFW_Hentai
 {
     public class HentaiCum : ModuleBase<SocketCommandContext>
     {
-        [Command("cum", RunMode = RunMode.Async)]
+        [Command("cum")]
         [Summary("Displays a hentai cum")]
         [Remarks("Ex: w!cum")]
         [Cooldown(5)]

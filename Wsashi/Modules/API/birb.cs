@@ -15,7 +15,7 @@ namespace Wsashi.Modules.API
 {
     public class birb : ModuleBase<SocketCommandContext>
     {
-        [Command("birb", RunMode = RunMode.Async)]
+        [Command("birb")]
         [Alias("birdmeme")]
         [Summary("Displays an random birb meme")]
         [Remarks("Ex: w!birb")]

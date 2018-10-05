@@ -53,8 +53,7 @@ namespace Wsashi.Modules
                 await Task.Delay(5000);
                 await use.DeleteAsync();
             }
-
-    }
+        }
         [Group("Welcome")]
         [Summary("DM a joining user a random message out of the ones defined.")]
         public class WelcomeMessages : ModuleBase<SocketCommandContext>

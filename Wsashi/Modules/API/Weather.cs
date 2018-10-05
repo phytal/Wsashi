@@ -10,7 +10,7 @@ namespace Watchdog.Modules.API
 {
     public class Weather : ModuleBase<SocketCommandContext>
     {
-        [Command("weather", RunMode = RunMode.Async)]
+        [Command("weather")]
         [Summary("Displays the weather for specified major city")]
         [Remarks("w!weather <city> Ex: w!weather london")]
         [Cooldown(10)]

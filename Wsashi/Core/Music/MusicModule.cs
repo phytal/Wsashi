@@ -13,7 +13,7 @@ namespace Wsashi.Core.Music
 
         private static IAudioClient _audioclient;
 
-        [Command("join", RunMode = RunMode.Async)]
+        [Command("join")]
         public async Task JoinChannel(IVoiceChannel channel = null)
         /*{
             channel = channel ?? (Context.User as IGuildUser)?.VoiceChannel;
@@ -53,7 +53,7 @@ namespace Wsashi.Core.Music
         }
 
 
-        [Command("leave", RunMode = RunMode.Async)]
+        [Command("leave")]
         public async Task StopAsync(IVoiceChannel channel = null)
         {
             if (channel == null)
@@ -64,7 +64,7 @@ namespace Wsashi.Core.Music
             await _audioclient.StopAsync();
         }
 
-        [Command("play", RunMode = RunMode.Async)]
+        [Command("play")]
         public async Task PlaySong([Remainder] string url)
         {
             await ReplyAsync("**Song:** " + (url) + "Has now started.");

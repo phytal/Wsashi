@@ -36,7 +36,7 @@ namespace Wsashi.Modules.API
                 await Context.Channel.SendFileAsync(stream, "meme.jpg");
             }
         }
-        [Command("gif", RunMode = RunMode.Async)]
+        [Command("gif")]
         public async Task Image()
         {
             string json;

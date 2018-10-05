@@ -15,7 +15,7 @@ namespace Wsashi.Modules.API.Nekos.life.Anime
 {
     public class Kiss : ModuleBase<SocketCommandContext>
     {
-        [Command("kiss", RunMode = RunMode.Async)]
+        [Command("kiss")]
         [Summary("Kiss someone! :3")]
         [Remarks("w!kiss <user you want to kiss (if left empty you will kiss yourself)> Ex: w!kiss @Phytal")]
         [Cooldown(10)]

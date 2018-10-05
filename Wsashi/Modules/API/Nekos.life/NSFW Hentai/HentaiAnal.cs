@@ -12,7 +12,7 @@ namespace Wsashi.Modules.API.Nekos.life.NSFW_Hentai
 {
     public class HentaiAnal : ModuleBase<SocketCommandContext>
     {
-        [Command("anal", RunMode = RunMode.Async)]
+        [Command("anal")]
         [Summary("Displays hentai anal")]
         [Remarks("Ex: w!anal")]
         [Cooldown(5)]

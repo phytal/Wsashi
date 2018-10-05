@@ -29,7 +29,7 @@ namespace Wsashi.Modules.API
             }
         }
 
-        [Command("fn", RunMode = RunMode.Async)]
+        [Command("fn")]
         [Alias("fortnite")]
         [Summary("Get a Fortnite user's statistics.")]
         [Remarks("w!fn <platform (pc/xbox/psn)> <Fortnite username> Ex: w!fn pc Phytal")]

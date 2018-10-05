@@ -12,7 +12,7 @@ namespace Wsashi.Modules.API.Nekos.life.NSFW_Hentai
 {
     public class NekoBoobs : ModuleBase<SocketCommandContext>
     { 
-    [Command("boobs", RunMode = RunMode.Async)]
+    [Command("boobs")]
     [Alias("tits")]
     [Summary("Displays hentai boobs")]
         [Remarks("Ex: w!boobs")]

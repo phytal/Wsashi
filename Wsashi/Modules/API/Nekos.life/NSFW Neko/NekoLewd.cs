@@ -13,7 +13,7 @@ namespace Wsashi.Modules.API.Nekos.life.NSFW_Neko
 {
     public class NekoLewd : ModuleBase<SocketCommandContext>
     {
-        [Command("nekolewd", RunMode = RunMode.Async)]
+        [Command("nekolewd")]
         [Summary("Displays a lewd neko")]
         [Remarks("Ex: w!neko lewd")]
         [Cooldown(10)]

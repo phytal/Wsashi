@@ -12,7 +12,7 @@ namespace Wsashi.Modules.API.Nekos.life.NSFW_Hentai
 {
     public class NekoLes : ModuleBase<SocketCommandContext>
     {
-        [Command("les", RunMode = RunMode.Async)]
+        [Command("les")]
         [Summary("Displays a les")]
         [Remarks("Ex: w!les")]
         [Cooldown(5)]

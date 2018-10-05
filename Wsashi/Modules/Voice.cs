@@ -9,7 +9,7 @@ namespace Wsashi.Modules
     {
             const int maxTimeInMinutes = 3600000;
 
-            [Command("Voice", RunMode = RunMode.Async)]
+            [Command("Voice")]
             [RequireBotPermission(GuildPermission.ManageChannels)]
             [Cooldown(10, true)]
             public async Task CreateTemporaryVoiceChannel(int lifetimeInMinutes = 0)

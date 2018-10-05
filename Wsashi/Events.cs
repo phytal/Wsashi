@@ -112,16 +112,18 @@ namespace Wsashi
 
             try
             {
-                if (config.Antilink == false) return;
-                if (msg.Content.Contains("http") || msg.Content.Contains("www."))
+                if (config.Antilink == true)
                 {
-                    await msg.DeleteAsync();
-                    var embed = new EmbedBuilder();
-                    embed.WithColor(37, 152, 255);
-                    embed.WithDescription($":warning:  | {context.User.Mention}, Don't post your filthy links here! (No links)");
-                    var mssg = await context.Channel.SendMessageAsync("", false, embed.Build());
-                    await Task.Delay(5000);
-                    await mssg.DeleteAsync();
+                    if (msg.Content.Contains("http") || msg.Content.Contains("www."))
+                    {
+                        await msg.DeleteAsync();
+                        var embed = new EmbedBuilder();
+                        embed.WithColor(37, 152, 255);
+                        embed.WithDescription($":warning:  | {context.User.Mention}, Don't post your filthy links here! (No links)");
+                        var mssg = await context.Channel.SendMessageAsync("", false, embed.Build());
+                        await Task.Delay(5000);
+                        await mssg.DeleteAsync();
+                    }
                 }
             }
             catch (NullReferenceException)

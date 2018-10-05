@@ -74,7 +74,9 @@ namespace Wsashi
     .BuildServiceProvider();
 
             _service = new CommandService();
-            await _service.AddModulesAsync(Assembly.GetEntryAssembly());
+            await _service.AddModulesAsync(
+                                assembly: Assembly.GetEntryAssembly(),
+                services: services);
 
             //_handler = new CommandHandler();
             Initialize(_client);
@@ -88,7 +90,14 @@ namespace Wsashi
         {
             _client = client;
             _service = new CommandService();
-            _service.AddModulesAsync(Assembly.GetEntryAssembly());
+            var cmdConfig = new CommandServiceConfig
+            {
+                DefaultRunMode = RunMode.Async
+            };
+            _service.AddModulesAsync(
+                                assembly: Assembly.GetEntryAssembly(),
+                services: services);
+
             _client.MessageReceived += HandleCommandAsync;
             Global.Client = client;
             _client.UserJoined += _client_UserJoined;
@@ -98,8 +107,8 @@ namespace Wsashi
 
         private async Task HandleCommandAsync(SocketMessage s)
         {
-            var _ =  Events.FilterChecks(s);
-            var __ = Events.Unflip(s);
+            _ =  Events.FilterChecks(s);
+            _ = Events.Unflip(s);
 
             if (!(s is SocketUserMessage msg)) return;
             if (msg.Channel is SocketDMChannel) return;

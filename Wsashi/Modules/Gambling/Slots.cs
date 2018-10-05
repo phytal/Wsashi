@@ -30,13 +30,13 @@ namespace Wsashi.Modules
         {
             if (amount < 1)
             {
-                await ReplyAsync($":x:  | You can't spin for that amount of Potatos.");
+                await ReplyAsync($":x:  | You can't spin for that amount of Potatoes.");
                 return;
             }
             var account = GlobalUserAccounts.GetUserAccount(Context.User.Id);
             if (account.Money < amount)
             {
-                await ReplyAsync($":hand_splayed:  | Sorry but it seems like you don't have enough Potatos... You only have {account.Money}.");
+                await ReplyAsync($":hand_splayed:  | Sorry but it seems like you don't have enough Potatoes... You only have {account.Money}.");
                 return;
             }
 

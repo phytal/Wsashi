@@ -43,7 +43,7 @@ namespace Wsashi.Modules.Wasagotchi
                 var thumbnailurl = Context.User.GetAvatarUrl();
                 var auth = new EmbedAuthorBuilder()
                 {
-                    Name = $"{Context.User.Username}'s Wasagotchi",
+                    Name = $"{user.Username}'s Wasagotchi",
                     IconUrl = thumbnailurl,
                 };
                 var embed = new EmbedBuilder()
@@ -111,7 +111,7 @@ namespace Wsashi.Modules.Wasagotchi
             embed.AddField("w!wasagotchi stats", "Brings up the stats/info of your or someone else's Wasagotchi!", true);
             embed.AddField("w!wasagotchi name", "Set the name of your Wasagotchi!", true);
             embed.AddField("w!wasagotchi picture", "Set the picture of your Wasagotchi! (Note: It must be a direct link)", true);
-            embed.AddField("w!wasagotchi feed", "Feeds your Wasagtochi at the cost of Potatos! Otherwise it will starve!", true);
+            embed.AddField("w!wasagotchi feed", "Feeds your Wasagtochi at the cost of Potatoes! Otherwise it will starve!", true);
             embed.AddField("w!wasagotchi clean", "Clean up your Wasagotchi's waste, Otherwise it'll get sick!", true);
             embed.AddField("w!wasagotchi play", "Play with your wasagotchi! Your Wasagotchi must have high attention levels at all times!", true);
             embed.AddField("w!wasagotchi train", "Train your Wasagotchi to earn Exp and level up!", true);
@@ -179,7 +179,7 @@ namespace Wsashi.Modules.Wasagotchi
 
 
         [Command("wasagotchi feed"), Alias("w feed")]
-        [Summary("Feeds your Wasagtochi at the cost of Potatos! Otherwise it will starve!")]
+        [Summary("Feeds your Wasagtochi at the cost of Potatoes! Otherwise it will starve!")]
         [Remarks("Ex: w!w feed")]
         public async Task WasagotchiFeed()
         {

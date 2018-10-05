@@ -13,7 +13,7 @@ namespace Wsashi.Modules.API
 {
     public class UrbanDictionary : ModuleBase
     {
-        [Command("define", RunMode = RunMode.Async)]
+        [Command("define")]
         [Summary("Use Urban Dictionary to define a given word")]
         [Alias("dictionary", "urban", "definition")]
         [Remarks("w!define <word you want to define> Ex: w!define Weeb")]

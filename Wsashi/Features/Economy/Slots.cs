@@ -93,7 +93,7 @@ namespace Wsashi.Features.Economy
             }
         };
 
-        // Returns the amount of Potatos you win with the current pointers of the Cylinders if you bet <amount> of Potatos
+        // Returns the amount of Potatoes you win with the current pointers of the Cylinders if you bet <amount> of Potatoes
         public Tuple<uint, string> GetPayoutAndFlavourText(uint amount)
         {
             double payoutModifier = 0;
@@ -120,11 +120,11 @@ namespace Wsashi.Features.Economy
             uint moneyGain = (uint)(amount * payoutModifier);
             string message = ":tada:  | You played and ";
             if (moneyGain > amount)
-                message += $"won **{moneyGain} Potatos**!";
+                message += $"won **{moneyGain} Potatoes**!";
             else if (moneyGain == amount)
-                message += "you got your Potatos back... But sadly didn't win anything :/";
+                message += "you got your Potatoes back... But sadly didn't win anything :/";
             else if (moneyGain > 0)
-                message += $"at least you got some of your Potatos back... Just **{moneyGain}** sadly :C";
+                message += $"at least you got some of your Potatoes back... Just **{moneyGain}** sadly :C";
             else
                 message += "lost everything... Sorry about that :C";
 

@@ -19,7 +19,7 @@ namespace Wsashi.Core.LevelingSystem
     {
         [Command("Daily")]
         [Alias("GetDaily", "ClaimDaily")]
-        [Summary("Claims your daily Potatos!")]
+        [Summary("Claims your daily Potatoes!")]
         [Remarks("Ex: w!daily")]
         [Cooldown(60, true)]
         public async Task GetDaily()
@@ -30,7 +30,7 @@ namespace Wsashi.Core.LevelingSystem
             {
                 var embed = new EmbedBuilder();
                 embed.WithColor(37, 152, 255);
-                embed.WithDescription($":potato:  | Here's **{Constants.DailyMoneyGain}** Potatos, {Context.User.Mention}! Come back tomorrow for more!");
+                embed.WithDescription($":potato:  | Here's **{Constants.DailyMoneyGain}** Potatoes, {Context.User.Mention}! Come back tomorrow for more!");
                 await Context.Channel.SendMessageAsync("", false, embed.Build());
             }
             else
@@ -38,7 +38,7 @@ namespace Wsashi.Core.LevelingSystem
                 var timeSpanString = string.Format("{0:%h} hours {0:%m} minutes {0:%s} seconds", result.RefreshTimeSpan);
                 var embed = new EmbedBuilder();
                 embed.WithColor(37, 152, 255);
-                embed.WithDescription($":potato:  | **You have already claimed your free daily Potatos, {Context.User.Mention}.\nCome back in {timeSpanString}.**");
+                embed.WithDescription($":potato:  | **You have already claimed your free daily Potatoes, {Context.User.Mention}.\nCome back in {timeSpanString}.**");
                 await Context.Channel.SendMessageAsync("", false, embed.Build());
             }
         }
@@ -82,7 +82,7 @@ namespace Wsashi.Core.LevelingSystem
 
         [Command("gift")]
         [Alias("grant", "pay")]
-        [Summary("Gifts/Pays Potatos to a selected user (of course taken from your balance) Ex: w!gift <amount of Potatos> @user")]
+        [Summary("Gifts/Pays Potatoes to a selected user (of course taken from your balance) Ex: w!gift <amount of Potatoes> @user")]
         [Remarks("w!gift <amount> <user you want to gift to> Ex: w!")]
         [Cooldown(10, true)]
         public async Task Gift(uint Money, IGuildUser userB, [Remainder]string arg = "")
@@ -91,7 +91,7 @@ namespace Wsashi.Core.LevelingSystem
 
             if (giveaccount.Money < Money)
             {
-                await ReplyAsync(":angry:  | Stop trying to gift an amount of Potatos over your account balance! ");
+                await ReplyAsync(":angry:  | Stop trying to gift an amount of Potatoes over your account balance! ");
             }
             else
             {
@@ -99,7 +99,7 @@ namespace Wsashi.Core.LevelingSystem
                 {
                     var embed = new EmbedBuilder();
                     embed.WithColor(37, 152, 255);
-                    embed.WithTitle(":hand_splayed:  | Please say who you want to gift Potato(s) to. Ex: w!gift <amount of Potatos> @user");
+                    embed.WithTitle(":hand_splayed:  | Please say who you want to gift Potatoes to. Ex: w!gift <amount of Potatoes> @user");
                     await Context.Channel.SendMessageAsync("", false, embed.Build());
                 }
                 else
@@ -114,13 +114,13 @@ namespace Wsashi.Core.LevelingSystem
                     minusaccount.Money += Money;
                     GlobalUserAccounts.SaveAccounts();
 
-                    await Context.Channel.SendMessageAsync($":white_check_mark:  | " + Context.User.Mention + "has gifted " + userB.Mention + Money + " " + "Potato(s). How generous.");
+                    await Context.Channel.SendMessageAsync($":white_check_mark:  | " + Context.User.Mention + "has gifted " + userB.Mention + Money + " " + "Potatoes. How generous.");
                 }
             }
         }
 
         [Command("addPotatos")]
-        [Summary("Grants Potatos to selected user")]
+        [Summary("Grants Potatoes to selected user")]
         [Alias("giveppotatos")]
         [RequireOwner]
         public async Task AddPotatos(uint Money, IGuildUser user, [Remainder]string arg = "")
@@ -135,12 +135,12 @@ namespace Wsashi.Core.LevelingSystem
 
             var embed = new EmbedBuilder();
             embed.WithColor(37, 152, 255);
-            embed.WithTitle($":white_check_mark:  | **{Money}** Potatos were added to " + target.Username + "'s account.");
+            embed.WithTitle($":white_check_mark:  | **{Money}** Potatoes were added to " + target.Username + "'s account.");
             await Context.Channel.SendMessageAsync("", false, embed.Build());
         }
 
         [Command("levels")]
-        [Summary("Shows a user list of the sorted by Potatos. Pageable to see lower ranked users.")]
+        [Summary("Shows a user list of the sorted by Potatoes. Pageable to see lower ranked users.")]
         [Alias("Top", "Top10", "richest", "rank")]
         [Remarks("w!level <page number (if left empty it will default to 1)> Ex: w!levels 2")]
         [Cooldown(15, true)]
@@ -164,7 +164,7 @@ namespace Wsashi.Core.LevelingSystem
                 await ReplyAsync($"There are not that many pages...\nPage {lastPageNumber} is the last one...");
                 return;
             }
-            // Sort the accounts descending by Potatos
+            // Sort the accounts descending by Potatoes
             var ordered = accounts.OrderByDescending(acc => acc.Money).ToList();
 
             var embB = new EmbedBuilder()
@@ -177,7 +177,7 @@ namespace Wsashi.Core.LevelingSystem
                 var account = ordered[i - 1 + usersPerPage * page];
                 var user = Global.Client.GetUser(account.Id);
                 embB.WithColor(37, 152, 255);
-                embB.AddField($"#{i + usersPerPage * page} {user.Username}", $"{account.Money} Potatos", true);
+                embB.AddField($"#{i + usersPerPage * page} {user.Username}", $"{account.Money} Potatoes", true);
             }
 
             await ReplyAsync("", false, embB.Build());
@@ -197,9 +197,9 @@ namespace Wsashi.Core.LevelingSystem
             await ReplyAsync(GetPotatosReport(account.Money, target.Username, target.Mention));
         }
 
-        public string GetPotatosReport(ulong Potatos, string mention, string mentionn)
+        public string GetPotatosReport(ulong Potatoes, string mention, string mentionn)
         {
-            return $":potato:  | {mention} has **{Potatos} Potatos**! {GetPotatoCountReaction(Potatos, mention)}";
+            return $":potato:  | {mention} has **{Potatoes} Potatoes**! {GetPotatoCountReaction(Potatoes, mention)}";
         }
 
         private string GetPotatoCountReaction(ulong value, string mention)
@@ -227,7 +227,7 @@ namespace Wsashi.Core.LevelingSystem
             }
             else if (value > 2500)
             {
-                return $"Great, **{mention}!** Now you can give all those Potatos to your superior mistress, ME.";
+                return $"Great, **{mention}!** Now you can give all those Potatoes to your superior mistress, ME.";
             }
             else if (value > 1100)
             {
@@ -235,7 +235,7 @@ namespace Wsashi.Core.LevelingSystem
             }
             else if (value > 800)
             {
-                return $"Alright, **{mention}**. Put the Potatos in the bag and nobody gets hurt.";
+                return $"Alright, **{mention}**. Put the Potatoes in the bag and nobody gets hurt.";
             }
             else if (value > 550)
             {
@@ -250,7 +250,7 @@ namespace Wsashi.Core.LevelingSystem
                 return $"Yeah, **{mention}** is broke. What a surprise.";
             }
 
-            return $"The whole concept of Potatos is fake. I hope you know that";
+            return $"The whole concept of Potatoes is fake. I hope you know that";
         }
     }
 }

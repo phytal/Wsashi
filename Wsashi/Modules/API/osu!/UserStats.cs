@@ -13,7 +13,7 @@ namespace Wsashi.Modules.API.osu_
 {
     public class UserStats : ModuleBase
     {
-        [Command("osustats", RunMode = RunMode.Async)]
+        [Command("osustats")]
         [Summary("Get a osu! user's statistics.")]
         [Remarks("w!osustats <osu username> Ex: w!osustats Phytal")]
         [Cooldown(10)]
