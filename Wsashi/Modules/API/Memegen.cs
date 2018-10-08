@@ -37,6 +37,9 @@ namespace Wsashi.Modules.API
             }
         }
         [Command("gif")]
+        [Summary("Sends a meme from r/meme")]
+        [Remarks("w!gif")]
+        [Cooldown(3)]
         public async Task Image()
         {
             string json;
