@@ -189,7 +189,7 @@ namespace Wsashi
             var embed = new EmbedBuilder();
             embed.WithColor(37, 152, 255);
             embed.AddField("Creator", "Phytal#8213", true);
-            embed.AddField("Last Updated", "6/24/2018", true);
+            embed.AddField("Last Updated", "10/8/2018", true);
             embed.AddField("Bot version", $"Beta {version}", true);
             embed.WithImageUrl(Global.Client.CurrentUser.GetAvatarUrl());
 
