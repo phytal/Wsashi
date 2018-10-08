@@ -216,7 +216,7 @@ namespace Wsashi
             "**5. Gambling -** `roll` `coinflip` `newslots` `slots` `showslots`\n" +
             "**5. Economy -** `balance` `daily` `rank`\n" +
             "**6. Utilities -** `dm` `report` `voice`\n" +
-            "**7. Calculator -** `add` `minus` `multiply` `divide`\n" +
+            "**7. Calculator (w!calc <command) -** `add` `sub` `mult` `div` `sqrt` `power`\n" +
             "**8. Information -** `info` `userinfo` `command` `update`\n" +
             "**9. APIs -** `dog` `doggif` `cat` `catgif` `catfact` `person` `birb` `define` `meme` `gif` `weather` `fortnite`\n" +
             "**10. Neko API -** `neko` `catemoticon` `foxgirl`\n" +
