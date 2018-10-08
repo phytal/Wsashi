@@ -57,10 +57,15 @@
   ### **1.9.2 Beta**
 *6/24*  
   • Improved the old dueling system (IMPROVED IT SO MUCH) use `w!duelhelp` to see the commands!  
-  • Added more stuff to the Dog and Cat API (Cat API broke so I got a new onw :D)!  
+  • Added more stuff to the Dog and Cat API (Cat API broke so I got a new one :D)!  
   • Fixed `w!help` as some commands were missing..  
   • Added Reminders! You can use `w!reminder add <reminder> in <time>`.  
-    • Improved gambling (just `w!coinflip` i'm sorry xd)  
-  
+  • Improved gambling (just `w!coinflip` i'm sorry xd)  
+    ### **1.9.4 Beta**
+*10/8*  
+  • Fixed the Welcome and Leave commands. 
+  • Fixed Mass Ping Checks
+  • Added a `w!clearwarnings` command for administrators.  
+
  ## Versioning System  
     The way how everything is versioned is by x.y.z. X represents the stage it is in (In this case Beta 1.0). Y is for major updates, or when z reaches up to 10. Z is for additions and minor bugs (+2 for additions, +1 for bug fixes). Usually it's random (sorry lol)
