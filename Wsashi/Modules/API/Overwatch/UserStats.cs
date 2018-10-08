@@ -114,7 +114,7 @@ namespace Wsashi.Modules.API.Overwatch
             string cpres = dataObject.eu.stats.quickplay.overall_stats.prestige.ToString();
             string tier = dataObject.eu.stats.quickplay.overall_stats.tier.ToString();
             string avatar = dataObject.eu.stats.quickplay.overall_stats.avatar.ToString();
-            string ri = dataObject.eu.stats.quickplay.overall_stats.rank_image.ToString();
+            //string ti = dataObject.eu.stats.competitive.overall_stats.tier_image.ToString();
             string ccomprank = dataObject.eu.stats.competitive.overall_stats.comprank.ToString();
 
             string qdd = dataObject.eu.stats.quickplay.game_stats.damage_done.ToString();
@@ -132,7 +132,7 @@ namespace Wsashi.Modules.API.Overwatch
             var bottom = new EmbedFooterBuilder()
             {
                 Text = "Powered by the OWAPI API",
-                IconUrl = ri
+                //IconUrl = ti
             };
 
             var top = new EmbedAuthorBuilder()
@@ -173,7 +173,7 @@ namespace Wsashi.Modules.API.Overwatch
             string cd = dataObject.eu.stats.competitive.game_stats.deaths.ToString();
             string celims = dataObject.eu.stats.competitive.game_stats.eliminations.ToString();
             string cgp = dataObject.eu.stats.competitive.game_stats.games_played.ToString();
-            string cgt = dataObject.eu.stats.competitive.game_stats.games_tied.ToString();
+            //string cgt = dataObject.eu.stats.competitive.game_stats.games_tied.ToString();
             string cgw = dataObject.eu.stats.competitive.game_stats.games_won.ToString();
             string cgl = dataObject.eu.stats.competitive.game_stats.games_lost.ToString();
             string ckpd = dataObject.eu.stats.competitive.game_stats.kpd.ToString();
@@ -191,12 +191,11 @@ namespace Wsashi.Modules.API.Overwatch
             string tier = dataObject.eu.stats.competitive.overall_stats.tier.ToString();
             string avatar = dataObject.eu.stats.competitive.overall_stats.avatar.ToString();
             string ti = dataObject.eu.stats.competitive.overall_stats.tier_image.ToString();
-            string ri = dataObject.eu.stats.competitive.overall_stats.rank_image.ToString();
 
             var bottom = new EmbedFooterBuilder()
             {
                 Text = "Powered by the OWAPI API",
-                IconUrl = ri
+                IconUrl = ti
             };
 
             var top = new EmbedAuthorBuilder()
@@ -212,7 +211,7 @@ namespace Wsashi.Modules.API.Overwatch
             };
             embed.WithThumbnailUrl(avatar);
             embed.WithColor(37, 152, 255);
-            embed.AddField("Competitive Game Stats", $"Games Played: **{cgp}**\nGames Won: **{cgw}**\nGames Lost: **{cgl}**\nGames Tied: **{cgt}**\nEliminations: **{celims}**\nDeaths: **{cd}**\nWin Rate: **{cwr}**\nKills per Death: **{ckpd}**\nBest Kill Streak: **{ckbs}**\nDamage Done: **{cdd}**\nHealing Done: **{chd}**", true);
+            embed.AddField("Competitive Game Stats", $"Games Played: **{cgp}**\nGames Won: **{cgw}**\nGames Lost: **{cgl}**\nEliminations: **{celims}**\nDeaths: **{cd}**\nWin Rate: **{cwr}**\nKills per Death: **{ckpd}**\nBest Kill Streak: **{ckbs}**\nDamage Done: **{cdd}**\nHealing Done: **{chd}**", true);
             embed.AddField("Competitive Medals", $"Total Medals: **{cm}**\n:first_place: Gold Medals: **{cmg}**\n:second_place: Silver Medals: **{cms}**\n:third_place: Bronze Medals: **{cmb}**", true);
             embed.AddField("Overall", $"Level: **{clvl}**\nPrestige: **{cpres}**\nTier: **{tier}**\nCompetitive Rank: **{ccomprank}**", true);
 

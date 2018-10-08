@@ -113,7 +113,7 @@ namespace Wsashi.Modules.API.Overwatch
             string cpres = dataObject.eu.stats.quickplay.overall_stats.prestige.ToString();
             string tier = dataObject.eu.stats.quickplay.overall_stats.tier.ToString();
             string avatar = dataObject.eu.stats.quickplay.overall_stats.avatar.ToString();
-            string ti = dataObject.eu.stats.competitive.overall_stats.tier_image.ToString();
+            //string ti = dataObject.eu.stats.competitive.overall_stats.tier_image.ToString();
             string ccomprank = dataObject.eu.stats.competitive.overall_stats.comprank.ToString();
 
             string qdd = dataObject.eu.stats.quickplay.game_stats.damage_done.ToString();
@@ -131,7 +131,7 @@ namespace Wsashi.Modules.API.Overwatch
             var bottom = new EmbedFooterBuilder()
             {
                 Text = "Powered by the OWAPI API",
-                IconUrl = ti
+                //IconUrl = ti
             };
 
             var top = new EmbedAuthorBuilder()

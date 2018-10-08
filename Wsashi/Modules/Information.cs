@@ -216,8 +216,7 @@ namespace Wsashi
             "**5. Gambling -** `roll` `coinflip` `newslots` `slots` `showslots`\n" +
             "**5. Economy -** `balance` `daily` `rank`\n" +
             "**6. Utilities -** `dm` `report` `voice`\n" +
-            "**7. Calculator (Quik Mafs)-** `add` `minus` `multiply` `divide`\n" +
-            "**8. Music (Under Development) -** `join` `leave` `play`\n" +
+            "**7. Calculator -** `add` `minus` `multiply` `divide`\n" +
             "**8. Information -** `info` `userinfo` `command` `update`\n" +
             "**9. APIs -** `dog` `doggif` `cat` `catgif` `catfact` `person` `birb` `define` `meme` `gif` `weather` `fortnite`\n" +
             "**10. Neko API -** `neko` `catemoticon` `foxgirl`\n" +
@@ -256,7 +255,7 @@ namespace Wsashi
             "Use `w!command [command]` to get more info on a specific command. Ex: `w!command xp`  `[Prefix 'w!']`\n" +
             "\n" +
             "**Filters -** `antilink` `filter` `pingchecks` `antilinkignore`\n" +
-            "**User Management -** `ban` `kick` `mute` `unmute` `clear` `warn` `warnings` `say` `softban` `idban`\n" +
+            "**User Management -** `ban` `kick` `mute` `unmute` `clear` `warn` `warnings` `clearwarnings` `say` `softban` `idban`\n" +
             "**Bot Settings -** `serverprefix` `leveling` `list` `leveling` `levelingmsg` `config`\n" +
             "**Welcome Messages (w!welcome <command>) -** `channel` `add` `remove` `list`\n" +
             "**Leaving Messages (w!leave <command>) -** `add` `remove` `list`\n" +
@@ -374,7 +373,6 @@ namespace Wsashi
         [Cooldown(5)]
         public async Task CommandAsync(string command)
         {
-            var dmChannel = await Context.User.GetOrCreateDMChannelAsync();
             var result = _service.Search(Context, command);
 
             if (!result.IsSuccess)

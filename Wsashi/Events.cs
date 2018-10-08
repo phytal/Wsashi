@@ -40,7 +40,7 @@ namespace Wsashi
                 a = a.Replace("{OwnerMention}", user.Guild.Owner.Mention);
                 a = a.Replace("{UserTag}", user.DiscriminatorValue.ToString());
 
-                var channel = user.Guild.GetTextChannel(config.WelcomeChannel);
+                var channel = user.Guild.GetTextChannel(config.LeaveChannel);
                 var embed = new EmbedBuilder();
                 embed.WithDescription(a);
                 embed.WithColor(37, 152, 255);
@@ -93,7 +93,7 @@ namespace Wsashi
             embed.WithTitle($"Thanks for adding me to your server, {s.Owner.Username}!");
             embed.WithDescription("For quick information, use the `w!help` command! \nNeed quick help? Visit the our server and ask away https://discord.gg/NuUdx4h!");
             embed.WithThumbnailUrl(s.IconUrl);
-            embed.WithFooter("Still need help? Visit the Wsashi Bot server linked above.");
+            embed.WithFooter("Found an issue in a command? Report it in the server linked above!");
             embed.WithColor(37, 152, 255);
 
             await dmChannel.SendMessageAsync("", false, embed.Build());
@@ -141,11 +141,11 @@ namespace Wsashi
             Random rand = new Random();
             List<string> bannedWords = new List<string>
                 {
-                     "fuck", "bitch", "gay", "shit", "pussy", "penis", "vagina", "nigger", "nigga", "suck", "eat my balls", "make me wet", "nude", "naked"," ass","asshole", "-ass", "cock", "dick", "cunt", "arse", "damn", "hell", "kill urslef", "kys", "slut", "hoe", "whore","retard", "gay", "autis", "screw you", "kill"
+                     "fuck", "bitch", "gay", "shit", "pussy", "penis", "vagina", "nigger", "nigga", "suck", "eat my balls", "make me wet", "nude", "naked"," ass","asshole", "-ass", "cock", "dick", "cunt", "arse", "damn", "hell ", "kill urslef", "kys", "slut", "whore","retard", "gay", "autis", "screw you", "kill"
                 };
             try
             {
-                if (config.Filter == false) return;
+                //if (config.Filter == false) return;
                 if (bannedWords.Any(msg.Content.ToLower().Contains))
                 {
                     int randomIndex = rand.Next(reactionTexts.Length);
@@ -165,7 +165,7 @@ namespace Wsashi
                 return;
             }
 
-            if (config.MassPingChecks)
+            if (config.MassPingChecks == true)
             {
                 if (msg.Content.Contains("@everyone") || msg.Content.Contains("@here"))
                 {

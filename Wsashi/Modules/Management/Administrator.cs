@@ -598,16 +598,40 @@ namespace Wsashi.Core.Modules
                 if (userAccount.NumberOfWarnings >= 5)
                 {
                     await user.Guild.AddBanAsync(user);
-                    await dmchannel.SendMessageAsync($":exclamation:  **You have been banned from {Context.Guild} from having too many warnings.**");
+                    try
+                    {
+                        await dmchannel.SendMessageAsync($":exclamation:  **You have been banned from** ***{Context.Guild}*** ** from having too many warnings.**");
+                    }
+                    catch
+                    {
+                        await Context.Channel.SendMessageAsync($":exclamation:  **{user.Mention} has been banned from** ***{Context.Guild}*** ** from having too many warnings.** \n*This message was shown in a server text channel because you had DMs turned off.*");
+                    }
+                    await Context.Channel.SendMessageAsync($"Successfully warned and banned**{user.Username}** for **{reason}**. **({userAccount.NumberOfWarnings}/5)**");
                 }
-                else if (userAccount.NumberOfWarnings == 3)
+                else if (userAccount.NumberOfWarnings == 3 || userAccount.NumberOfWarnings == 4)
                 {
                     await user.KickAsync();
-                    await dmchannel.SendMessageAsync($":exclamation:  **You have been kicked from {Context.Guild}. Think over your actions and you may rejoin the server once you are ready. (5 Warnings = Ban)**");
+                    try
+                    {
+                        await dmchannel.SendMessageAsync($":exclamation:  **You have been kicked from** ***{Context.Guild}*** **. Think over your actions and you may rejoin the server once you are ready. (5 Warnings = Ban)**");
+                    }
+                    catch
+                    {
+                        await Context.Channel.SendMessageAsync($":exclamation:  **{user.Mention} has been kicked from** ***{Context.Guild}*** **. Think over your actions and you may rejoin the server once you are ready. (5 Warnings = Ban)** \n*This message was shown in a server text channel because you had DMs turned off.*");
+                    }
+                    await Context.Channel.SendMessageAsync($"Successfully warned and kicked **{user.Username}** for **{reason}**. **({userAccount.NumberOfWarnings}/5)**");
                 }
-                else if (userAccount.NumberOfWarnings == 1)
+                else if (userAccount.NumberOfWarnings == 1 || userAccount.NumberOfWarnings == 2)
                 {
-                    await dmchannel.SendMessageAsync($":exclamation:  **You have been warned in {Context.Guild}. (5 Warnings = Ban)**");
+                    try
+                    {
+                        await dmchannel.SendMessageAsync($":exclamation:  **You have been warned in** ***{Context.Guild}*** **. (5 Warnings = Ban)**");
+                    }
+                    catch
+                    {
+                        await Context.Channel.SendMessageAsync($":exclamation:  **{user.Mention} has been warned in** ***{Context.Guild}*** **. (5 Warnings = Ban)**\n*This message was shown in a server text channel because you had DMs turned off.*");
+                    }
+                    await Context.Channel.SendMessageAsync($"Successfully warned **{user.Username}** for **{reason}**. **({userAccount.NumberOfWarnings}/5)**");
                 }
             }
             else
@@ -651,15 +675,49 @@ namespace Wsashi.Core.Modules
             }
         }
 
+        [Command("ClearWarnings")]
+        [Summary("Clears all of a user's warnings")]
+        [Alias("cw")]
+        [RequireBotPermission(GuildPermission.BanMembers)]
+        public async Task ClearWarnings(IGuildUser user)
+        {
+            var guser = Context.User as SocketGuildUser;
+            if (guser.GuildPermissions.BanMembers)
+            {
+                var userAccount = GlobalGuildUserAccounts.GetUserID((SocketGuildUser)user);
+                userAccount.NumberOfWarnings = 0;
+                userAccount.Warnings.Clear();
+                GlobalGuildUserAccounts.SaveAccounts();
+
+                await Context.Channel.SendMessageAsync($":white_check_mark:  Succesfully cleared all of **{user.Username}'s** warnings.");
+            }
+            else
+            {
+                var embed = new EmbedBuilder();
+                embed.WithColor(37, 152, 255);
+                embed.Title = $":x:  | You Need the Ban Members Permission to do that {Context.User.Username}";
+                var use = await Context.Channel.SendMessageAsync("", false, embed.Build());
+                await Task.Delay(5000);
+                await use.DeleteAsync();
+            }
+        }
+
         [Command("say")]
         [Summary("Lets you speak for the bot anonymously")]
         public async Task Say([Remainder] string input)
         {
             var user = Context.User as SocketGuildUser;
+            var config = GlobalGuildAccounts.GetGuildAccount(Context.Guild.Id);
             if (user.GuildPermissions.Administrator)
             {
+                if (config.MassPingChecks == true)
+                {
+                    if (input.Contains("@everyone") || input.Contains("@here")) return;
+                }
+
                 var messagesToDelete = await Context.Channel.GetMessagesAsync(1).FlattenAsync();
                 if (Context.Channel is ITextChannel text) await text.DeleteMessagesAsync(messagesToDelete);
+                //input.Replace("@everyone", "@\u200beveryone").Replace("@here", "@\u200bhere");
                 await Context.Channel.SendMessageAsync(input);
             }
             else
@@ -1010,7 +1068,7 @@ namespace Wsashi.Core.Modules
 
         [Command("ServerPrefix")]
         [Summary("Sets the prefix for the server")]
-        public async Task SetGuildPrefix([Remainder]string prefix)
+        public async Task SetGuildPrefix([Remainder]string prefix = null)
         {
             var guser = Context.User as SocketGuildUser;
             if (guser.GuildPermissions.Administrator)
@@ -1018,10 +1076,21 @@ namespace Wsashi.Core.Modules
                 var config = GlobalGuildAccounts.GetGuildAccount(Context.Guild.Id);
                 var embed = new EmbedBuilder();
                 embed.WithColor(37, 152, 255);
-                embed.WithDescription($"Set server prefix to {prefix}");
+                if (prefix == null)
+                {
+                    config.CommandPrefix = "w!";
+                    GlobalGuildAccounts.SaveAccounts();
 
-                config.CommandPrefix = prefix;
-                GlobalGuildAccounts.SaveAccounts();
+                    embed.WithDescription($"Set server prefix to the default prefix **(w!)**");
+                }
+                else
+                {
+                    config.CommandPrefix = prefix;
+                    GlobalGuildAccounts.SaveAccounts();
+
+                    embed.WithDescription($"Set server prefix to {prefix}");
+                }
+
                 await Context.Channel.SendMessageAsync("", false, embed.Build());
             }
             else

@@ -54,6 +54,8 @@ namespace Wsashi.Entities
 
         public ulong WelcomeChannel { get; set; }
 
+        public ulong LeaveChannel { get; set; }
+
         public string WelcomeMessage { get; set; }
 
         public string LeavingMessage { get; set; }

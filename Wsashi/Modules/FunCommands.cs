@@ -222,6 +222,7 @@ namespace Wsashi.Modules
         [Cooldown(5, true)]
         public async Task Echo([Remainder] string message)
         {
+            var config = GlobalGuildAccounts.GetGuildAccount(Context.Guild.Id);
             var LocalTime = DateTime.Now;
             var Sender = Context.Message.Author;
 
@@ -231,10 +232,15 @@ namespace Wsashi.Modules
             embed.WithColor(37, 152, 255);
 
             await Context.Channel.SendMessageAsync("", false, embed.Build());
+            if (config.MassPingChecks == true)
+            {
+                if (message.Contains("@everyone") || message.Contains("@here")) return;
+            }
             await Context.Message.DeleteAsync();
         }
 
         [Command("Hello")]
+        [Alias("hi")]
         [Summary("Says a formatted hello")]
         [Remarks("Ex: w!hello")]
         [Cooldown(5, true)]
