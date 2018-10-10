@@ -1,3 +1,7 @@
+[![Build Status](https://api.travis-ci.org/Phytal/Wsashi.svg?branch=master)](https://travis-ci.org/Phytal/Wsashi)
+[![GitHub license](https://img.shields.io/badge/license-MIT-blue.svg)](https://github.com/Phytal/Wsashi/blob/master/LICENSE)
+
+
 <a href="https://discordbots.org/bot/417160957010116608" >
   <img src="https://discordbots.org/api/widget/417160957010116608.svg" alt="Wsashi" />
 </a>
