@@ -1400,6 +1400,29 @@ namespace Wsashi.Core.Modules
             await ReplyAsync("", false, embB.Build());
         }
 
+        [Command("sync owner")]
+        public async Task SyncOwner()
+        {
+            var guser = Context.User as SocketGuildUser;
+            if (guser.GuildPermissions.Administrator)
+            {
+                var config = GlobalGuildAccounts.GetGuildAccount(Context.Guild.Id);
+                config.GuildOwnerId = Context.Guild.Owner.Id;
+                GlobalGuildAccounts.SaveAccounts();
+                await Context.Channel.SendMessageAsync($"Successfully synced the Guild's owner to <@{Context.Guild.OwnerId}>!");
+            }
+            else
+            {
+                var embed = new EmbedBuilder();
+                embed.WithColor(37, 152, 255);
+                embed.Title = $":x:  | You Need the Administrator Permission to do that {Context.User.Username}";
+                var use = await Context.Channel.SendMessageAsync("", false, embed.Build());
+                await Task.Delay(5000);
+                await use.DeleteAsync();
+                var config = GlobalGuildAccounts.GetGuildAccount(Context.Guild.Id);
+            }
+        }
+
         [Command("Leveling"), Alias("L")]
         [Summary("Enables or disables leveling for the server. Use w!leveling <true or false>")]
         public async Task Leveling(bool arg)

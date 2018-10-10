@@ -92,6 +92,7 @@ namespace Wsashi.Modules.Management
                                         $"Admin Role: {adminRole}\n", true);
 
                 embed.WithThumbnailUrl(Context.Guild.IconUrl);
+                embed.WithFooter("Guild Owner is shown incorrectly? Use `w!sync owner` to sync the current server owner!");
 
                 await MiscHelpers.SendMessage(Context, embed);
             }
