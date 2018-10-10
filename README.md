@@ -1,10 +1,14 @@
+<a href="https://discordbots.org/bot/417160957010116608" >
+  <img src="https://discordbots.org/api/widget/417160957010116608.svg" alt="Wsashi" />
+</a>
+
 # Wsashi
 A multi-purpose Discord Bot coded in .NET Core 2.0
 ## Want to invite the bot?
 
 ### Invite Wsashi
 
-> [Wsashi](https://discordapp.com/api/oauth2/authorize?client_id=417160957010116608&permissions=8&scope=bot) **By default, this has the Administrator permission checked. Keep this if you're using moderation, you should keep it checked.**
+> [Wsashi](https://discordbots.org/bot/417160957010116608) **By default, this has the Administrator permission checked. Keep this if you're using moderation, you should keep it checked.**
 
 ## Authors
 

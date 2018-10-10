@@ -34,7 +34,10 @@ namespace Wsashi
 
             if (config.WelcomeChannel != 0)
             {
-                var a = config.LeavingMessage.Replace("{UserMention}", user.Mention);
+                Random rand = new Random();
+                int randomIndex = rand.Next(config.LeaveMessages.Count());
+                string text = config.LeaveMessages[randomIndex];
+                var a = text.Replace("{UserMention}", user.Mention);
                 a = a.Replace("{ServerName}", user.Guild.Name);
                 a = a.Replace("{UserName}", user.Username);
                 a = a.Replace("{OwnerMention}", user.Guild.Owner.Mention);
@@ -47,7 +50,6 @@ namespace Wsashi
                 embed.WithFooter($"Guild Owner: {user.Guild.Owner.Username}#{user.Guild.Owner.Discriminator}");
                 embed.WithThumbnailUrl(user.Guild.IconUrl);
                 await channel.SendMessageAsync("", false, embed.Build());
-
             }
         }
 
@@ -57,7 +59,10 @@ namespace Wsashi
 
             if (config.WelcomeChannel != 0)
             {
-                var a = config.WelcomeMessage.Replace("{UserMention}", user.Mention);
+                Random rand = new Random();
+                int randomIndex = rand.Next(config.WelcomeMessages.Count());
+                string text = config.WelcomeMessages[randomIndex];
+                var a = text.Replace("{UserMention}", user.Mention);
                 a = a.Replace("{ServerName}", user.Guild.Name);
                 a = a.Replace("{UserName}", user.Username);
                 a = a.Replace("{OwnerMention}", user.Guild.Owner.Mention);
@@ -70,14 +75,6 @@ namespace Wsashi
                 embed.WithThumbnailUrl(user.Guild.IconUrl);
                 await channel.SendMessageAsync("", false, embed.Build());
             }
-
-            if (user.Guild.Id == 419612620090245140)
-            {
-                await user.ModifyAsync(x =>
-                {
-                    x.Nickname = $"{user.Username}.cs";
-                });
-            }
         }
 
         public static async Task GuildUtils(SocketGuild s)
@@ -88,6 +85,8 @@ namespace Wsashi
             if (!Directory.Exists(Out))
                 Directory.CreateDirectory(Path.Combine(Constants.ServerUserAccountsFolder, Out));
 
+            var config = GlobalGuildAccounts.GetGuildAccount(s.Id);
+
             var dmChannel = await s.Owner.GetOrCreateDMChannelAsync();
             var embed = new EmbedBuilder();
             embed.WithTitle($"Thanks for adding me to your server, {s.Owner.Username}!");
@@ -96,9 +95,10 @@ namespace Wsashi
             embed.WithFooter("Found an issue in a command? Report it in the server linked above!");
             embed.WithColor(37, 152, 255);
 
+            config.GuildOwnerId = s.Owner.Id;
+
             await dmChannel.SendMessageAsync("", false, embed.Build());
             GlobalGuildAccounts.SaveAccounts();
-
         }
 
         public static async Task FilterChecks(SocketMessage s)
@@ -145,19 +145,21 @@ namespace Wsashi
                 };
             try
             {
-                //if (config.Filter == false) return;
-                if (bannedWords.Any(msg.Content.ToLower().Contains))
+                if (config.Filter == true)
                 {
-                    int randomIndex = rand.Next(reactionTexts.Length);
-                    string text = reactionTexts[randomIndex];
-                    await msg.DeleteAsync();
-                    var embed = new EmbedBuilder();
-                    embed.WithDescription($":warning:  |  {text} (Inappropiate language)");
-                    embed.WithColor(37, 152, 255);
-                    //await context.Channel.SendMessageAsync("", false, embed.Build());
-                    var mssg = await context.Channel.SendMessageAsync("", false, embed.Build());
-                    Thread.Sleep(4000);
-                    await mssg.DeleteAsync();
+                    if (bannedWords.Any(msg.Content.ToLower().Contains))
+                    {
+                        int randomIndex = rand.Next(reactionTexts.Length);
+                        string text = reactionTexts[randomIndex];
+                        await msg.DeleteAsync();
+                        var embed = new EmbedBuilder();
+                        embed.WithDescription($":warning:  |  {text} (Inappropiate language)");
+                        embed.WithColor(37, 152, 255);
+                        //await context.Channel.SendMessageAsync("", false, embed.Build());
+                        var mssg = await context.Channel.SendMessageAsync("", false, embed.Build());
+                        Thread.Sleep(4000);
+                        await mssg.DeleteAsync();
+                    }
                 }
             }
             catch (NullReferenceException)

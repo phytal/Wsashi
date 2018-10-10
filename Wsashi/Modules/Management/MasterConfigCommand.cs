@@ -70,9 +70,10 @@ namespace Wsashi.Modules.Management
                 if (config.WelcomeChannel != 0)
                 {
                     embed.AddField("Welcome/Leaving", "On:\n" +
-                                              $"- Channel: <#{config.WelcomeChannel}>\n" +
-                                              $"- WelcomeMsg: {config.WelcomeMessage}\n" +
-                                              $"- LeavingMsg: {config.LeavingMessage}", true);
+                                              $"- Welcome Channel: <#{config.WelcomeChannel}>\n" +
+                                              $"- Leave Channel: <#{config.LeaveChannel}>\n" +
+                                              $"- WelcomeMsg: {config.WelcomeMessages.ToList()}\n" +
+                                              $"- LeavingMsg: {config.LeaveMessages.ToList()}", true);
                 }
                 else
                 {
@@ -85,6 +86,7 @@ namespace Wsashi.Modules.Management
                                         $"Autorole: {config.Autorole}\n" +
                                         $"Leveling: {ConvertBoolean(config.Leveling)}\n" +
                                         $"Server Logging: {ConvertBoolean(config.IsServerLoggingEnabled)}\n" +
+                                        $"Unflipping: {ConvertBoolean(config.Unflip)}\n" +
                                         $"Helper Role: {helperRole}\n" +
                                         $"Mod Role: {modRole}\n" +
                                         $"Admin Role: {adminRole}\n", true);
