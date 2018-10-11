@@ -99,6 +99,10 @@ namespace Wsashi
 
             await dmChannel.SendMessageAsync("", false, embed.Build());
             GlobalGuildAccounts.SaveAccounts();
+
+            var client = Program._client;
+            var guilds = client.Guilds.Count;
+            await client.SetGameAsync($"w!help | in {guilds} servers!", $"https://twitch.tv/{Config.bot.TwitchStreamer}", ActivityType.Streaming);
         }
 
         /*public static async Task LeaveServer(SocketGuild s)
