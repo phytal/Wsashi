@@ -1400,7 +1400,7 @@ namespace Wsashi.Core.Modules
             await ReplyAsync("", false, embB.Build());
         }
 
-        [Command("sync owner")]
+        [Command("syncowner")]
         public async Task SyncOwner()
         {
             var guser = Context.User as SocketGuildUser;

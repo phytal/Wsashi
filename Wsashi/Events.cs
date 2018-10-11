@@ -28,7 +28,7 @@ namespace Wsashi
         }
 
 
-        public static async Task Goodbye(SocketGuildUser user)
+ /*       public static async Task Goodbye(SocketGuildUser user)
         {
             var config = GlobalGuildAccounts.GetGuildAccount(user.Guild.Id);
 
@@ -37,11 +37,11 @@ namespace Wsashi
                 Random rand = new Random();
                 int randomIndex = rand.Next(config.LeaveMessages.Count());
                 string text = config.LeaveMessages[randomIndex];
-                var a = text.Replace("{UserMention}", user.Mention);
-                a = a.Replace("{ServerName}", user.Guild.Name);
-                a = a.Replace("{UserName}", user.Username);
-                a = a.Replace("{OwnerMention}", user.Guild.Owner.Mention);
-                a = a.Replace("{UserTag}", user.DiscriminatorValue.ToString());
+                var a = text.Replace("<UserMention>", user.Mention);
+                a = a.Replace("<ServerName}", user.Guild.Name);
+                a = a.Replace("<username}", user.Username);
+                a = a.Replace("<OwnerMention}", user.Guild.Owner.Mention);
+                a = a.Replace("<UserTag}", user.DiscriminatorValue.ToString());
 
                 var channel = user.Guild.GetTextChannel(config.LeaveChannel);
                 var embed = new EmbedBuilder();
@@ -49,7 +49,7 @@ namespace Wsashi
                 embed.WithColor(37, 152, 255);
                 embed.WithFooter($"Guild Owner: {user.Guild.Owner.Username}#{user.Guild.Owner.Discriminator}");
                 embed.WithThumbnailUrl(user.Guild.IconUrl);
-                await channel.SendMessageAsync("", false, embed.Build());
+                await channel.SendMessageAsync(a);
             }
         }
 
@@ -62,20 +62,20 @@ namespace Wsashi
                 Random rand = new Random();
                 int randomIndex = rand.Next(config.WelcomeMessages.Count());
                 string text = config.WelcomeMessages[randomIndex];
-                var a = text.Replace("{UserMention}", user.Mention);
-                a = a.Replace("{ServerName}", user.Guild.Name);
-                a = a.Replace("{UserName}", user.Username);
-                a = a.Replace("{OwnerMention}", user.Guild.Owner.Mention);
-                a = a.Replace("{UserTag}", user.DiscriminatorValue.ToString());
+                var a = text.Replace("<UserMention}", user.Mention);
+                a = a.Replace("<ServerName}", user.Guild.Name);
+                a = a.Replace("<UserName}", user.Username);
+                a = a.Replace("<OwnerMention}", user.Guild.Owner.Mention);
+                a = a.Replace("<UserTag}", user.DiscriminatorValue.ToString());
 
                 var channel = user.Guild.GetTextChannel(config.WelcomeChannel);
                 var embed = new EmbedBuilder();
                 embed.WithDescription(a);
                 embed.WithColor(37, 152, 255);
                 embed.WithThumbnailUrl(user.Guild.IconUrl);
-                await channel.SendMessageAsync("", false, embed.Build());
+                await channel.SendMessageAsync(a);
             }
-        }
+        }*/
 
         public static async Task GuildUtils(SocketGuild s)
         {
@@ -100,6 +100,15 @@ namespace Wsashi
             await dmChannel.SendMessageAsync("", false, embed.Build());
             GlobalGuildAccounts.SaveAccounts();
         }
+
+        /*public static async Task LeaveServer(SocketGuild s)
+        {
+            var info = System.IO.Directory.CreateDirectory(Path.Combine(Constants.ResourceFolder, Constants.ServerUserAccountsFolder));
+            ulong In = s.Id;
+            string Out = Convert.ToString(In);
+            if (!Directory.Exists(Out))
+                Directory.Delete(Path.Combine(Constants.ServerUserAccountsFolder, Out));
+        }*/
 
         public static async Task FilterChecks(SocketMessage s)
         {

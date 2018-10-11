@@ -49,10 +49,11 @@ namespace Wsashi
             _client.Ready += Timers.StartTimer;
             _client.ReactionAdded += OnReactionAdded;
             _client.MessageReceived += MessageRewardHandler.HandleMessageRewards;
-            _client.UserJoined += Events.Welcome;
+            //_client.UserJoined += Events.Welcome;
             _client.UserJoined += Events.Autorole;
             _client.JoinedGuild += Events.GuildUtils;
-            _client.UserLeft += Events.Goodbye;
+            //_client.LeftGuild += Events.LeaveServer;
+            //_client.UserLeft += Events.Goodbye;
             _client.UserBanned += Logging.HandleBans;
             _client.ChannelCreated += Logging.HandleChannelCreate;
             _client.ChannelDestroyed += Logging.HandleChannelDelete;
@@ -181,8 +182,8 @@ namespace Wsashi
         private async Task _client_UserLeft(SocketGuildUser user)
         {
             var guildAcc = GlobalGuildAccounts.GetGuildAccount(user.Guild.Id);
-            if (guildAcc.WelcomeChannel == 0) return;
-            if (!(_client.GetChannel(guildAcc.WelcomeChannel) is SocketTextChannel channel)) return;
+            if (guildAcc.LeaveChannel == 0) return;
+            if (!(_client.GetChannel(guildAcc.LeaveChannel) is SocketTextChannel channel)) return;
             var possibleMessages = guildAcc.LeaveMessages;
             var messageString = possibleMessages[Global.Rng.Next(possibleMessages.Count)];
             messageString = messageString.ReplacePlacehoderStrings(user);
