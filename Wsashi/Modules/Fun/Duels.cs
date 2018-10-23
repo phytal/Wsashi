@@ -14,8 +14,8 @@ namespace Wsashi.Modules
         [Alias("duels help")]
         [Summary("Shows all possible commands for dueling")]
         [Remarks("Ex: w!duel help")]
-        [Cooldown(20)]
-        public async Task WasagotchiHelp()
+        [Cooldown(5)]
+        public async Task DuelHelp()
         {
             string[] footers = new string[]
 {
@@ -145,7 +145,6 @@ namespace Wsashi.Modules
         [Alias("slash")]
         [Summary("Slashes your foe with a sword. Good accuracy and medium damage")]
         [Remarks("Ex: w!slash")]
-        [Cooldown(3)]
         public async Task Slash()
         {
             var user = Context.User as SocketGuildUser;
@@ -578,7 +577,6 @@ namespace Wsashi.Modules
         [Alias("med")]
         [Summary("Heals you 14-30 health with one of your Med Kits, but your turn gets consumed.")]
         [Remarks("Ex: w!heal")]
-        [Cooldown(3)]
         public async Task Heal()
         {
             var user = Context.User as SocketGuildUser;
@@ -669,7 +667,6 @@ namespace Wsashi.Modules
         [Alias("shield")]
         [Summary("Goes into blocking formation, 75% of the damage from the next attack is absorbed, the rest still inflicts damage. Your turn gets consumed.")]
         [Remarks("Ex: w!block")]
-        [Cooldown(3)]
         public async Task Block()
         {
             var user = Context.User as SocketGuildUser;
@@ -750,7 +747,6 @@ namespace Wsashi.Modules
         [Alias("shield")]
         [Summary("Goes into deflecting formation, 50% of the damage from the next attack is deflected back toward the enemy, the rest still inflicts damage. Your turn gets consumed.")]
         [Remarks("Ex: w!deflect")]
-        [Cooldown(3)]
         public async Task Deflect()
         {
             var user = Context.User as SocketGuildUser;
@@ -832,7 +828,6 @@ namespace Wsashi.Modules
         [Alias("leech")]
         [Summary("Absorbs your enemey's health, Does little damage but your health gets partially regenerated. Low Accuracy. Your turn gets consumed.")]
         [Remarks("Ex: w!block")]
-        [Cooldown(3)]
         public async Task Absorb()
         {
             var user = Context.User as SocketGuildUser;

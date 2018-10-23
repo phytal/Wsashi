@@ -64,16 +64,25 @@ namespace Wsashi.Modules.Management
                     helperRole = $"**{Context.Guild.Roles.First(role => role.Id == config.HelperRole).Name}**";
                 }
 
+                var welcomemessages = "";
+                for (var i = 0; i < config.WelcomeMessages.Count; i++)
+                {
+                    welcomemessages = (config.WelcomeMessages[i]);
+                }
 
-
+                var leavemessages = "";
+                for (var i = 0; i < config.LeaveMessages.Count; i++)
+                {
+                    leavemessages = (config.LeaveMessages[i]);
+                }
 
                 if (config.WelcomeChannel != 0)
                 {
                     embed.AddField("Welcome/Leaving", "On:\n" +
                                               $"- Welcome Channel: <#{config.WelcomeChannel}>\n" +
                                               $"- Leave Channel: <#{config.LeaveChannel}>\n" +
-                                              $"- WelcomeMsg: {config.WelcomeMessages.ToList()}\n" +
-                                              $"- LeavingMsg: {config.LeaveMessages.ToList()}", true);
+                                              $"- WelcomeMsg: {welcomemessages}\n" +
+                                              $"- LeavingMsg: {leavemessages}", true);
                 }
                 else
                 {
@@ -92,7 +101,7 @@ namespace Wsashi.Modules.Management
                                         $"Admin Role: {adminRole}\n", true);
 
                 embed.WithThumbnailUrl(Context.Guild.IconUrl);
-                embed.WithFooter("Guild Owner is shown incorrectly? Use `w!sync owner` to sync the current server owner!");
+                embed.WithFooter("Guild Information is shown incorrectly or not shown at all? Use `w!syncguild` to sync the current server owner!");
 
                 await MiscHelpers.SendMessage(Context, embed);
             }

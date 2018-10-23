@@ -8,6 +8,7 @@ using Discord.WebSocket;
 using Discord;
 using Wsashi.Features.GlobalAccounts;
 using Wsashi.Helpers;
+using System.IO;
 
 namespace Wsashi.Core.Modules
 {
@@ -1400,12 +1401,18 @@ namespace Wsashi.Core.Modules
             await ReplyAsync("", false, embB.Build());
         }
 
-        [Command("syncowner")]
-        public async Task SyncOwner()
+        [Command("syncguild")]
+        public async Task SyncGuild()
         {
             var guser = Context.User as SocketGuildUser;
             if (guser.GuildPermissions.Administrator)
             {
+                var info = System.IO.Directory.CreateDirectory(Path.Combine(Constants.ResourceFolder, Constants.ServerUserAccountsFolder));
+                ulong In = Context.Guild.Id;
+                string Out = Convert.ToString(In);
+                if (!Directory.Exists(Out))
+                    Directory.CreateDirectory(Path.Combine(Constants.ServerUserAccountsFolder, Out));
+
                 var config = GlobalGuildAccounts.GetGuildAccount(Context.Guild.Id);
                 config.GuildOwnerId = Context.Guild.Owner.Id;
                 GlobalGuildAccounts.SaveAccounts();

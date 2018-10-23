@@ -48,7 +48,7 @@ namespace Wsashi
             _client.Log += Logger.Log;
             _client.Ready += Timers.StartTimer;
             _client.ReactionAdded += OnReactionAdded;
-            _client.MessageReceived += MessageRewardHandler.HandleMessageRewards;
+            _client.MessageReceived += MessageRewardHandler.MessageRewards;
             //_client.UserJoined += Events.Welcome;
             _client.UserJoined += Events.Autorole;
             _client.JoinedGuild += Events.GuildUtils;
@@ -99,17 +99,20 @@ namespace Wsashi
                                 assembly: Assembly.GetEntryAssembly(),
                 services: services);
 
-            _client.MessageReceived += HandleCommandAsync;
+            _client.MessageReceived += CommandHandler;
             Global.Client = client;
             _client.UserJoined += _client_UserJoined;
             _client.UserLeft += _client_UserLeft;
             _client.ReactionAdded += ReactionWasAdded;
         }
 
+        public async Task CommandHandler(SocketMessage s)
+        {
+            _ = HandleCommandAsync(s);
+        }
         private async Task HandleCommandAsync(SocketMessage s)
         {
-            _ =  Events.FilterChecks(s);
-            _ = Events.Unflip(s);
+            _ =  Events.FilterUnflip(s);
 
             if (!(s is SocketUserMessage msg)) return;
             if (msg.Channel is SocketDMChannel) return;
@@ -121,7 +124,7 @@ namespace Wsashi
             var prefix = config.CommandPrefix ?? Config.bot.cmdPrefix;
 
             var argPos = 0;
-            if (msg.HasStringPrefix(prefix, ref argPos) && (context.Guild == null || context.Guild.Id != 377879473158356992) || msg.HasMentionPrefix(_client.CurrentUser, ref argPos))//|| CheckPrefix(ref argPos, context))
+            if (msg.HasStringPrefix(prefix, ref argPos) && (context.Guild == null || context.Guild.Id != 264445053596991498 || context.Guild.Id != 396440418507816960) || msg.HasMentionPrefix(_client.CurrentUser, ref argPos) && (context.Guild == null || context.Guild.Id != 264445053596991498 || context.Guild.Id != 396440418507816960))//|| CheckPrefix(ref argPos, context))
             {
                 var cmdSearchResult = _service.Search(context, argPos);
                 if (cmdSearchResult.Commands.Count == 0) return;
@@ -166,8 +169,11 @@ namespace Wsashi
             return success;
         }
         */
-
         private async Task _client_UserJoined(SocketGuildUser user)
+        {
+            _ = UserJoined(user);
+        }
+        private async Task UserJoined(SocketGuildUser user)
         {
             var guildAcc = GlobalGuildAccounts.GetGuildAccount(user.Guild.Id);
             if (guildAcc.WelcomeChannel == 0) return;
@@ -180,6 +186,11 @@ namespace Wsashi
         }
 
         private async Task _client_UserLeft(SocketGuildUser user)
+        {
+            _ = UserLeft(user);
+        }
+
+        private async Task UserLeft(SocketGuildUser user)
         {
             var guildAcc = GlobalGuildAccounts.GetGuildAccount(user.Guild.Id);
             if (guildAcc.LeaveChannel == 0) return;

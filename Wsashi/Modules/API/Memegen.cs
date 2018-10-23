@@ -49,7 +49,7 @@ namespace Wsashi.Modules.API
             }
 
             var dataObject = JsonConvert.DeserializeObject<dynamic>(json);
-            string image = dataObject[0].data.children[0].data.preview.images[0].source.url.ToString();
+            string image = dataObject[0].data.children[0].data.url.ToString();
             string posttitle = dataObject[0].data.children[0].data.title.ToString();
 
             var embed = new EmbedBuilder()

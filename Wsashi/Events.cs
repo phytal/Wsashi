@@ -113,6 +113,11 @@ namespace Wsashi
             if (!Directory.Exists(Out))
                 Directory.Delete(Path.Combine(Constants.ServerUserAccountsFolder, Out));
         }*/
+        public static async Task FilterUnflip(SocketMessage s)
+        {
+            _ = FilterChecks(s);
+            _ = Unflip(s);
+        }
 
         public static async Task FilterChecks(SocketMessage s)
         {
