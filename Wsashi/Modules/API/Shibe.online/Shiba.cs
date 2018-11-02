@@ -30,10 +30,12 @@ namespace Wsashi.Modules.API
 
             string link = dataObject[0].ToString();
 
-            var embed = new EmbedBuilder();
-            embed.WithTitle(":dog: | Here's a Shiba!");
-            embed.WithImageUrl(link);
-            await Context.Channel.SendMessageAsync("", false, embed.Build());
+            var embed = new EmbedBuilder()
+            {
+                Title = ":dog: | Here's a Shiba!",
+                ImageUrl = link
+            };
+            await Context.Channel.SendMessageAsync("", embed: embed.Build());
         }
     }
 }

@@ -35,7 +35,7 @@ namespace Wsashi.Modules.API.Overwatch
                 GlobalUserAccounts.SaveAccounts();
             }
 
-            await Context.Channel.SendMessageAsync("", false, embed.Build());
+            await Context.Channel.SendMessageAsync("", embed: embed.Build());
         }
     }
 }

@@ -232,7 +232,7 @@ namespace Wsashi
             {
                 await _client.LoginAsync(TokenType.Bot, Config.bot.token);
             }
-            catch (Exception e)
+            catch
             {
                 Console.WriteLine("The BOT Token is most likely incorrect.");
                 Console.ReadKey();

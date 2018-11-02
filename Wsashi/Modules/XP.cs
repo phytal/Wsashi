@@ -46,12 +46,12 @@ namespace Wsashi.Modules
             var embed = new EmbedBuilder();
             embed.WithColor(37, 152, 255);
             embed.WithTitle($":white_check_mark:  | **{Points}** reputation points were added to " + target.Username + "'s account.");
-            await Context.Channel.SendMessageAsync("", false, embed.Build());
+            await Context.Channel.SendMessageAsync("", embed: embed.Build());
         }
 
         [Command("xp")]
         [Alias("exp")]
-        [Summary("Views the xp of you or an mentioned user Ex: /xp @user or /xp")]
+        [Summary("Views the xp of you or an mentioned user Ex: w!xp @user or w!xp")]
         public async Task Experience([Remainder]string arg = "")
         {
             var user = Context.User as SocketGuildUser;
@@ -62,7 +62,7 @@ namespace Wsashi.Modules
 
             var account = GlobalGuildUserAccounts.GetUserID((SocketGuildUser)target);
             var requiredXp = (Math.Pow(account.LevelNumber + 1, 2) * 50);
-            var levelXp = (Math.Pow(account.LevelNumber, 2) * 50);
+            var Xp = account.XP;
 
             var thumbnailurl = user.GetAvatarUrl();
 
@@ -77,8 +77,8 @@ namespace Wsashi.Modules
                 Author = auth
             };
             embed.WithColor(37, 152, 255);
-            embed.WithTitle($"{target.Username} has {requiredXp - levelXp}/{requiredXp} XP");
-            await Context.Channel.SendMessageAsync("", false, embed.Build());
+            embed.WithTitle($"{target.Username} has {Xp}/{requiredXp} XP");
+            await Context.Channel.SendMessageAsync("", embed: embed.Build());
         }
 
         [Command("levelsxp")]
@@ -143,7 +143,7 @@ namespace Wsashi.Modules
 
             };
 
-            uint level = (uint)Math.Sqrt(account.XP / 50);
+            uint level = account.LevelNumber;
 
             var embed = new EmbedBuilder
             {
@@ -152,7 +152,7 @@ namespace Wsashi.Modules
             };
 
             embed.WithTitle("You are level " + level);
-            await Context.Channel.SendMessageAsync("", false, embed.Build());
+            await Context.Channel.SendMessageAsync("", embed: embed.Build());
         }
 
         [Command("data")]

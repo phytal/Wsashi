@@ -95,11 +95,11 @@ namespace Wsashi.Modules.API.Overwatch
                 embed.AddField("Quickplay Medals", $"Total Medals: **{qm}**\n:first_place: Gold Medals: **{qmg}**\n:second_place: Silver Medals: **{qms}**\n:third_place: Bronze Medals: **{qmb}**", true);
                 embed.AddField("Overall", $"Level: **{clvl}**\nPrestige: **{cpres}**\nTier: **{tier}**\nCompetitive Rank: **{ccomprank}**\nEndorsement Level: **{end}**\nEndorsement Stats: Sportsmanship/Good Teammate/Shotcaller **{endn}/{endt}/{ends}**", true);
 
-                await Context.Channel.SendMessageAsync("", false, embed.Build());
+                await Context.Channel.SendMessageAsync("", embed: embed.Build());
             }
             catch
             {
-                await Context.Channel.SendMessageAsync("Oops! Are you sure that your Overwatch career profile is set to public and you typed in your username correctly?\n**w!ows <Your Battle.net username and id> <platform (pc/xbl/psn)> Ex: w!owstats Phytal-1427 pc**");
+                await Context.Channel.SendMessageAsync("Oops! Are you sure that your Overwatch career profile is set to public and you typed in your username correctly?\n**w!ows <Your Battle.net username and id> <platform (pc/xbl/psn)> Ex: w!owstats Phytal-1427 pc**\nNote that you must have completed your placement matches in competetive for this to show up, otherwise use w!owsqp");
             }
         }
 
@@ -161,7 +161,7 @@ namespace Wsashi.Modules.API.Overwatch
                 embed.AddField("Quickplay Medals", $"Total Medals: **{qm}**\n:first_place: Gold Medals: **{qmg}**\n:second_place: Silver Medals: **{qms}**\n:third_place: Bronze Medals: **{qmb}**", true);
                 embed.AddField("Overall", $"Level: **{clvl}**\nPrestige: **{cpres}**\nTier: **{tier}**\nCompetitive Rank: **{ccomprank}**", true);
 
-                await Context.Channel.SendMessageAsync("", false, embed.Build());
+                await Context.Channel.SendMessageAsync("", embed: embed.Build());
             }
             catch
             {
@@ -233,7 +233,7 @@ namespace Wsashi.Modules.API.Overwatch
                 embed.AddField("Competitive Medals", $"Total Medals: **{cm}**\n:first_place: Gold Medals: **{cmg}**\n:second_place: Silver Medals: **{cms}**\n:third_place: Bronze Medals: **{cmb}**", true);
                 embed.AddField("Overall", $"Level: **{clvl}**\nPrestige: **{cpres}**\nTier: **{tier}**\nCompetitive Rank: **{ccomprank}**", true);
 
-                await Context.Channel.SendMessageAsync("", false, embed.Build());
+                await Context.Channel.SendMessageAsync("", embed: embed.Build());
             }
             catch
             {

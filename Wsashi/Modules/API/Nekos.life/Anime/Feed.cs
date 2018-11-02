@@ -40,7 +40,7 @@ namespace Wsashi.Modules.API
                 embed.WithDescription($"{Context.User.Mention} fed themselves... Let's hope they don't get fat... \n **(Include a user with your command! Example: w!feed <person you want to feed>)**");
                 embed.WithImageUrl(nekolink);
 
-                await Context.Channel.SendMessageAsync("", false, embed.Build());
+                await Context.Channel.SendMessageAsync("", embed: embed.Build());
             }
             else
             {
@@ -50,7 +50,7 @@ namespace Wsashi.Modules.API
                 embed.WithTitle("Munch!");
                 embed.WithDescription($"{Context.User.Username} fed {user.Mention}!");
 
-                await Context.Channel.SendMessageAsync("", false, embed.Build());
+                await Context.Channel.SendMessageAsync("", embed: embed.Build());
             }
         }
     }

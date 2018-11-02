@@ -24,8 +24,8 @@ namespace Wsashi.Core.LevelingSystem
 
             var userAccount = GlobalGuildUserAccounts.GetUserID((SocketGuildUser)target);
             uint Level = userAccount.LevelNumber;
-            GlobalUserAccounts.SaveAccounts();
-            var levelXp = (Math.Pow(userAccount.LevelNumber, 2) * 50);
+            GlobalGuildUserAccounts.SaveAccounts();
+            var xp = userAccount.XP;
             var requiredXp = (Math.Pow(userAccount.LevelNumber + 1, 2) * 50);
 
             var thumbnailurl = target.GetAvatarUrl();
@@ -42,10 +42,10 @@ namespace Wsashi.Core.LevelingSystem
 
             embed.WithColor(37, 152, 255);
             embed.AddField("Lvl.", Level, true);
-            embed.AddField("Exp.", $"{requiredXp - levelXp}/{requiredXp} (tot. {userAccount.XP})", true);
+            embed.AddField("Exp.", $"{xp}/{requiredXp} (tot. {userAccount.XP})", true);
             embed.AddField("Reputation Points", userAccount.Reputation, true);
 
-            await Context.Channel.SendMessageAsync("", false, embed.Build());
+            await Context.Channel.SendMessageAsync("", embed: embed.Build());
         }
     }
 

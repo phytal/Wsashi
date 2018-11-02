@@ -86,7 +86,7 @@ namespace Wsashi.Modules.API
             embed.WithDescription(CatFact);
             embed.WithColor(new Color(19, 100, 140));
 
-            await Context.Channel.SendMessageAsync("", false, embed.Build());
+            await Context.Channel.SendMessageAsync("", embed: embed.Build());
         }
 
         public class CatFactReply

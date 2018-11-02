@@ -46,7 +46,7 @@ namespace Wsashi.Entities
         {
             get
             {
-                return (uint)Math.Sqrt(XP / 200);
+                return (uint)Math.Sqrt(XP / 50);
             }
         }
 

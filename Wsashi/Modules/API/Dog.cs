@@ -65,7 +65,7 @@ namespace Wsashi.Modules.API
                 var embed = new EmbedBuilder();
                 embed.WithTitle(":dog: | Here's a random dog!");
                 embed.WithImageUrl(img);
-                await Context.Channel.SendMessageAsync("", false, embed.Build());
+                await Context.Channel.SendMessageAsync("", embed: embed.Build());
             }
         }
 

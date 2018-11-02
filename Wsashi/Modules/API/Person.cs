@@ -40,7 +40,7 @@ namespace Wsashi.Modules.API
             embed.AddField("First Name", firstName, true);
             embed.AddField("Last Name", lastName, true);
 
-            await Context.Channel.SendMessageAsync("", false, embed.Build());
+            await Context.Channel.SendMessageAsync("", embed: embed.Build());
         }
     }
 }

@@ -97,7 +97,7 @@ namespace Wsashi
 
             config.GuildOwnerId = s.Owner.Id;
 
-            await dmChannel.SendMessageAsync("", false, embed.Build());
+            await dmChannel.SendMessageAsync("", embed: embed.Build());
             GlobalGuildAccounts.SaveAccounts();
 
             var client = Program._client;
@@ -138,7 +138,7 @@ namespace Wsashi
                         var embed = new EmbedBuilder();
                         embed.WithColor(37, 152, 255);
                         embed.WithDescription($":warning:  | {context.User.Mention}, Don't post your filthy links here! (No links)");
-                        var mssg = await context.Channel.SendMessageAsync("", false, embed.Build());
+                        var mssg = await context.Channel.SendMessageAsync("", embed: embed.Build());
                         await Task.Delay(5000);
                         await mssg.DeleteAsync();
                     }
@@ -173,8 +173,8 @@ namespace Wsashi
                         var embed = new EmbedBuilder();
                         embed.WithDescription($":warning:  |  {text} (Inappropiate language)");
                         embed.WithColor(37, 152, 255);
-                        //await context.Channel.SendMessageAsync("", false, embed.Build());
-                        var mssg = await context.Channel.SendMessageAsync("", false, embed.Build());
+                        //await context.Channel.SendMessageAsync("", embed: embed.Build());
+                        var mssg = await context.Channel.SendMessageAsync("", embed: embed.Build());
                         Thread.Sleep(4000);
                         await mssg.DeleteAsync();
                     }

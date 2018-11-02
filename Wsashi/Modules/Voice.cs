@@ -29,7 +29,7 @@ namespace Wsashi.Modules
                     embed.AddField("Maximum time", "60 minutes", true);
                     embed.WithCurrentTimestamp();
                     embed.WithColor(0, 0, 255);
-                    await Context.Channel.SendMessageAsync("", false, embed.Build());
+                    await Context.Channel.SendMessageAsync("", embed: embed.Build());
                 }
                 else if (lifetimeInMinutes == 60000)
                 {

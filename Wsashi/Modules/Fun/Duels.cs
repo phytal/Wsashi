@@ -14,7 +14,6 @@ namespace Wsashi.Modules
         [Alias("duels help")]
         [Summary("Shows all possible commands for dueling")]
         [Remarks("Ex: w!duel help")]
-        [Cooldown(5)]
         public async Task DuelHelp()
         {
             string[] footers = new string[]
@@ -41,14 +40,13 @@ namespace Wsashi.Modules
             embed.AddField("w!absorb", "Absorbs your enemey's health, Does little damage but your health gets partially regenerated. Low accuracy. Your turn gets consumed.", true);
             embed.AddField("w!deflect", "Goes into deflecting formation, 50% of the damage from the next attack is deflected back, the rest still inflicts damage. You cannot use this if you are already in blocking formation.", true);
             embed.WithFooter(text);
-            await Context.Channel.SendMessageAsync("", false, embed.Build());
+            await Context.Channel.SendMessageAsync("", embed: embed.Build());
         }
 
         [Command("duel")]
         [Alias("Duel", "dual")]
         [Summary("Starts a duel with the specified user!")]
         [Remarks("w!duel <user you want to duel> Ex: w!duel @Phytal")]
-        [Cooldown(20)]
         public async Task Pvp(SocketGuildUser user)
         {
             var userr = Context.User as SocketGuildUser;

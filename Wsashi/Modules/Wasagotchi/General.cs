@@ -73,7 +73,7 @@ namespace Wsashi.Modules.Wasagotchi
                 else
                 embed.AddField("Picture", "*Custom*", true);
 
-                await Context.Channel.SendMessageAsync("", false, embed.Build());
+                await Context.Channel.SendMessageAsync("", embed: embed.Build());
             }
         }
 
@@ -116,7 +116,7 @@ namespace Wsashi.Modules.Wasagotchi
             embed.AddField("w!wasagotchi play", "Play with your wasagotchi! Your Wasagotchi must have high attention levels at all times!", true);
             embed.AddField("w!wasagotchi train", "Train your Wasagotchi to earn Exp and level up!", true);
             embed.WithFooter(text);
-            await Context.Channel.SendMessageAsync("", false, embed.Build());
+            await Context.Channel.SendMessageAsync("", embed: embed.Build());
         }
 
         [Command("wasagotchi name"), Alias("w name")]
@@ -386,7 +386,7 @@ namespace Wsashi.Modules.Wasagotchi
                     else
                         embed.WithThumbnailUrl(config.pfp);
                     embed.WithDescription($"{text} \n**(+{attn} exp)**");
-                    await Context.Channel.SendMessageAsync("", false, embed.Build());
+                    await Context.Channel.SendMessageAsync("", embed: embed.Build());
                 }
                 if (choice == 2)
                 {
@@ -408,7 +408,7 @@ namespace Wsashi.Modules.Wasagotchi
                     else
                         embed.WithThumbnailUrl(config.pfp);
                     embed.WithDescription($"{text}");
-                    await Context.Channel.SendMessageAsync("", false, embed.Build());
+                    await Context.Channel.SendMessageAsync("", embed: embed.Build());
                 }
 
             }

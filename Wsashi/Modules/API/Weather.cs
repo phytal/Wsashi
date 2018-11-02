@@ -51,7 +51,7 @@ namespace Watchdog.Modules.API
             //embed.AddField("Clouds", cloud, true);
             embed.WithFooter("powered by OpenWeatherMap API // use w!weather <city>!");
 
-            await Context.Channel.SendMessageAsync("", false, embed.Build());
+            await Context.Channel.SendMessageAsync("", embed: embed.Build());
         }
     }
 }

@@ -61,7 +61,7 @@ namespace Wsashi.Modules.API.osu_
 
             embed.WithFooter("Powered by the osu.ppy.sh API");
 
-            await Context.Channel.SendMessageAsync("", false, embed.Build());
+            await Context.Channel.SendMessageAsync("", embed: embed.Build());
         }
     }
 }

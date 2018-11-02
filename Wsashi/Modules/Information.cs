@@ -26,7 +26,7 @@ namespace Wsashi
         [Alias("Whois", "userinfo")]
         [Remarks("w!info <user you want to see> Ex: w!info @Phytal")]
         [Cooldown(10)]
-        public async Task UserInfo(IGuildUser user)
+        public async Task UserInfo(SocketGuildUser user)
         {
             var thumbnailurl = user.GetAvatarUrl();
 
@@ -81,21 +81,21 @@ namespace Wsashi
                 nickname = user.Username;
             }
 
-            string game = user.Activity.ToString();
+            /*string game = user.Activity.ToString();
             if (string.IsNullOrEmpty(game))
             {
                 game = "Currently not playing";
-            }
+            }*/
             embed.AddField("Name", $"**{user}**", true);
             embed.AddField("ID", $"**{user.Id}**", true);
             embed.AddField("Discriminator", $"**{user.Discriminator}**", true);
             embed.AddField("Joined Discord at", $"**{user.CreatedAt}**", true);
             embed.AddField($"Joined {Context.Guild}", $"**{user.JoinedAt}**", true);
             embed.AddField("Nickname", $"**{nickname}**", true);
-            embed.AddField("Playing", $"**{game}**", true);
+            //embed.AddField("Playing", $"**{game}**", true);
             embed.AddField("Status", $"**{user.Status}**", true);
 
-            await ReplyAsync("", false, embed.Build());
+            await ReplyAsync("", embed: embed.Build());
         }
 
 
@@ -121,7 +121,7 @@ namespace Wsashi
 
             embed.WithColor(37, 152, 255);
 
-            await ReplyAsync("", false, embed.Build());
+            await ReplyAsync("", embed: embed.Build());
         }
 
         /*[Command("userinfo")]
@@ -174,7 +174,7 @@ namespace Wsashi
                    + $"Joined server at: **{CC}**\n"
                        + $"Playing: **{game}**";
 
-                await ReplyAsync("", false, embed.Build());
+                await ReplyAsync("", embed: embed.Build());
             }
         }
         */
@@ -193,7 +193,7 @@ namespace Wsashi
             embed.AddField("Bot version", $"Beta {version}", true);
             embed.WithImageUrl(Global.Client.CurrentUser.GetAvatarUrl());
 
-            await Context.Channel.SendMessageAsync("", false, embed.Build());
+            await Context.Channel.SendMessageAsync("", embed: embed.Build());
         }
 
         [Command("help")]
@@ -279,7 +279,7 @@ namespace Wsashi
                 var embed = new EmbedBuilder();
                 embed.WithColor(37, 152, 255);
                 embed.Title = $":x:  | You Need the Administrator Permission to do that {Context.User.Username}";
-                var use = await Context.Channel.SendMessageAsync("", false, embed.Build());
+                var use = await Context.Channel.SendMessageAsync("", embed: embed.Build());
                 await Task.Delay(5000);
                 await use.DeleteAsync();
             }
@@ -318,7 +318,7 @@ namespace Wsashi
                     var embed = new EmbedBuilder();
                     embed.WithColor(37, 152, 255);
                     embed.Title = $":x:  | You Need to be in a NSFW channel to do that {Context.User.Username}";
-                    var use = await Context.Channel.SendMessageAsync("", false, embed.Build());
+                    var use = await Context.Channel.SendMessageAsync("", embed: embed.Build());
                     await Task.Delay(5000);
                     await use.DeleteAsync();
                 }
@@ -466,7 +466,7 @@ namespace Wsashi
                 + " • Improved gambling(just `w!coinflip` i'm sorry xd)\n"
                 );
 
-            await ReplyAsync("", false, embed.Build());
+            await ReplyAsync("", embed: embed.Build());
         }
     }
 }

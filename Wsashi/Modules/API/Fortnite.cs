@@ -67,7 +67,7 @@ namespace Wsashi.Modules.API
             embed.AddField("K/D", kd, true);
             embed.WithFooter("Powered by TRN Fortnite Tracker Network API");
 
-            await Context.Channel.SendMessageAsync("", false, embed.Build());
+            await Context.Channel.SendMessageAsync("", embed: embed.Build());
         }
     }
 }

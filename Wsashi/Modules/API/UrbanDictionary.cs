@@ -48,14 +48,14 @@ namespace Wsashi.Modules.API
                 embed.WithFooter("Provided by the Urban Dictionary API");
                 embed.WithUrl(permalink);
 
-                await Context.Channel.SendMessageAsync("", false, embed.Build());
+                await Context.Channel.SendMessageAsync("", embed: embed.Build());
             }
             else
             {
                 var embed = new EmbedBuilder();
                 embed.WithColor(37, 152, 255);
                 embed.Title = $":x:  | You need to use this command in a NSFW channel, {Context.User.Username}!";
-                var use = await Context.Channel.SendMessageAsync("", false, embed.Build());
+                var use = await Context.Channel.SendMessageAsync("", embed: embed.Build());
                 await Task.Delay(5000);
                 await use.DeleteAsync();
             }
