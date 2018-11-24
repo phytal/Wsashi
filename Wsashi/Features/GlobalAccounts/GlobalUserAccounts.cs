@@ -31,15 +31,15 @@ namespace Wsashi.Features.GlobalAccounts
             }
         }
 
-        internal static GlobalUserAccount GetUserAccount(ulong id)
-        {
-            return userAccounts.GetOrAdd(id, (key) =>
-            {
-                var newAccount = new GlobalUserAccount { Id = id };
-                Configuration.DataStorage.StoreObject(newAccount, Path.Combine(Constants.UserAccountsFolder, $"{id}.json"), useIndentations: true);
-                return newAccount;
-            });
-        }
+         internal static GlobalUserAccount GetUserAccount(ulong id)
+         {
+             return userAccounts.GetOrAdd(id, (key) =>
+             {
+                 var newAccount = new GlobalUserAccount { Id = id };
+                 Configuration.DataStorage.StoreObject(newAccount, Path.Combine(Constants.UserAccountsFolder, $"{id}.json"), useIndentations: true);
+                 return newAccount;
+             });
+         }
 
         internal static GlobalUserAccount GetUserAccount(IUser user)
         {

@@ -132,7 +132,7 @@ namespace Wsashi
             {
                 if (config.Antilink == true)
                 {
-                    if (msg.Content.Contains("http") || msg.Content.Contains("www."))
+                    if (msg.Content.Contains("http") || msg.Content.Contains("www.") && !config.AntilinkIgnoredChannels.Contains(context.Channel.Id))
                     {
                         await msg.DeleteAsync();
                         var embed = new EmbedBuilder();
@@ -165,7 +165,7 @@ namespace Wsashi
             {
                 if (config.Filter == true)
                 {
-                    if (bannedWords.Any(msg.Content.ToLower().Contains))
+                    if (bannedWords.Any(msg.Content.ToLower().Contains) && !config.FilterIgnoredChannels.Contains(context.Channel.Id))
                     {
                         int randomIndex = rand.Next(reactionTexts.Length);
                         string text = reactionTexts[randomIndex];

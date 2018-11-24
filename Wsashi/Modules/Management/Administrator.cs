@@ -972,6 +972,54 @@ namespace Wsashi.Core.Modules
             }
         }
 
+        [Command("FilterIgnore"), Alias("Fi")]
+        [Summary("Sets a channel that if Filter is turned on, it will be disabled there")]
+        public async Task SetChannelToBeIgnoredByFilter(string type, SocketGuildChannel chnl = null)
+        {
+            var guser = Context.User as SocketGuildUser;
+            if (guser.GuildPermissions.ManageMessages)
+            {
+                var config = GlobalGuildAccounts.GetGuildAccount(Context.Guild.Id);
+                var embed = new EmbedBuilder();
+                embed.WithColor(37, 152, 255);
+                switch (type)
+                {
+                    case "add":
+                    case "Add":
+                        config.FilterIgnoredChannels.Add(chnl.Id);
+                        GlobalGuildAccounts.SaveAccounts();
+                        embed.WithDescription($"Added <#{chnl.Id}> to the list of ignored channels for Filter.");
+                        break;
+                    case "rem":
+                    case "Rem":
+                        config.FilterIgnoredChannels.Remove(chnl.Id);
+                        GlobalGuildAccounts.SaveAccounts();
+                        embed.WithDescription($"Removed <#{chnl.Id}> from the list of ignored channels for Filter.");
+                        break;
+                    case "clear":
+                    case "Clear":
+                        config.FilterIgnoredChannels.Clear();
+                        GlobalGuildAccounts.SaveAccounts();
+                        embed.WithDescription("List of channels to be ignored by Filter has been cleared.");
+                        break;
+                    default:
+                        embed.WithDescription($"Valid types are `add`, `rem`, and `clear`. Syntax: `w!fi {{add/rem/clear}} [channelMention]`");
+                        break;
+                }
+
+                await Context.Channel.SendMessageAsync("", embed: embed.Build());
+            }
+            else
+            {
+                var embed = new EmbedBuilder();
+                embed.WithColor(37, 152, 255);
+                embed.Title = $":x:  | You Need the Administrator Permission to do that {Context.User.Username}";
+                var use = await Context.Channel.SendMessageAsync("", embed: embed.Build());
+                await Task.Delay(5000);
+                await use.DeleteAsync();
+            }
+        }
+
         [Command("Rename")]
         [Summary("Changes a user's nickname")]
         public async Task SetUsersNickname(SocketGuildUser user, [Remainder]string nick)

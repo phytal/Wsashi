@@ -36,6 +36,8 @@ namespace Wsashi.Entities
 
         public List<ulong> AntilinkIgnoredChannels { get; set; }
 
+        public List<ulong> FilterIgnoredChannels { get; set; }
+
         public string HelperRoleName { get; set; }
 
         public ulong HelperRole { get; set; }

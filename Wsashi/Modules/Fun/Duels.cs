@@ -5,6 +5,7 @@ using System;
 using System.Threading.Tasks;
 using Wsashi.Preconditions;
 using Wsashi.Features.GlobalAccounts;
+using Wsashi.Modules.Fun.Dueling;
 
 namespace Wsashi.Modules
 {
@@ -507,14 +508,29 @@ namespace Wsashi.Modules
                             config.Health = config.Health - randomIndex2;
                             if (config.Health > 0)
                             {
-                                config.placeHolder = config.whosTurn;
-                                config.whosTurn = config.whoWaits;
-                                config.whoWaits = config.placeHolder;
-                                configg.placeHolder = configg.whosTurn;
-                                configg.whosTurn = configg.whoWaits;
-                                configg.whoWaits = configg.placeHolder;
+                                var crit = Criticals.GetCritical();
+                                if (crit == false)
+                                {
+                                    config.placeHolder = config.whosTurn;
+                                    config.whosTurn = config.whoWaits;
+                                    config.whoWaits = config.placeHolder;
+                                    configg.placeHolder = configg.whosTurn;
+                                    configg.whosTurn = configg.whoWaits;
+                                    configg.whoWaits = configg.placeHolder;
 
-                                await ReplyAsync($":dagger:  | **{Context.User.Username}**, You hit and did **{randomIndex2}** damage!\n\n**{configg.OpponentName}** has **{config.Health}** health left!\n**{config.OpponentName}** has **{configg.Health}** health left!\n\n**{config.whosTurn}**, Your turn!");
+                                    await ReplyAsync($":dagger:  | **{Context.User.Username}**, You hit and did **{randomIndex2}** damage!\n\n**{configg.OpponentName}** has **{config.Health}** health left!\n**{config.OpponentName}** has **{configg.Health}** health left!\n\n**{config.whosTurn}**, Your turn!");
+                                }
+                                if (crit == true)
+                                {
+                                    config.placeHolder = config.whosTurn;
+                                    config.whosTurn = config.whoWaits;
+                                    config.whoWaits = config.placeHolder;
+                                    configg.placeHolder = configg.whosTurn;
+                                    configg.whosTurn = configg.whoWaits;
+                                    configg.whoWaits = configg.placeHolder;
+
+                                    await ReplyAsync($":dagger:  | **{Context.User.Username}**, You hit and did **{randomIndex2}** damage!\n\n**{configg.OpponentName}** has **{config.Health}** health left!\n**{config.OpponentName}** has **{configg.Health}** health left!\n\n**{config.whosTurn}**, Your turn!");
+                                }
                                 GlobalGuildUserAccounts.SaveAccounts();
                             }
                             else
