@@ -117,6 +117,7 @@ namespace Wsashi
         {
             _ = FilterChecks(s);
             _ = Unflip(s);
+            //_ = HandleMessageRewards(s);
         }
 
         public static async Task FilterChecks(SocketMessage s)
@@ -132,7 +133,7 @@ namespace Wsashi
             {
                 if (config.Antilink == true)
                 {
-                    if (msg.Content.Contains("http") || msg.Content.Contains("www.") && !config.AntilinkIgnoredChannels.Contains(context.Channel.Id))
+                    if ((msg.Content.Contains("https://discord.gg") || msg.Content.Contains("https://discord.io")) && !config.AntilinkIgnoredChannels.Contains(context.Channel.Id))
                     {
                         await msg.DeleteAsync();
                         var embed = new EmbedBuilder();
@@ -159,7 +160,7 @@ namespace Wsashi
             Random rand = new Random();
             List<string> bannedWords = new List<string>
                 {
-                     "fuck", "bitch", "gay", "shit", "pussy", "penis", "vagina", "nigger", "nigga", "suck", "eat my balls", "make me wet", "nude", "naked"," ass","asshole", "-ass", "cock", "dick", "cunt", "arse", "damn", "hell ", "kill urslef", "kys", "slut", "whore","retard", "gay", "autis", "screw you", "kill"
+                     "fuck", "fuk", "bitch", "pussy", "nigg","asshole", "c0ck", "cock", "dick", "cunt", "cnut", "d1ck", "blowjob", "b1tch"
                 };
             try
             {
@@ -212,6 +213,30 @@ namespace Wsashi
                     await context.Channel.SendMessageAsync("┬─┬ ノ( ゜-゜ノ)");
                 }
             }
+        }
+
+        public static async Task HandleMessageRewards(SocketMessage s)
+        {
+            var msg = s as SocketUserMessage;
+
+            if (msg == null) return;
+            if (msg.Channel == msg.Author.GetOrCreateDMChannelAsync()) return;
+            if (msg.Author.IsBot) return;
+
+            var userAcc = GlobalUserAccounts.GetUserAccount(msg.Author.Id);
+            DateTime now = DateTime.UtcNow;
+
+            // Check if message is long enough and if the coolown of the reward is up - if not return
+            if (now < userAcc.LastMessage.AddSeconds(Constants.MessageRewardCooldown) || msg.Content.Length < Constants.MessageRewardMinLenght)
+            {
+                return; // This Message is not eligible for a reward
+            }
+
+            // Generate a randomized reward in the configured boundries
+            userAcc.Money += (ulong)Global.Rng.Next(Constants.MessagRewardMinMax.Item1, Constants.MessagRewardMinMax.Item2 + 1);
+            userAcc.LastMessage = now;
+
+            GlobalUserAccounts.SaveAccounts();
         }
     }
 }

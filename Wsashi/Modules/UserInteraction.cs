@@ -22,7 +22,10 @@ namespace Wsashi.Modules
             var user = Context.User as SocketGuildUser;
             var embed = new EmbedBuilder()
                 .WithColor(37, 152, 255);
-            if (config == null)
+
+            var roleList = new List<string>();
+            foreach (var roleName in config.SelfRoles) roleList.Add(roleName.ToLower());
+            if (roleList.Contains(role))
             {
                 embed.WithDescription("This server doesn't have any self roles set.");
             }
@@ -30,13 +33,13 @@ namespace Wsashi.Modules
             {
                 if (config.SelfRoles.Contains(role))
                 {
-                    embed.WithDescription($"Gave you the **{role}** role.");
-                    var r = Context.Guild.Roles.FirstOrDefault(x => x.Name == role);
-                    await user.AddRoleAsync(r);
+                        var r = Context.Guild.Roles.First(x => x.Name.ToLower() == role.ToLower());
+                        embed.WithDescription($"Gave you the **{r.Name}** role.");
+                        await (Context.User as SocketGuildUser).AddRoleAsync(r);
                 }
                 else
                 {
-                    embed.WithDescription("That role isn't in the self roles list for this server. Remember that this command is cAsE sEnSiTiVe!");
+                    embed.WithDescription("That role isn't in the self roles list for this server.");
                 }
             }
 
@@ -51,7 +54,10 @@ namespace Wsashi.Modules
             var user = Context.User as SocketGuildUser;
             var embed = new EmbedBuilder()
                 .WithColor(37, 152, 255);
-            if (config == null)
+
+            var roleList = new List<string>();
+            foreach (var roleName in config.SelfRoles) roleList.Add(roleName.ToLower());
+            if (roleList.Contains(role))
             {
                 embed.WithDescription("This server doesn't have any self roles set.");
             }
@@ -59,16 +65,38 @@ namespace Wsashi.Modules
             {
                 if (config.SelfRoles.Contains(role))
                 {
-                    embed.WithDescription($"Removed your **{role}** role.");
-                    var r = Context.Guild.Roles.FirstOrDefault(x => x.Name == role);
-                    await user.RemoveRoleAsync(r);
+                    var r = Context.Guild.Roles.FirstOrDefault(x => x.Name.ToLower() == role.ToLower());
+                    embed.WithDescription($"Removed your **{r.Name}** role.");
+                    await (Context.User as SocketGuildUser).RemoveRoleAsync(r);
                 }
                 else
                 {
-                    embed.WithDescription("That role isn't in the self roles list for this server. Remember that this command is cAsE sEnSiTiVe!");
+                    embed.WithDescription("That role isn't in the self roles list for this server.");
                 }
             }
 
+            await ReplyAsync("", embed: embed.Build());
+        }
+
+        [Command("SelfRoleList"), Summary("Shows all currently set Self Roles")]
+        public async Task SelfRoleList()
+        {
+            var config = GlobalGuildAccounts.GetGuildAccount(Context.Guild.Id);
+
+            var embed = new EmbedBuilder();
+            if (config == null)
+            {
+                embed.WithDescription("This server doesn't have any self-assignable roles.");
+            }
+            else
+            {
+                config.SelfRoles.Sort();
+                var roles = "\n";
+                foreach (var role in config.SelfRoles) roles += $"**{role}**\n";
+
+                embed.WithTitle("Roles you can self-assign: ");
+                embed.WithDescription(roles);
+            }
             await ReplyAsync("", embed: embed.Build());
         }
     }

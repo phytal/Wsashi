@@ -189,7 +189,7 @@ namespace Wsashi
             var embed = new EmbedBuilder();
             embed.WithColor(37, 152, 255);
             embed.AddField("Creator", "Phytal#8213", true);
-            embed.AddField("Last Updated", "10/8/2018", true);
+            embed.AddField("Last Updated", "11/29/2018", true);
             embed.AddField("Bot version", $"Beta {version}", true);
             embed.WithImageUrl(Global.Client.CurrentUser.GetAvatarUrl());
 
@@ -222,7 +222,7 @@ namespace Wsashi
             "**10. Neko API -** `neko` `catemoticon` `foxgirl`\n" +
             "**11. Shibe API -** `shiba` `bird`\n" +
             "**12. Overwatch API -** `owstats` `owstatscomp` `owstatsqp` `myowstats` `myowstatscomp` `myowstatsqp` `owaccount`\n" +
-            "**11. osu! API -** `osustats`\n" +
+            "**11. osu! API -** `osustats` `maniastats`\n" +
             "**14. Games -** `2048 start` `trivia`\n" +
             "**15. Blog (w!blog <command>) -** `create` `post` `subscribe` `unsubscribe`\n" +
             "**16. Self Roles -** `Iam` `Iamnot` `selfrolelist`\n" +
@@ -254,17 +254,17 @@ namespace Wsashi
             "```\n" +
             "Use `w!command [command]` to get more info on a specific command. Ex: `w!command xp`  `[Prefix 'w!']`\n" +
             "\n" +
-            "**Filters -** `antilink` `filter` `pingchecks` `antilinkignore`\n" +
+            "**Filters -** `antilink` `filter` `pingchecks` `antilinkignore` `filterignore`\n" +
             "**User Management -** `ban` `kick` `mute` `unmute` `clear` `warn` `warnings` `clearwarnings` `say` `softban` `idban`\n" +
             "**Bot Settings -** `serverprefix` `leveling` `list` `leveling` `levelingmsg` `config`\n" +
             "**Welcome Messages (w!welcome <command>) -** `channel` `add` `remove` `list`\n" +
-            "**Leaving Messages (w!leave <command>) -** `add` `remove` `list`\n" +
+            "**Leaving Messages (w!leave <command>) -** `channel` `add` `remove` `list`\n" +
             "**Announcements (w!announcements <command>) -** `setchannel` `unsetchannel`\n" +
-            "**Server Management -** `rename` `serverlogging` \n" +
+            "**Server Management -** `rename` `serverlogging` `slowmode` `lockchannel` `unlockchannel`\n" +
             "**Roles -** `ModRole` `AdminRole` `selfroleadd` `selfrolerem` `selfroleclear`\n" +
             "**Promoting and Demoting (w!promote/demote <command>)-** `admin` `mod` `helper` \n" +
                         "**Server Tags (w!tag <command>)-** `new` `update` `remove` `list`\n" +
-            "**Fun Stuff -** `unflip` \n" +
+            "**Fun Stuff -** `unflip` `vote`\n" +
             "\n" +
             "```\n" +
             "# Don't include the example brackets when using commands!\n" +

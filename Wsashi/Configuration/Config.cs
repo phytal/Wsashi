@@ -10,7 +10,7 @@ namespace Wsashi
 {
     class Config
     {
-        private const string configFolder = "Resources";
+        private const string configFolder = "resources";
         private const string configFile = "config.json";
 
         public static BotConfig bot;

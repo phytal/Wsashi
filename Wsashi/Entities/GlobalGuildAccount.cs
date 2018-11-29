@@ -76,6 +76,10 @@ namespace Wsashi.Entities
 
         public bool IsServerLoggingEnabled { get; set; }
 
+        public ulong SlowModeCooldown { get; set; }
+
+        public bool IsSlowModeEnabled { get; set; }
+
         public Dictionary<string, string> Tags { get; set; } = new Dictionary<string, string>();
         /* Add more values to store */
         #endregion

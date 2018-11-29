@@ -10,7 +10,7 @@ namespace Wsashi.Modules
 {
     public class WasagotchiInteractive : InteractiveBase
     {
-        [Command("wasagotchi buy"), Alias("w shop")]
+        [Command("wasagotchi buy"), Alias("w shop", "w buy")]
         [Summary("Opens the Wasagotchi shop menu!")]
         [Remarks("Ex: w!w shop")]
         public async Task WasagotchiBuy()

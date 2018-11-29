@@ -48,7 +48,7 @@ namespace Wsashi
             _client.Log += Logger.Log;
             _client.Ready += Timers.StartTimer;
             _client.ReactionAdded += OnReactionAdded;
-            _client.MessageReceived += MessageRewardHandler.MessageRewards;
+            //_client.MessageReceived += MessageRewardHandler.MessageRewards;
             //_client.UserJoined += Events.Welcome;
             _client.UserJoined += Events.Autorole;
             _client.JoinedGuild += Events.GuildUtils;
@@ -113,6 +113,7 @@ namespace Wsashi
         private async Task HandleCommandAsync(SocketMessage s)
         {
             _ =  Events.FilterUnflip(s);
+            _ = Modules.Management.SlowMode.HandleSlowMode(s);
 
             if (!(s is SocketUserMessage msg)) return;
             if (msg.Channel is SocketDMChannel) return;

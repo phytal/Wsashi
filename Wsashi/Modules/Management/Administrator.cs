@@ -1195,6 +1195,62 @@ namespace Wsashi.Core.Modules
             }
         }
 
+        [Command("lockchannel"), Alias("lc")]
+        [Summary("Locks the current channel (users will be unable to send messages, only admins)")]
+        public async Task LockChannel()
+        {
+            var guser = Context.User as SocketGuildUser;
+            if (guser.GuildPermissions.ManageChannels)
+            {
+                var chnl = Context.Channel as ITextChannel;
+                    var role = Context.Guild.Roles.FirstOrDefault(r => r.Name == "@everyone");
+                    var perms = new OverwritePermissions(
+                        sendMessages: PermValue.Deny
+                        );
+                    await chnl.AddPermissionOverwriteAsync(role, perms);
+
+                var embed = MiscHelpers.CreateEmbed(Context, $":lock: Locked {Context.Channel.Name}.").WithColor(37, 152, 255);
+                await MiscHelpers.SendMessage(Context, embed);
+            }
+            else
+            {
+                var embed = new EmbedBuilder();
+                embed.WithColor(37, 152, 255);
+                embed.Title = $":x:  | You Need the Manage Channels Permission to do that {Context.User.Username}";
+                var use = await Context.Channel.SendMessageAsync("", embed: embed.Build());
+                await Task.Delay(5000);
+                await use.DeleteAsync();
+            }
+        }
+
+        [Command("unlockchannel"), Alias("lc")]
+        [Summary("Unlocks the current channel (users can send messages again)")]
+        public async Task UnlockChannel()
+        {
+            var guser = Context.User as SocketGuildUser;
+            if (guser.GuildPermissions.ManageChannels)
+            {
+                var chnl = Context.Channel as ITextChannel;
+                var role = Context.Guild.Roles.FirstOrDefault(r => r.Name == "@everyone");
+                var perms = new OverwritePermissions(
+                    sendMessages: PermValue.Allow
+                    );
+                await chnl.AddPermissionOverwriteAsync(role, perms);
+
+                var embed = MiscHelpers.CreateEmbed(Context, $":unlock: Unlocked {Context.Channel.Name}.").WithColor(37, 152, 255);
+                await MiscHelpers.SendMessage(Context, embed);
+            }
+            else
+            {
+                var embed = new EmbedBuilder();
+                embed.WithColor(37, 152, 255);
+                embed.Title = $":x:  | You Need the Manage Channels Permission to do that {Context.User.Username}";
+                var use = await Context.Channel.SendMessageAsync("", embed: embed.Build());
+                await Task.Delay(5000);
+                await use.DeleteAsync();
+            }
+        }
+
         [Command("ServerLogging"), Alias("Sl", "logging")]
         [Summary("Enables server logging (such as bans, message edits, deletions, kicks, channel additions, etc)")]
         public async Task SetServerLoggingChannel(bool isEnabled)
@@ -1435,20 +1491,6 @@ namespace Wsashi.Core.Modules
             }
         }
 
-        [Command("SelfRoleList"), Summary("Shows all currently set Self Roles")]
-        public async Task SelfRoleList()
-        {
-            var sr = GlobalGuildAccounts.GetGuildAccount(Context.Guild.Id).SelfRoles;
-            var embB = new EmbedBuilder().WithTitle("No Self Roles set yet..");
-            if (sr.Count > 0) embB.WithTitle("All Self Roles:");
-
-            for (var i = 0; i < sr.Count; i++)
-            {
-                embB.AddField($"Self Role #{i + 1}:", sr[i], true);
-            }
-            await ReplyAsync("", false, embB.Build());
-        }
-
         [Command("syncguild")]
         public async Task SyncGuild()
         {
@@ -1555,6 +1597,31 @@ namespace Wsashi.Core.Modules
                 var embed = new EmbedBuilder();
                 embed.WithColor(37, 152, 255);
                 embed.Title = $":x:  | You Need the Administrator Permission to do that {Context.User.Username}";
+                var use = await Context.Channel.SendMessageAsync("", embed: embed.Build());
+                await Task.Delay(5000);
+                await use.DeleteAsync();
+            }
+        }
+
+        [Command("SlowMode")]
+        [Summary("Adds a slowmode to the entire server")]
+        public async Task SlowMode(bool arg, ulong length)
+        {
+            var guser = Context.User as SocketGuildUser;
+            if (guser.GuildPermissions.ManageChannels)
+            {
+                var config = GlobalGuildAccounts.GetGuildAccount(Context.Guild.Id);
+                config.IsSlowModeEnabled = arg;
+                config.SlowModeCooldown = length;
+                GlobalGuildAccounts.SaveAccounts();
+
+                await Context.Channel.SendMessageAsync($"Successfully turned on Slowmode for **{length}** seconds.");
+            }
+            else
+            {
+                var embed = new EmbedBuilder();
+                embed.WithColor(37, 152, 255);
+                embed.Title = $":x:  | You Need the Manage Channels Permission to do that {Context.User.Username}";
                 var use = await Context.Channel.SendMessageAsync("", embed: embed.Build());
                 await Task.Delay(5000);
                 await use.DeleteAsync();
