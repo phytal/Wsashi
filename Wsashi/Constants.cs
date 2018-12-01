@@ -9,6 +9,7 @@ namespace Wsashi
     public static class Constants
     {
         internal static readonly string ResourceFolder = "resources";
+        internal static readonly string MemeFolder = "memes";
         internal static readonly string UserAccountsFolder = "users";
         internal static readonly string WasagotchiAccountsFolder = "wasagotchis";
         internal static readonly string ServerAccountsFolder = "servers";

@@ -11,7 +11,7 @@ using Wsashi.Features.GlobalAccounts;
 
 namespace Wsashi.Modules
 {
-    public class UserInteraction : WsashiModule
+    public class SelfRoles : WsashiModule
     {
         [Command("Iam")]
         [Alias("iam")]

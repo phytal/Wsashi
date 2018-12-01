@@ -127,8 +127,14 @@ namespace Wsashi
             var argPos = 0;
             if (msg.HasStringPrefix(prefix, ref argPos) && (context.Guild == null || context.Guild.Id != 264445053596991498 || context.Guild.Id != 396440418507816960) || msg.HasMentionPrefix(_client.CurrentUser, ref argPos) && (context.Guild == null || context.Guild.Id != 264445053596991498 || context.Guild.Id != 396440418507816960))//|| CheckPrefix(ref argPos, context))
             {
+                foreach (var command in config.CustomCommands)
+                    if (msg.HasStringPrefix($"{config.CommandPrefix}{command.Key}", ref argPos))
+                    {
+                        await context.Channel.SendMessageAsync(command.Value);
+                    }
+
                 var cmdSearchResult = _service.Search(context, argPos);
-                if (cmdSearchResult.Commands.Count == 0) return;
+                if (cmdSearchResult.Commands.Count == 0) await context.Channel.SendMessageAsync($"{context.User.Mention}, that is not a valid command");
 
                 var executionTask = _service.ExecuteAsync(context, argPos, services);
 

@@ -212,7 +212,7 @@ namespace Wsashi
             "**2. Social -** `xp` `level` `stats` `topxp`\n" +
             "**2.5. Interaction -** `cuddle` `feed` `hug` `kiss` `pat` `poke` `tickle`\n" +
             "**3. Fun -** `8ball` `pick` `roast` `hello` `normalhello` `goodmorning` `goodnight` `fortune` `echo` `lenny` `ratewaifu` `reverse` `bigletter` `playsong` `rps`\n" +
-            "**4. Duels -** `slash` `absorb` `block` `deflect` `heal` `giveup` `duel` \n" +
+            "**4. Duels -** `slash` `absorb` `block` `deflect` `heal` `giveup` `duel` `duelhelp`\n" +
             "**5. Gambling -** `roll` `coinflip` `newslots` `slots` `showslots`\n" +
             "**5. Economy -** `balance` `daily` `rank`\n" +
             "**6. Utilities -** `dm` `report` `voice`\n" +
@@ -222,13 +222,13 @@ namespace Wsashi
             "**10. Neko API -** `neko` `catemoticon` `foxgirl`\n" +
             "**11. Shibe API -** `shiba` `bird`\n" +
             "**12. Overwatch API -** `owstats` `owstatscomp` `owstatsqp` `myowstats` `myowstatscomp` `myowstatsqp` `owaccount`\n" +
-            "**11. osu! API -** `osustats` `maniastats`\n" +
+            "**11. osu! API -** `osustats` `maniastats` `taikostats` `ctbstats`\n" +
             "**14. Games -** `2048 start` `trivia`\n" +
             "**15. Blog (w!blog <command>) -** `create` `post` `subscribe` `unsubscribe`\n" +
             "**16. Self Roles -** `Iam` `Iamnot` `selfrolelist`\n" +
             "**17. Wasagotchi (w!wasagotchi <command>) -** `stats` `feed` `clean` `train` `play` `name` `buy` `picture` `help`\n" +
             "**18. Reminders (w!r <command>) -** `add` `remove` `list`\n" +
-                        "**19. Personal Tags (w!ptag <command>)-** `new` `update` `remove` `list`\n" +
+                        "**19. Personal Tags (w!ptag <command>)-** `new` `update` `remove` `list`\n" + //add gru and butterfly meme when done
             "\n" +
             "```\n" +
             "# Don't include the example brackets when using commands!\n" +
@@ -254,17 +254,16 @@ namespace Wsashi
             "```\n" +
             "Use `w!command [command]` to get more info on a specific command. Ex: `w!command xp`  `[Prefix 'w!']`\n" +
             "\n" +
-            "**Filters -** `antilink` `filter` `pingchecks` `antilinkignore` `filterignore`\n" +
-            "**User Management -** `ban` `kick` `mute` `unmute` `clear` `warn` `warnings` `clearwarnings` `say` `softban` `idban`\n" +
+            "**Filters -** `antilink` `filter` `pingchecks` `antilinkignore` `filterignore` `BlacklistAdd` `BlacklistRemove` `BlacklistClear`\n" +
+            "**User Management -** `ban` `kick` `mute` `unmute` `clear` `warn` `warnings` `clearwarnings` `say` `softban` `idban` `promote` `demote`\n" +
             "**Bot Settings -** `serverprefix` `leveling` `list` `leveling` `levelingmsg` `config`\n" +
             "**Welcome Messages (w!welcome <command>) -** `channel` `add` `remove` `list`\n" +
             "**Leaving Messages (w!leave <command>) -** `channel` `add` `remove` `list`\n" +
-            "**Announcements (w!announcements <command>) -** `setchannel` `unsetchannel`\n" +
-            "**Server Management -** `rename` `serverlogging` `slowmode` `lockchannel` `unlockchannel`\n" +
-            "**Roles -** `ModRole` `AdminRole` `selfroleadd` `selfrolerem` `selfroleclear`\n" +
-            "**Promoting and Demoting (w!promote/demote <command>)-** `admin` `mod` `helper` \n" +
+            "**Announcements (w!announcements <command>) -** `SetChannel` `UnsetChannel`\n" +
+            "**Server Management -** `rename` `ServerLogging` `SlowMode` `LockChannel` `UnlockChannel`\n" +
+            "**Roles -** `HelperRole` `ModRole` `AdminRole` `SelfRoleAdd` `SelfRoleRem` `SelfRoleClear`\n" +
                         "**Server Tags (w!tag <command>)-** `new` `update` `remove` `list`\n" +
-            "**Fun Stuff -** `unflip` `vote`\n" +
+            "**Fun Stuff -** `unflip` `vote` `CustomCommandAdd` `CustomCommandRemove`\n" +
             "\n" +
             "```\n" +
             "# Don't include the example brackets when using commands!\n" +

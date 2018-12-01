@@ -69,15 +69,15 @@ namespace Wsashi.Modules.ServerManagement
                         addReactions: PermValue.Deny,
                         viewChannel: PermValue.Allow
                         );
-                    var channel = await Context.Guild.CreateTextChannelAsync("reports");
-                    await channel.AddPermissionOverwriteAsync(role, perms);
+                    var channell = await Context.Guild.CreateTextChannelAsync("reports");
+                    await channell.AddPermissionOverwriteAsync(role, perms);
                 }
-                var cjhale = chnl as SocketTextChannel;
+                var channel = chnl as SocketTextChannel;
                 var embed = new EmbedBuilder();
                 embed.WithColor(37, 152, 255);
                 embed.Title = $"{Context.User}'s report of {user.Username}";
                 embed.Description = $"**Username: **{user.Username}\n**Reported by: **{Context.User.Mention}\n**Reason: **{reason}";
-                await cjhale.SendMessageAsync("", embed: embed.Build());
+                await channel.SendMessageAsync("", embed: embed.Build());
                 await ReplyAsync(":white_check_mark:  | *Your report has been furthered to staff.* ***(ABUSE OF THIS COMMAND IS PUNISHABLE)***");
             }
         }

@@ -11,8 +11,8 @@ namespace Wsashi.Modules
 {
     public class Duel : ModuleBase
     {
-        [Command("duel help")]
-        [Alias("duels help")]
+        [Command("duelhelp")]
+        [Alias("duelshelp")]
         [Summary("Shows all possible commands for dueling")]
         [Remarks("Ex: w!duel help")]
         public async Task DuelHelp()

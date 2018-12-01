@@ -5,11 +5,12 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 using System.Threading.Tasks;
+using Wsashi.Core.Modules;
 using Wsashi.Features.GlobalAccounts;
 
 namespace Wsashi.Modules.Announcements
 {
-    public class WelcomeMessages : ModuleBase<SocketCommandContext>
+    public class WelcomeMessages : WsashiModule
     {
         [Command("welcome channel"), Alias("Wc")]
         [Summary("Set where you want welcome messages to be displayed")]

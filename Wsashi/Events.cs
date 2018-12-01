@@ -155,7 +155,9 @@ namespace Wsashi
         "This is a Christian Minecraft Server!",
         "Watch your language buddy!",
         "I think you touched the stove on accident!",
-        "You're starting to bug me.."
+        "You're starting to bug me..",
+        "You're under-arrest by the Good Boy Cops",
+        "Woah man, too far"
 };
             Random rand = new Random();
             List<string> bannedWords = new List<string>
@@ -166,7 +168,8 @@ namespace Wsashi
             {
                 if (config.Filter == true)
                 {
-                    if (bannedWords.Any(msg.Content.ToLower().Contains) && !config.FilterIgnoredChannels.Contains(context.Channel.Id))
+                    if (bannedWords.Any(msg.Content.ToLower().Contains) 
+                        || config.CustomFilter.Any(msg.Content.ToLower().Contains) && !config.NoFilterChannels.Contains(context.Channel.Id))
                     {
                         int randomIndex = rand.Next(reactionTexts.Length);
                         string text = reactionTexts[randomIndex];
@@ -176,7 +179,7 @@ namespace Wsashi
                         embed.WithColor(37, 152, 255);
                         //await context.Channel.SendMessageAsync("", embed: embed.Build());
                         var mssg = await context.Channel.SendMessageAsync("", embed: embed.Build());
-                        Thread.Sleep(4000);
+                        await Task.Delay(4000);
                         await mssg.DeleteAsync();
                     }
                 }
@@ -192,7 +195,7 @@ namespace Wsashi
                 {
                     await msg.DeleteAsync();
                     var msgg = await context.Channel.SendMessageAsync($":warning:  | {msg.Author.Mention}, try not to mass ping.");
-                    Thread.Sleep(4000);
+                    await Task.Delay(4000);
                     await msgg.DeleteAsync();
                 }
             }

@@ -385,7 +385,7 @@ namespace Wsashi.Modules
         [Cooldown(3, true)]
         public async Task Woop()
         {
-            await Context.Channel.SendFileAsync(@"C:\Users\Sir.Potato\source\repos\Wsashi\Wsashi\Some Memes\woop.gif");
+            await Context.Channel.SendFileAsync(@Path.Combine(Constants.MemeFolder, "woop.gif"));
         }
 
         [Command("rps")]

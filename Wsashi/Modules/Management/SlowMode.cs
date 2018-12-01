@@ -25,8 +25,6 @@ namespace Wsashi.Modules.Management
             var config = GlobalGuildAccounts.GetGuildAccount(context.Guild.Id);
             if (config.IsSlowModeEnabled == true)
             {
-                // Check if the user is 
-
                 if (context.User is IGuildUser user && user.GuildPermissions.ManageChannels) return;
                 if (msg == null) return;
                 if (msg.Channel == msg.Author.GetOrCreateDMChannelAsync()) return;
@@ -36,17 +34,22 @@ namespace Wsashi.Modules.Management
 
                 DateTime now = DateTime.UtcNow;
 
-                // Check if the coolown is up - if not, return
                 if (now < userAcc.LastMessage.AddSeconds(config.SlowModeCooldown))
                 {
-                    var difference = now - userAcc.LastMessage;
+                    var difference1 = now - userAcc.LastMessage;
+                    var time = new TimeSpan((long)config.SlowModeCooldown*10000000);
+                    var difference = time - difference1;
                     var timeSpanString = string.Format("{0:%s} seconds", difference);
+                    await msg.DeleteAsync();
                     var dm = await context.User.GetOrCreateDMChannelAsync();
                     await dm.SendMessageAsync($"Slow down! You can send a message in **{timeSpanString}** in **{context.Guild.Name}**.");
-                    await msg.DeleteAsync();
                     return;
                 }
-                return;
+                else
+                {
+                    userAcc.LastMessage = now;
+                    return;
+                }
             }
             else return;
         }

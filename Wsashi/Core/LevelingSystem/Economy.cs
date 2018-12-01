@@ -12,10 +12,12 @@ using Wsashi.Entities;
 using Discord.WebSocket;
 using Wsashi.Features.GlobalAccounts;
 using Wsashi.Preconditions;
+using DiscordBotsList.Api;
+using Wsashi.Core.Modules;
 
 namespace Wsashi.Core.LevelingSystem
 {
-    public class Economy : ModuleBase<SocketCommandContext>
+    public class Economy : WsashiModule
     {
         [Command("Daily")]
         [Alias("GetDaily", "ClaimDaily")]

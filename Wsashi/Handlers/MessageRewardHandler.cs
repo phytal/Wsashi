@@ -10,7 +10,11 @@ namespace Wsashi.Handlers
 {
     public static class MessageRewardHandler
     {
-        public static void HandleMessageRewards(SocketMessage s)
+        public async static Task MessageRewards(SocketMessage s)
+        {
+            _ = HandleMessageRewards(s);
+        }
+        public async static Task HandleMessageRewards(SocketMessage s)
         {
             var msg = s as SocketUserMessage;
 

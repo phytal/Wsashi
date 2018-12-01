@@ -28,7 +28,7 @@ namespace Wsashi.Modules
             string first = input.Split('+').First();
             second = second.Replace('/', ' ');
 
-            using (MagickImage image = new MagickImage(@"C:\Users\Sir.Potato\source\repos\Wsashi\Wsashi\Some Memes\grumeme.jpg"))
+            using (MagickImage image = new MagickImage(@Path.Combine(Constants.MemeFolder, "grumeme.jpg")))
             {
                 new Drawables()
                 .FontPointSize(18)
@@ -59,7 +59,7 @@ namespace Wsashi.Modules
             string man = input.Split('+').First();
             bfly = bfly.Replace('/', ' ');
 
-            using (MagickImage image = new MagickImage(@"C:\Users\Sir.Potato\source\repos\Wsashi\Wsashi\Some Memes\butterfly anime man idk meme tem.jpg"))
+            using (MagickImage image = new MagickImage(@Path.Combine(Constants.MemeFolder, "butterfly anime man idk meme tem.jpg")))
             {
                 new Drawables()
                 .FontPointSize(50)
