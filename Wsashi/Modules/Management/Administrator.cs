@@ -744,7 +744,7 @@ namespace Wsashi.Core.Modules
                     GlobalGuildAccounts.SaveAccounts();
                     var embed = new EmbedBuilder();
                     embed.WithColor(37, 152, 255);
-                    embed.WithDescription(argg ? ":white_check_mark:  | Filter successfully turned back on. Stay safe!" : ":white_check_mark:  | Filter successfully turned off. Daredevil!");
+                    embed.WithDescription(argg ? ":white_check_mark:  | Filter successfully turned on. Stay safe!" : ":white_check_mark:  | Filter successfully turned off. Daredevil!");
                     await ReplyAsync("", embed: embed.Build());
                 }
                 if (result.Item1 == false)

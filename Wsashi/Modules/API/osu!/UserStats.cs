@@ -52,7 +52,7 @@ namespace Wsashi.Modules.API.osu_
             embed.AddField("Level", lvl, true);
             embed.AddField("Ranked Score", rs, true);
             embed.AddField("Total Score", ts, true);
-            embed.AddField("PP Rank", pprank + $" ({ppcountryrank} in {country}), true");
+            embed.AddField("PP Rank", pprank + $" ({ppcountryrank} in {country})", true);
             embed.AddField("PP Raw", ppraw, true);
             embed.AddField("Play Count", playcount, true);
             embed.AddField("Accuracy", acc, true);
@@ -103,7 +103,7 @@ namespace Wsashi.Modules.API.osu_
             embed.AddField("Level", lvl, true);
             embed.AddField("Ranked Score", rs, true);
             embed.AddField("Total Score", ts, true);
-            embed.AddField("PP Rank", pprank + $" ({ppcountryrank} in {country}), true");
+            embed.AddField("PP Rank", pprank + $" ({ppcountryrank} in {country})", true);
             embed.AddField("PP Raw", ppraw, true);
             embed.AddField("Play Count", playcount, true);
             embed.AddField("Accuracy", acc, true);
@@ -154,7 +154,7 @@ namespace Wsashi.Modules.API.osu_
             embed.AddField("Level", lvl, true);
             embed.AddField("Ranked Score", rs, true);
             embed.AddField("Total Score", ts, true);
-            embed.AddField("PP Rank", pprank + $" ({ppcountryrank} in {country}), true");
+            embed.AddField("PP Rank", pprank + $" ({ppcountryrank} in {country})", true);
             embed.AddField("PP Raw", ppraw, true);
             embed.AddField("Play Count", playcount, true);
             embed.AddField("Accuracy", acc, true);
@@ -205,7 +205,7 @@ namespace Wsashi.Modules.API.osu_
             embed.AddField("Level", lvl, true);
             embed.AddField("Ranked Score", rs, true);
             embed.AddField("Total Score", ts, true);
-            embed.AddField("PP Rank", pprank + $" ({ppcountryrank} in {country}), true");
+            embed.AddField("PP Rank", pprank + $" ({ppcountryrank} in {country})", true);
             embed.AddField("PP Raw", ppraw, true);
             embed.AddField("Play Count", playcount, true);
             embed.AddField("Accuracy", acc, true);
