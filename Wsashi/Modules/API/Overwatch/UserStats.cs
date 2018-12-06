@@ -8,78 +8,65 @@ using System.Net;
 using System.Text;
 using System.Threading.Tasks;
 using Wsashi.Core.Modules;
+using Wsashi.Entities;
+using Wsashi.Features.GlobalAccounts;
 using Wsashi.Preconditions;
 
 namespace Wsashi.Modules.API.Overwatch
 {
-    public class UserStats : ModuleBase
+    public class UserStats : WsashiModule
     {
         [Command("owstats")]
         [Summary("Get a Overwatch user's statistics.")]
         [Alias("ows", "overwatchstats")]
         [Remarks("w!owstats <Your Battle.net username and id> <platform (pc/xbl/psn)> Ex: w!owstats Phytal-1427 pc")]
         [Cooldown(10)]
-        public async Task GetOwStats([Remainder] string message)
+        public async Task GetOwStats(string username, string platform, string region)
         {
             try
             {
-                string platform = message.Split(' ').Last();
-                string user = message.Remove(message.IndexOf(platform));
+                var config = GlobalUserAccounts.GetUserAccount(Context.User);
 
-                var json = await Global.SendWebRequest("https://owapi.net/api/v3/u/" + user + "/stats?playform=" + platform);
+                var json = await Global.SendWebRequest($"https://ow-api.com/v1/stats/{platform}/{region}/{username}/profile");
 
                 var dataObject = JsonConvert.DeserializeObject<dynamic>(json);
 
+                string compcards = dataObject.competitiveStats.awards.cards.ToString();
+                string compmedal = dataObject.competitiveStats.awards.medals.ToString();
+                string compmedalGold = dataObject.competitiveStats.awards.medalsGold.ToString();
+                string compmedalSilver = dataObject.competitiveStats.awards.medalsSilver.ToString();
+                string compmedalBronze = dataObject.competitiveStats.awards.medalsBronze.ToString();
+                string compgames = dataObject.competitiveStats.games.played.ToString();
+                string compwon = dataObject.competitiveStats.games.won.ToString();
 
-                string cdd = dataObject.eu.stats.competitive.game_stats.all_damage_done.ToString();
-                string chdd = dataObject.eu.stats.competitive.game_stats.hero_damage_done.ToString();
-                string cd = dataObject.eu.stats.competitive.game_stats.deaths.ToString();
-                string celims = dataObject.eu.stats.competitive.game_stats.eliminations.ToString();
-                string cgp = dataObject.eu.stats.competitive.game_stats.games_played.ToString();
-                string cgw = dataObject.eu.stats.competitive.game_stats.games_won.ToString();
-                string cgl = dataObject.eu.stats.competitive.game_stats.games_lost.ToString();
-                string ckpd = dataObject.eu.stats.competitive.game_stats.kpd.ToString();
-                string cm = dataObject.eu.stats.competitive.game_stats.medals.ToString();
-                string cmg = dataObject.eu.stats.competitive.game_stats.medals_gold.ToString();
-                string cms = dataObject.eu.stats.competitive.game_stats.medals_silver.ToString();
-                string cmb = dataObject.eu.stats.competitive.game_stats.medals_bronze.ToString();
-                string ckbs = dataObject.eu.stats.competitive.game_stats.kill_streak_best.ToString();
-                string chd = dataObject.eu.stats.competitive.game_stats.healing_done.ToString();
+                string qpcards = dataObject.quickPlayStats.awards.cards.ToString();
+                string qpmedal = dataObject.quickPlayStats.awards.medals.ToString();
+                string qpmedalGold = dataObject.quickPlayStats.awards.medalsGold.ToString();
+                string qpmedalSilver = dataObject.quickPlayStats.awards.medalsSilver.ToString();
+                string qpmedalBronze = dataObject.quickPlayStats.awards.medalsBronze.ToString();
+                string qpgames = dataObject.quickPlayStats.games.played.ToString();
+                string qpwon = dataObject.quickPlayStats.games.won.ToString();
 
-                string cwr = dataObject.eu.stats.competitive.overall_stats.win_rate.ToString();
-                string clvl = dataObject.eu.stats.competitive.overall_stats.level.ToString();
-                string cpres = dataObject.eu.stats.competitive.overall_stats.prestige.ToString();
-                string ccomprank = dataObject.eu.stats.competitive.overall_stats.comprank.ToString();
-                string tier = dataObject.eu.stats.competitive.overall_stats.tier.ToString();
-                string avatar = dataObject.eu.stats.competitive.overall_stats.avatar.ToString();
-                string ti = dataObject.eu.stats.competitive.overall_stats.tier_image.ToString();
-                string end = dataObject.eu.stats.competitive.overall_stats.endorsement_level.ToString();
-                string ends = dataObject.eu.stats.competitive.overall_stats.endorsement_shotcaller.ToString();
-                string endt = dataObject.eu.stats.competitive.overall_stats.endorsement_teammate.ToString();
-                string endn = dataObject.eu.stats.competitive.overall_stats.endorsement_sportsmanship.ToString();
+                string endorsement = dataObject.endorsement.ToString();
+                string endorsementIcon = dataObject.endorsementIcon.ToString();
+                string playerIcon = dataObject.icon.ToString();
+                string gamesWon = dataObject.gamesWon.ToString();
+                string level = dataObject.level.ToString();
+                string prestige = dataObject.prestige.ToString();
 
-                string qdd = dataObject.eu.stats.quickplay.game_stats.all_damage_done.ToString();
-                string qd = dataObject.eu.stats.quickplay.game_stats.deaths.ToString();
-                string qelims = dataObject.eu.stats.quickplay.game_stats.eliminations.ToString();
-                string qgw = dataObject.eu.stats.quickplay.game_stats.games_won.ToString();
-                string qkpd = dataObject.eu.stats.quickplay.game_stats.kpd.ToString();
-                string qm = dataObject.eu.stats.quickplay.game_stats.medals.ToString();
-                string qmg = dataObject.eu.stats.quickplay.game_stats.medals_gold.ToString();
-                string qms = dataObject.eu.stats.quickplay.game_stats.medals_silver.ToString();
-                string qmb = dataObject.eu.stats.quickplay.game_stats.medals_bronze.ToString();
-                string qkbs = dataObject.eu.stats.quickplay.game_stats.kill_streak_best.ToString();
-                string qhd = dataObject.eu.stats.quickplay.game_stats.healing_done.ToString();
+                string sr = dataObject.rating.ToString();
+                string srIcon = dataObject.ratingIcon.ToString();
 
                 var bottom = new EmbedFooterBuilder()
                 {
-                    Text = "Powered by the OWAPI API",
-                    IconUrl = ti
+                    Text = "Powered by the OW-API",
+                    IconUrl = srIcon
                 };
 
                 var top = new EmbedAuthorBuilder()
                 {
-                    Name = $"{user}'s Overwatch Profile",
-                    IconUrl = ti
+                    Name = $"{username}'s Overwatch Profile",
+                    IconUrl = endorsementIcon
                 };
 
                 var embed = new EmbedBuilder()
@@ -87,13 +74,13 @@ namespace Wsashi.Modules.API.Overwatch
                     Author = top,
                     Footer = bottom
                 };
-                embed.WithThumbnailUrl(avatar);
+                embed.WithThumbnailUrl(playerIcon);
                 embed.WithColor(37, 152, 255);
-                embed.AddField("Competitive Game Stats", $"Games Played: **{cgp}**\nGames Won: **{cgw}**\nGames Lost: **{cgl}**\nEliminations: **{celims}**\nDeaths: **{cd}**\nWin Rate: **{cwr}**\nKills per Death: **{ckpd}**\nBest Kill Streak: **{ckbs}**\nTotal Damage Done: **{cdd}**\nHero Damage Done: **{chdd}**\nHealing Done: **{chd}**", true);
-                embed.AddField("Quickplay Game Stats", $"Games Won: **{qgw}**\nEliminations: **{qelims}**\nDeaths: **{qd}**\nKills per Death: **{qkpd}**\nBest Kill Streak: **{qkbs}**\nDamage Done: **{qdd}**\nHealing Done: **{qhd}**", true);
-                embed.AddField("Competitive Medals", $"Total Medals: **{cm}**\n:first_place: Gold Medals: **{cmg}**\n:second_place: Silver Medals: **{cms}**\n:third_place: Bronze Medals: **{cmb}**", true);
-                embed.AddField("Quickplay Medals", $"Total Medals: **{qm}**\n:first_place: Gold Medals: **{qmg}**\n:second_place: Silver Medals: **{qms}**\n:third_place: Bronze Medals: **{qmb}**", true);
-                embed.AddField("Overall", $"Level: **{clvl}**\nPrestige: **{cpres}**\nTier: **{tier}**\nCompetitive Rank: **{ccomprank}**\nEndorsement Level: **{end}**\nEndorsement Stats: Sportsmanship/Good Teammate/Shotcaller **{endn}/{endt}/{ends}**", true);
+                embed.AddField("Competitive Game Stats", $"Games Played: **{compgames}**\nGames Won: **{compwon}**", true);
+                embed.AddField("Quickplay Game Stats", $"Games Played: **{qpgames}**\nGames Won: **{qpwon}**", true);
+                embed.AddField("Competitive Medals", $"Total Medals: **{compmedal}**\n:first_place: Gold Medals: **{compmedalGold}**\n:second_place: Silver Medals: **{compmedalSilver}**\n:third_place: Bronze Medals: **{compmedalBronze}**", true);
+                embed.AddField("Quickplay Medals", $"Total Medals: **{qpmedal}**\n:first_place: Gold Medals: **{qpmedalGold}**\n:second_place: Silver Medals: **{qpmedalSilver}**\n:third_place: Bronze Medals: **{qpmedalBronze}**", true);
+                embed.AddField("Overall", $"Level: **{level}**\nPrestige: **{prestige}**\nSR: **{sr}**\nEndorsement Level: **{endorsement}**", true);
 
                 await Context.Channel.SendMessageAsync("", embed: embed.Build());
             }
@@ -108,46 +95,42 @@ namespace Wsashi.Modules.API.Overwatch
         [Alias("owsqp", "overwatchstatsqp", "owsquickplay")]
         [Remarks("w!owsqp <Your Battle.net username and id> <platform (pc/xbl/psn)> Ex: w!owstatsqp Phytal-1427 pc")]
         [Cooldown(10)]
-        public async Task GetOwQpStats([Remainder] string message)
+        public async Task GetOwQPStats(string username, string platform, string region)
         {
             try
             {
-                string platform = message.Split(' ').Last();
-                string user = message.Remove(message.IndexOf(platform));
+                var config = GlobalUserAccounts.GetUserAccount(Context.User);
 
-                var json = await Global.SendWebRequest("https://owapi.net/api/v3/u/" + user + "/stats?playform=" + platform);
+                var json = await Global.SendWebRequest($"https://ow-api.com/v1/stats/{platform}/{region}/{username}/profile");
 
                 var dataObject = JsonConvert.DeserializeObject<dynamic>(json);
 
-                string cwr = dataObject.eu.stats.quickplay.overall_stats.win_rate.ToString();
-                string clvl = dataObject.eu.stats.quickplay.overall_stats.level.ToString();
-                string cpres = dataObject.eu.stats.quickplay.overall_stats.prestige.ToString();
-                string tier = dataObject.eu.stats.quickplay.overall_stats.tier.ToString();
-                string avatar = dataObject.eu.stats.quickplay.overall_stats.avatar.ToString();
-                //string ti = dataObject.eu.stats.competitive.overall_stats.tier_image.ToString();
-                string ccomprank = dataObject.eu.stats.competitive.overall_stats.comprank.ToString();
+                string qpcards = dataObject.quickPlayStats.awards.cards.ToString();
+                string qpmedal = dataObject.quickPlayStats.awards.medals.ToString();
+                string qpmedalGold = dataObject.quickPlayStats.awards.medalsGold.ToString();
+                string qpmedalSilver = dataObject.quickPlayStats.awards.medalsSilver.ToString();
+                string qpmedalBronze = dataObject.quickPlayStats.awards.medalsBronze.ToString();
+                string qpgames = dataObject.quickPlayStats.games.played.ToString();
+                string qpwon = dataObject.quickPlayStats.games.won.ToString();
 
-                string qdd = dataObject.eu.stats.quickplay.game_stats.damage_done.ToString();
-                string qd = dataObject.eu.stats.quickplay.game_stats.deaths.ToString();
-                string qelims = dataObject.eu.stats.quickplay.game_stats.eliminations.ToString();
-                string qgw = dataObject.eu.stats.quickplay.game_stats.games_won.ToString();
-                string qkpd = dataObject.eu.stats.quickplay.game_stats.kpd.ToString();
-                string qm = dataObject.eu.stats.quickplay.game_stats.medals.ToString();
-                string qmg = dataObject.eu.stats.quickplay.game_stats.medals_gold.ToString();
-                string qms = dataObject.eu.stats.quickplay.game_stats.medals_silver.ToString();
-                string qmb = dataObject.eu.stats.quickplay.game_stats.medals_bronze.ToString();
-                string qkbs = dataObject.eu.stats.quickplay.game_stats.kill_streak_best.ToString();
-                string qhd = dataObject.eu.stats.quickplay.game_stats.healing_done.ToString();
+                string endorsement = dataObject.endorsement.ToString();
+                string endorsementIcon = dataObject.endorsementIcon.ToString();
+                string playerIcon = dataObject.icon.ToString();
+                string levelIcon = dataObject.levelIcon.ToString();
+                string gamesWon = dataObject.gamesWon.ToString();
+                string level = dataObject.level.ToString();
+                string prestige = dataObject.prestige.ToString();
 
                 var bottom = new EmbedFooterBuilder()
                 {
                     Text = "Powered by the OWAPI API",
-                    //IconUrl = ti
+                    IconUrl = levelIcon
                 };
 
                 var top = new EmbedAuthorBuilder()
                 {
-                    Name = $"{user}'s Quickplay Overwatch Profile"
+                    Name = $"{username}'s Quickplay Overwatch Profile",
+                    IconUrl = endorsementIcon
                 };
 
                 var embed = new EmbedBuilder()
@@ -155,11 +138,11 @@ namespace Wsashi.Modules.API.Overwatch
                     Author = top,
                     Footer = bottom
                 };
-                embed.WithThumbnailUrl(avatar);
+                embed.WithThumbnailUrl(playerIcon);
                 embed.WithColor(37, 152, 255);
-                embed.AddField("Quickplay Game Stats", $"Games Won: **{qgw}**\nEliminations: **{qelims}**\nDeaths: **{qd}**\nKills per Death: **{qkpd}**\nBest Kill Streak: **{qkbs}**\nDamage Done: **{qdd}**\nHealing Done: **{qhd}**", true);
-                embed.AddField("Quickplay Medals", $"Total Medals: **{qm}**\n:first_place: Gold Medals: **{qmg}**\n:second_place: Silver Medals: **{qms}**\n:third_place: Bronze Medals: **{qmb}**", true);
-                embed.AddField("Overall", $"Level: **{clvl}**\nPrestige: **{cpres}**\nTier: **{tier}**\nCompetitive Rank: **{ccomprank}**", true);
+                embed.AddField("Quickplay Game Stats", $"Games Played: **{qpgames}**\nGames Won: **{qpwon}**", true);
+                embed.AddField("Quickplay Medals", $"Total Medals: **{qpmedal}**\n:first_place: Gold Medals: **{qpmedalGold}**\n:second_place: Silver Medals: **{qpmedalSilver}**\n:third_place: Bronze Medals: **{qpmedalBronze}**", true);
+                embed.AddField("Overall", $"Level: **{level}**\nPrestige: **{prestige}**\nEndorsement Level: **{endorsement}**", true);
 
                 await Context.Channel.SendMessageAsync("", embed: embed.Build());
             }
@@ -174,52 +157,44 @@ namespace Wsashi.Modules.API.Overwatch
         [Alias("owsc", "overwatchstatscomp", "owscompetitive")]
         [Remarks("w!owsc <Your Battle.net username and id> <platform (pc/xbl/psn)> Ex: w!owstatscomp Phytal-1427 pc")]
         [Cooldown(10)]
-        public async Task GetOwCompStats([Remainder] string message)
+        public async Task GetOwCompStats(string username, string platform, string region)
         {
             try
             {
-                string platform = message.Split(' ').Last();
-                string user = message.Remove(message.IndexOf(platform));
+                var config = GlobalUserAccounts.GetUserAccount(Context.User);
 
-                var json = await Global.SendWebRequest("https://owapi.net/api/v3/u/" + user + "/stats?playform=" + platform);
+                var json = await Global.SendWebRequest($"https://ow-api.com/v1/stats/{platform}/{region}/{username}/profile");
 
                 var dataObject = JsonConvert.DeserializeObject<dynamic>(json);
 
+                string compcards = dataObject.competitiveStats.awards.cards.ToString();
+                string compmedal = dataObject.competitiveStats.awards.medals.ToString();
+                string compmedalGold = dataObject.competitiveStats.awards.medalsGold.ToString();
+                string compmedalSilver = dataObject.competitiveStats.awards.medalsSilver.ToString();
+                string compmedalBronze = dataObject.competitiveStats.awards.medalsBronze.ToString();
+                string compgames = dataObject.competitiveStats.games.played.ToString();
+                string compwon = dataObject.competitiveStats.games.won.ToString();
 
-                string cdd = dataObject.eu.stats.competitive.game_stats.all_damage_done.ToString();
-                string chdd = dataObject.eu.stats.competitive.game_stats.hero_damage_done.ToString();
-                string cd = dataObject.eu.stats.competitive.game_stats.deaths.ToString();
-                string celims = dataObject.eu.stats.competitive.game_stats.eliminations.ToString();
-                string cgp = dataObject.eu.stats.competitive.game_stats.games_played.ToString();
-                //string cgt = dataObject.eu.stats.competitive.game_stats.games_tied.ToString();
-                string cgw = dataObject.eu.stats.competitive.game_stats.games_won.ToString();
-                string cgl = dataObject.eu.stats.competitive.game_stats.games_lost.ToString();
-                string ckpd = dataObject.eu.stats.competitive.game_stats.kpd.ToString();
-                string cm = dataObject.eu.stats.competitive.game_stats.medals.ToString();
-                string cmg = dataObject.eu.stats.competitive.game_stats.medals_gold.ToString();
-                string cms = dataObject.eu.stats.competitive.game_stats.medals_silver.ToString();
-                string cmb = dataObject.eu.stats.competitive.game_stats.medals_bronze.ToString();
-                string ckbs = dataObject.eu.stats.competitive.game_stats.kill_streak_best.ToString();
-                string chd = dataObject.eu.stats.competitive.game_stats.healing_done.ToString();
+                string endorsement = dataObject.endorsement.ToString();
+                string endorsementIcon = dataObject.endorsementIcon.ToString();
+                string playerIcon = dataObject.icon.ToString();
+                string gamesWon = dataObject.gamesWon.ToString();
+                string level = dataObject.level.ToString();
+                string prestige = dataObject.prestige.ToString();
 
-                string cwr = dataObject.eu.stats.competitive.overall_stats.win_rate.ToString();
-                string clvl = dataObject.eu.stats.competitive.overall_stats.level.ToString();
-                string cpres = dataObject.eu.stats.competitive.overall_stats.prestige.ToString();
-                string ccomprank = dataObject.eu.stats.competitive.overall_stats.comprank.ToString();
-                string tier = dataObject.eu.stats.competitive.overall_stats.tier.ToString();
-                string avatar = dataObject.eu.stats.competitive.overall_stats.avatar.ToString();
-                string ti = dataObject.eu.stats.competitive.overall_stats.tier_image.ToString();
+                string sr = dataObject.rating.ToString();
+                string srIcon = dataObject.ratingIcon.ToString();
 
                 var bottom = new EmbedFooterBuilder()
                 {
                     Text = "Powered by the OWAPI API",
-                    IconUrl = ti
+                    IconUrl = srIcon
                 };
 
                 var top = new EmbedAuthorBuilder()
                 {
-                    Name = $"{user}'s Competitive Overwatch Profile",
-                    IconUrl = ti
+                    Name = $"{username}'s Competitive Overwatch Profile",
+                    IconUrl = endorsementIcon
                 };
 
                 var embed = new EmbedBuilder()
@@ -227,11 +202,11 @@ namespace Wsashi.Modules.API.Overwatch
                     Author = top,
                     Footer = bottom
                 };
-                embed.WithThumbnailUrl(avatar);
+                embed.WithThumbnailUrl(playerIcon);
                 embed.WithColor(37, 152, 255);
-                embed.AddField("Competitive Game Stats", $"Games Played: **{cgp}**\nGames Won: **{cgw}**\nGames Lost: **{cgl}**\nEliminations: **{celims}**\nDeaths: **{cd}**\nWin Rate: **{cwr}**\nKills per Death: **{ckpd}**\nBest Kill Streak: **{ckbs}**\nTotal Damage Done: **{cdd}**\nHero Damage Done: **{chdd}**\nHealing Done: **{chd}**", true);
-                embed.AddField("Competitive Medals", $"Total Medals: **{cm}**\n:first_place: Gold Medals: **{cmg}**\n:second_place: Silver Medals: **{cms}**\n:third_place: Bronze Medals: **{cmb}**", true);
-                embed.AddField("Overall", $"Level: **{clvl}**\nPrestige: **{cpres}**\nTier: **{tier}**\nCompetitive Rank: **{ccomprank}**", true);
+                embed.AddField("Competitive Game Stats", $"Games Played: **{compgames}**\nGames Won: **{compwon}**", true);
+                embed.AddField("Competitive Medals", $"Total Medals: **{compmedal}**\n:first_place: Gold Medals: **{compmedalGold}**\n:second_place: Silver Medals: **{compmedalSilver}**\n:third_place: Bronze Medals: **{compmedalBronze}**", true);
+                embed.AddField("Overall", $"Level: **{level}**\nPrestige: **{prestige}**\nSR: **{sr}**\nEndorsement Level: **{endorsement}**", true);
 
                 await Context.Channel.SendMessageAsync("", embed: embed.Build());
             }

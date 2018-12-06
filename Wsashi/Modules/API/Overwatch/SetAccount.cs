@@ -13,26 +13,45 @@ namespace Wsashi.Modules.API.Overwatch
     public class SetAccount : WsashiModule
     {
         [Command("owaccount")]
-        [Summary("Set your Battle.net username and ID")]
+        [Summary("Set your Overwatch username and ID")]
         [Remarks("w!owaccount <username> Ex: w!owaccount Username#1234")]
         [Cooldown(10)]
-        public async Task OwAccount([Remainder] string usercred)
+        public async Task OwAccount(string user, string platform, string region)
         {
-            usercred = usercred.Replace('#', '-');
+            user = user.Replace('#', '-');
             var config = GlobalUserAccounts.GetUserAccount(Context.User);
 
             var embed = new EmbedBuilder();
             embed.WithColor(37, 152, 255);
+            embed.WithTitle("Overwatch Credentials");
+            embed.AddField("Username", user);
+            embed.AddField("Platform", platform);
+            embed.AddField("Region", region);
+            embed.WithDescription($"Successfully set your default Battle.net credentials.");
 
-            if (usercred == null)
+            config.OW.Add("username", user);
+            config.OW.Add("platform", platform);
+            config.OW.Add("region", region);
+            GlobalUserAccounts.SaveAccounts();
+
+
+            await Context.Channel.SendMessageAsync("", embed: embed.Build());
+        }
+
+        [Command("owaccount")]
+        [Summary("View your Overwatch username and ID")]
+        [Remarks("w!owaccountinfo")]
+        [Cooldown(10)]
+        public async Task GetOwAccount()
+        {
+            var config = GlobalUserAccounts.GetUserAccount(Context.User);
+            var values = config.OW;
+            var embed = new EmbedBuilder();
+            embed.WithColor(37, 152, 255);
+            embed.WithTitle("Here are your Overwatch credentials");
+            foreach (var value in values)
             {
-                embed.WithDescription($"Make sure that you put in your Battle.net Account Username and ID in! Ex: Username#1234");
-            }
-            else
-            {
-                embed.WithDescription($"Successfully set {usercred} to your default Battle.net credentials.");
-                config.OW = usercred;
-                GlobalUserAccounts.SaveAccounts();
+                embed.AddField(value.Key, value.Value, true);
             }
 
             await Context.Channel.SendMessageAsync("", embed: embed.Build());

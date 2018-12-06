@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Wsashi.Entities
 {
-    public class GlobalWasagotchiUserAccount : IGlobalAccount
+    public class GlobalWasagotchiUserAccount
     {
 
         public ulong Id { get; set; }

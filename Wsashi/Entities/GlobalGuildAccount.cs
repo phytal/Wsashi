@@ -71,5 +71,7 @@ namespace Wsashi.Entities
         public Dictionary<string, string> CustomCommands { get; set; } = new Dictionary<string, string>();
 
         public Dictionary<string, string> Tags { get; set; } = new Dictionary<string, string>();
+
+        public Dictionary<string, string> OW { get; set; } = new Dictionary<string, string>();
     }
 }

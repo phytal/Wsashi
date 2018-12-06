@@ -45,7 +45,7 @@ namespace Wsashi.Core.Modules
                 }
                 catch
                 {
-                    await ReplyAsync(":hand_splayed:  | You must mention a valid user");
+                    await ReplyAsync(":hand_splayed:  | You must mention a valid user that has a low enough rank to be banned.");
                 }
             }
             else
@@ -67,18 +67,12 @@ namespace Wsashi.Core.Modules
             var user = Context.User as SocketGuildUser;
             if (user.GuildPermissions.BanMembers)
             {
-                try
-                {
-                    var bans = await Context.Guild.GetBansAsync();
-                    var theUser = bans.FirstOrDefault(x => x.User.ToString().ToLowerInvariant() == user2.ToLowerInvariant());
 
-                    await Context.Guild.RemoveBanAsync(theUser.User).ConfigureAwait(false);
-                    await Context.Channel.SendMessageAsync($":white_check_mark:  | Unbanned {user2}.");
-                }
-                catch
-                {
-                    await ReplyAsync(":hand_splayed:  | You must mention a valid user");
-                }
+                var bans = await Context.Guild.GetBansAsync();
+                var theUser = bans.FirstOrDefault(x => x.User.ToString().ToLowerInvariant() == user2.ToLowerInvariant());
+
+                await Context.Guild.RemoveBanAsync(theUser.User).ConfigureAwait(false);
+                await Context.Channel.SendMessageAsync($":white_check_mark:  | Unbanned {user2}.");
             }
             else
             {
@@ -199,30 +193,22 @@ namespace Wsashi.Core.Modules
         [Command("mute")]
         [Summary("Mutes @Username")]
         [Remarks("w!mute <user you want to mute> <reason> Ex: w!mute @Phytal spammed in the no spam channel")]
-        public async Task MuteAsync(SocketGuildUser user, [Remainder]string reason)
+        public async Task MuteAsync(SocketGuildUser user)
         {
-            user = null;
             var guser = Context.User as SocketGuildUser;
             if (guser.GuildPermissions.ManageRoles)
             {
-                try
-                {
-                    var muteRole = await GetMuteRole(user.Guild);
-                    if (!user.Roles.Any(r => r.Id == muteRole.Id))
-                        await user.AddRoleAsync(muteRole).ConfigureAwait(false);
-                    var gld = Context.Guild as SocketGuild;
-                    var muted = user.Guild.Roles.Where(input => input.Name.ToUpper() == "MUTED").FirstOrDefault() as SocketRole;
-                    var embed = new EmbedBuilder();
-                    embed.WithColor(37, 152, 255);
-                    embed.Title = $"**{user.Username}** was muted";
-                    embed.Description = $"**Username: **{user.Username}\n**Muted by: **{Context.User.Username}\n**Reason:** {reason}";
-                    await user.AddRoleAsync(muted);
-                    await Context.Channel.SendMessageAsync("", embed: embed.Build());
-                }
-                catch
-                {
-                    await ReplyAsync(":hand_splayed:  | You must mention a valid user and give a reason");
-                }
+                var muteRole = await GetMuteRole(user.Guild);
+                if (!user.Roles.Any(r => r.Id == muteRole.Id))
+                    await user.AddRoleAsync(muteRole).ConfigureAwait(false);
+                var gld = Context.Guild as SocketGuild;
+                var muted = user.Guild.Roles.Where(input => input.Name.ToUpper() == "MUTED").FirstOrDefault() as SocketRole;
+                var embed = new EmbedBuilder();
+                embed.WithColor(37, 152, 255);
+                embed.Title = $"**{user.Username}** was muted";
+                embed.Description = $"**Username: **{user.Username}\n**Muted by: **{Context.User.Username}";
+                await user.AddRoleAsync(muted);
+                await Context.Channel.SendMessageAsync("", embed: embed.Build());
             }
             else
             {
@@ -490,7 +476,7 @@ namespace Wsashi.Core.Modules
         [Summary("Warns a User")]
         [Remarks("w!warn <user you want to warn> <reason> Ex: w!warn @Phytal bullied my brother")]
         [RequireBotPermission(GuildPermission.BanMembers)]
-        public async Task WarnUser(IGuildUser user, string reason = "No reason provided.")
+        public async Task WarnUser(IGuildUser user, [Remainder]string reason = "No reason provided.")
         {
             var guser = Context.User as SocketGuildUser;
             if (guser.GuildPermissions.BanMembers)

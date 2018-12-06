@@ -11,7 +11,7 @@ namespace Wsashi.Entities
     
         public ulong Id { get; set; }
 
-        public string OW { get; set; }
+        public Dictionary<string, string> OW { get; set; } = new Dictionary<string, string>();
 
         public ulong Money { get; set; } = 1;
 
