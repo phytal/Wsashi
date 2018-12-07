@@ -29,9 +29,9 @@ namespace Wsashi.Modules.API.Overwatch
             embed.AddField("Region", region);
             embed.WithDescription($"Successfully set your default Battle.net credentials.");
 
-            config.OW.Add("username", user);
-            config.OW.Add("platform", platform);
-            config.OW.Add("region", region);
+            config.OverwatchInfo.Add("username", user);
+            config.OverwatchInfo.Add("platform", platform);
+            config.OverwatchInfo.Add("region", region);
             GlobalUserAccounts.SaveAccounts();
 
 
@@ -45,7 +45,7 @@ namespace Wsashi.Modules.API.Overwatch
         public async Task GetOwAccount()
         {
             var config = GlobalUserAccounts.GetUserAccount(Context.User);
-            var values = config.OW;
+            var values = config.OverwatchInfo;
             var embed = new EmbedBuilder();
             embed.WithColor(37, 152, 255);
             embed.WithTitle("Here are your Overwatch credentials");

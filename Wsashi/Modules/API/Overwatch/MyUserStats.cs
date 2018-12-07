@@ -16,7 +16,7 @@ namespace Wsashi.Modules.API.Overwatch
 {
     public class MyUserStats : WsashiModule
     {
-
+        /*
         internal static string GetUsername(string username, IGlobalAccount account)
         {
             if (account.OW.ContainsKey(username))
@@ -246,6 +246,6 @@ namespace Wsashi.Modules.API.Overwatch
             {
                 await Context.Channel.SendMessageAsync("Oops! Are you sure that your Overwatch career profile is set to public and you typed in your username correctly?\n**w!myowsc <Your Battle.net username and id> <platform (pc/xbl/psn)> Ex: w!myowstatscomp Phytal-1427 pc**");
             }
-        }
+        }*/
     }
 }

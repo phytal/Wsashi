@@ -10,6 +10,5 @@ namespace Wsashi.Entities
     {
         ulong Id { get; set; }
         Dictionary<string, string> Tags { get; set; }
-        Dictionary<string, string> OW { get; set; }
     }
 }

@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace Wsashi.Entities
 {
-    public class GlobalGuildUserAccount  
+    public class GlobalGuildUserAccount
     {
         public string UniqueId { get; set; }
 

@@ -10,6 +10,9 @@ using Wsashi.Helpers;
 using Wsashi.Core.Modules;
 using Wsashi;
 using Wsashi.Features.GlobalAccounts;
+using System.Net;
+using System.IO;
+using Wsashi.Handlers;
 
 namespace Wsashi.Core.Modules.Management
 {
@@ -140,6 +143,29 @@ namespace Wsashi.Core.Modules.Management
             await ReplyAsync("", embed: embed.Build());
             await client.SetGameAsync($"w!help | in {guilds} servers!", $"https://twitch.tv/{Config.bot.TwitchStreamer}", ActivityType.Streaming);
 
+        }
+
+        [Command("setAvatar"), Remarks("Sets the bots Avatar")]
+        [RequireOwner]
+        public async Task SetAvatar(string link)
+        {
+            var s = Context.Message.DeleteAsync();
+
+            try
+            {
+                var webClient = new WebClient();
+                byte[] imageBytes = webClient.DownloadData(link);
+
+                var stream = new MemoryStream(imageBytes);
+
+                var image = new Image(stream);
+                await Context.Client.CurrentUser.ModifyAsync(k => k.Avatar = image);
+            }
+            catch (Exception)
+            {
+                var embed = EmbedHandler.CreateEmbed("Avatar", "Coult not set the avatar!", EmbedHandler.EmbedMessageType.Exception);
+                await Context.Channel.SendMessageAsync("", false, embed);
+            }
         }
     }
 }
