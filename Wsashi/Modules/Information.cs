@@ -210,7 +210,7 @@ namespace Wsashi
             "\n" +
             "**1. Core -** `help` `invite` `patreon` `ping` \n" +
             "**2. Social -** `xp` `level` `stats` `topxp`\n" +
-            "**2.5. Interaction -** `cuddle` `feed` `hug` `kiss` `pat` `poke` `tickle`\n" +
+            "**2.5. Interaction -** `cuddle` `feed` `hug` `kiss` `pat` `poke` `tickle` `slap`\n" +
             "**3. Fun -** `8ball` `pick` `roast` `hello` `normalhello` `goodmorning` `goodnight` `fortune` `echo` `lenny` `ratewaifu` `reverse` `bigletter` `playsong` `rps`\n" +
             "**4. Duels -** `slash` `absorb` `block` `deflect` `heal` `giveup` `duel` `duelhelp`\n" +
             "**5. Gambling -** `roll` `coinflip` `newslots` `slots` `showslots`\n" +
