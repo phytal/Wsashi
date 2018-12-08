@@ -13,8 +13,8 @@ namespace Wsashi.Modules.API.Overwatch
     public class SetAccount : WsashiModule
     {
         [Command("owaccount")]
-        [Summary("Set your Overwatch username and ID")]
-        [Remarks("w!owaccount <username> Ex: w!owaccount Username#1234")]
+        [Summary("Set your Overwatch username, platform and region")]
+        [Remarks("w!owaccount <username> <platform> <region> Ex: w!owaccount Username#1234 pc us")]
         [Cooldown(10)]
         public async Task OwAccount(string user, string platform, string region)
         {
@@ -29,9 +29,9 @@ namespace Wsashi.Modules.API.Overwatch
             embed.AddField("Region", region);
             embed.WithDescription($"Successfully set your default Battle.net credentials.");
 
-            config.OverwatchInfo.Add("username", user);
-            config.OverwatchInfo.Add("platform", platform);
-            config.OverwatchInfo.Add("region", region);
+            config.OverwatchID = user;
+            config.OverwatchPlatform = platform;
+            config.OverwatchRegion = region;
             GlobalUserAccounts.SaveAccounts();
 
 
@@ -39,20 +39,22 @@ namespace Wsashi.Modules.API.Overwatch
         }
 
         [Command("owaccount")]
-        [Summary("View your Overwatch username and ID")]
+        [Summary("View your Overwatch information")]
         [Remarks("w!owaccountinfo")]
         [Cooldown(10)]
         public async Task GetOwAccount()
         {
             var config = GlobalUserAccounts.GetUserAccount(Context.User);
-            var values = config.OverwatchInfo;
+            if (config.OverwatchPlatform == null && config.OverwatchRegion == null && config.OverwatchID == null)
+            {
+                await Context.Channel.SendMessageAsync("**Make sure you set your account information first!**\n w!owaccount <username> <platform> <region> Ex: w!owaccount Username#1234 pc us ");
+            }
             var embed = new EmbedBuilder();
             embed.WithColor(37, 152, 255);
             embed.WithTitle("Here are your Overwatch credentials");
-            foreach (var value in values)
-            {
-                embed.AddField(value.Key, value.Value, true);
-            }
+            embed.AddField("Username", config.OverwatchID);
+            embed.AddField("Region", config.OverwatchRegion);
+            embed.AddField("Platform", config.OverwatchPlatform);
 
             await Context.Channel.SendMessageAsync("", embed: embed.Build());
         }

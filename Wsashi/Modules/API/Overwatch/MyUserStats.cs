@@ -16,26 +16,6 @@ namespace Wsashi.Modules.API.Overwatch
 {
     public class MyUserStats : WsashiModule
     {
-        /*
-        internal static string GetUsername(string username, IGlobalAccount account)
-        {
-            if (account.OW.ContainsKey(username))
-                return account.OW[username];
-            return "Somthing broke.. Please re-enter your Overwatch credentials";
-        }
-        internal static string GetPlatform(string platform, IGlobalAccount account)
-        {
-            if (account.OW.ContainsKey(platform))
-                return account.OW[platform];
-            return "Somthing broke.. Please re-enter your Overwatch credentials";
-        }
-        internal static string GetRegion(string region, IGlobalAccount account)
-        {
-            if (account.OW.ContainsKey(region))
-                return account.OW[region];
-            return "Somthing broke.. Please re-enter your Overwatch credentials";
-        }
-
         [Command("myowstats")]
         [Summary("Get your Overwatch statistics. NOTE: You must first register your Battle.net Username and ID with w!owaccount")]
         [Alias("myows", "myoverwatchstats")]
@@ -47,9 +27,9 @@ namespace Wsashi.Modules.API.Overwatch
             {
                 var config = GlobalUserAccounts.GetUserAccount(Context.User);
 
-                var username = GetUsername("username", config);
-                var platform = GetPlatform("platform", config);
-                var region = GetRegion("region", config);
+                var username = config.OverwatchID;
+                var platform = config.OverwatchPlatform;
+                var region = config.OverwatchRegion;
 
                 var json = await Global.SendWebRequest($"https://ow-api.com/v1/stats/{platform}/{region}/{username}/profile");
 
@@ -125,9 +105,9 @@ namespace Wsashi.Modules.API.Overwatch
             {
                 var config = GlobalUserAccounts.GetUserAccount(Context.User);
 
-                var username = GetUsername("username", config);
-                var platform = GetPlatform("platform", config);
-                var region = GetRegion("region", config);
+                var username = config.OverwatchID;
+                var platform = config.OverwatchPlatform;
+                var region = config.OverwatchRegion;
 
                 var json = await Global.SendWebRequest($"https://ow-api.com/v1/stats/{platform}/{region}/{username}/profile");
 
@@ -191,9 +171,9 @@ namespace Wsashi.Modules.API.Overwatch
             {
                 var config = GlobalUserAccounts.GetUserAccount(Context.User);
 
-                var username = GetUsername("username", config);
-                var platform = GetPlatform("platform", config);
-                var region = GetRegion("region", config);
+                var username = config.OverwatchID;
+                var platform = config.OverwatchPlatform;
+                var region = config.OverwatchRegion;
 
                 var json = await Global.SendWebRequest($"https://ow-api.com/v1/stats/{platform}/{region}/{username}/profile");
 
@@ -246,6 +226,6 @@ namespace Wsashi.Modules.API.Overwatch
             {
                 await Context.Channel.SendMessageAsync("Oops! Are you sure that your Overwatch career profile is set to public and you typed in your username correctly?\n**w!myowsc <Your Battle.net username and id> <platform (pc/xbl/psn)> Ex: w!myowstatscomp Phytal-1427 pc**");
             }
-        }*/
+        }
     }
 }

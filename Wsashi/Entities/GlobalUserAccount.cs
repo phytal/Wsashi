@@ -11,7 +11,11 @@ namespace Wsashi.Entities
     
         public ulong Id { get; set; }
 
-        public Dictionary<string, string> OverwatchInfo { get; set; } = new Dictionary<string, string>();
+        public string OverwatchID { get; set; }
+
+        public string OverwatchRegion { get; set; }
+
+        public string OverwatchPlatform { get; set; }
 
         public ulong Money { get; set; } = 1;
 
