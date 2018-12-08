@@ -19,7 +19,7 @@ namespace Wsashi.Modules.API.Overwatch
         [Command("owstats")]
         [Summary("Get a Overwatch user's statistics.")]
         [Alias("ows", "overwatchstats")]
-        [Remarks("w!owstats <Your Battle.net username and id> <platform (pc/xbl/psn)> Ex: w!owstats Phytal-1427 pc")]
+        [Remarks("w!owstats <Your Battle.net username and id> <platform (pc/xbl/psn)> <region (us/eu etc.)> Ex: w!owstats Phytal-1427 pc")]
         [Cooldown(10)]
         public async Task GetOwStats(string username, string platform, string region)
         {
@@ -93,7 +93,7 @@ namespace Wsashi.Modules.API.Overwatch
         [Command("owstatsqp")]
         [Summary("Get a Overwatch user's Quickplay statistics.")]
         [Alias("owsqp", "overwatchstatsqp", "owsquickplay")]
-        [Remarks("w!owsqp <Your Battle.net username and id> <platform (pc/xbl/psn)> Ex: w!owstatsqp Phytal-1427 pc")]
+        [Remarks("w!owsqp <Your Battle.net username and id> <platform (pc/xbl/psn)> <region (us/eu etc.)> Ex: w!owstatsqp Phytal-1427 pc us")]
         [Cooldown(10)]
         public async Task GetOwQPStats(string username, string platform, string region)
         {
@@ -155,7 +155,7 @@ namespace Wsashi.Modules.API.Overwatch
         [Command("owstatscomp")]
         [Summary("Get a Overwatch user's Competitive statistics.")]
         [Alias("owsc", "overwatchstatscomp", "owscompetitive")]
-        [Remarks("w!owsc <Your Battle.net username and id> <platform (pc/xbl/psn)> Ex: w!owstatscomp Phytal-1427 pc")]
+        [Remarks("w!owsc <Your Battle.net username and id> <platform (pc/xbl/psn)> <region (us/eu etc.)> Ex: w!owstatscomp Phytal-1427 pc us")]
         [Cooldown(10)]
         public async Task GetOwCompStats(string username, string platform, string region)
         {
