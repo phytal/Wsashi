@@ -48,6 +48,7 @@ namespace Wsashi.Modules.API.Overwatch
             if (config.OverwatchPlatform == null && config.OverwatchRegion == null && config.OverwatchID == null)
             {
                 await Context.Channel.SendMessageAsync("**Make sure you set your account information first!**\n w!owaccount <username> <platform> <region> Ex: w!owaccount Username#1234 pc us ");
+                return;
             }
             var embed = new EmbedBuilder();
             embed.WithColor(37, 152, 255);
