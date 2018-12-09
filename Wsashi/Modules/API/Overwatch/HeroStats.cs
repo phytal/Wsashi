@@ -206,17 +206,80 @@ namespace Wsashi.Modules.API.Overwatch
                     string CompUnscopedAccuracy = dataObject.competitiveStats.careerStats[hero].heroSpecific.unscopedAccuracy.ToString();
                     string CompUnscopedAccuracyBestIG = dataObject.competitiveStats.careerStats[hero].heroSpecific.unscopedAccuracyBestInGame.ToString();
                     embed.AddField("Quickplay Hero Specific", $"Biotic Grenade Kills: **{QpBioticKills}**\nEnemies Slept: **{QpEnemiesSlept}**\nAverage Enemies Slept per 10 Minutes: **{QpEnemiesSleptPer10Min}**\nMost Enemies Slept In Game: **{QpEnemiesSleptPer10Min}**\nNano Boost Assists: **{QpNanoAssists}**\nNano Boost Assists Per 10 Minutes: **{QpNanosAppliedPer10Min}**\nMost Nano Boost Assists In Game: **{QpMostNanoAssistsIG}**\nNano Boosts Applied: **{QpNanosApplied}**\nNano Boosts Applied Per 10 Minutes: **{QpNanosAppliedPer10Min}**\nNano Boosts Applied Most In Game: **{QpNanoAppliedMostIG}**\nScoped Accuracy: **{QpScopedAccuracy}**\nBest Scoped Accuracy In Game: **{QpScopedAccuracyBestIG}**\nSecondary Fire Accuracy: **{QpSecondaryFireAccuracy}**\nSelf Healing: **{QpSelfHealing}**\nSelf Healing Per 10 Minutes: **{QpSelfHealingPer10Min}**\nMost Self Healing In Game: **{QpSelfHealingMostIG}**\nUnscoped Accuracy: **{QpUnscopedAccuracy}**\nBest Unscoped Accuracy In Game: **{QpScopedAccuracyBestIG}**");
-                    embed.AddField("Competetive Hero Specific", $"Biotic Grenade Kills: **{CompBioticKills}**\nEnemies Slept: **{CompEnemiesSlept}**\nAverage Enemies Slept per 10 Minutes: **{CompEnemiesSleptPer10Min}**\nMost Enemies Slept In Game: **{CompEnemiesSleptPer10Min}**\nNano Boost Assists: **{CompNanoAssists}**\nNano Boost Assists Per 10 Minutes: **{CompNanosAppliedPer10Min}**\nMost Nano Boost Assists In Game: **{CompMostNanoAssistsIG}**\nNano Boosts Applied: **{CompNanosApplied}**\nNano Boosts Applied Per 10 Minutes: **{CompNanosAppliedPer10Min}**\nNano Boosts Applied Most In Game: **{CompNanoAppliedMostIG}**\nScoped Accuracy: **{CompScopedAccuracy}**\nBest Scoped Accuracy In Game: **{CompScopedAccuracyBestIG}**\nSecondary Fire Accuracy: **{CompSecondaryFireAccuracy}**\nSelf Healing: **{CompSelfHealing}**\nSelf Healing Per 10 Minutes: **{CompSelfHealingPer10Min}**\nMost Self Healing In Game: **{CompSelfHealingMostIG}**\nUnscoped Accuracy: **{CompUnscopedAccuracy}**\nBest Unscoped Accuracy In Game: **{CompScopedAccuracyBestIG}**");
+                    embed.AddField("Competitive Hero Specific", $"Biotic Grenade Kills: **{CompBioticKills}**\nEnemies Slept: **{CompEnemiesSlept}**\nAverage Enemies Slept per 10 Minutes: **{CompEnemiesSleptPer10Min}**\nMost Enemies Slept In Game: **{CompEnemiesSleptPer10Min}**\nNano Boost Assists: **{CompNanoAssists}**\nNano Boost Assists Per 10 Minutes: **{CompNanosAppliedPer10Min}**\nMost Nano Boost Assists In Game: **{CompMostNanoAssistsIG}**\nNano Boosts Applied: **{CompNanosApplied}**\nNano Boosts Applied Per 10 Minutes: **{CompNanosAppliedPer10Min}**\nNano Boosts Applied Most In Game: **{CompNanoAppliedMostIG}**\nScoped Accuracy: **{CompScopedAccuracy}**\nBest Scoped Accuracy In Game: **{CompScopedAccuracyBestIG}**\nSecondary Fire Accuracy: **{CompSecondaryFireAccuracy}**\nSelf Healing: **{CompSelfHealing}**\nSelf Healing Per 10 Minutes: **{CompSelfHealingPer10Min}**\nMost Self Healing In Game: **{CompSelfHealingMostIG}**\nUnscoped Accuracy: **{CompUnscopedAccuracy}**\nBest Unscoped Accuracy In Game: **{CompScopedAccuracyBestIG}**");
                 }
                 if (hero == "ashe")
                 {
-                    string BarrierDmgDone = dataObject.competitiveStats.careerStats[hero].heroSpecific.barrierDamageDone.ToString();
-                    embed.AddField("Hero Specific", $"Biotic Grenade Kills: **{ }**\n");
+                    string CompbobKills = dataObject.competitiveStats.careerStats[hero].heroSpecific.bobKills.ToString();
+                    string CompbobKillsAvgPer10Min = dataObject.competitiveStats.careerStats[hero].heroSpecific.bobKillsAvgPer10Min.ToString();
+                    string CompbobKillsMostInGame = dataObject.competitiveStats.careerStats[hero].heroSpecific.bobKillsMostInGame.ToString();
+                    string CompcoachGunKills = dataObject.competitiveStats.careerStats[hero].heroSpecific.coachGunKills.ToString();
+                    string CompcoachGunKillsAvgPer10Min = dataObject.competitiveStats.careerStats[hero].heroSpecific.coachGunKillsAvgPer10Min.ToString();
+                    string CompcoachGunKillsMostInGame = dataObject.competitiveStats.careerStats[hero].heroSpecific.coachGunKillsMostInGame.ToString();
+                    string CompdynamiteKills = dataObject.competitiveStats.careerStats[hero].heroSpecific.dynamiteKills.ToString();
+                    string CompdynamiteKillsAvgPer10Min = dataObject.competitiveStats.careerStats[hero].heroSpecific.dynamiteKillsAvgPer10Min.ToString();
+                    string CompdynamiteKillsMostInGame = dataObject.competitiveStats.careerStats[hero].heroSpecific.dynamiteKillsMostInGame.ToString();
+                    string CompscopedAccuracy = dataObject.competitiveStats.careerStats[hero].heroSpecific.scopedAccuracy.ToString();
+                    string CompscopedAccuracyBestInGame = dataObject.competitiveStats.careerStats[hero].heroSpecific.scopedAccuracyBestInGame.ToString();
+                    string CompscopedCriticalHits = dataObject.competitiveStats.careerStats[hero].heroSpecific.scopedCriticalHits.ToString();
+                    string CompscopedCriticalHitsAccuracy = dataObject.competitiveStats.careerStats[hero].heroSpecific.scopedCriticalHitsAccuracy.ToString();
+                    string CompscopedCriticalHitsAvgPer10Min = dataObject.competitiveStats.careerStats[hero].heroSpecific.scopedCriticalHitsAvgPer10Min.ToString();
+                    string CompscopedCriticalHitsMostInGame = dataObject.competitiveStats.careerStats[hero].heroSpecific.scopedCriticalHitsMostInGame.ToString();
+                    string CompsecondaryFireAccuracy = dataObject.competitiveStats.careerStats[hero].heroSpecific.secondaryFireAccuracy.ToString();
+
+                    string QpbobKills = dataObject.competitiveStats.careerStats[hero].heroSpecific.bobKills.ToString();
+                    string QpbobKillsAvgPer10Min = dataObject.competitiveStats.careerStats[hero].heroSpecific.bobKillsAvgPer10Min.ToString();
+                    string QpbobKillsMostInGame = dataObject.competitiveStats.careerStats[hero].heroSpecific.bobKillsMostInGame.ToString();
+                    string QpcoachGunKills = dataObject.competitiveStats.careerStats[hero].heroSpecific.coachGunKills.ToString();
+                    string QpcoachGunKillsAvgPer10Min = dataObject.competitiveStats.careerStats[hero].heroSpecific.coachGunKillsAvgPer10Min.ToString();
+                    string QpcoachGunKillsMostInGame = dataObject.competitiveStats.careerStats[hero].heroSpecific.coachGunKillsMostInGame.ToString();
+                    string QpdynamiteKills = dataObject.competitiveStats.careerStats[hero].heroSpecific.dynamiteKills.ToString();
+                    string QpdynamiteKillsAvgPer10Min = dataObject.competitiveStats.careerStats[hero].heroSpecific.dynamiteKillsAvgPer10Min.ToString();
+                    string QpdynamiteKillsMostInGame = dataObject.competitiveStats.careerStats[hero].heroSpecific.dynamiteKillsMostInGame.ToString();
+                    string QpscopedAccuracy = dataObject.competitiveStats.careerStats[hero].heroSpecific.scopedAccuracy.ToString();
+                    string QpscopedAccuracyBestInGame = dataObject.competitiveStats.careerStats[hero].heroSpecific.scopedAccuracyBestInGame.ToString();
+                    string QpscopedCriticalHits = dataObject.competitiveStats.careerStats[hero].heroSpecific.scopedCriticalHits.ToString();
+                    string QpscopedCriticalHitsAccuracy = dataObject.competitiveStats.careerStats[hero].heroSpecific.scopedCriticalHitsAccuracy.ToString();
+                    string QpscopedCriticalHitsAvgPer10Min = dataObject.competitiveStats.careerStats[hero].heroSpecific.scopedCriticalHitsAvgPer10Min.ToString();
+                    string QpscopedCriticalHitsMostInGame = dataObject.competitiveStats.careerStats[hero].heroSpecific.scopedCriticalHitsMostInGame.ToString();
+                    string QpsecondaryFireAccuracy = dataObject.competitiveStats.careerStats[hero].heroSpecific.secondaryFireAccuracy.ToString();
+
+                    embed.AddField("Quickplay Hero Specific", $"BOB Kills: **{QpbobKills}**\nAverage BOB Kills Per 10 Minutes: **{QpbobKillsAvgPer10Min}**\nMost BOB Kills In Game: **{QpbobKillsMostInGame}**\nCoach Gun Kills: **{QpcoachGunKills}**\nAverage Coach Gun Kills Per 10 Minutes: **{QpcoachGunKillsAvgPer10Min}**\nMost Coach Gun Kills In Game: **{QpcoachGunKillsMostInGame}**\nDynamite Kills: **{QpdynamiteKills}**\nAverage Dynamite Kills Per 10 Minutes: **{QpdynamiteKillsAvgPer10Min}**\nMost Dynamite Kills In Game Kills: **{QpdynamiteKillsMostInGame}**\nScoped Accuracy: **{QpscopedAccuracy}**\nBest Scoped Accuracy In Game: **{QpscopedAccuracyBestInGame}**\nScoped Creitical Hits: **{QpscopedCriticalHits}**\nScoped Critical Hits Accuracy: **{QpscopedCriticalHitsAccuracy}**\nAverage Scoped Critical Hits Per 10 Minutes: **{QpscopedCriticalHitsAvgPer10Min}**\nMost Scoped Critical Hits In Game: **{QpscopedCriticalHitsMostInGame}**\nSecondary Fire Accuracy: **{QpsecondaryFireAccuracy}**", true);
+                    embed.AddField("Competitive Hero Specific", $"BOB Kills: **{CompbobKills}**\nAverage BOB Kills Per 10 Minutes: **{CompbobKillsAvgPer10Min}**\nMost BOB Kills In Game: **{CompbobKillsMostInGame}**\nCoach Gun Kills: **{CompcoachGunKills}**\nAverage Coach Gun Kills Per 10 Minutes: **{CompcoachGunKillsAvgPer10Min}**\nMost Coach Gun Kills In Game: **{CompcoachGunKillsMostInGame}**\nDynamite Kills: **{CompdynamiteKills}**\nAverage Dynamite Kills Per 10 Minutes: **{CompdynamiteKillsAvgPer10Min}**\nMost Dynamite Kills In Game Kills: **{CompdynamiteKillsMostInGame}**\nScoped Accuracy: **{CompscopedAccuracy}**\nBest Scoped Accuracy In Game: **{CompscopedAccuracyBestInGame}**\nScoped Creitical Hits: **{CompscopedCriticalHits}**\nScoped Critical Hits Accuracy: **{CompscopedCriticalHitsAccuracy}**\nAverage Scoped Critical Hits Per 10 Minutes: **{CompscopedCriticalHitsAvgPer10Min}**\nMost Scoped Critical Hits In Game: **{CompscopedCriticalHitsMostInGame}**\nSecondary Fire Accuracy: **{CompsecondaryFireAccuracy}**", true);
                 }
                 if (hero == "bastion")
                 {
-                    string BarrierDmgDone = dataObject.competitiveStats.careerStats[hero].heroSpecific.barrierDamageDone.ToString();
-                    embed.AddField("Hero Specific", $"Biotic Grenade Kills: **{ }**\n");
+                    string QpreconKills = dataObject.competitiveStats.careerStats[hero].heroSpecific.reconKills.ToString();
+                    string QpreconKillsAvgPer10Min = dataObject.competitiveStats.careerStats[hero].heroSpecific.reconKillsAvgPer10Min.ToString();
+                    string QpreconKillsMostInGame = dataObject.competitiveStats.careerStats[hero].heroSpecific.reconKillsMostInGame.ToString();
+                    string QpsecondaryFireAccuracy = dataObject.competitiveStats.careerStats[hero].heroSpecific.secondaryFireAccuracy.ToString();
+                    string QpselfHealing = dataObject.competitiveStats.careerStats[hero].heroSpecific.selfHealing.ToString();
+                    string QpselfHealingAvgPer10Min = dataObject.competitiveStats.careerStats[hero].selfHealingAvgPer10Min.selfHealingAvgPer10Min.ToString();
+                    string QpselfHealingMostInGame = dataObject.competitiveStats.careerStats[hero].heroSpecific.selfHealingMostInGame.ToString();
+                    string QpsentryKills = dataObject.competitiveStats.careerStats[hero].heroSpecific.sentryKills.ToString();
+                    string QpsentryKillsAvgPer10Min = dataObject.competitiveStats.careerStats[hero].heroSpecific.sentryKillsAvgPer10Min.ToString();
+                    string QpsentryKillsMostInGame = dataObject.competitiveStats.careerStats[hero].heroSpecific.sentryKillsMostInGame.ToString();
+                    string QptankKills = dataObject.competitiveStats.careerStats[hero].heroSpecific.tankKills.ToString();
+                    string QptankKillsAvgPer10Min = dataObject.competitiveStats.careerStats[hero].heroSpecific.tankKillsAvgPer10Min.ToString();
+                    string QptankKillsMostInGame = dataObject.competitiveStats.careerStats[hero].heroSpecific.tankKillsMostInGame.ToString();
+
+                    string CompreconKills = dataObject.competitiveStats.careerStats[hero].heroSpecific.reconKills.ToString();
+                    string CompreconKillsAvgPer10Min = dataObject.competitiveStats.careerStats[hero].heroSpecific.reconKillsAvgPer10Min.ToString();
+                    string CompreconKillsMostInGame = dataObject.competitiveStats.careerStats[hero].heroSpecific.reconKillsMostInGame.ToString();
+                    string CompsecondaryFireAccuracy = dataObject.competitiveStats.careerStats[hero].heroSpecific.secondaryFireAccuracy.ToString();
+                    string CompselfHealing = dataObject.competitiveStats.careerStats[hero].heroSpecific.selfHealing.ToString();
+                    string CompselfHealingAvgPer10Min = dataObject.competitiveStats.careerStats[hero].selfHealingAvgPer10Min.selfHealingAvgPer10Min.ToString();
+                    string CompselfHealingMostInGame = dataObject.competitiveStats.careerStats[hero].heroSpecific.selfHealingMostInGame.ToString();
+                    string CompsentryKills = dataObject.competitiveStats.careerStats[hero].heroSpecific.sentryKills.ToString();
+                    string CompsentryKillsAvgPer10Min = dataObject.competitiveStats.careerStats[hero].heroSpecific.sentryKillsAvgPer10Min.ToString();
+                    string CompsentryKillsMostInGame = dataObject.competitiveStats.careerStats[hero].heroSpecific.sentryKillsMostInGame.ToString();
+                    string ComptankKills = dataObject.competitiveStats.careerStats[hero].heroSpecific.tankKills.ToString();
+                    string ComptankKillsAvgPer10Min = dataObject.competitiveStats.careerStats[hero].heroSpecific.tankKillsAvgPer10Min.ToString();
+                    string ComptankKillsMostInGame = dataObject.competitiveStats.careerStats[hero].heroSpecific.tankKillsMostInGame.ToString();
+
+
+                    embed.AddField("Quickplay Hero Specific", $"Recon Kills: **{QpreconKills}**\nAverage Recon Kills Per 10 Minutes: **{QpreconKillsAvgPer10Min}**\nMost Recon Kills In Game: **{QpreconKillsMostInGame}**\nSecondary Fire Accuracy: **{QpsecondaryFireAccuracy}**\nSelf Healing: **{QpselfHealing}**\nAverage Self Healing Per 10 Minutes: **{QpselfHealingAvgPer10Min}**\nMost Self Healing In Game: **{QpselfHealingMostInGame}**\nSentry Kills: **{QpsentryKills}**\nAverage Sentry Kills Per 10 Minutes: **{QpsentryKillsAvgPer10Min}**\nMost Sentry Kills In Game: **{QpsentryKillsMostInGame}**\nTank Kills: **{QptankKills}**\nAverage Tank Kills Per 10 Minutes: **{QpreconKills}**\nMost Tank Kills In Game: **{QptankKillsMostInGame}**");
+                    embed.AddField("Competetive Hero Specific", $"Recon Kills: **{CompreconKills}**\nAverage Recon Kills Per 10 Minutes: **{CompreconKillsAvgPer10Min}**\nMost Recon Kills In Game: **{CompreconKillsMostInGame}**\nSecondary Fire Accuracy: **{CompsecondaryFireAccuracy}**\nSelf Healing: **{CompselfHealing}**\nAverage Self Healing Per 10 Minutes: **{CompselfHealingAvgPer10Min}**\nMost Self Healing In Game: **{CompselfHealingMostInGame}**\nSentry Kills: **{CompsentryKills}**\nAverage Sentry Kills Per 10 Minutes: **{CompsentryKillsAvgPer10Min}**\nMost Sentry Kills In Game: **{CompsentryKillsMostInGame}**\nTank Kills: **{ComptankKills}**\nAverage Tank Kills Per 10 Minutes: **{CompreconKills}**\nMost Tank Kills In Game: **{ComptankKillsMostInGame}**");
                 }
                 if (hero == "brigitte")
                 {
