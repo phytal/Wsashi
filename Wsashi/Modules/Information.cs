@@ -221,7 +221,7 @@ namespace Wsashi
             "**9. APIs -** `dog` `doggif` `cat` `catgif` `catfact` `person` `birb` `define` `meme` `gif` `weather` `fortnite`\n" +
             "**10. Neko API -** `neko` `catemoticon` `foxgirl`\n" +
             "**11. Shibe API -** `shiba` `bird`\n" +
-            "**12. Overwatch API -** `owstats` `owstatscomp` `owstatsqp` `myowstats` `myowstatscomp` `myowstatsqp` `owaccount`\n" +
+            "**12. Overwatch API -** `owstats` `owstatscomp` `owstatsqp` `myowstats` `myowstatscomp` `myowstatsqp` `owherostats` `owherostatscomp` `owherostatsqp` `myowherostats` `myowstatsherocomp` `myowstatsheroqp` `owaccount`\n" +
             "**11. osu! API -** `osustats` `maniastats` `taikostats` `ctbstats`\n" +
             "**14. Games -** `2048 start` `trivia`\n" +
             "**15. Blog (w!blog <command>) -** `create` `post` `subscribe` `unsubscribe`\n" +
