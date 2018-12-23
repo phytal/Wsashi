@@ -5,11 +5,12 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 using System.Threading.Tasks;
+using Wsashi.Core.Modules;
 using Wsashi.Features.GlobalAccounts;
 
 namespace Wsashi.Modules
 {
-    public class LeaveMessages : ModuleBase<SocketCommandContext>
+    public class LeaveMessages : WsashiModule
     {
         [Command("leave channel"), Alias("lc")]
         [Summary("Set where you want leave messages to be displayed")]

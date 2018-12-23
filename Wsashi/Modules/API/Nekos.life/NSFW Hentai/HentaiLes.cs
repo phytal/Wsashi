@@ -7,10 +7,11 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Wsashi.Preconditions;
+using Wsashi.Core.Modules;
 
 namespace Wsashi.Modules.API.Nekos.life.NSFW_Hentai
 {
-    public class NekoLes : ModuleBase<SocketCommandContext>
+    public class NekoLes : WsashiModule
     {
         [Command("les")]
         [Summary("Displays a les")]

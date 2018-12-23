@@ -10,10 +10,11 @@ using System.IO;
 using Newtonsoft.Json;
 using Discord;
 using Wsashi.Preconditions;
+using Wsashi.Core.Modules;
 
 namespace Wsashi.Modules.API
 {
-    public class Feed : ModuleBase<SocketCommandContext>
+    public class Feed : WsashiModule
     {
         [Command("feed")]
         [Summary("Feed someone!")]

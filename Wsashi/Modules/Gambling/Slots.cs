@@ -5,10 +5,11 @@ using Wsashi.Features.Economy;
 using System;
 using Wsashi.Features.GlobalAccounts;
 using Wsashi.Preconditions;
+using Wsashi.Core.Modules;
 
 namespace Wsashi.Modules
 {
-    public class Slots : ModuleBase<SocketCommandContext>
+    public class Slots : WsashiModule
     {
         [Command("newslot")]
         [Alias("newslots")]

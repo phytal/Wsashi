@@ -8,10 +8,11 @@ using System.Threading.Tasks;
 using System.Net;
 using Wsashi.Preconditions;
 using Wsashi.Features.GlobalAccounts;
+using Wsashi.Core.Modules;
 
 namespace Wsashi.Modules
 {
-    public class Gambling : ModuleBase
+    public class Gambling : WsashiModule
     {
         [Command("coinflip")]
         [Summary("Flips a coin and if you win you earn x2 of the Potatoes you betted. If lost you lose your Potatoes.")]

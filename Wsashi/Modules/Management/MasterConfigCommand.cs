@@ -13,7 +13,7 @@ namespace Wsashi.Modules.Management
 {
     public class MasterConfigCommand : WsashiModule
     {
-        private DiscordSocketClient _client = Program._client;
+        private DiscordShardedClient _client = Program._client;
 
         public static string ConvertBoolean(bool boolean)
         {
@@ -46,7 +46,7 @@ namespace Wsashi.Modules.Management
             if (guser.GuildPermissions.Administrator)
             {
                 var config = GlobalGuildAccounts.GetGuildAccount(Context.Guild.Id);
-                var embed = MiscHelpers.CreateEmbed(Context, $"Server ID: {config.Id}\n" +
+                var embed = MiscHelpers.CreateEmbed(Context, Context.Guild.Name, $"Server ID: {config.Id}\n" +
                                                          $"Owner: <@{config.GuildOwnerId}>");
                 string helperRole = "**Not set**";
                 string modRole = "**Not set**";

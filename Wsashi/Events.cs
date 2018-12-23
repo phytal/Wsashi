@@ -13,11 +13,15 @@ using Wsashi.Features.GlobalAccounts;
 
 namespace Wsashi
 {
-    internal class Events
+    public class Events
     {
-        private static DiscordSocketClient _client = Program._client;
+        private static readonly DiscordShardedClient _client = Program._client;
 
-        public static async Task Autorole(SocketGuildUser user)
+        public async Task _Autorole(SocketGuildUser user)
+        {
+            _ = Autorole(user);
+        }
+        public async Task Autorole(SocketGuildUser user)
         {
             var config = GlobalGuildAccounts.GetGuildAccount(user.Guild.Id);
             if (config.Autorole != null || config.Autorole != "")
@@ -27,57 +31,7 @@ namespace Wsashi
             }
         }
 
-
- /*       public static async Task Goodbye(SocketGuildUser user)
-        {
-            var config = GlobalGuildAccounts.GetGuildAccount(user.Guild.Id);
-
-            if (config.WelcomeChannel != 0)
-            {
-                Random rand = new Random();
-                int randomIndex = rand.Next(config.LeaveMessages.Count());
-                string text = config.LeaveMessages[randomIndex];
-                var a = text.Replace("<UserMention>", user.Mention);
-                a = a.Replace("<ServerName}", user.Guild.Name);
-                a = a.Replace("<username}", user.Username);
-                a = a.Replace("<OwnerMention}", user.Guild.Owner.Mention);
-                a = a.Replace("<UserTag}", user.DiscriminatorValue.ToString());
-
-                var channel = user.Guild.GetTextChannel(config.LeaveChannel);
-                var embed = new EmbedBuilder();
-                embed.WithDescription(a);
-                embed.WithColor(37, 152, 255);
-                embed.WithFooter($"Guild Owner: {user.Guild.Owner.Username}#{user.Guild.Owner.Discriminator}");
-                embed.WithThumbnailUrl(user.Guild.IconUrl);
-                await channel.SendMessageAsync(a);
-            }
-        }
-
-        public static async Task Welcome(SocketGuildUser user)
-        {
-            var config = GlobalGuildAccounts.GetGuildAccount(user.Guild.Id);
-
-            if (config.WelcomeChannel != 0)
-            {
-                Random rand = new Random();
-                int randomIndex = rand.Next(config.WelcomeMessages.Count());
-                string text = config.WelcomeMessages[randomIndex];
-                var a = text.Replace("<UserMention}", user.Mention);
-                a = a.Replace("<ServerName}", user.Guild.Name);
-                a = a.Replace("<UserName}", user.Username);
-                a = a.Replace("<OwnerMention}", user.Guild.Owner.Mention);
-                a = a.Replace("<UserTag}", user.DiscriminatorValue.ToString());
-
-                var channel = user.Guild.GetTextChannel(config.WelcomeChannel);
-                var embed = new EmbedBuilder();
-                embed.WithDescription(a);
-                embed.WithColor(37, 152, 255);
-                embed.WithThumbnailUrl(user.Guild.IconUrl);
-                await channel.SendMessageAsync(a);
-            }
-        }*/
-
-        public static async Task GuildUtils(SocketGuild s)
+        public async Task GuildUtils(SocketGuild s)
         {
             var info = System.IO.Directory.CreateDirectory(Path.Combine(Constants.ResourceFolder, Constants.ServerUserAccountsFolder));
             ulong In = s.Id;
@@ -105,14 +59,6 @@ namespace Wsashi
             await client.SetGameAsync($"w!help | in {guilds} servers!", $"https://twitch.tv/{Config.bot.TwitchStreamer}", ActivityType.Streaming);
         }
 
-        /*public static async Task LeaveServer(SocketGuild s)
-        {
-            var info = System.IO.Directory.CreateDirectory(Path.Combine(Constants.ResourceFolder, Constants.ServerUserAccountsFolder));
-            ulong In = s.Id;
-            string Out = Convert.ToString(In);
-            if (!Directory.Exists(Out))
-                Directory.Delete(Path.Combine(Constants.ServerUserAccountsFolder, Out));
-        }*/
         public static async Task FilterUnflip(SocketMessage s)
         {
             _ = FilterChecks(s);
@@ -123,7 +69,7 @@ namespace Wsashi
         public static async Task FilterChecks(SocketMessage s)
         {
             var msg = s as SocketUserMessage;
-            var context = new SocketCommandContext(_client, msg);
+            var context = new ShardedCommandContext(_client, msg);
             var config = GlobalGuildAccounts.GetGuildAccount(context.Guild.Id);
             if (context.User.IsBot) return;
             if (msg == null) return;
@@ -204,7 +150,7 @@ namespace Wsashi
         public static async Task Unflip(SocketMessage s)
         {
             var msg = s as SocketUserMessage;
-            var context = new SocketCommandContext(_client, msg);
+            var context = new ShardedCommandContext(_client, msg);
             var config = GlobalGuildAccounts.GetGuildAccount(context.Guild.Id);
             if (context.User.IsBot) return;
             if (msg == null) return;

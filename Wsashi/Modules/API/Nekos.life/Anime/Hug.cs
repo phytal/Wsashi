@@ -10,10 +10,11 @@ using System.IO;
 using Newtonsoft.Json;
 using Discord;
 using Wsashi.Preconditions;
+using Wsashi.Core.Modules;
 
 namespace Wsashi.Modules.API.Nekos.life.Anime
 {
-    public class Hug : ModuleBase<SocketCommandContext>
+    public class Hug : WsashiModule
     {
         [Command("Hug")]
         [Summary("Hug someone!")]

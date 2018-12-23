@@ -1,17 +1,13 @@
 ﻿using Discord;
 using Discord.Commands;
 using Newtonsoft.Json;
-using System;
-using System.Collections.Generic;
-using System.Net;
-using System.Text;
 using System.Threading.Tasks;
 using Wsashi.Core.Modules;
 using Wsashi.Preconditions;
 
 namespace Wsashi.Modules.API.osu_
 {
-    public class UserStats : ModuleBase
+    public class UserStats : WsashiModule
     {
         [Command("osustats")]
         [Summary("Get a osu! user's statistics.")]

@@ -4,6 +4,7 @@ using Wsashi.Features.GlobalAccounts;
 using Discord;
 using Wsashi.Entities;
 using Wsashi.Preconditions;
+using Wsashi.Core.Modules;
 
 namespace Wsashi.Modules
 {
@@ -11,7 +12,7 @@ namespace Wsashi.Modules
     [Summary("Permanently assing a message to a keyword (for this server) which " +
              "the bot will repeat if someone uses this command with that keyword.")]
     [RequireContext(ContextType.Guild)]
-    public class ServerTags : ModuleBase<SocketCommandContext>
+    public class ServerTags : WsashiModule
     {
         [Command(""), Priority(-1), Summary("Let the bot send a message with the content of the named tag on the server")]
         [Remarks("w!tag <tag name> Ex: w!tag door")]
@@ -76,7 +77,7 @@ namespace Wsashi.Modules
     [Summary("Permanently assing a message to a keyword (global for you) which " +
              "the bot will repeat if you use this command with that keyword.")]
     [RequireContext(ContextType.Guild)]
-    public class PersonalTags : ModuleBase<SocketCommandContext>
+    public class PersonalTags : WsashiModule
     {
         [Command(""), Priority(-1), Summary("Lets the bot send a message with the content of your named tag")]
         [Remarks("w!ptag <tag name> Ex: w!ptag door")]

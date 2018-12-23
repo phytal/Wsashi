@@ -1,16 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Threading.Tasks;
 using Wsashi.Features.Trivia;
-using Discord;
 using Discord.Commands;
-using Discord.WebSocket;
+using Wsashi.Core.Modules;
 
 namespace Wsashi.Modules.Fun
 {
-    public class Trivia : ModuleBase<SocketCommandContext>
+    public class Trivia : WsashiModule
     {
         [Command("Trivia")]
         public async Task NewTrivia()

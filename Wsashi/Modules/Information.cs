@@ -323,48 +323,6 @@ namespace Wsashi
                 }
             }
         }
-        // [Command("help")]
-        //[Cooldown(15)]
-        //public async Task Help()
-        // {
-
-        // await Context.Channel.SendMessageAsync("**Check your DMs!** :envelope_with_arrow:");
-
-        // var dmChannel = await Context.User.GetOrCreateDMChannelAsync();
-
-        // var builder = new EmbedBuilder()
-        // {
-        //   Title = "Help",
-        //   Description = "Bot prefix: '/' " +
-        //    "These are the commands you can use:",
-        //    Color = new Color(37, 152, 255)
-        //   };
-
-        // foreach (var module in _service.Modules)
-        // {
-        //     string description = null;
-        //     var descriptionBuilder = new StringBuilder();
-        //      descriptionBuilder.Append(description);
-        //     foreach (var cmd in module.Commands)
-        //     {
-        //        var result = await cmd.CheckPreconditionsAsync(Context);
-        //        if (result.IsSuccess)
-        //          descriptionBuilder.Append($"{cmd.Aliases.First()}\n");
-        //   }
-        //    description = descriptionBuilder.ToString();
-
-        //   if (!string.IsNullOrWhiteSpace(description))
-        //   {
-        //       builder.AddField(x =>
-        //         {
-        //           x.Name = module.Name;
-        //          x.Value = description;
-        //            x.IsInline = false;
-        //    });
-        //   }
-        // }
-        //   await dmChannel.SendMessageAsync("", false, builder.Build());
-        // }
 
         [Command("command")]
         [Summary("Shows what a specific command does and the usage.")]

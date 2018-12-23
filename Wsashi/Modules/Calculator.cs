@@ -2,11 +2,12 @@
 using System.Threading.Tasks;
 using Discord;
 using Discord.Commands;
+using Wsashi.Core.Modules;
 using Wsashi.Preconditions;
 
 namespace Wsashi.Modules
 {
-    public class Calculator : ModuleBase
+    public class Calculator : WsashiModule
     {
         [Command("Calculator"), Alias("Calc")]
         [Summary("A built-in calculator, operations include `add` `sub` `mult` `div` `sqrt` `power`")]
@@ -18,8 +19,7 @@ namespace Wsashi.Modules
             embed.WithColor(37, 152, 255);
             embed.WithTitle("Calculator");
 
-            int result;
-            double result2;
+            double result;
 
             switch (oper)
             {
@@ -36,12 +36,12 @@ namespace Wsashi.Modules
                     embed.WithDescription($"The answer is `{val1 / val2}`");
                     break;
                 case "sqrt":
-                    result2 = Math.Sqrt(val1);
-                    embed.WithDescription($"The answer is `{result2}`");
+                    result = Math.Sqrt(val1);
+                    embed.WithDescription($"The answer is `{result}`");
                     break;
                 case "power":
-                    result2 = Math.Pow(val1, val2);
-                    embed.WithDescription($"The answer is `{result2}`");
+                    result = Math.Pow(val1, val2);
+                    embed.WithDescription($"The answer is `{result}`");
                     break;
                 default:
                     embed.WithDescription("You didn't specify a valid operation. Valid operations are `add`, `sub`, `mult`, `div`, `power`, and `sqrt`.");

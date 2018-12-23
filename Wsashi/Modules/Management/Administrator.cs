@@ -32,7 +32,7 @@ namespace Wsashi.Core.Modules
             {
                 try
                 {
-                    var kb = (Context.Client as DiscordSocketClient).GetChannel(config.ServerLoggingChannel) as SocketTextChannel;
+                    var kb = (Context.Client as DiscordShardedClient).GetChannel(config.ServerLoggingChannel) as SocketTextChannel;
                     var gld = Context.Guild as SocketGuild;
                     var embed = new EmbedBuilder();
                     embed.WithColor(new Color(37, 152, 255));
@@ -96,7 +96,7 @@ namespace Wsashi.Core.Modules
             {
                 try
                 {
-                    var embed = MiscHelpers.CreateEmbed(Context, $"{Context.User.Mention} softbanned <@{user.Id}>, deleting the last 7 days of messages from that user.");
+                    var embed = MiscHelpers.CreateEmbed(Context, "Softban", $"{Context.User.Mention} softbanned <@{user.Id}>, deleting the last 7 days of messages from that user.");
                     await MiscHelpers.SendMessage(Context, embed);
                     await Context.Guild.AddBanAsync(user, 7);
                     await Context.Guild.RemoveBanAsync(user);
@@ -162,7 +162,7 @@ namespace Wsashi.Core.Modules
             {
                 try
                 {
-                    var kb = (Context.Client as DiscordSocketClient).GetChannel(config.ServerLoggingChannel) as SocketTextChannel;
+                    var kb = (Context.Client as DiscordShardedClient).GetChannel(config.ServerLoggingChannel) as SocketTextChannel;
                     await user.KickAsync();
                     var gld = Context.Guild as SocketGuild;
                     var embed = new EmbedBuilder();
@@ -960,7 +960,7 @@ namespace Wsashi.Core.Modules
             if (guser.GuildPermissions.ManageMessages)
             {
                 await user.ModifyAsync(x => x.Nickname = nick);
-                var embed = MiscHelpers.CreateEmbed(Context, $"Set <@{user.Id}>'s nickname on this server to **{nick}**!").WithColor(37, 152, 255);
+                var embed = MiscHelpers.CreateEmbed(Context, "User Nicked" , $"Set <@{user.Id}>'s nickname on this server to **{nick}**!").WithColor(37, 152, 255);
                 await MiscHelpers.SendMessage(Context, embed);
             }
             else
@@ -1071,7 +1071,7 @@ namespace Wsashi.Core.Modules
                     );
                 await chnl.AddPermissionOverwriteAsync(role, perms);
 
-                var embed = MiscHelpers.CreateEmbed(Context, $":lock: Locked {Context.Channel.Name}.").WithColor(37, 152, 255);
+                var embed = MiscHelpers.CreateEmbed(Context, "Channel Locked", $":lock: Locked {Context.Channel.Name}.");
                 await MiscHelpers.SendMessage(Context, embed);
             }
             else
@@ -1100,7 +1100,7 @@ namespace Wsashi.Core.Modules
                     );
                 await chnl.AddPermissionOverwriteAsync(role, perms);
 
-                var embed = MiscHelpers.CreateEmbed(Context, $":unlock: Unlocked {Context.Channel.Name}.").WithColor(37, 152, 255);
+                var embed = MiscHelpers.CreateEmbed(Context, "Channel Unlocked", $":unlock: Unlocked {Context.Channel.Name}.").WithColor(37, 152, 255);
                 await MiscHelpers.SendMessage(Context, embed);
             }
             else
@@ -1145,7 +1145,7 @@ namespace Wsashi.Core.Modules
                     config.IsServerLoggingEnabled = setting;
                     config.ServerLoggingChannel = id;
                     GlobalGuildAccounts.SaveAccounts();
-                    var embed = MiscHelpers.CreateEmbed(Context, $"{lol}, and set the channel to <#{channel.Id}>.").WithColor(37, 152, 255);
+                    var embed = MiscHelpers.CreateEmbed(Context, "Server Logging", $"{lol}, and set the channel to <#{channel.Id}>.").WithColor(37, 152, 255);
                     await MiscHelpers.SendMessage(Context, embed);
                 }
                 if (result.Item1 == false)

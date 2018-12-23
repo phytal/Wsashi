@@ -2,7 +2,7 @@
 
 namespace Wsashi.Core.Modules
 {
-    public abstract class WsashiModule : ModuleBase<SocketCommandContext>
+    public abstract class WsashiModule : ModuleBase<ShardedCommandContext>
     {
         public bool Enabled = true;
         public bool Disabled = false;

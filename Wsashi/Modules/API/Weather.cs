@@ -4,11 +4,12 @@ using Newtonsoft.Json;
 using System.Linq;
 using System.Net;
 using System.Threading.Tasks;
+using Wsashi.Core.Modules;
 using Wsashi.Preconditions;
 
 namespace Watchdog.Modules.API
 {
-    public class Weather : ModuleBase<SocketCommandContext>
+    public class Weather : WsashiModule
     {
         [Command("weather")]
         [Summary("Displays the weather for specified major city")]

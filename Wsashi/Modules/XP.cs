@@ -8,10 +8,11 @@ using Discord.Commands;
 using Discord.WebSocket;
 using System.Net;
 using Wsashi.Features.GlobalAccounts;
+using Wsashi.Core.Modules;
 
 namespace Wsashi.Modules
 {
-    public class XPModule : ModuleBase<SocketCommandContext>
+    public class XPModule : WsashiModule
     {
         [Command("addXP")]
         [Summary("Grants XP/Exp to selected user")]

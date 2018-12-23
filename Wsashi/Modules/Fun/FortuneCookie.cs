@@ -1,11 +1,12 @@
 ﻿using Discord.Commands;
 using System;
 using System.Threading.Tasks;
+using Wsashi.Core.Modules;
 using Wsashi.Preconditions;
 
 namespace Wsashi.Modules.Fun
 {
-    public class FortuneCookie : ModuleBase
+    public class FortuneCookie : WsashiModule
     {
         Random rand = new Random();
 

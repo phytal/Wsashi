@@ -2,10 +2,11 @@
 using Discord.Commands;
 using System.Threading.Tasks;
 using Wsashi.Preconditions;
+using Wsashi.Core.Modules;
 
 namespace Wsashi.Modules
 {
-    public class Voice : ModuleBase<SocketCommandContext>
+    public class Voice : WsashiModule
     {
             const int maxTimeInMinutes = 3600000;
 

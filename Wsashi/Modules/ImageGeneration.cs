@@ -1,20 +1,14 @@
-﻿using Discord;
-using Discord.Commands;
-using Discord.WebSocket;
-using System;
-using System.Collections.Generic;
+﻿using Discord.Commands;
 using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
-using System.Net;
 using ImageMagick;
 using System.IO;
-using Wsashi.Handlers;
 using Wsashi.Preconditions;
+using Wsashi.Core.Modules;
 
 namespace Wsashi.Modules
 {
-    public class ImageGeneration : ModuleBase
+    public class ImageGeneration : WsashiModule
     {
         [Command("gru")]
         [Summary("Sends a gru meme with what you inputed")]

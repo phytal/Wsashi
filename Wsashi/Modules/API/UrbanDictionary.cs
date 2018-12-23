@@ -8,10 +8,11 @@ using Discord.Commands;
 using Discord;
 using System.Net;
 using Wsashi.Preconditions;
+using Wsashi.Core.Modules;
 
 namespace Wsashi.Modules.API
 {
-    public class UrbanDictionary : ModuleBase
+    public class UrbanDictionary : WsashiModule
     {
         [Command("define")]
         [Summary("Use Urban Dictionary to define a given word")]

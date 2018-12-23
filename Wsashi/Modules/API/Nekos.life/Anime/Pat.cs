@@ -10,10 +10,11 @@ using System.IO;
 using Newtonsoft.Json;
 using Discord;
 using Wsashi.Preconditions;
+using Wsashi.Core.Modules;
 
 namespace Wsashi.Modules.API.Nekos.life.Anime
 {
-    public class Pat : ModuleBase<SocketCommandContext>
+    public class Pat : WsashiModule
     {
         [Command("pat")]
         [Summary("Pat someone! :3")]

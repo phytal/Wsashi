@@ -12,7 +12,7 @@ namespace Wsashi.Helpers
 {
     class MiscHelpers
     {
-        public static async Task SendMessage(SocketCommandContext ctx, EmbedBuilder embed = null, string msg = "")
+        public static async Task SendMessage(ShardedCommandContext ctx, EmbedBuilder embed = null, string msg = "")
         {
             if (embed == null)
             {
@@ -24,7 +24,7 @@ namespace Wsashi.Helpers
             }
         }
 
-        internal static bool UserHasRole(SocketCommandContext ctx, ulong roleId)
+        internal static bool UserHasRole(ShardedCommandContext ctx, ulong roleId)
         {
             var targetRole = ctx.Guild.Roles.FirstOrDefault(r => r.Id == roleId);
             var gUser = ctx.User as SocketGuildUser;
@@ -32,12 +32,30 @@ namespace Wsashi.Helpers
             return (gUser.Roles.Contains(targetRole));
         }
 
-        public static EmbedBuilder CreateEmbed(SocketCommandContext ctx, string desc)
+        public static EmbedBuilder CreateEmbed(ShardedCommandContext ctx, string title, string desc)
         {
-            var config = GlobalGuildAccounts.GetGuildAccount(ctx.Guild.Id);
+            var thumbnailurl = ctx.User.GetAvatarUrl();
+            var boturl = Global.Client.CurrentUser.GetAvatarUrl();
+            var auth = new EmbedAuthorBuilder()
+            {
+                IconUrl = thumbnailurl,
+                Name = ctx.User.Username
+            };
+
+            var footer = new EmbedFooterBuilder()
+            {
+                IconUrl = boturl,
+                Text = "Wsashi | w!help"
+            };
+
             var embed = new EmbedBuilder()
-                .WithDescription(desc)
-                .WithColor(37, 152, 255);
+            {
+                Author = auth,
+                Footer = footer,
+                Color = new Color(37, 152, 255),
+                Title = title,
+                Description = desc,
+            };
             return embed;
         }
     }

@@ -8,13 +8,9 @@ using Wsashi.Features.GlobalAccounts;
 
 namespace Wsashi.Handlers
 {
-    public static class MessageRewardHandler
+    public class MessageRewardHandler
     {
-        public async static Task MessageRewards(SocketMessage s)
-        {
-            _ = HandleMessageRewards(s);
-        }
-        public async static Task HandleMessageRewards(SocketMessage s)
+        public async Task HandleMessageRewards(SocketMessage s)
         {
             var msg = s as SocketUserMessage;
 

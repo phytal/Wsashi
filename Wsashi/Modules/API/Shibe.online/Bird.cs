@@ -8,10 +8,11 @@ using System.Net;
 using System.Text;
 using System.Threading.Tasks;
 using Wsashi.Preconditions;
+using Wsashi.Core.Modules;
 
 namespace Wsashi.Modules.API
 {
-    public class Bird : ModuleBase<SocketCommandContext>
+    public class Bird : WsashiModule
     {
         [Command("bird")]
         [Summary("Displays an image of a bird (not a meme lol)")]

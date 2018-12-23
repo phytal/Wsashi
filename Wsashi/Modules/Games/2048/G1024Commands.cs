@@ -1,15 +1,12 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Threading.Tasks;
 using Discord;
 using Discord.Commands;
-using Discord.WebSocket;
 using Wsashi.Core.Providers;
+using Wsashi.Core.Modules;
 
 namespace Wsashi.Modules.Games
 {
-    public class G1024Commands : ModuleBase<SocketCommandContext>
+    public class G1024Commands : WsashiModule
     {
         [Command("2048 start")]
         [Summary("Starts a 2048 game")]

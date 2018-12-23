@@ -7,10 +7,11 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Wsashi.Preconditions;
+using Wsashi.Core.Modules;
 
 namespace Wsashi.Modules.API.Nekos.life.NSFW_Hentai
 {
-    public class NekoBoobs : ModuleBase<SocketCommandContext>
+    public class NekoBoobs : WsashiModule
     { 
     [Command("boobs")]
     [Alias("tits")]

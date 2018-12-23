@@ -1,21 +1,19 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
-using Wsashi.Configuration;
 using Wsashi.Features.Blogs;
 using Wsashi.Handlers;
 using Discord;
 using Discord.Commands;
 using Newtonsoft.Json;
-using Wsashi;
 using Wsashi.Preconditions;
+using Wsashi.Core.Modules;
 
 namespace Wsashi.Modules
 {
     [Group("Blog"), Summary("Enables you to create a block that people can subscribe to so they don't miss out if you publish a new one")]
-    public class Blogs : ModuleBase<SocketCommandContext>
+    public class Blogs : WsashiModule
     {
         private static readonly string blogFile = "blogs.json";
         [Command("Create")]

@@ -13,6 +13,7 @@ using Wsashi.Features.GlobalAccounts;
 using System.Net;
 using System.IO;
 using Wsashi.Handlers;
+using System.Diagnostics;
 
 namespace Wsashi.Core.Modules.Management
 {
@@ -57,7 +58,7 @@ namespace Wsashi.Core.Modules.Management
         public async Task SetBotStream(string streamer, [Remainder]string streamName)
         {
             await Program._client.SetGameAsync(streamName, $"https://twitch.tv/{streamer}", ActivityType.Streaming);
-            var embed = MiscHelpers.CreateEmbed(Context, $"Set the stream name to **{streamName}**, and set the streamer to <https://twitch.tv/{streamer}>!").WithColor(37, 152, 255);
+            var embed = MiscHelpers.CreateEmbed(Context, "Set Bot Streaming", $"Set the stream name to **{streamName}**, and set the streamer to <https://twitch.tv/{streamer}>!").WithColor(37, 152, 255);
             await MiscHelpers.SendMessage(Context, embed);
         }
 
@@ -166,6 +167,34 @@ namespace Wsashi.Core.Modules.Management
                 var embed = EmbedHandler.CreateEmbed("Avatar", "Coult not set the avatar!", EmbedHandler.EmbedMessageType.Exception);
                 await Context.Channel.SendMessageAsync("", false, embed);
             }
+        }
+
+        [Command("uptime")]
+        [Alias("runtime")]
+        public async Task UpTime()
+        {
+            var proc = Process.GetCurrentProcess();
+
+            var mem = proc.WorkingSet64 / 1000000;
+            var threads = proc.Threads;
+            var time = DateTime.Now - proc.StartTime;
+            var cpu = proc.TotalProcessorTime.TotalMilliseconds / proc.PrivilegedProcessorTime.TotalMilliseconds;
+
+
+            var sw = Stopwatch.StartNew();
+            sw.Stop();
+
+            var embed = new EmbedBuilder();
+            embed.WithColor(37, 152, 255);
+            embed.AddField("Bot Statistics:", $"Your ping: {(int)sw.Elapsed.TotalMilliseconds}ms\n" +
+                                              $"Runtime: {time.Hours}h:{time.Minutes}m\n" +
+                                              //$"CPU usage: {cpu:n0}\n" +
+                                              $"Memory: {mem:n0}Mb\n" +
+                                              $"Threads using: {threads.Count}\n");
+                                              //$"Servers in: {Global.Client.Guilds.Count}\n");
+            await ReplyAsync("", embed: embed.Build());
+
+
         }
     }
 }

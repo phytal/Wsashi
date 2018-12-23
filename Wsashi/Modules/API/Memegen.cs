@@ -2,19 +2,16 @@
 using Discord.Commands;
 using Discord.WebSocket;
 using Newtonsoft.Json;
-using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Net;
-using System.Text;
 using System.Threading.Tasks;
+using Wsashi.Core.Modules;
 using Wsashi.Preconditions;
 
 namespace Wsashi.Modules.API
 {
-    public class Memegen : ModuleBase
+    public class Memegen : WsashiModule
     {
-        [Command("meme")]
+        [Command("memegen")]
         [Summary("Create a meme!")]
         [Alias("memecreate")]
         [Remarks("w!meme <top text>/<bottom text> (Note that there is no space between top and bottom text from the slash) Ex: w!meme hi/lol")]
@@ -36,26 +33,31 @@ namespace Wsashi.Modules.API
                 await Context.Channel.SendFileAsync(stream, "meme.jpg");
             }
         }
-        [Command("gif")]
-        [Summary("Sends a meme from r/meme")]
-        [Remarks("w!gif")]
+        [Command("meme")]
+        [Summary("Sends a meme from r/dankmemes")]
+        [Remarks("w!meme")]
         [Cooldown(3)]
         public async Task Image()
         {
             string json;
             using (var client = new WebClient())
             {
-                json = client.DownloadString("https://www.reddit.com/r/meme/random/.json");
+                json = client.DownloadString("https://www.reddit.com/r/dankmemes/random/.json");
             }
 
             var dataObject = JsonConvert.DeserializeObject<dynamic>(json);
             string image = dataObject[0].data.children[0].data.url.ToString();
             string posttitle = dataObject[0].data.children[0].data.title.ToString();
+            string link = dataObject[0].data.children[0].data.permalink.ToString();
+            string ups = dataObject[0].data.children[0].data.ups.ToString();
+            string comments = dataObject[0].data.children[0].data.num_comments.ToString();
 
             var embed = new EmbedBuilder()
                 .WithTitle(posttitle)
                 .WithImageUrl(image)
-                .WithFooter("via r/meme");
+                .WithFooter($"👍 {ups} | 💬 {comments}")
+                .WithUrl($"https://www.reddit.com{link}")
+                .WithColor(37, 152, 255);
             await Context.Channel.SendMessageAsync("", embed: embed.Build());
         }
     }

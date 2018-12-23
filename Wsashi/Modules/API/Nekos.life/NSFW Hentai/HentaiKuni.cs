@@ -8,10 +8,11 @@ using System.Net;
 using System.Text;
 using System.Threading.Tasks;
 using Wsashi.Preconditions;
+using Wsashi.Core.Modules;
 
 namespace Wsashi.Modules.API.Nekos.life.NSFW_Hentai
 {
-    public class HentaiKuni : ModuleBase<SocketCommandContext>
+    public class HentaiKuni : WsashiModule
     {
         [Command("kuni")]
         [Summary("Displays a hentai kuni")]

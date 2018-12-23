@@ -11,10 +11,12 @@ using System.IO;
 using Wsashi.Handlers;
 using Wsashi.Preconditions;
 using Wsashi.Features.GlobalAccounts;
+using Wsashi.Helpers;
+using Wsashi.Core.Modules;
 
 namespace Wsashi.Modules
 {
-    public class FunCommands : ModuleBase
+    public class FunCommands : WsashiModule
     {
         [Command("ping")]
         [Summary("Ping Pong!")]
@@ -24,7 +26,7 @@ namespace Wsashi.Modules
         {
             var embed = new EmbedBuilder();
             embed.WithColor(37, 152, 255);
-            embed.WithTitle($":ping_pong:  | Pong! {(Context.Client as DiscordSocketClient).Latency}ms");
+            embed.WithTitle($":ping_pong:  | Pong! {(Context.Client as DiscordShardedClient).Latency}ms");
             await Context.Channel.SendMessageAsync("", embed: embed.Build());
         }
 
@@ -243,16 +245,11 @@ namespace Wsashi.Modules
         [Alias("hi")]
         [Summary("Says a formatted hello")]
         [Remarks("Ex: w!hello")]
-        [Cooldown(5, true)]
         public async Task SayHello()
         {
-            var embed = new EmbedBuilder();
-            embed.WithTitle("Hello!");
-            embed.WithDescription("My name is Wsashi, a bot created by Phytal! (And possibly your Waifu..)");
-            embed.WithColor(37, 152, 255);
-            embed.WithImageUrl(Global.Client.CurrentUser.GetAvatarUrl());
+            var embed = MiscHelpers.CreateEmbed(Context, "Hello!", "My name is Wsashi, a bot created by Phytal! (And possibly your Waifu..)").WithImageUrl(Global.Client.CurrentUser.GetAvatarUrl());
 
-            await Context.Channel.SendMessageAsync("", embed: embed.Build());
+            await MiscHelpers.SendMessage(Context, embed);
         }
 
         [Command("lmgtfy")]

@@ -10,10 +10,11 @@ using System.IO;
 using Newtonsoft.Json;
 using Discord;
 using Wsashi.Preconditions;
+using Wsashi.Core.Modules;
 
 namespace Wsashi.Modules.API
 {
-    public class Cuddle : ModuleBase<SocketCommandContext>
+    public class Cuddle : WsashiModule
     {
         [Command("cuddle")]
         [Summary("Displays an random cuddle picture!")]

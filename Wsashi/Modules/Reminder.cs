@@ -5,12 +5,13 @@ using Wsashi.Entities;
 using Wsashi.Features.GlobalAccounts;
 using Discord;
 using Discord.Commands;
+using Wsashi.Core.Modules;
 
 namespace Wsashi.Modules
 {
     [Group("Reminder"), Alias("Remind", "r")]
     [Summary("Tell the bot to remind you in some amount of time. The bot will send you a DM with the text you specified.")]
-    public class Reminder : ModuleBase<SocketCommandContext>
+    public class Reminder : WsashiModule
     {
         [Command(""), Alias("New", "Add"), Priority(0), Summary("Add a reminder")]
         public async Task AddReminder([Remainder] string args)

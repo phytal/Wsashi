@@ -10,10 +10,11 @@ using System.IO;
 using Newtonsoft.Json;
 using Discord;
 using Wsashi.Preconditions;
+using Wsashi.Core.Modules;
 
 namespace Wsashi.Modules.API
 {
-    public class FoxGirl : ModuleBase<SocketCommandContext>
+    public class FoxGirl : WsashiModule
     {
         [Command("foxgirl")]
         [Summary("Displays an random fox girl :3")]

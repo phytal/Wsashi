@@ -6,11 +6,12 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Wsashi.Core.Modules;
 using Wsashi.Preconditions;
 
 namespace Wsashi.Modules.ServerManagement
 {
-    public class Reports_Channel : ModuleBase<SocketCommandContext>
+    public class Reports_Channel : WsashiModule
     {
         [Command("reports")]
         [Summary("If the reports channel isn't automatically created, you can use this command to manually create it")]

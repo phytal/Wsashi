@@ -4,12 +4,13 @@ using System.Threading.Tasks;
 using Discord;
 using Discord.Commands;
 using Discord.WebSocket;
+using Wsashi.Core.Modules;
 using Wsashi.Features.GlobalAccounts;
 using Wsashi.Preconditions;
 
 namespace Wsashi.Core.LevelingSystem
 {
-    public class StatsModule : ModuleBase<SocketCommandContext>
+    public class StatsModule : WsashiModule
     {
         [Command("stats")]
         [Summary("Checks your stats (level, xp, reputation)")]

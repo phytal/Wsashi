@@ -1,19 +1,13 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Discord.WebSocket;
+﻿using System.Threading.Tasks;
 using Discord.Commands;
 using System.Net;
-using System.IO;
 using Newtonsoft.Json;
-using Discord;
 using Wsashi.Preconditions;
+using Wsashi.Core.Modules;
 
 namespace Wsashi.Modules.API
 {
-    public class CatEmoticon : ModuleBase<SocketCommandContext>
+    public class CatEmoticon : WsashiModule
     {
         [Command("catemoticon")]
         [Summary("Displays an random cat emoticon :3")]

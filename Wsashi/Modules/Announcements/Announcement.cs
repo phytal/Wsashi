@@ -2,11 +2,12 @@
 using Discord;
 using Discord.Commands;
 using Discord.WebSocket;
+using Wsashi.Core.Modules;
 using Wsashi.Features.GlobalAccounts;
 
 namespace Wsashi.Modules.Announcements
 {
-    public class Announcement : ModuleBase<SocketCommandContext>
+    public class Announcement : WsashiModule
     {
         [Command("Announcements SetChannel"), Alias("ASet")]
         [Summary("Sets the channel where to post announcements")]

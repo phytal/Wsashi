@@ -12,7 +12,7 @@ namespace Wsashi
 {
     internal static class Global
     {
-        internal static DiscordSocketClient Client { get; set; }
+        internal static DiscordShardedClient Client { get; set; }
         internal static Random Rng { get; set; } = new Random();
         internal static Dictionary<ulong, string> MessagesIdToTrack { get; set; }
         internal static List<TriviaGame> TriviaGames { get; set; } = new List<TriviaGame>();

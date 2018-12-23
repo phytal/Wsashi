@@ -8,10 +8,11 @@ using System.Text;
 using System.Threading.Tasks;
 using Discord.WebSocket;
 using Wsashi.Preconditions;
+using Wsashi.Core.Modules;
 
 namespace Wsashi.Modules.API.Nekos.life.NSFW_Neko
 {
-    public class NekoLewd : ModuleBase<SocketCommandContext>
+    public class NekoLewd : WsashiModule
     {
         [Command("nekolewd")]
         [Summary("Displays a lewd neko")]

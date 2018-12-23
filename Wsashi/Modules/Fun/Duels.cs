@@ -6,10 +6,11 @@ using System.Threading.Tasks;
 using Wsashi.Preconditions;
 using Wsashi.Features.GlobalAccounts;
 using Wsashi.Modules.Fun.Dueling;
+using Wsashi.Core.Modules;
 
 namespace Wsashi.Modules
 {
-    public class Duel : ModuleBase
+    public class Duel : WsashiModule
     {
         [Command("duelhelp")]
         [Alias("duelshelp")]

@@ -2,15 +2,13 @@
 using Discord;
 using Discord.Commands;
 using Newtonsoft.Json;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 using Wsashi.Preconditions;
+using Wsashi.Core.Modules;
 
 namespace Wsashi.Modules.API.Nekos.life.NSFW_Hentai
 {
-    public class HentaiBj : ModuleBase<SocketCommandContext>
+    public class HentaiBj : WsashiModule
     {
         [Command("blowjob")]
         [Alias("bj")]

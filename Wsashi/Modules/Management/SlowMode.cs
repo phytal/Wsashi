@@ -11,7 +11,7 @@ namespace Wsashi.Modules.Management
 {
     public class SlowMode : WsashiModule
     {
-        private static DiscordSocketClient _client = Program._client;
+        private static DiscordShardedClient _client = Program._client;
 
         public static async Task HandleSlowMode(SocketMessage s)
         {
@@ -21,7 +21,7 @@ namespace Wsashi.Modules.Management
         public static async Task Slowmode(SocketMessage s)
         {
             var msg = s as SocketUserMessage;
-            var context = new SocketCommandContext(_client, msg);
+            var context = new ShardedCommandContext(_client, msg);
             var config = GlobalGuildAccounts.GetGuildAccount(context.Guild.Id);
             if (config.IsSlowModeEnabled == true)
             {

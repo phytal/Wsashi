@@ -8,10 +8,11 @@ using System.Net;
 using System.Text;
 using System.Threading.Tasks;
 using Wsashi.Preconditions;
+using Wsashi.Core.Modules;
 
 namespace Wsashi.Modules.API
 {
-    public class Shiba : ModuleBase<SocketCommandContext>
+    public class Shiba : WsashiModule
     {
         [Command("shiba")]
         [Alias("shibe")]

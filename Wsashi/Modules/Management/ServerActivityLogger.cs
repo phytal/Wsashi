@@ -3,30 +3,37 @@ using System.IO;
 using System.Linq;
 using System.Net;
 using System.Threading.Tasks;
-using CommunityBot.Configuration;
+using Wsashi.Configuration;
 using Discord;
 using Discord.Rest;
 using Discord.WebSocket;
-using CommunityBot.Features.GlobalAccounts;
+using Wsashi.Features.GlobalAccounts;
 
-namespace CommunityBot.ServerActivityLogger
+namespace Wsashi.Modules.Management
 {
     public class ServerActivityLogger
     {
 #pragma warning disable CS4014 // Because this call is not awaited, execution of the current method continues before the call is completed
 #pragma warning disable CS1998 // This async method lacks 'await' operators and will run synchronously. Consider using the 'await' operator to await non-blocking API calls, or 'await Task.Run(...)' to do CPU-bound work on a background thread.
 
-        private readonly DiscordSocketClient _client;
-        private readonly ApplicationSettings _applicationSettings;
+        public readonly DiscordShardedClient _client;
+        public readonly IServiceProvider _services;
 
-        public ServerActivityLogger(DiscordSocketClient client, ApplicationSettings applicationSettings)
+        public ServerActivityLogger(DiscordShardedClient client, IServiceProvider services)
         {
             _client = client;
-            _applicationSettings = applicationSettings;
+            _services = services;
         }
 
+        public async Task Client_Connected()
+        {
+        }
 
-        public  async Task ChannelDestroyed(IChannel arg)
+        public async Task Client_Disconnected(Exception arg)
+        {
+
+        }
+        public async Task ChannelDestroyed(IChannel arg)
         {
             try
             {
@@ -35,14 +42,14 @@ namespace CommunityBot.ServerActivityLogger
 
                 if (arg is ITextChannel channel)
                 {
-                    var log = await channel.Guild.GetAuditLogAsync(1);
+                    var log = await channel.Guild.GetAuditLogsAsync(1);
                     var audit = log.ToList();
 
                     var name = audit[0].Action == ActionType.ChannelDeleted ? audit[0].User.Mention : "error";
                     var auditLogData = audit[0].Data as ChannelDeleteAuditLogData;
                     embed.AddField("🚫 Channel Destroyed", $"Name: {arg.Name}\n" +
-                                                           $"WHO: {name}\n" +
-                                                           $"Type {auditLogData?.ChannelType}" +
+                                                           $"Who: {name}\n" +
+                                                           $"Type: {auditLogData?.ChannelType}\n" +
                                                            $"NSFW: {channel.IsNsfw}\n" +
                                                            $"Category: {channel.GetCategoryAsync().Result.Name}\n" +
                                                            $"ID: {arg.Id}\n");
@@ -55,9 +62,9 @@ namespace CommunityBot.ServerActivityLogger
                 if (arg is IGuildChannel currentIguildChannel)
                 {
                     var guild = GlobalGuildAccounts.GetGuildAccount(currentIguildChannel.Guild.Id);
-                    if (guild.ServerActivityLog == 1)
+                    if (guild.IsServerLoggingEnabled == true)
                     {
-                        await _client.GetGuild(guild.Id).GetTextChannel(guild.LogChannelId)
+                        await _client.GetGuild(guild.Id).GetTextChannel(guild.ServerLoggingChannel)
                             .SendMessageAsync("", false, embed.Build());
                     }
                 }
@@ -68,20 +75,20 @@ namespace CommunityBot.ServerActivityLogger
             }
         }
 
-        public  async Task Client_ChannelDestroyed(IChannel arg)
+        public async Task Client_ChannelDestroyed(IChannel arg)
         {
             ChannelDestroyed(arg);
             await Task.CompletedTask;
         }
 
-        public  async Task ChannelCreated(IChannel arg)
+        public async Task ChannelCreated(IChannel arg)
         {
             try
             {
                 if (!(arg is ITextChannel channel))
                     return;
 
-                var log = await channel.Guild.GetAuditLogAsync(1);
+                var log = await channel.Guild.GetAuditLogsAsync(1);
                 var audit = log.ToList();
                 var name = audit[0].Action == ActionType.ChannelCreated ? audit[0].User.Mention : "error";
                 var auditLogData = audit[0].Data as ChannelCreateAuditLogData;
@@ -89,7 +96,7 @@ namespace CommunityBot.ServerActivityLogger
                 var embed = new EmbedBuilder();
                 embed.WithColor(14, 243, 247);
                 embed.AddField("📖 Channel Created", $"Name: {arg.Name}\n" +
-                                                     $"WHO: {name}\n" +
+                                                     $"Who: {name}\n" +
                                                      $"Type: {auditLogData?.ChannelType.ToString()}\n" +
                                                      $"NSFWL {channel.IsNsfw}\n" +
                                                      $"Category: {channel.GetCategoryAsync().Result.Name}\n" +
@@ -98,29 +105,29 @@ namespace CommunityBot.ServerActivityLogger
                 embed.WithThumbnailUrl($"{audit[0].User.GetAvatarUrl()}");
 
 
-                var currentIGuildChannel = (IGuildChannel) arg;
+                var currentIGuildChannel = (IGuildChannel)arg;
                 var guild = GlobalGuildAccounts.GetGuildAccount(currentIGuildChannel.Guild.Id);
-                if (guild.ServerActivityLog == 1)
+                if (guild.IsServerLoggingEnabled == true)
                 {
-                    await _client.GetGuild(guild.Id).GetTextChannel(guild.LogChannelId)
+                    await _client.GetGuild(guild.Id).GetTextChannel(guild.ServerLoggingChannel)
                         .SendMessageAsync("", false, embed.Build());
                 }
             }
             catch
             {
-//
+                //
             }
 
         }
 
-        public  async Task Client_ChannelCreated(IChannel arg)
+        public async Task Client_ChannelCreated(IChannel arg)
         {
             ChannelCreated(arg);
             await Task.CompletedTask;
 
         }
 
-        public  async Task GuildMemberUpdated(SocketGuildUser before, SocketGuildUser after)
+        public async Task GuildMemberUpdated(SocketGuildUser before, SocketGuildUser after)
         {
             try
             {
@@ -148,12 +155,12 @@ namespace CommunityBot.ServerActivityLogger
                         $"After:\n" +
                         $"**{afterName}**");
                     if (audit[0].Action == ActionType.MemberUpdated)
-                        embed.AddField("WHO:", $"{audit[0].User.Mention}\n");
+                        embed.AddField("Who:", $"{audit[0].User.Mention}\n");
                     embed.WithThumbnailUrl($"{after.GetAvatarUrl()}");
 
-                    if (guild.ServerActivityLog == 1)
+                    if (guild.IsServerLoggingEnabled == true)
                     {
-                        await _client.GetGuild(guild.Id).GetTextChannel(guild.LogChannelId)
+                        await _client.GetGuild(guild.Id).GetTextChannel(guild.ServerLoggingChannel)
                             .SendMessageAsync("", false, embed.Build());
                     }
                 }
@@ -173,9 +180,9 @@ namespace CommunityBot.ServerActivityLogger
 
 
 
-                    if (guild.ServerActivityLog == 1)
+                    if (guild.IsServerLoggingEnabled == true)
                     {
-                        await _client.GetGuild(guild.Id).GetTextChannel(guild.LogChannelId)
+                        await _client.GetGuild(guild.Id).GetTextChannel(guild.ServerLoggingChannel)
                             .SendMessageAsync("", false, embed.Build());
                     }
                 }
@@ -195,9 +202,9 @@ namespace CommunityBot.ServerActivityLogger
 
 
 
-                    if (guild.ServerActivityLog == 1)
+                    if (guild.IsServerLoggingEnabled == true)
                     {
-                        await _client.GetGuild(guild.Id).GetTextChannel(guild.LogChannelId)
+                        await _client.GetGuild(guild.Id).GetTextChannel(guild.ServerLoggingChannel)
                             .SendMessageAsync("", false, embed.Build());
                     }
                 }
@@ -237,13 +244,13 @@ namespace CommunityBot.ServerActivityLogger
                         $"Server: **{before.Guild.Name}**\n" +
                         $"Role ({roleString}): **{role}**");
                     if (audit[0].Action == ActionType.MemberRoleUpdated)
-                        embed.AddField("WHO:", $"{audit[0].User.Mention}\n");
+                        embed.AddField("Who:", $"{audit[0].User.Mention}\n");
                     embed.WithThumbnailUrl($"{after.GetAvatarUrl()}");
 
 
-                    if (guild.ServerActivityLog == 1)
+                    if (guild.IsServerLoggingEnabled == true)
                     {
-                        await _client.GetGuild(guild.Id).GetTextChannel(guild.LogChannelId)
+                        await _client.GetGuild(guild.Id).GetTextChannel(guild.ServerLoggingChannel)
                             .SendMessageAsync("", false, embed.Build());
                     }
                 }
@@ -256,13 +263,13 @@ namespace CommunityBot.ServerActivityLogger
 
         }
 
-        public  async Task Client_GuildMemberUpdated(SocketGuildUser before, SocketGuildUser after)
+        public async Task Client_GuildMemberUpdated(SocketGuildUser before, SocketGuildUser after)
         {
             GuildMemberUpdated(before, after);
             await Task.CompletedTask;
         }
 
-        public  async Task MessageUpdated(Cacheable<IMessage, ulong> messageBefore,
+        public async Task MessageUpdated(Cacheable<IMessage, ulong> messageBefore,
             SocketMessage messageAfter, ISocketMessageChannel arg3)
         {
             try
@@ -341,98 +348,97 @@ namespace CommunityBot.ServerActivityLogger
                     {
                         embed.AddField("After:", $"{messageAfter.Content}");
                     }
-                    if(_applicationSettings.LoggerDownloadingAttachment)
-                if (messageBefore.Value.Attachments.Any())
-                {
-
-                    var temp = messageBefore.Value.Attachments.FirstOrDefault()?.Url;
-                    var check2 = $"{temp?.Substring(temp.Length - 8, 8)}";
-                    var output = check2.Substring(check2.IndexOf('.') + 1);
-
-               
-
-
-                    if (messageBefore.Value.Attachments.Count == 1)
-                    {
-                        if (output == "png" || output == "jpg" || output == "gif")
+                        if (messageBefore.Value.Attachments.Any())
                         {
-                            embed.WithImageUrl(
-                                $"attachment://{Path.GetFileName($"Attachments/{currentIGuildChannel.GuildId}/{messageBefore.Id}.{output}")}");
-                            if (guild.ServerActivityLog == 1)
+
+                            var temp = messageBefore.Value.Attachments.FirstOrDefault()?.Url;
+                            var check2 = $"{temp?.Substring(temp.Length - 8, 8)}";
+                            var output = check2.Substring(check2.IndexOf('.') + 1);
+
+
+
+
+                            if (messageBefore.Value.Attachments.Count == 1)
                             {
-
-                                await _client.GetGuild(guild.Id).GetTextChannel(guild.LogChannelId)
-                                    .SendFileAsync(
-                                        $"Attachments/{currentIGuildChannel.GuildId}/{messageBefore.Id}.{output}",
-                                        "",
-                                        embed: embed.Build());
-                            }
-                        }
-                        else
-                        {
-                            if (guild.ServerActivityLog == 1)
-                            {
-
-                                await _client.GetGuild(guild.Id).GetTextChannel(guild.LogChannelId)
-                                    .SendMessageAsync("", false, embed.Build());
-                                await _client.GetGuild(guild.Id).GetTextChannel(guild.LogChannelId)
-                                    .SendFileAsync(
-                                        $@"Attachments/{currentIGuildChannel.GuildId}/{messageBefore.Id}.{output}",
-                                        $"");
-                            }
-                        }
-                    }
-                    else
-                    {
-                        var sent = 0;
-                        for (var i = 0; i < messageBefore.Value.Attachments.Count; i++)
-                        {
-                            var tempMulty = messageBefore.Value.Attachments.ToList();
-                            var checkMulty = $"{tempMulty[i].Url.Substring(tempMulty[i].Url.Length - 8, 8)}";
-                            var outputMylty = checkMulty.Substring(checkMulty.IndexOf('.') + 1);
-
-                            if (i == 0 && (outputMylty == "png" || outputMylty == "jpg" || outputMylty == "gif"))
-                            {
-                                sent = 1;
-                                embed.WithImageUrl(
-                                    $"attachment://{Path.GetFileName($"Attachments/{currentIGuildChannel.GuildId}/{messageBefore.Id}-{i + 1}.{outputMylty}")}");
-
-                                if (guild.ServerActivityLog == 1)
+                                if (output == "png" || output == "jpg" || output == "gif")
                                 {
+                                    embed.WithImageUrl(
+                                        $"attachment://{Path.GetFileName($"Attachments/{currentIGuildChannel.GuildId}/{messageBefore.Id}.{output}")}");
+                                    if (guild.IsServerLoggingEnabled == true)
+                                    {
 
-                                    await _client.GetGuild(guild.Id).GetTextChannel(guild.LogChannelId)
-                                        .SendFileAsync(
-                                            $"Attachments/{currentIGuildChannel.GuildId}/{messageBefore.Id}-{i + 1}.{outputMylty}",
-                                            "",
-                                            embed: embed.Build());
+                                        await _client.GetGuild(guild.Id).GetTextChannel(guild.ServerLoggingChannel)
+                                            .SendFileAsync(
+                                                $"Attachments/{currentIGuildChannel.GuildId}/{messageBefore.Id}.{output}",
+                                                "",
+                                                embed: embed.Build());
+                                    }
+                                }
+                                else
+                                {
+                                    if (guild.IsServerLoggingEnabled == true)
+                                    {
+
+                                        await _client.GetGuild(guild.Id).GetTextChannel(guild.ServerLoggingChannel)
+                                            .SendMessageAsync("", false, embed.Build());
+                                        await _client.GetGuild(guild.Id).GetTextChannel(guild.ServerLoggingChannel)
+                                            .SendFileAsync(
+                                                $@"Attachments/{currentIGuildChannel.GuildId}/{messageBefore.Id}.{output}",
+                                                $"");
+                                    }
                                 }
                             }
                             else
                             {
-                                if (guild.ServerActivityLog == 1)
+                                var sent = 0;
+                                for (var i = 0; i < messageBefore.Value.Attachments.Count; i++)
                                 {
-                                    if (sent != 1)
-                                        await _client.GetGuild(guild.Id)
-                                            .GetTextChannel(guild.LogChannelId)
-                                            .SendMessageAsync("", false, embed.Build());
-                                    await _client.GetGuild(guild.Id).GetTextChannel(guild.LogChannelId)
-                                        .SendFileAsync(
-                                            $@"Attachments/{currentIGuildChannel.GuildId}/{messageBefore.Id}-{i + 1}.{
-                                                    outputMylty
-                                                }",
-                                            "");
-                                }
+                                    var tempMulty = messageBefore.Value.Attachments.ToList();
+                                    var checkMulty = $"{tempMulty[i].Url.Substring(tempMulty[i].Url.Length - 8, 8)}";
+                                    var outputMylty = checkMulty.Substring(checkMulty.IndexOf('.') + 1);
 
-                                sent = 1;
+                                    if (i == 0 && (outputMylty == "png" || outputMylty == "jpg" || outputMylty == "gif"))
+                                    {
+                                        sent = 1;
+                                        embed.WithImageUrl(
+                                            $"attachment://{Path.GetFileName($"Attachments/{currentIGuildChannel.GuildId}/{messageBefore.Id}-{i + 1}.{outputMylty}")}");
+
+                                        if (guild.IsServerLoggingEnabled == true)
+                                        {
+
+                                            await _client.GetGuild(guild.Id).GetTextChannel(guild.ServerLoggingChannel)
+                                                .SendFileAsync(
+                                                    $"Attachments/{currentIGuildChannel.GuildId}/{messageBefore.Id}-{i + 1}.{outputMylty}",
+                                                    "",
+                                                    embed: embed.Build());
+                                        }
+                                    }
+                                    else
+                                    {
+                                        if (guild.IsServerLoggingEnabled == true)
+                                        {
+                                            if (sent != 1)
+                                                await _client.GetGuild(guild.Id)
+                                                    .GetTextChannel(guild.ServerLoggingChannel)
+                                                    .SendMessageAsync("", false, embed.Build());
+                                            await _client.GetGuild(guild.Id).GetTextChannel(guild.ServerLoggingChannel)
+                                                .SendFileAsync(
+                                                    $@"Attachments/{currentIGuildChannel.GuildId}/{messageBefore.Id}-{i + 1}.{
+                                                            outputMylty
+                                                        }",
+                                                    "");
+                                        }
+
+                                        sent = 1;
+                                    }
+                                }
                             }
                         }
-                    }
-                }    
 
-                    if (guild.ServerActivityLog == 1)
+                    if (guild.IsServerLoggingEnabled == true)
                     {
 
-                        await _client.GetGuild(guild.Id).GetTextChannel(guild.LogChannelId)
+                        await _client.GetGuild(guild.Id).GetTextChannel(guild.ServerLoggingChannel)
                             .SendMessageAsync("", false, embed.Build());
                     }
                 }
@@ -445,7 +451,7 @@ namespace CommunityBot.ServerActivityLogger
         }
 
 
-        public  async Task Client_MessageUpdated(Cacheable<IMessage, ulong> messageBefore,
+        public async Task Client_MessageUpdated(Cacheable<IMessage, ulong> messageBefore,
             SocketMessage messageAfter, ISocketMessageChannel arg3)
         {
             MessageUpdated(messageBefore, messageAfter, arg3);
@@ -456,99 +462,99 @@ namespace CommunityBot.ServerActivityLogger
         // This Function, downloads all the attachments it saw, saves it as "Mess_ID" and if anyone edits message or delete it, the bot will pull the file from the drive with that name
         // to post it as well. multiple files handled as well.
 
-       public  async Task MessageReceivedDownloadAttachment(SocketMessage arg)
-      {
-          try
-          {
-              if (arg.Attachments.Count == 1)
-              {
+        public async Task MessageReceivedDownloadAttachment(SocketMessage arg)
+        {
+            try
+            {
+                if (arg.Attachments.Count == 1)
+                {
 
-                  var ll = arg.Channel as IGuildChannel;
+                    var ll = arg.Channel as IGuildChannel;
 
-                  Directory.CreateDirectory($@"Attachments");
-                  Directory.CreateDirectory($@"Attachments/{ll?.GuildId}");
+                    Directory.CreateDirectory($@"Attachments");
+                    Directory.CreateDirectory($@"Attachments/{ll?.GuildId}");
 
-                  var temp = arg.Attachments.FirstOrDefault()?.Url;
-                  if (!arg.Attachments.Any())
-                      return;
-                  var check = $"{temp?.Substring(temp.Length - 8, 8)}";
-                  var output = check.Substring(check.IndexOf('.') + 1);
+                    var temp = arg.Attachments.FirstOrDefault()?.Url;
+                    if (!arg.Attachments.Any())
+                        return;
+                    var check = $"{temp?.Substring(temp.Length - 8, 8)}";
+                    var output = check.Substring(check.IndexOf('.') + 1);
 
-                  if (output == "png" || output == "jpg" || output == "gif")
-                  {
-                      using (var client = new WebClient())
-                      {
-                          client.DownloadFileAsync(new Uri(arg.Attachments.FirstOrDefault()?.Url),
-                              $@"Attachments/{ll?.GuildId}/{arg.Id}.{output}");
-                      }
-                  }
-                  else
-                  {
-                      // Console.WriteLine(output);
-                      using (var client = new WebClient())
-                      {
-                          client.DownloadFileAsync(new Uri(arg.Attachments.FirstOrDefault()?.Url),
-                              $@"Attachments/{ll?.GuildId}/{arg.Id}.{output}");
-                      }
-                  }
-              }
-              else
-              {
-                  for (var i = 0; i < arg.Attachments.Count; i++)
-                  {
-                      var ll = arg.Channel as IGuildChannel;
+                    if (output == "png" || output == "jpg" || output == "gif")
+                    {
+                        using (var client = new WebClient())
+                        {
+                            client.DownloadFileAsync(new Uri(arg.Attachments.FirstOrDefault()?.Url),
+                                $@"Attachments/{ll?.GuildId}/{arg.Id}.{output}");
+                        }
+                    }
+                    else
+                    {
+                        // Console.WriteLine(output);
+                        using (var client = new WebClient())
+                        {
+                            client.DownloadFileAsync(new Uri(arg.Attachments.FirstOrDefault()?.Url),
+                                $@"Attachments/{ll?.GuildId}/{arg.Id}.{output}");
+                        }
+                    }
+                }
+                else
+                {
+                    for (var i = 0; i < arg.Attachments.Count; i++)
+                    {
+                        var ll = arg.Channel as IGuildChannel;
 
-                      Directory.CreateDirectory($@"Attachments");
-                      Directory.CreateDirectory($@"Attachments/{ll?.GuildId}");
+                        Directory.CreateDirectory($@"Attachments");
+                        Directory.CreateDirectory($@"Attachments/{ll?.GuildId}");
 
-                      var temp = arg.Attachments.ToList();
+                        var temp = arg.Attachments.ToList();
 
 
 
-                      var check = $"{temp[i].Url.Substring(temp[i].Url.Length - 8, 8)}";
-                      var output = check.Substring(check.IndexOf('.') + 1);
+                        var check = $"{temp[i].Url.Substring(temp[i].Url.Length - 8, 8)}";
+                        var output = check.Substring(check.IndexOf('.') + 1);
 
-                      if (output == "png" || output == "jpg" || output == "gif")
-                      {
-                          using (var client = new WebClient())
-                          {
-                              client.DownloadFileAsync(new Uri(temp[i].Url),
-                                  $@"Attachments/{ll?.GuildId}/{arg.Id}-{i + 1}.{output}");
-                          }
-                      }
-                      else
-                      {
-                          // Console.WriteLine(output);
-                          using (var client = new WebClient())
-                          {
-                              client.DownloadFileAsync(new Uri(temp[i].Url),
-                                  $@"Attachments/{ll?.GuildId}/{arg.Id}-{i + 1}.{output}");
-                          }
-                      }
-                  }
-              }
+                        if (output == "png" || output == "jpg" || output == "gif")
+                        {
+                            using (var client = new WebClient())
+                            {
+                                client.DownloadFileAsync(new Uri(temp[i].Url),
+                                    $@"Attachments/{ll?.GuildId}/{arg.Id}-{i + 1}.{output}");
+                            }
+                        }
+                        else
+                        {
+                            // Console.WriteLine(output);
+                            using (var client = new WebClient())
+                            {
+                                client.DownloadFileAsync(new Uri(temp[i].Url),
+                                    $@"Attachments/{ll?.GuildId}/{arg.Id}-{i + 1}.{output}");
+                            }
+                        }
+                    }
+                }
 
-              await Task.CompletedTask;
-          }
-          catch
-          {
-              //
-          }
-      }
-     
+                await Task.CompletedTask;
+            }
+            catch
+            {
+                //
+            }
+        }
 
-       public  async Task Client_MessageReceived(SocketMessage arg)
-      {
 
-          if (arg.Author.Id == _client.CurrentUser.Id)
-              return;
+        public async Task Client_MessageReceived(SocketMessage arg)
+        {
 
-           MessageReceivedDownloadAttachment(arg);
-          await Task.CompletedTask;
-      }
-       
-      
-        public  async Task DeleteLogg(Cacheable<IMessage, ulong> messageBefore,
+            if (arg.Author.Id == _client.CurrentUser.Id)
+                return;
+
+            MessageReceivedDownloadAttachment(arg);
+            await Task.CompletedTask;
+        }
+
+
+        public async Task DeleteLogg(Cacheable<IMessage, ulong> messageBefore,
             ISocketMessageChannel arg3)
         {
             try
@@ -559,7 +565,7 @@ namespace CommunityBot.ServerActivityLogger
                 {
                     var guild = GlobalGuildAccounts.GetGuildAccount(kek.Guild.Id);
 
-                    var log = await kek.Guild.GetAuditLogAsync(1);
+                    var log = await kek.Guild.GetAuditLogsAsync(1);
                     var audit = log.ToList();
 
                     var name = $"{messageBefore.Value.Author.Mention}";
@@ -578,7 +584,7 @@ namespace CommunityBot.ServerActivityLogger
                     embedDel.WithColor(Color.Red);
                     embedDel.WithTitle($"🗑 Deleted Message");
                     embedDel.WithDescription($"Where: <#{messageBefore.Value.Channel.Id}>\n" +
-                                             $"WHO: **{name}** (not always correct)\n" +
+                                             $"Who: **{name}** (not always correct)\n" +
                                              $"Mess Author: **{messageBefore.Value.Author}**\n");
 
 
@@ -602,74 +608,32 @@ namespace CommunityBot.ServerActivityLogger
                         embedDel.AddField("Content", $"{messageBefore.Value.Content}");
                     }
 
-                    if(_applicationSettings.LoggerDownloadingAttachment)
-                    if (messageBefore.Value.Attachments.Any())
-                    {
-
-                        var temp = messageBefore.Value.Attachments.FirstOrDefault()?.Url;
-                        var check2 = $"{temp?.Substring(temp.Length - 8, 8)}";
-                        var output = check2.Substring(check2.IndexOf('.') + 1);
-                       
-                        var currentIGuildChannel = arg3 as IGuildChannel;
-
-                      
-                        if (messageBefore.Value.Attachments.Count == 1)
+                        if (messageBefore.Value.Attachments.Any())
                         {
-                            if (output == "png" || output == "jpg" || output == "gif")
+
+                            var temp = messageBefore.Value.Attachments.FirstOrDefault()?.Url;
+                            var check2 = $"{temp?.Substring(temp.Length - 8, 8)}";
+                            var output = check2.Substring(check2.IndexOf('.') + 1);
+
+                            var currentIGuildChannel = arg3 as IGuildChannel;
+
+
+                            if (messageBefore.Value.Attachments.Count == 1)
                             {
-                                embedDel.WithImageUrl(
-                                    $"attachment://{Path.GetFileName($"Attachments/{currentIGuildChannel?.GuildId}/{messageBefore.Id}.{output}")}");
-
-
-                               
-                             
-                                if (guild.ServerActivityLog == 1)
+                                if (output == "png" || output == "jpg" || output == "gif")
                                 {
-
-                                    await _client.GetGuild(guild.Id).GetTextChannel(guild.LogChannelId)
-                                        .SendFileAsync(
-                                            $"Attachments/{currentIGuildChannel?.GuildId}/{messageBefore.Id}.{output}",
-                                            "",
-                                            embed: embedDel.Build());
-                                }
-                            }
-                            else
-                            {
- 
-                                if (guild.ServerActivityLog == 1)
-                                {
-
-                                    await _client.GetGuild(guild.Id).GetTextChannel(guild.LogChannelId)
-                                        .SendMessageAsync("", false, embedDel.Build());
-                                    await _client.GetGuild(guild.Id).GetTextChannel(guild.LogChannelId)
-                                        .SendFileAsync(
-                                            $@"Attachments/{currentIGuildChannel?.GuildId}/{messageBefore.Id}.{output}",
-                                            $"");
-                                }
-                            }
-                        }
-                        else
-                        {
-                            var sent = 0;
-                            for (var i = 0; i < messageBefore.Value.Attachments.Count; i++)
-                            {
-                                var tempMulty = messageBefore.Value.Attachments.ToList();
-                                var checkMulty = $"{tempMulty[i].Url.Substring(tempMulty[i].Url.Length - 8, 8)}";
-                                var outputMylty = checkMulty.Substring(checkMulty.IndexOf('.') + 1);
-
-                                if (i == 0 && (outputMylty == "png" || outputMylty == "jpg" || outputMylty == "gif"))
-                                {
-                                    sent = 1;
                                     embedDel.WithImageUrl(
-                                        $"attachment://{Path.GetFileName($"Attachments/{currentIGuildChannel?.GuildId}/{messageBefore.Id}-{i + 1}.{outputMylty}")}");
+                                        $"attachment://{Path.GetFileName($"Attachments/{currentIGuildChannel?.GuildId}/{messageBefore.Id}.{output}")}");
 
-                           
-                                    if (guild.ServerActivityLog == 1)
+
+
+
+                                    if (guild.IsServerLoggingEnabled == true)
                                     {
 
-                                        await _client.GetGuild(guild.Id).GetTextChannel(guild.LogChannelId)
+                                        await _client.GetGuild(guild.Id).GetTextChannel(guild.ServerLoggingChannel)
                                             .SendFileAsync(
-                                                $"Attachments/{currentIGuildChannel?.GuildId}/{messageBefore.Id}-{i + 1}.{outputMylty}",
+                                                $"Attachments/{currentIGuildChannel?.GuildId}/{messageBefore.Id}.{output}",
                                                 "",
                                                 embed: embedDel.Build());
                                     }
@@ -677,34 +641,75 @@ namespace CommunityBot.ServerActivityLogger
                                 else
                                 {
 
-                                    if (guild.ServerActivityLog == 1)
+                                    if (guild.IsServerLoggingEnabled == true)
                                     {
-                                        if (sent != 1)
-                                            await _client.GetGuild(guild.Id)
-                                                .GetTextChannel(guild.LogChannelId)
-                                                .SendMessageAsync("", false, embedDel.Build());
-                                        await _client.GetGuild(guild.Id).GetTextChannel(guild.LogChannelId)
+
+                                        await _client.GetGuild(guild.Id).GetTextChannel(guild.ServerLoggingChannel)
+                                            .SendMessageAsync("", false, embedDel.Build());
+                                        await _client.GetGuild(guild.Id).GetTextChannel(guild.ServerLoggingChannel)
                                             .SendFileAsync(
-                                                $@"Attachments/{currentIGuildChannel?.GuildId}/{
-                                                        messageBefore.Id
-                                                    }-{i + 1}.{outputMylty}",
+                                                $@"Attachments/{currentIGuildChannel?.GuildId}/{messageBefore.Id}.{output}",
                                                 $"");
                                     }
+                                }
+                            }
+                            else
+                            {
+                                var sent = 0;
+                                for (var i = 0; i < messageBefore.Value.Attachments.Count; i++)
+                                {
+                                    var tempMulty = messageBefore.Value.Attachments.ToList();
+                                    var checkMulty = $"{tempMulty[i].Url.Substring(tempMulty[i].Url.Length - 8, 8)}";
+                                    var outputMylty = checkMulty.Substring(checkMulty.IndexOf('.') + 1);
 
-                                    sent = 1;
+                                    if (i == 0 && (outputMylty == "png" || outputMylty == "jpg" || outputMylty == "gif"))
+                                    {
+                                        sent = 1;
+                                        embedDel.WithImageUrl(
+                                            $"attachment://{Path.GetFileName($"Attachments/{currentIGuildChannel?.GuildId}/{messageBefore.Id}-{i + 1}.{outputMylty}")}");
 
+
+                                        if (guild.IsServerLoggingEnabled == true)
+                                        {
+
+                                            await _client.GetGuild(guild.Id).GetTextChannel(guild.ServerLoggingChannel)
+                                                .SendFileAsync(
+                                                    $"Attachments/{currentIGuildChannel?.GuildId}/{messageBefore.Id}-{i + 1}.{outputMylty}",
+                                                    "",
+                                                    embed: embedDel.Build());
+                                        }
+                                    }
+                                    else
+                                    {
+
+                                        if (guild.IsServerLoggingEnabled == true)
+                                        {
+                                            if (sent != 1)
+                                                await _client.GetGuild(guild.Id)
+                                                    .GetTextChannel(guild.ServerLoggingChannel)
+                                                    .SendMessageAsync("", false, embedDel.Build());
+                                            await _client.GetGuild(guild.Id).GetTextChannel(guild.ServerLoggingChannel)
+                                                .SendFileAsync(
+                                                    $@"Attachments/{currentIGuildChannel?.GuildId}/{
+                                                            messageBefore.Id
+                                                        }-{i + 1}.{outputMylty}",
+                                                    $"");
+                                        }
+
+                                        sent = 1;
+
+                                    }
                                 }
                             }
                         }
+
+                    if (guild.IsServerLoggingEnabled == true)
+                    {
+
+                        await _client.GetGuild(guild.Id).GetTextChannel(guild.ServerLoggingChannel)
+                            .SendMessageAsync("", false, embedDel.Build());
                     }
 
-                        if (guild.ServerActivityLog == 1)
-                        {
-
-                            await _client.GetGuild(guild.Id).GetTextChannel(guild.LogChannelId)
-                                .SendMessageAsync("", false, embedDel.Build());
-                        }
-                    
                 }
             }
             catch (Exception e)
@@ -715,22 +720,21 @@ namespace CommunityBot.ServerActivityLogger
 
         }
 
-        public  async Task Client_MessageDeleted(Cacheable<IMessage, ulong> messageBefore,
+        public async Task Client_MessageDeleted(Cacheable<IMessage, ulong> messageBefore,
             ISocketMessageChannel arg3)
         {
             DeleteLogg(messageBefore, arg3);
             await Task.CompletedTask;
         }
 
-        public  async Task RoleDeleted(SocketRole arg)
+        public async Task RoleCreated(SocketRole arg)
         {
             try
             {
-
                 var log = await arg.Guild.GetAuditLogsAsync(1).FlattenAsync();
                 var audit = log.ToList();
-                var check = audit[0].Data as RoleDeleteAuditLogData;
-                var name = "erorr";
+                var check = audit[0].Data as RoleCreateAuditLogData;
+                var name = "error";
 
                 if (check?.RoleId == arg.Id)
                 {
@@ -739,7 +743,7 @@ namespace CommunityBot.ServerActivityLogger
 
                 var embed = new EmbedBuilder();
                 embed.WithColor(240, 51, 255);
-                embed.AddField("⚰️ Role Deleted", $"WHO: {name}\n" +
+                embed.AddField("⚰️ Role Created", $"Who: {name}\n" +
 
                                                   $"Name: {arg.Name} ({arg.Guild})\n" +
                                                   $"Color: {arg.Color}\n" +
@@ -751,9 +755,9 @@ namespace CommunityBot.ServerActivityLogger
 
                 var guild = GlobalGuildAccounts.GetGuildAccount(arg.Guild.Id);
 
-                if (guild.ServerActivityLog == 1)
+                if (guild.IsServerLoggingEnabled == true)
                 {
-                    await _client.GetGuild(guild.Id).GetTextChannel(guild.LogChannelId)
+                    await _client.GetGuild(guild.Id).GetTextChannel(guild.ServerLoggingChannel)
                         .SendMessageAsync("", false, embed.Build());
                 }
             }
@@ -764,14 +768,62 @@ namespace CommunityBot.ServerActivityLogger
 
         }
 
-        public  async Task Client_RoleDeleted(SocketRole arg)
+        public async Task Client_RoleCreated(SocketRole arg)
+        {
+            RoleCreated(arg);
+            await Task.CompletedTask;
+        }
+
+        public async Task RoleDeleted(SocketRole arg)
+        {
+            try
+            {
+
+                var log = await arg.Guild.GetAuditLogsAsync(1).FlattenAsync();
+                var audit = log.ToList();
+                var check = audit[0].Data as RoleDeleteAuditLogData;
+                var name = "error";
+
+                if (check?.RoleId == arg.Id)
+                {
+                    name = audit[0].User.Mention;
+                }
+
+                var embed = new EmbedBuilder();
+                embed.WithColor(240, 51, 255);
+                embed.AddField("⚰️ Role Deleted", $"Who: {name}\n" +
+
+                                                  $"Name: {arg.Name} ({arg.Guild})\n" +
+                                                  $"Color: {arg.Color}\n" +
+                                                  $"ID: {arg.Id}\n");
+                embed.WithTimestamp(DateTimeOffset.UtcNow);
+
+                embed.WithThumbnailUrl($"{audit[0].User.GetAvatarUrl()}");
+
+
+                var guild = GlobalGuildAccounts.GetGuildAccount(arg.Guild.Id);
+
+                if (guild.IsServerLoggingEnabled == true)
+                {
+                    await _client.GetGuild(guild.Id).GetTextChannel(guild.ServerLoggingChannel)
+                        .SendMessageAsync("", false, embed.Build());
+                }
+            }
+            catch
+            {
+                //
+            }
+
+        }
+
+        public async Task Client_RoleDeleted(SocketRole arg)
         {
             RoleDeleted(arg);
             await Task.CompletedTask;
         }
 
         // Does not work fully correctly, PM me if you can fix it
-        public  async Task RoleUpdated(SocketRole arg1, SocketRole arg2)
+        public async Task RoleUpdated(SocketRole arg1, SocketRole arg2)
         {
             try
             {
@@ -845,7 +897,7 @@ namespace CommunityBot.ServerActivityLogger
                 var embed = new EmbedBuilder();
                 embed.WithColor(57, 51, 255);
                 embed.AddField($"🛠️ Role Updated({roleString})", $"Role: {after.Mention}\n" +
-                                                                  $"WHO: {name}\n" +
+                                                                  $"Who: {name}\n" +
                                                                   $"ID: {before.Id}\n" +
                                                                   $"Guild: {before.Guild.Name}\n" +
                                                                   $"{extra}" +
@@ -862,9 +914,9 @@ namespace CommunityBot.ServerActivityLogger
 
 
 
-                if (guild.ServerActivityLog == 1)
+                if (guild.IsServerLoggingEnabled == true)
                 {
-                    await _client.GetGuild(guild.Id).GetTextChannel(guild.LogChannelId)
+                    await _client.GetGuild(guild.Id).GetTextChannel(guild.ServerLoggingChannel)
                         .SendMessageAsync("", false, embed.Build());
                 }
             }
@@ -874,24 +926,11 @@ namespace CommunityBot.ServerActivityLogger
             }
         }
 
-        public  async Task Client_RoleUpdated(SocketRole arg1, SocketRole arg2)
+        public async Task Client_RoleUpdated(SocketRole arg1, SocketRole arg2)
         {
             RoleUpdated(arg1, arg2);
             await Task.CompletedTask;
 
-        }
-
-        public  async Task Client_UserJoined_ForRoleOnJoin(SocketGuildUser arg)
-        {
-            var guid = GlobalGuildAccounts.GetGuildAccount(arg.Guild.Id);
-
-            if (guid.RoleOnJoin == null)
-                return;
-
-            var roleToGive = arg.Guild.Roles
-                .SingleOrDefault(x => x.Name.ToString() == $"{guid.RoleOnJoin}");
-
-            await arg.AddRoleAsync(roleToGive);
         }
     }
 }

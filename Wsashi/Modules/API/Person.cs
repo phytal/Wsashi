@@ -1,17 +1,14 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Threading.Tasks;
 using Newtonsoft.Json;
 using Discord.Commands;
 using Discord;
 using System.Net;
 using Wsashi.Preconditions;
+using Wsashi.Core.Modules;
 
 namespace Wsashi.Modules.API
 {
-    public class Person : ModuleBase
+    public class Person : WsashiModule
     {
         [Command("person")]
         [Summary("Gets a random person with random credentials")]

@@ -7,10 +7,11 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Wsashi.Preconditions;
+using Wsashi.Core.Modules;
 
 namespace Wsashi.Modules.API.Nekos.life.NSFW_Hentai
 {
-    public class HentaiAnal : ModuleBase<SocketCommandContext>
+    public class HentaiAnal : WsashiModule
     {
         [Command("anal")]
         [Summary("Displays hentai anal")]

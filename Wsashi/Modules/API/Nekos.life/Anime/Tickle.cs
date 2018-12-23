@@ -10,10 +10,11 @@ using System.IO;
 using Newtonsoft.Json;
 using Discord;
 using Wsashi.Preconditions;
+using Wsashi.Core.Modules;
 
 namespace Wsashi.Modules.API.Nekos.life.Anime
 {
-    public class Tickle : ModuleBase<SocketCommandContext>
+    public class Tickle : WsashiModule
     {
         [Command("Tickle")]
         [Summary("Tickle someone! :3")]

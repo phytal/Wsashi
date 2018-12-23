@@ -10,10 +10,11 @@ using System.IO;
 using Newtonsoft.Json;
 using Discord;
 using Wsashi.Preconditions;
+using Wsashi.Core.Modules;
 
 namespace Wsashi.Modules.API
 {
-    public class Slap : ModuleBase<SocketCommandContext>
+    public class Slap : WsashiModule
     {
         [Command("slap")]
         [Summary("Slap someone!")]
