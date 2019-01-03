@@ -9,6 +9,7 @@ using Discord.WebSocket;
 using Wsashi.Preconditions;
 using Wsashi.Core.Modules;
 using Wsashi.Features.GlobalAccounts;
+using Wsashi.Helpers;
 
 namespace Wsashi
 {
@@ -88,11 +89,11 @@ namespace Wsashi
             }*/
             var roleNames = user.Roles.Select(r => r.Name); //return a collection of strings with only the role names
             var roleNamesMerged = String.Join(", ", roleNames); //separates every element of the collection with a comma in a single string, ready to display!
-
+            
             embed.AddField("Name", $"**{user}**", true);
             embed.AddField("ID", $"**{user.Id}**", true);
             embed.AddField("Discriminator", $"**{user.Discriminator}**", true);
-            embed.AddField("Is Bot", $"**{user.IsBot}**", true);
+            embed.AddField("Is Bot", $"**{ConvertBool.ConvertBooleanYN(user.IsBot)}**", true);
             embed.AddField("Joined Discord at", $"**{user.CreatedAt}**", true);
             embed.AddField($"Joined {Context.Guild}", $"**{user.JoinedAt}**", true);
             embed.AddField("Nickname", $"**{nickname}**", true);
@@ -259,8 +260,8 @@ namespace Wsashi
             "```\n" +
             "Use `w!command [command]` to get more info on a specific command. Ex: `w!command xp`  `[Prefix 'w!']`\n" +
             "\n" +
-            "**Filters -** `antilink` `filter` `pingchecks` `antilinkignore` `filterignore` `BlacklistAdd` `BlacklistRemove` `BlacklistClear`\n" +
-            "**User Management -** `ban` `kick` `mute` `unmute` `clear` `warn` `warnings` `clearwarnings` `say` `softban` `idban` `promote` `demote`\n" +
+            "**Filters -** `Antilink` `filter` `PingChecks` `AntilinkIgnore` `filterignore` `BlacklistAdd` `BlacklistRemove` `BlacklistClear`\n" +
+            "**User Management -** `ban` `kick` `mute` `unmute` `clear` `warn` `warnings` `ClearWarnings` `say` `softban` `idban` `promote` `demote`\n" +
             "**Bot Settings -** `serverprefix` `leveling` `list` `leveling` `levelingmsg` `config`\n" +
             "**Welcome Messages (w!welcome <command>) -** `channel` `add` `remove` `list`\n" +
             "**Leaving Messages (w!leave <command>) -** `channel` `add` `remove` `list`\n" +
@@ -307,7 +308,7 @@ namespace Wsashi
                 "Use `w!command [command]` to get more info on a specific command. Ex: `w!command xp`  `[Prefix 'w!']`\n" +
                 "\n" +
                 "**Neko -** `nekolewd` `nekonsfwgif`\n" +
-                "**Hentai -** `anal` `boobs` `cum` `les` `pussy` `blowjob` `classic` `kuni`\n" +
+                "**Hentai -** `anal` `boobs` `cum` `les` `pussy` `blowjob` `classic` `kuni` `OverwatchNSFW`\n" +
                 "\n" +
                 "```\n" +
                 "# Don't include the example brackets when using commands!\n" +

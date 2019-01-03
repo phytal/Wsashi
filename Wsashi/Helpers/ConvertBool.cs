@@ -28,5 +28,15 @@ namespace Wsashi.Helpers
             }
             return new Tuple<bool, bool>(false, false);
         }
+
+        public static string ConvertBooleanOF(bool boolean)
+        {
+            return boolean == true ? "**On**" : "**Off**";
+        }
+
+        public static string ConvertBooleanYN(bool boolean)
+        {
+            return boolean == true ? "**Yes**" : "**No**";
+        }
     }
 }

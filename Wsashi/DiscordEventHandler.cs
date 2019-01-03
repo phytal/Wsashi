@@ -213,7 +213,7 @@ namespace Wsashi
 
         private async Task RoleUpdated(SocketRole roleBefore, SocketRole roleAfter)
         {
-            _serverActivityLogger.Client_RoleUpdated(roleBefore, roleAfter);
+            //_serverActivityLogger.Client_RoleUpdated(roleBefore, roleAfter);
         }
 
         private async Task UserBanned(SocketUser user, SocketGuild guild)
