@@ -11,6 +11,7 @@ using Discord;
 using System.Collections.Generic;
 using Wsashi.Handlers;
 using Wsashi.Features.Trivia;
+using System.Collections.Concurrent;
 
 namespace Wsashi
 {
@@ -19,6 +20,7 @@ namespace Wsashi
         private DiscordShardedClient _client;
         private CommandService _commands;
         private IServiceProvider _services;
+        //readonly ConcurrentDictionary<CooldownInfo, DateTime> _cooldowns = new ConcurrentDictionary<CooldownInfo, DateTime>();
 
         public CommandHandler(IServiceProvider services, CommandService commands,
     DiscordShardedClient client)
@@ -51,6 +53,29 @@ namespace Wsashi
 
             var context = new ShardedCommandContext(_client, msg);
             if (context.User.IsBot) return;
+
+            /*var key = new CooldownInfo(context.User.Id);
+            // Check if message with the same hash code is already in dictionary 
+            if (_cooldowns.TryGetValue(key, out DateTime endsAt))
+            {
+                // Calculate the difference between current time and the time cooldown should end
+                var difference = endsAt.Subtract(DateTime.UtcNow);
+                var timeSpanString = string.Format("{0:%s} seconds", difference);
+                // Display message if command is on cooldown
+                if (difference.Ticks > 0)
+                {
+                    await context.Channel.SendMessageAsync($"You can use a command in {timeSpanString}");
+                    return;
+                }
+                // Update cooldown time
+                var time = DateTime.UtcNow.Add(TimeSpan.FromSeconds(2));
+                _cooldowns.TryUpdate(key, time, endsAt);
+            }
+            else
+            {
+                _cooldowns.TryAdd(key, DateTime.UtcNow.Add(TimeSpan.FromSeconds(2)));
+            }*/
+
 
             var config = GlobalGuildAccounts.GetGuildAccount(context.Guild.Id);
             var prefix = config.CommandPrefix ?? Config.bot.cmdPrefix;
@@ -87,6 +112,16 @@ namespace Wsashi
             }
         }
 
+        /*public struct CooldownInfo
+        {
+            public ulong UserId { get; }
+
+            public CooldownInfo(ulong userId)
+            {
+                UserId = userId;
+            }
+
+        }*/
         public async Task ReactionWasAdded(Cacheable<IUserMessage, ulong> message, ISocketMessageChannel channel, SocketReaction reaction)
         {
             if (Timeouts.HasCommandTimeout(reaction.UserId, "REACTION", 1)) return;

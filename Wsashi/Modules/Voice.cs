@@ -12,7 +12,7 @@ namespace Wsashi.Modules
 
             [Command("Voice")]
             [RequireBotPermission(GuildPermission.ManageChannels)]
-            [Cooldown(10, true)]
+            [Cooldown(10)]
             public async Task CreateTemporaryVoiceChannel(int lifetimeInMinutes = 0)
             {
                 lifetimeInMinutes *= 60000;

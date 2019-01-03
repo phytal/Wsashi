@@ -10,6 +10,7 @@ using Wsashi.Features.GlobalAccounts;
 using Wsashi.Helpers;
 using System.IO;
 using System.Threading;
+using Wsashi.Preconditions;
 
 namespace Wsashi.Core.Modules
 {
@@ -24,6 +25,7 @@ namespace Wsashi.Core.Modules
         [Summary("Bans a specified user")]
         [Remarks("w!ban <user you want to ban> Ex: w!ban @Phytal")]
         [RequireBotPermission(GuildPermission.BanMembers)]
+        [Cooldown(5)]
         public async Task BanAsync(IGuildUser user, string reason = "No reason provided.")
         {
             var config = GlobalGuildAccounts.GetGuildAccount(Context.Guild.Id);
@@ -62,6 +64,7 @@ namespace Wsashi.Core.Modules
         [Command("unban")]
         [Summary("Unban A User")]
         [Remarks("w!unban <user you want to unban> Ex: w!unban @Phytal#8213")]
+        [Cooldown(5)]
         public async Task Unban([Remainder]string user2)
         {
             var user = Context.User as SocketGuildUser;
@@ -88,6 +91,7 @@ namespace Wsashi.Core.Modules
         [Command("Softban"), Alias("Sb")]
         [Summary("Bans then unbans a user.")]
         [Remarks("w!softban <user you want to soft ban> Ex: w!softban @Phytal")]
+        [Cooldown(5)]
         public async Task BanThenUnbanUser(SocketGuildUser user)
         {
             var guser = Context.User as SocketGuildUser;
@@ -120,6 +124,7 @@ namespace Wsashi.Core.Modules
         [Command("IdBan")]
         [Summary("Ban a user by their ID")]
         [Remarks("w!idban <user you want to idban> Ex: w!idban 264897146837270529")]
+        [Cooldown(5)]
         public async Task BanUserById(ulong userid, [Remainder]string reason = "No reason provided.")
         {
             var guser = Context.User as SocketGuildUser;
@@ -154,6 +159,7 @@ namespace Wsashi.Core.Modules
         [Command("kick")]
         [Summary("Kicks @Username")]
         [Remarks("w!kick <user you want to kick> Ex: w!kick @Phytal")]
+        [Cooldown(5)]
         public async Task KickAsync(IGuildUser user, string reason = "No reason provided.")
         {
             var config = GlobalGuildAccounts.GetGuildAccount(Context.Guild.Id);
@@ -193,6 +199,7 @@ namespace Wsashi.Core.Modules
         [Command("mute")]
         [Summary("Mutes @Username")]
         [Remarks("w!mute <user you want to mute> <reason> Ex: w!mute @Phytal spammed in the no spam channel")]
+        [Cooldown(5)]
         public async Task MuteAsync(SocketGuildUser user)
         {
             var guser = Context.User as SocketGuildUser;
@@ -224,6 +231,7 @@ namespace Wsashi.Core.Modules
         [Command("unmute")]
         [Summary("Unmutes @Username")]
         [Remarks("w!unmute <user you want to unmute> Ex: w!unmute @Phytal")]
+        [Cooldown(5)]
         public async Task UnmuteAsync(SocketGuildUser user = null)
         {
             var guser = Context.User as SocketGuildUser;
@@ -256,6 +264,7 @@ namespace Wsashi.Core.Modules
         [Alias("purge", "delete")]
         [Summary("Purges A User's Last 100 Messages")]
         [Remarks("w!clear <user whose messages you want to clear> Ex: w!clear @Phytal")]
+        [Cooldown(5)]
         public async Task Clear(SocketGuildUser user)
         {
             if (user.GuildPermissions.ManageMessages)
@@ -280,6 +289,7 @@ namespace Wsashi.Core.Modules
         [Alias("purge", "delete")]
         [Summary("Clears *x* amount of messages")]
         [Remarks("w!clear <amount of messages you want to clear> Ex: w!clear 10")]
+        [Cooldown(5)]
         [RequireBotPermission(GuildPermission.ManageMessages)]
         public async Task Purge([Remainder] int num = 0)
         {
@@ -330,6 +340,7 @@ namespace Wsashi.Core.Modules
         [Command("promote")]
         [Summary("Promotes a user to a certain rank")]
         [Remarks("w!promo <rank (admin/mod/helper)> <person you want to promote> Ex: w!promo admin @Phytal")]
+        [Cooldown(5)]
         [RequireBotPermission(GuildPermission.ManageRoles)]
         public async Task Promote(string rank, IGuildUser user = null)
         {
@@ -383,6 +394,7 @@ namespace Wsashi.Core.Modules
         [Summary("Demotes a user to a certain role")]
         [Remarks("w!demote <rank (mod/helper/member)> <person you want to demote> Ex: w!demote mod @Phytal")]
         [RequireBotPermission(GuildPermission.ManageRoles)]
+        [Cooldown(5)]
         public async Task Demote(string rank, IGuildUser user = null)
         {
             var config = GlobalGuildAccounts.GetGuildAccount(Context.Guild.Id);
@@ -476,6 +488,7 @@ namespace Wsashi.Core.Modules
         [Summary("Warns a User")]
         [Remarks("w!warn <user you want to warn> <reason> Ex: w!warn @Phytal bullied my brother")]
         [RequireBotPermission(GuildPermission.BanMembers)]
+        [Cooldown(5)]
         public async Task WarnUser(IGuildUser user, [Remainder]string reason = "No reason provided.")
         {
             var guser = Context.User as SocketGuildUser;
@@ -554,6 +567,7 @@ namespace Wsashi.Core.Modules
         [Summary("Shows all of a user's warnings")]
         [Remarks("w!warnings <user whose warnings you want to look at> Ex: w!warnings @Phytal")]
         [RequireBotPermission(GuildPermission.BanMembers)]
+        [Cooldown(5)]
         public async Task Warnings(IGuildUser user)
         {
             var guser = Context.User as SocketGuildUser;
@@ -586,6 +600,7 @@ namespace Wsashi.Core.Modules
         [Alias("cw")]
         [Remarks("w!cw <user whose warnings you want to clear> Ex: w!cw @Phytal")]
         [RequireBotPermission(GuildPermission.BanMembers)]
+        [Cooldown(5)]
         public async Task ClearWarnings(IGuildUser user)
         {
             var guser = Context.User as SocketGuildUser;
@@ -612,6 +627,7 @@ namespace Wsashi.Core.Modules
         [Command("say")]
         [Summary("Lets you speak for the bot anonymously")]
         [Remarks("w!say <your message> Ex: w!say whats up my doots")]
+        [Cooldown(5)]
         public async Task Say([Remainder] string input)
         {
             var user = Context.User as SocketGuildUser;
@@ -684,6 +700,7 @@ namespace Wsashi.Core.Modules
         [Alias("poll")]
         [Summary("Creates a voting poll")]
         [Remarks("w!vote <what you want to vote on> Ex: w!vote is Phytal good at overwatch")]
+        [Cooldown(5)]
         public async Task Vote([Remainder] string Input)
         {
             var user = Context.User as SocketGuildUser;
@@ -716,6 +733,7 @@ namespace Wsashi.Core.Modules
         [Command("Filter"), Alias("blacklist", "bl", "fil")]
         [Summary("Turns on or off filter. Usage: w!filter true/false")]
         [Remarks("w!filter <on/off> Ex: w!filter on")]
+        [Cooldown(5)]
         public async Task SetBoolIntoConfigFilter(string setting)
         {
             var guser = Context.User as SocketGuildUser;
@@ -753,6 +771,7 @@ namespace Wsashi.Core.Modules
         [Command("ServerName")]
         [Summary("Changes the name of the server")]
         [Remarks("w!servername <new name of the server> Ex: w!servername roblox is best")]
+        [Cooldown(5)]
         public async Task ModifyServerName([Remainder]string name)
         {
             var guser = Context.User as SocketGuildUser;
@@ -779,6 +798,7 @@ namespace Wsashi.Core.Modules
         [Command("PingChecks"), Alias("Pc")]
         [Summary("Turns on or off mass ping checks.")]
         [Remarks("w!pc <on/off> Ex: w!pc on")]
+        [Cooldown(5)]
         public async Task SetBoolToJson(string arg)
         {
             var guser = Context.User as SocketGuildUser;
@@ -818,6 +838,7 @@ namespace Wsashi.Core.Modules
         [Command("Antilink"), Alias("Al")]
         [Summary("Turns on or off the link filter.")]
         [Remarks("w!al <on/off> Ex: w!al on")]
+        [Cooldown(5)]
         public async Task SetBoolIntoConfig(string arg)
         {
             var guser = Context.User as SocketGuildUser;
@@ -855,6 +876,7 @@ namespace Wsashi.Core.Modules
         [Command("AntilinkIgnore"), Alias("Ali")]
         [Summary("Sets a channel that if Antilink is turned on, it will be disabled there")]
         [Remarks("w!ali <channel you want anti-link to be ignored> Ex: w!ali #links-only")]
+        [Cooldown(5)]
         public async Task SetChannelToBeIgnored(string type, SocketGuildChannel chnl = null)
         {
             var guser = Context.User as SocketGuildUser;
@@ -904,6 +926,7 @@ namespace Wsashi.Core.Modules
         [Command("FilterIgnore"), Alias("Fi")]
         [Summary("Sets a channel that if Filter is turned on, it will be disabled there")]
         [Remarks("w!fi <channel you want filter to be ignored> Ex: w!fi #nsfw")]
+        [Cooldown(5)]
         public async Task SetChannelToBeIgnoredByFilter(string type, SocketGuildChannel chnl = null)
         {
             var guser = Context.User as SocketGuildUser;
@@ -954,6 +977,7 @@ namespace Wsashi.Core.Modules
         [Alias("Nick")]
         [Summary("Changes a user's nickname")]
         [Remarks("w!rename <user you want to rename> <desired nickname> Ex: w!rename @Phytal dumb kid")]
+        [Cooldown(5)]
         public async Task SetUsersNickname(SocketGuildUser user, [Remainder]string nick)
         {
             var guser = Context.User as SocketGuildUser;
@@ -978,6 +1002,7 @@ namespace Wsashi.Core.Modules
         [Alias("setprefix")]
         [Summary("Changes the prefix for the bot on the current server")]
         [Remarks("w!serverprefix <desired prefix> Ex: w!serverprefix ~")]
+        [Cooldown(5)]
         public async Task SetGuildPrefix([Remainder]string prefix = null)
         {
             var guser = Context.User as SocketGuildUser;
@@ -1018,6 +1043,7 @@ namespace Wsashi.Core.Modules
         [Alias("lvlmsg")]
         [Summary("Sets the way leveling messages are sent")]
         [Remarks("w!lvlmsg <dm/server> Ex: w!lvlmsg dm")]
+        [Cooldown(5)]
         public async Task SetLvlingMsgStatus([Remainder]string preset)
         {
             var guser = Context.User as SocketGuildUser;
@@ -1059,6 +1085,7 @@ namespace Wsashi.Core.Modules
         [Command("lockchannel"), Alias("lc")]
         [Summary("Locks the current channel (users will be unable to send messages, only admins)")]
         [Remarks("w!lc")]
+        [Cooldown(5)]
         public async Task LockChannel()
         {
             var guser = Context.User as SocketGuildUser;
@@ -1088,6 +1115,7 @@ namespace Wsashi.Core.Modules
         [Command("unlockchannel"), Alias("ulc")]
         [Summary("Unlocks the current channel (users can send messages again)")]
         [Remarks("w!ulc")]
+        [Cooldown(5)]
         public async Task UnlockChannel()
         {
             var guser = Context.User as SocketGuildUser;
@@ -1117,6 +1145,7 @@ namespace Wsashi.Core.Modules
         [Command("ServerLogging"), Alias("Sl", "logging")]
         [Summary("Enables server logging (such as bans, message edits, deletions, kicks, channel additions, etc)")]
         [Remarks("w!sl <on/off> Ex: w!sl on")]
+        [Cooldown(5)]
         public async Task SetServerLoggingChannel(string arg)
         {
             var guser = Context.User as SocketGuildUser;
@@ -1168,6 +1197,7 @@ namespace Wsashi.Core.Modules
         [Command("AdminRole")]
         [Summary("Sets the server Admin role")]
         [Remarks("w!adminrole <admin role name> Ex: w!adminrole Administrator")]
+        [Cooldown(5)]
         public async Task SetServerAdminRole([Remainder] string roleName)
         {
             var guser = Context.User as SocketGuildUser;
@@ -1206,6 +1236,7 @@ namespace Wsashi.Core.Modules
         [Command("ModRole")]
         [Summary("Sets the server Moderator role")]
         [Remarks("w!ModRole <mod role name> Ex: w!ModRole Moderator")]
+        [Cooldown(5)]
         public async Task SetServerModRole([Remainder]string roleName)
         {
             var guser = Context.User as SocketGuildUser;
@@ -1244,6 +1275,7 @@ namespace Wsashi.Core.Modules
         [Command("HelperRole")]
         [Summary("Sets the server Moderator role")]
         [Remarks("w!HelperRole <helper role name> Ex: w!HelperRole Helper")]
+        [Cooldown(5)]
         public async Task SetServerHelperRole([Remainder]string roleName)
         {
             var guser = Context.User as SocketGuildUser;
@@ -1281,6 +1313,7 @@ namespace Wsashi.Core.Modules
         [Command("SelfRoleAdd"), Alias("SRA")]
         [Summary("Adds a role a user can add themselves with w!Iam or w!Iamnot")]
         [Remarks("w!sra <role you want to be available> Ex: w!sra Member")]
+        [Cooldown(5)]
         public async Task AddStringToList([Remainder]string role)
         {
             var guser = Context.User as SocketGuildUser;
@@ -1308,6 +1341,7 @@ namespace Wsashi.Core.Modules
         [Command("SelfRoleRem"), Alias("SRR")]
         [Summary("Removes a Self Role. Users can add a role themselves with w!Iam or w!Iamnot")]
         [Remarks("w!srr <self role you want to be removed> Ex: w!srr Member")]
+        [Cooldown(5)]
         public async Task RemoveStringFromList([Remainder]string role)
         {
             var guser = Context.User as SocketGuildUser;
@@ -1341,6 +1375,7 @@ namespace Wsashi.Core.Modules
         [Command("SelfRoleClear"), Alias("SRC")]
         [Summary("Clears all Self Roles. Users can add a role themselves with w!Iam or w!Iamnot")]
         [Remarks("w!src")]
+        [Cooldown(5)]
         public async Task ClearListFromConfig()
         {
             var guser = Context.User as SocketGuildUser;
@@ -1375,6 +1410,7 @@ namespace Wsashi.Core.Modules
         [Command("syncguild")]
         [Summary("Syncs the current guild information with the database")]
         [Remarks("w!syncguild")]
+        [Cooldown(5)]
         public async Task SyncGuild()
         {
             var guser = Context.User as SocketGuildUser;
@@ -1406,6 +1442,7 @@ namespace Wsashi.Core.Modules
         [Command("Leveling"), Alias("L")]
         [Summary("Enables or disables leveling for the server.")]
         [Remarks("w!leveling <on/off> Ex: w!leveling on")]
+        [Cooldown(5)]
         public async Task Leveling(string arg)
         {
             var user = Context.User as SocketGuildUser;
@@ -1444,6 +1481,7 @@ namespace Wsashi.Core.Modules
         [Command("unflip"), Alias("uf")]
         [Summary("Enables or disables unflipping reactions for the server.")]
         [Remarks("w!uf <on/off> Ex: w!uf on")]
+        [Cooldown(5)]
         public async Task Unflip(string arg)
         {
             var guser = Context.User as SocketGuildUser;
@@ -1482,6 +1520,7 @@ namespace Wsashi.Core.Modules
         [Command("AutoRole")]
         [Summary("Adds a role that new members will recieve automatically")]
         [Remarks("w!autorole <role name> Ex: w!autorole Member")]
+        [Cooldown(5)]
         public async Task AutoRoleRoleAdd([Remainder]string arg = "")
         {
             var guser = Context.User as SocketGuildUser;
@@ -1511,6 +1550,7 @@ namespace Wsashi.Core.Modules
         [Command("SlowMode")]
         [Summary("Adds a slowmode to the entire server (usually for large servers)")]
         [Remarks("w!slowmode <length between messages> Ex: w!slowmode 5")]
+        [Cooldown(5)]
         public async Task SlowMode(ulong length)
         {
             var guser = Context.User as SocketGuildUser;
@@ -1537,6 +1577,7 @@ namespace Wsashi.Core.Modules
         [Command("SlowModeOff")]
         [Summary("Disables Slowmode")]
         [Remarks("w!slowmodeoff")] //        [Remarks("w! <> Ex: w!")]
+        [Cooldown(5)]
         public async Task SlowModeOff(ulong length)
         {
             var guser = Context.User as SocketGuildUser;
@@ -1564,6 +1605,7 @@ namespace Wsashi.Core.Modules
         [Alias("Bladd")]
         [Summary("Add a word to the filter")]
         [Remarks("w!bladd <word you want to add> Ex: w!bladd gay")]
+        [Cooldown(5)]
         public async Task AddStringToBl([Remainder]string word)
         {
             var guser = Context.User as SocketGuildUser;
@@ -1590,6 +1632,7 @@ namespace Wsashi.Core.Modules
         [Alias("Blrem")]
         [Summary("Remove a custom word from filter")]
         [Remarks("w!blrem <word you want to remove> Ex: w!blrem gay")]
+        [Cooldown(5)]
         public async Task RemoveStringFromBl([Remainder] string bl)
         {
             var guser = Context.User as SocketGuildUser;
@@ -1625,6 +1668,7 @@ namespace Wsashi.Core.Modules
         [Alias("Blcl")]
         [Summary("Clears the custom words in the filter")]
         [Remarks("w!blcl")]
+        [Cooldown(5)]
         public async Task ClearBlacklist()
         {
             var guser = Context.User as SocketGuildUser;
@@ -1654,6 +1698,7 @@ namespace Wsashi.Core.Modules
         [Alias("Cca")]
         [Summary("Add a custom command")]
         [Remarks("w!cca <command name> <bot response> Ex: w!cca whatsup hey man")]
+        [Cooldown(5)]
         public async Task AddCustomCommand(string commandName, [Remainder] string commandValue)
         {
             var guser = Context.User as SocketGuildUser;

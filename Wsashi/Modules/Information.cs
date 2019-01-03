@@ -78,7 +78,7 @@ namespace Wsashi
             string nickname = user.Nickname;
             if (string.IsNullOrEmpty(nickname))
             {
-                nickname = user.Username;
+                nickname = "None";
             }
 
             /*string game = user.Activity.ToString();
@@ -86,14 +86,19 @@ namespace Wsashi
             {
                 game = "Currently not playing";
             }*/
+            var roleNames = user.Roles.Select(r => r.Name); //return a collection of strings with only the role names
+            var roleNamesMerged = String.Join(", ", roleNames); //separates every element of the collection with a comma in a single string, ready to display!
+
             embed.AddField("Name", $"**{user}**", true);
             embed.AddField("ID", $"**{user.Id}**", true);
             embed.AddField("Discriminator", $"**{user.Discriminator}**", true);
+            embed.AddField("Is Bot", $"**{user.IsBot}**", true);
             embed.AddField("Joined Discord at", $"**{user.CreatedAt}**", true);
             embed.AddField($"Joined {Context.Guild}", $"**{user.JoinedAt}**", true);
             embed.AddField("Nickname", $"**{nickname}**", true);
             //embed.AddField("Playing", $"**{game}**", true);
             embed.AddField("Status", $"**{user.Status}**", true);
+            embed.AddField("Roles", $"**{roleNamesMerged}**", true);
 
             await ReplyAsync("", embed: embed.Build());
         }

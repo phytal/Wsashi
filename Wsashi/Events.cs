@@ -5,6 +5,8 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Net.Http;
+using System.Net.Http.Headers;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
@@ -59,6 +61,15 @@ namespace Wsashi
             await client.SetGameAsync($"w!help | in {guilds} servers!", $"https://twitch.tv/{Config.bot.TwitchStreamer}", ActivityType.Streaming);
         }
 
+        public async Task<string> UpdateServerCount(DiscordShardedClient client)
+        {
+            var webclient = new HttpClient();
+            var content = new StringContent($"{{ \"server_count\": {client.Guilds.Count} }}", Encoding.UTF8, "application/json");
+            webclient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjQxNzE2MDk1NzAxMDExNjYwOCIsImJvdCI6dHJ1ZSwiaWF0IjoxNTQ1NDU0NTY3fQ.YZmPvuEtQCu4ZYTcmikCEKSCOY0h0-KB_fYfhXRmFDk");
+            var resp = await webclient.PostAsync($"https://discordbots.org/api/bots/417160957010116608/stats", content);
+            return resp.Content.ReadAsStringAsync().ToString();
+
+        }
         public static async Task FilterUnflip(SocketMessage s)
         {
             _ = FilterChecks(s);

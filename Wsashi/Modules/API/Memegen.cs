@@ -36,7 +36,7 @@ namespace Wsashi.Modules.API
         [Command("meme")]
         [Summary("Sends a meme from r/dankmemes")]
         [Remarks("w!meme")]
-        [Cooldown(3)]
+        [Cooldown(5)]
         public async Task Image()
         {
             string json;

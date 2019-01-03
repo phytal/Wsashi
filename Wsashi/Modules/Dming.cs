@@ -14,7 +14,7 @@ namespace Wsashi.Modules
         [Command("dm")]
         [Summary("DMs a specified user.")]
         [Remarks("w!dm <person you want to dm> <your dm message> Ex: w!dm @Phytal Your bot is cool")]
-        [Cooldown(10, true)]
+        [Cooldown(10)]
         public async Task Dm(IGuildUser user, [Remainder] string dm)
         {
             var rep = user.Id;

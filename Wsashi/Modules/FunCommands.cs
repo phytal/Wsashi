@@ -59,7 +59,7 @@ namespace Wsashi.Modules
         [Alias("eightball")]
         [Summary("Gives a prediction")]
         [Remarks("w!8ball <your prediction> Ex: w!8ball am I loved?")]
-        [Cooldown(5, true)]
+        [Cooldown(5)]
         public async Task EightBall([Remainder] string input)
         {
             int randomIndex = rand.Next(predictionsTexts.Length);
@@ -144,7 +144,7 @@ namespace Wsashi.Modules
         [Summary("Roasts @Username")]
         [Alias("burn")]
         [Remarks("w!roast <user/person you want to roast> Ex: w!roast @Phytal")]
-        [Cooldown(5, true)]
+        [Cooldown(5)]
         public async Task Roast(SocketGuildUser user)
         {
             if (user == null)
@@ -169,7 +169,7 @@ namespace Wsashi.Modules
         [Summary("Makes the bot pick something. Divide your choices with the '|' symbol")]
         [Alias("choose")]
         [Remarks("w!pick <item 1>|<item 2>|<item3> Ex: w!pick milk|orange juice")]
-        [Cooldown(5, true)]
+        [Cooldown(5)]
         public async Task PickOne([Remainder]string message)
         {
             string[] options = message.Split(new char[] { '|' }, StringSplitOptions.RemoveEmptyEntries);
@@ -190,7 +190,7 @@ namespace Wsashi.Modules
         [Summary("Says Good Morning")]
         [Alias("Morning", "Ohayo", "Ohayōgozaimasu")]
         [Remarks("Ex: w!morning")]
-        [Cooldown(5, true)]
+        [Cooldown(5)]
         public async Task GoodMorning()
         {
             var embed = new EmbedBuilder();
@@ -206,7 +206,7 @@ namespace Wsashi.Modules
         [Summary("Says Good Night")]
         [Alias("Night", "Oyasumi", "gn")]
         [Remarks("Ex: w!gn")]
-        [Cooldown(5, true)]
+        [Cooldown(5)]
         public async Task GoodNight()
         {
             var embed = new EmbedBuilder();
@@ -221,7 +221,7 @@ namespace Wsashi.Modules
         [Command("echo")]
         [Summary("Make me say a message!")]
         [Remarks("w!echo <what you want the bot to say> Ex: w!echo I like to eat oreos")]
-        [Cooldown(5, true)]
+        [Cooldown(5)]
         public async Task Echo([Remainder] string message)
         {
             var config = GlobalGuildAccounts.GetGuildAccount(Context.Guild.Id);
@@ -245,6 +245,7 @@ namespace Wsashi.Modules
         [Alias("hi")]
         [Summary("Says a formatted hello")]
         [Remarks("Ex: w!hello")]
+        [Cooldown(5)]
         public async Task SayHello()
         {
             var embed = MiscHelpers.CreateEmbed(Context, "Hello!", "My name is Wsashi, a bot created by Phytal! (And possibly your Waifu..)").WithImageUrl(Global.Client.CurrentUser.GetAvatarUrl());
@@ -255,8 +256,8 @@ namespace Wsashi.Modules
         [Command("lmgtfy")]
         [Summary("Sends an Let me Google that for you link with what you inputed")]
         [Remarks("w!lmgtfy <what you want to search up> Ex: w!lmgtfy how to use discord")]
-        [Cooldown(10, true)]
-        public async Task lmgtfy([Remainder]string link = "enter+something")
+        [Cooldown(10)]
+        public async Task lmgtfy([Remainder]string link = "enter something")
         {
             link = link.Replace(' ', '+');
             await ReplyAsync("https://lmgtfy.com/?q=" + link);
@@ -265,7 +266,7 @@ namespace Wsashi.Modules
         [Command("google")]
         [Summary("Search up whatever you inputed on Google")]
         [Remarks("w!google <whatever you want to google> Ex: w!google how to use discord")]
-        [Cooldown(5, true)]
+        [Cooldown(5)]
         public async Task google([Remainder]string link = "enter+something")
         {
             link = link.Replace(' ', '+');
@@ -275,7 +276,7 @@ namespace Wsashi.Modules
         [Command("YouTube"), Alias("Yt")]
         [Summary("Searches up whatever is inputed on YouTube")]
         [Remarks("w!yt <whatever you want to search up on YouTube> Ex: w!yt some pepe memes")]
-        [Cooldown(10, true)]
+        [Cooldown(10)]
         public async Task SearchYouTube([Remainder]string query)
         {
             var embed = new EmbedBuilder();
@@ -292,7 +293,7 @@ namespace Wsashi.Modules
         [Command("Lenny")]
         [Summary("Sends a lenny face ( ͡° ͜ʖ ͡°)")]
         [Remarks("Ex: w!lenny")]
-        [Cooldown(5, true)]
+        [Cooldown(5)]
         public async Task Lenny()
         {
             await Context.Channel.SendMessageAsync("( ͡° ͜ʖ ͡°)");
@@ -322,7 +323,7 @@ namespace Wsashi.Modules
         [Command("ratewaifu")]
         [Summary("Rates your waifu :3")]
         [Remarks("w!ratewaifu <whoever (waifu) that you want to rate> Ex: w!ratewaifu Potatoman22")]
-        [Cooldown(3, true)]
+        [Cooldown(5)]
         public async Task RateWaifu([Remainder]string input)
         {
             Random rnd = new Random();
@@ -333,7 +334,7 @@ namespace Wsashi.Modules
         [Command("reverse")]
         [Summary("): dias uoy thaw sesrever")]
         [Remarks("w!reverse <text you want to reverse> Ex: w!reverse Discord is the best")]
-        [Cooldown(5, true)]
+        [Cooldown(5)]
         public async Task ReverseString([Remainder]string s)
         {
             char[] charArray = s.ToCharArray();
@@ -379,7 +380,7 @@ namespace Wsashi.Modules
         [Command("woop")]
         [Summary("Woop! <o/")]
         [Remarks("Ex: w!woop")]
-        [Cooldown(3, true)]
+        [Cooldown(5)]
         public async Task Woop()
         {
             await Context.Channel.SendFileAsync(@Path.Combine(Constants.MemeFolder, "woop.gif"));
@@ -388,7 +389,7 @@ namespace Wsashi.Modules
         [Command("rps")]
         [Summary("Rock, Paper Scissors!")]
         [Remarks("w!rps <rock/paper/scissors> Ex: w!rps rock")]
-        [Cooldown(3, true)]
+        [Cooldown(5)]
         public async Task rps([Remainder] string play)
         {
             play = play.ToLower();

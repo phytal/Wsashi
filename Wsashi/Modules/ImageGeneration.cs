@@ -12,7 +12,7 @@ namespace Wsashi.Modules
     {
         [Command("gru")]
         [Summary("Sends a gru meme with what you inputed")]
-        [Cooldown(20, true)]
+        [Cooldown(20)]
         [Remarks("w!gru <front first box> <second box> <last boxes> Ex: w!gru f+d/l")]
         public async Task Gru([Remainder] string input)
         {
@@ -44,7 +44,7 @@ namespace Wsashi.Modules
         [Command("butterflyman"), Alias("bfm")]
         [Summary("Sends a butterfly man meme with what you inputed")]
         [Remarks("w!bfm <man> <butterfly> <caption> w!bfm f+d/l")]
-        [Cooldown(10, true)]
+        [Cooldown(10)]
         public async Task Bman([Remainder] string input)
         {
             string ann = input.Split('/').Last();

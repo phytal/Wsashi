@@ -13,7 +13,6 @@ namespace Wsashi
 #pragma warning disable CS1998 // This async method lacks 'await' operators and will run synchronously. Consider using the 'await' operator to await non-blocking API calls, or 'await Task.Run(...)' to do CPU-bound work on a background thread.
 
         private readonly DiscordShardedClient _client;
-        private readonly DiscordSocketClient _sclient;
         private readonly CommandHandler _commandHandler;
         private readonly ServerActivityLogger _serverActivityLogger;
         private readonly WasagotchiTimer _wasagotchiTimer;
@@ -28,6 +27,8 @@ namespace Wsashi
             _commandHandler = commandHandler;
             _serverActivityLogger = serverActivityLogger;
             _wasagotchiTimer = wasagotchiTimer;
+            _events = events;
+            _messageRewardHandler = messageRewardHandler;
         }
 
         public void InitDiscordEvents()
@@ -72,19 +73,18 @@ namespace Wsashi
         private async Task _client_ShardReady(DiscordSocketClient arg)
         {
             _wasagotchiTimer.StartTimer();
-            await DiscordBotsList.UpdateServerCount(_sclient);
         }
 
         private async Task _client_ShardDisconnected(Exception arg1, DiscordSocketClient arg2)
         {
             Console.WriteLine($"Shard {arg2.ShardId} Disconnected");
             _serverActivityLogger.Client_Disconnected(arg1);
-
         }
 
         private async Task _client_ShardConnected(DiscordSocketClient arg)
         {
             _serverActivityLogger.Client_Connected();
+            _events.UpdateServerCount(_client);
         }
 
         private async Task ChannelCreated(SocketChannel channel)
@@ -130,6 +130,7 @@ namespace Wsashi
         private async Task JoinedGuild(SocketGuild guild)
         {
             _events.GuildUtils(guild);
+            _events.UpdateServerCount(_client);
         }
 
         private async Task LeftGuild(SocketGuild guild)

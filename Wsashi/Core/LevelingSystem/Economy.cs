@@ -23,7 +23,7 @@ namespace Wsashi.Core.LevelingSystem
         [Alias("GetDaily", "ClaimDaily")]
         [Summary("Claims your daily Potatoes!")]
         [Remarks("Ex: w!daily")]
-        [Cooldown(60, true)]
+        [Cooldown(60)]
         public async Task GetDaily()
         {
             var result = Daily.GetDaily(Context.User.Id);
@@ -49,7 +49,7 @@ namespace Wsashi.Core.LevelingSystem
         [Alias("rep")]
         [Summary("Gives a mentioned user reputation points, you can only use this once every 24 hours.")]
         [Remarks("w!rep <person you want to rep> Ex: w!rep @Phytal")]
-        [Cooldown(30, true)]
+        [Cooldown(30)]
         public async Task GetRep(SocketGuildUser userB)
         {
             if (Context.User.Id == userB.Id)
@@ -86,7 +86,7 @@ namespace Wsashi.Core.LevelingSystem
         [Alias("grant", "pay")]
         [Summary("Gifts/Pays Potatoes to a selected user (of course taken from your balance) Ex: w!gift <amount of Potatoes> @user")]
         [Remarks("w!gift <amount> <user you want to gift to> Ex: w!")]
-        [Cooldown(10, true)]
+        [Cooldown(10)]
         public async Task Gift(uint Money, IGuildUser userB, [Remainder]string arg = "")
         {
             var giveaccount = GlobalUserAccounts.GetUserAccount(Context.User);
@@ -145,7 +145,7 @@ namespace Wsashi.Core.LevelingSystem
         [Summary("Shows a user list of the sorted by Potatoes. Pageable to see lower ranked users.")]
         [Alias("Top", "Top10", "richest", "rank")]
         [Remarks("w!level <page number (if left empty it will default to 1)> Ex: w!levels 2")]
-        [Cooldown(15, true)]
+        [Cooldown(15)]
         public async Task ShowRichesPeople(int page = 1)
         {
             if (page < 1)
@@ -189,7 +189,7 @@ namespace Wsashi.Core.LevelingSystem
         [Alias("Cash", "Money", "bal")]
         [Summary("Checks the balance for your, or an mentioned account")]
         [Remarks("w!bal <person you want to check (will default to you if left empty)> Ex: w!bal @Phytal")]
-        [Cooldown(10, true)]
+        [Cooldown(10)]
         public async Task CheckPotatos([Remainder]string arg = "")
         {
             SocketUser target = null;

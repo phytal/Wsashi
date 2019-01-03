@@ -43,7 +43,7 @@ namespace Wsashi.Modules
 
         [Command("update"), Summary("Updates the content of an existing tag of the server")]
         [Remarks("w!tag update <tag name> <tag content> Ex: w!tag update door :door: Get in.")]
-        [Cooldown(10, true)]
+        [Cooldown(10)]
         public async Task UpdateTag(string tagName, [Remainder] string tagContent)
         {
             var guildAcc = GlobalGuildAccounts.GetGuildAccount(Context.Guild.Id);
@@ -108,7 +108,7 @@ namespace Wsashi.Modules
 
         [Command("update"), Summary("Updates an existing tag of yours")]
         [Remarks("w!ptag update <tag name> <tag content> Ex: w!ptag update door :door: Get in.")]
-        [Cooldown(10, true)]
+        [Cooldown(10)]
         public async Task UpdateTag(string tagName, [Remainder] string tagContent)
         {
             var userAcc = GlobalUserAccounts.GetUserAccount(Context.User.Id);
