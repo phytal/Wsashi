@@ -15,6 +15,16 @@ namespace Wsashi.Entities
 
         public string Name { get; set; }
 
+        public string Breed { get; set; }
+
+        public int CommonCapsule { get; set; }
+
+        public int RareCapsule { get; set; }
+
+        public int EpicCapsule { get; set; }
+
+        public int LegendaryCapsule { get; set; }
+
         public uint Hunger { get; set; }
 
         public DateTime BoughtSince { get; set; }

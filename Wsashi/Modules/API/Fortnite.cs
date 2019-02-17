@@ -19,7 +19,7 @@ namespace Wsashi.Modules.API
         {
             using (var client = new HttpClient(new HttpClientHandler()))
             {
-                client.DefaultRequestHeaders.Add("TRN-API-Key", "c164aee8-a5f8-45f2-aa13-e3b5faa3375d");
+                client.DefaultRequestHeaders.Add("TRN-API-Key", Config.bot.fortniteToken);
                 using (var response = await client.GetAsync(requestUrl))
                 {
                     if (response.StatusCode != HttpStatusCode.OK)

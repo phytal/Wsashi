@@ -11,10 +11,11 @@ using Wsashi.Helpers;
 using System.IO;
 using System.Threading;
 using Wsashi.Preconditions;
+using Discord.Addons.Interactive;
 
 namespace Wsashi.Core.Modules
 {
-    public class Administrator : WsashiModule
+    public class Administrator : InteractiveBase
     {
         private static readonly OverwritePermissions denyOverwrite = new OverwritePermissions(addReactions: PermValue.Deny, sendMessages: PermValue.Deny, attachFiles: PermValue.Deny);
         DiscordSocketClient _client;
@@ -55,9 +56,8 @@ namespace Wsashi.Core.Modules
                 var embed = new EmbedBuilder();
                 embed.WithColor(37, 152, 255);
                 embed.Title = $":x:  | You need the Ban Members Permission to do that {Context.User.Username}";
-                var use = await Context.Channel.SendMessageAsync("", embed: embed.Build());
-                await Task.Delay(5000);
-                await use.DeleteAsync();
+                await ReplyAndDeleteAsync("", embed: embed.Build(), timeout: TimeSpan.FromSeconds(5));
+                return;
             }
         }
 
@@ -82,9 +82,7 @@ namespace Wsashi.Core.Modules
                 var embed = new EmbedBuilder();
                 embed.WithColor(37, 152, 255);
                 embed.Title = $":x:  | You need the Ban Members Permission to do that {Context.User.Username}";
-                var use = await Context.Channel.SendMessageAsync("", embed: embed.Build());
-                await Task.Delay(5000);
-                await use.DeleteAsync();
+                await ReplyAndDeleteAsync("", embed: embed.Build(), timeout: TimeSpan.FromSeconds(5));
             }
         }
 
@@ -115,9 +113,7 @@ namespace Wsashi.Core.Modules
                 var embed = new EmbedBuilder();
                 embed.WithColor(37, 152, 255);
                 embed.Title = $":x:  | You need the Ban Members Permission to do that {Context.User.Username}";
-                var use = await Context.Channel.SendMessageAsync("", embed: embed.Build());
-                await Task.Delay(5000);
-                await use.DeleteAsync();
+                await ReplyAndDeleteAsync("", embed: embed.Build(), timeout: TimeSpan.FromSeconds(5));
             }
         }
 
@@ -150,9 +146,7 @@ namespace Wsashi.Core.Modules
                 var embed = new EmbedBuilder();
                 embed.WithColor(37, 152, 255);
                 embed.Title = $":x:  | You need the Ban Members Permission to do that {Context.User.Username}";
-                var use = await Context.Channel.SendMessageAsync("", embed: embed.Build());
-                await Task.Delay(5000);
-                await use.DeleteAsync();
+                await ReplyAndDeleteAsync("", embed: embed.Build(), timeout: TimeSpan.FromSeconds(5));
             }
         }
 
@@ -190,9 +184,7 @@ namespace Wsashi.Core.Modules
                 var embed = new EmbedBuilder();
                 embed.WithColor(37, 152, 255);
                 embed.Title = $":x:  | You need the Kick Members Permission to do that {Context.User.Username}";
-                var use = await Context.Channel.SendMessageAsync("", embed: embed.Build());
-                await Task.Delay(5000);
-                await use.DeleteAsync();
+                await ReplyAndDeleteAsync("", embed: embed.Build(), timeout: TimeSpan.FromSeconds(5));
             }
         }
 
@@ -222,9 +214,7 @@ namespace Wsashi.Core.Modules
                 var embed = new EmbedBuilder();
                 embed.WithColor(37, 152, 255);
                 embed.Title = $":x:  | You need the Manange Roles Permission to do that {Context.User.Username}";
-                var use = await Context.Channel.SendMessageAsync("", embed: embed.Build());
-                await Task.Delay(5000);
-                await use.DeleteAsync();
+                await ReplyAndDeleteAsync("", embed: embed.Build(), timeout: TimeSpan.FromSeconds(5));
             }
         }
 
@@ -254,9 +244,7 @@ namespace Wsashi.Core.Modules
                 var embed = new EmbedBuilder();
                 embed.WithColor(37, 152, 255);
                 embed.Title = $":x:  | You need the Manange Roles Permission to do that {Context.User.Username}";
-                var use = await Context.Channel.SendMessageAsync("", embed: embed.Build());
-                await Task.Delay(5000);
-                await use.DeleteAsync();
+                await ReplyAndDeleteAsync("", embed: embed.Build(), timeout: TimeSpan.FromSeconds(5));
             }
         }
 
@@ -279,9 +267,7 @@ namespace Wsashi.Core.Modules
                 var embed = new EmbedBuilder();
                 embed.WithColor(37, 152, 255);
                 embed.Title = $":x:  | You need the Manange Messages Permission to do that {Context.User.Username}";
-                var use = await Context.Channel.SendMessageAsync("", embed: embed.Build());
-                await Task.Delay(5000);
-                await use.DeleteAsync();
+                await ReplyAndDeleteAsync("", embed: embed.Build(), timeout: TimeSpan.FromSeconds(5));
             }
         }
 
@@ -320,9 +306,7 @@ namespace Wsashi.Core.Modules
                         var embed = new EmbedBuilder();
                         embed.WithColor(37, 152, 255);
                         embed.Title = ":x:  | You cannot delete more than 100 messages at once!";
-                        var use = await Context.Channel.SendMessageAsync("", embed: embed.Build());
-                        await Task.Delay(5000);
-                        await use.DeleteAsync();
+                        await ReplyAndDeleteAsync("", embed: embed.Build(), timeout: TimeSpan.FromSeconds(5));
                     }
                 }
                 else
@@ -330,9 +314,7 @@ namespace Wsashi.Core.Modules
                     var embed = new EmbedBuilder();
                     embed.WithColor(37, 152, 255);
                     embed.Title = $":x:  | You need the Manange Messages Permission to do that {Context.User.Username}";
-                    var use = await Context.Channel.SendMessageAsync("", embed: embed.Build());
-                    await Task.Delay(5000);
-                    await use.DeleteAsync();
+                    await ReplyAndDeleteAsync("", embed: embed.Build(), timeout: TimeSpan.FromSeconds(5));
                 }
             }
         }
@@ -384,9 +366,7 @@ namespace Wsashi.Core.Modules
                 var embed = new EmbedBuilder();
                 embed.WithColor(37, 152, 255);
                 embed.Title = $":x:  | You need the Manange Roles Permission to do that {Context.User.Username}";
-                var use = await Context.Channel.SendMessageAsync("", embed: embed.Build());
-                await Task.Delay(5000);
-                await use.DeleteAsync();
+                await ReplyAndDeleteAsync("", embed: embed.Build(), timeout: TimeSpan.FromSeconds(5));
             }
         }
 
@@ -432,9 +412,7 @@ namespace Wsashi.Core.Modules
                     var embed = new EmbedBuilder();
                     embed.WithColor(37, 152, 255);
                     embed.WithTitle(":hand_splayed:  | Please say who and what you want to demote the user to. Ex: w!demote <@username> <rank>");
-                    var use = await Context.Channel.SendMessageAsync("", embed: embed.Build());
-                    await Task.Delay(5000);
-                    await use.DeleteAsync();
+                    await ReplyAndDeleteAsync("", embed: embed.Build(), timeout: TimeSpan.FromSeconds(5));
                 }
             }
             else
@@ -442,9 +420,7 @@ namespace Wsashi.Core.Modules
                 var embed = new EmbedBuilder();
                 embed.WithColor(37, 152, 255);
                 embed.Title = $":x:  | You need the Manange Roles Permission to do that {Context.User.Username}";
-                var use = await Context.Channel.SendMessageAsync("", embed: embed.Build());
-                await Task.Delay(5000);
-                await use.DeleteAsync();
+                await ReplyAndDeleteAsync("", embed: embed.Build(), timeout: TimeSpan.FromSeconds(5));
             }
         }
 
@@ -548,7 +524,7 @@ namespace Wsashi.Core.Modules
                         var embed = new EmbedBuilder();
                         embed.WithColor(37, 152, 255);
                         embed.WithTitle(":hand_splayed:  | Please say who you want to warn and a reason for their warning. Ex: w!warn @Phytal bullied my brother");
-                        await Context.Channel.SendMessageAsync("", embed: embed.Build());
+                        await ReplyAndDeleteAsync("", embed: embed.Build(), timeout: TimeSpan.FromSeconds(5));
                     }
                 }
             }
@@ -557,9 +533,7 @@ namespace Wsashi.Core.Modules
                 var embed = new EmbedBuilder();
                 embed.WithColor(37, 152, 255);
                 embed.Title = $":x:  | You Need the Ban Members Permission to do that {Context.User.Username}";
-                var use = await Context.Channel.SendMessageAsync("", embed: embed.Build());
-                await Task.Delay(5000);
-                await use.DeleteAsync();
+                await ReplyAndDeleteAsync("", embed: embed.Build(), timeout: TimeSpan.FromSeconds(5));
             }
         }
 
@@ -589,9 +563,7 @@ namespace Wsashi.Core.Modules
                 var embed = new EmbedBuilder();
                 embed.WithColor(37, 152, 255);
                 embed.Title = $":x:  | You Need the Ban Members Permission to do that {Context.User.Username}";
-                var use = await Context.Channel.SendMessageAsync("", embed: embed.Build());
-                await Task.Delay(5000);
-                await use.DeleteAsync();
+                await ReplyAndDeleteAsync("", embed: embed.Build(), timeout: TimeSpan.FromSeconds(5));
             }
         }
 
@@ -618,9 +590,7 @@ namespace Wsashi.Core.Modules
                 var embed = new EmbedBuilder();
                 embed.WithColor(37, 152, 255);
                 embed.Title = $":x:  | You Need the Ban Members Permission to do that {Context.User.Username}";
-                var use = await Context.Channel.SendMessageAsync("", embed: embed.Build());
-                await Task.Delay(5000);
-                await use.DeleteAsync();
+                await ReplyAndDeleteAsync("", embed: embed.Build(), timeout: TimeSpan.FromSeconds(5));
             }
         }
 
@@ -649,9 +619,7 @@ namespace Wsashi.Core.Modules
                 var embed = new EmbedBuilder();
                 embed.WithColor(37, 152, 255);
                 embed.Title = $":x:  | You Need the Administrator Permission to do that {Context.User.Username}";
-                var use = await Context.Channel.SendMessageAsync("", embed: embed.Build());
-                await Task.Delay(5000);
-                await use.DeleteAsync();
+                await ReplyAndDeleteAsync("", embed: embed.Build(), timeout: TimeSpan.FromSeconds(5));
             }
         }
 
@@ -724,9 +692,7 @@ namespace Wsashi.Core.Modules
                 var embed = new EmbedBuilder();
                 embed.WithColor(37, 152, 255);
                 embed.Title = $":x:  | You Need the Administrator Permission to do that {Context.User.Username}";
-                var use = await Context.Channel.SendMessageAsync("", embed: embed.Build());
-                await Task.Delay(5000);
-                await use.DeleteAsync();
+                await ReplyAndDeleteAsync("", embed: embed.Build(), timeout: TimeSpan.FromSeconds(5));
             }
         }
 
@@ -762,9 +728,7 @@ namespace Wsashi.Core.Modules
                 var embed = new EmbedBuilder();
                 embed.WithColor(37, 152, 255);
                 embed.Title = $":x:  | You Need the Administrator Permission to do that {Context.User.Username}";
-                var use = await Context.Channel.SendMessageAsync("", embed: embed.Build());
-                await Task.Delay(5000);
-                await use.DeleteAsync();
+                await ReplyAndDeleteAsync("", embed: embed.Build(), timeout: TimeSpan.FromSeconds(5));
             }
         }
 
@@ -789,9 +753,7 @@ namespace Wsashi.Core.Modules
                 var embed = new EmbedBuilder();
                 embed.WithColor(37, 152, 255);
                 embed.Title = $":x:  | You Need the Administrator Permission to do that {Context.User.Username}";
-                var use = await Context.Channel.SendMessageAsync("", embed: embed.Build());
-                await Task.Delay(5000);
-                await use.DeleteAsync();
+                await ReplyAndDeleteAsync("", embed: embed.Build(), timeout: TimeSpan.FromSeconds(5));
             }
         }
 
@@ -829,9 +791,7 @@ namespace Wsashi.Core.Modules
                 var embed = new EmbedBuilder();
                 embed.WithColor(37, 152, 255);
                 embed.Title = $":x:  | You Need the Administrator Permission to do that {Context.User.Username}";
-                var use = await Context.Channel.SendMessageAsync("", embed: embed.Build());
-                await Task.Delay(5000);
-                await use.DeleteAsync();
+                await ReplyAndDeleteAsync("", embed: embed.Build(), timeout: TimeSpan.FromSeconds(5));
             }
         }
 
@@ -867,9 +827,7 @@ namespace Wsashi.Core.Modules
                 var embed = new EmbedBuilder();
                 embed.WithColor(37, 152, 255);
                 embed.Title = $":x:  | You Need the Administrator Permission to do that {Context.User.Username}";
-                var use = await Context.Channel.SendMessageAsync("", embed: embed.Build());
-                await Task.Delay(5000);
-                await use.DeleteAsync();
+                await ReplyAndDeleteAsync("", embed: embed.Build(), timeout: TimeSpan.FromSeconds(5));
             }
         }
 
@@ -917,9 +875,7 @@ namespace Wsashi.Core.Modules
                 var embed = new EmbedBuilder();
                 embed.WithColor(37, 152, 255);
                 embed.Title = $":x:  | You Need the Administrator Permission to do that {Context.User.Username}";
-                var use = await Context.Channel.SendMessageAsync("", embed: embed.Build());
-                await Task.Delay(5000);
-                await use.DeleteAsync();
+                await ReplyAndDeleteAsync("", embed: embed.Build(), timeout: TimeSpan.FromSeconds(5));
             }
         }
 
@@ -967,9 +923,7 @@ namespace Wsashi.Core.Modules
                 var embed = new EmbedBuilder();
                 embed.WithColor(37, 152, 255);
                 embed.Title = $":x:  | You Need the Administrator Permission to do that {Context.User.Username}";
-                var use = await Context.Channel.SendMessageAsync("", embed: embed.Build());
-                await Task.Delay(5000);
-                await use.DeleteAsync();
+                await ReplyAndDeleteAsync("", embed: embed.Build(), timeout: TimeSpan.FromSeconds(5));
             }
         }
 
@@ -992,9 +946,7 @@ namespace Wsashi.Core.Modules
                 var embed = new EmbedBuilder();
                 embed.WithColor(37, 152, 255);
                 embed.Title = $":x:  | You Need the Administrator Permission to do that {Context.User.Username}";
-                var use = await Context.Channel.SendMessageAsync("", embed: embed.Build());
-                await Task.Delay(5000);
-                await use.DeleteAsync();
+                await ReplyAndDeleteAsync("", embed: embed.Build(), timeout: TimeSpan.FromSeconds(5));
             }
         }
 
@@ -1033,9 +985,7 @@ namespace Wsashi.Core.Modules
                 var embed = new EmbedBuilder();
                 embed.WithColor(37, 152, 255);
                 embed.Title = $":x:  | You Need the Administrator Permission to do that {Context.User.Username}";
-                var use = await Context.Channel.SendMessageAsync("", embed: embed.Build());
-                await Task.Delay(5000);
-                await use.DeleteAsync();
+                await ReplyAndDeleteAsync("", embed: embed.Build(), timeout: TimeSpan.FromSeconds(5));
             }
         }
 
@@ -1076,9 +1026,7 @@ namespace Wsashi.Core.Modules
                 var embed = new EmbedBuilder();
                 embed.WithColor(37, 152, 255);
                 embed.Title = $":x:  | You Need the Administrator Permission to do that {Context.User.Username}";
-                var use = await Context.Channel.SendMessageAsync("", embed: embed.Build());
-                await Task.Delay(5000);
-                await use.DeleteAsync();
+                await ReplyAndDeleteAsync("", embed: embed.Build(), timeout: TimeSpan.FromSeconds(5));
             }
         }
 
@@ -1106,9 +1054,7 @@ namespace Wsashi.Core.Modules
                 var embed = new EmbedBuilder();
                 embed.WithColor(37, 152, 255);
                 embed.Title = $":x:  | You Need the Manage Channels Permission to do that {Context.User.Username}";
-                var use = await Context.Channel.SendMessageAsync("", embed: embed.Build());
-                await Task.Delay(5000);
-                await use.DeleteAsync();
+                await ReplyAndDeleteAsync("", embed: embed.Build(), timeout: TimeSpan.FromSeconds(5));
             }
         }
 
@@ -1136,9 +1082,7 @@ namespace Wsashi.Core.Modules
                 var embed = new EmbedBuilder();
                 embed.WithColor(37, 152, 255);
                 embed.Title = $":x:  | You Need the Manage Channels Permission to do that {Context.User.Username}";
-                var use = await Context.Channel.SendMessageAsync("", embed: embed.Build());
-                await Task.Delay(5000);
-                await use.DeleteAsync();
+                await ReplyAndDeleteAsync("", embed: embed.Build(), timeout: TimeSpan.FromSeconds(5));
             }
         }
 
@@ -1188,9 +1132,7 @@ namespace Wsashi.Core.Modules
                 var embed = new EmbedBuilder();
                 embed.WithColor(37, 152, 255);
                 embed.Title = $":x:  | You Need the Administrator Permission to do that {Context.User.Username}";
-                var use = await Context.Channel.SendMessageAsync("", embed: embed.Build());
-                await Task.Delay(5000);
-                await use.DeleteAsync();
+                await ReplyAndDeleteAsync("", embed: embed.Build(), timeout: TimeSpan.FromSeconds(5));
             }
         }
 
@@ -1227,9 +1169,7 @@ namespace Wsashi.Core.Modules
                 var embed = new EmbedBuilder();
                 embed.WithColor(37, 152, 255);
                 embed.Title = $":x:  | You Need the Administrator Permission to do that {Context.User.Username}";
-                var use = await Context.Channel.SendMessageAsync("", embed: embed.Build());
-                await Task.Delay(5000);
-                await use.DeleteAsync();
+                await ReplyAndDeleteAsync("", embed: embed.Build(), timeout: TimeSpan.FromSeconds(5));
             }
         }
 
@@ -1266,9 +1206,7 @@ namespace Wsashi.Core.Modules
                 var embed = new EmbedBuilder();
                 embed.WithColor(37, 152, 255);
                 embed.Title = $":x:  | You Need the Administrator Permission to do that {Context.User.Username}";
-                var use = await Context.Channel.SendMessageAsync("", embed: embed.Build());
-                await Task.Delay(5000);
-                await use.DeleteAsync();
+                await ReplyAndDeleteAsync("", embed: embed.Build(), timeout: TimeSpan.FromSeconds(5));
             }
         }
 
@@ -1304,9 +1242,7 @@ namespace Wsashi.Core.Modules
                 var embed = new EmbedBuilder();
                 embed.WithColor(37, 152, 255);
                 embed.Title = $":x:  | You Need the Administrator Permission to do that {Context.User.Username}";
-                var use = await Context.Channel.SendMessageAsync("", embed: embed.Build());
-                await Task.Delay(5000);
-                await use.DeleteAsync();
+                await ReplyAndDeleteAsync("", embed: embed.Build(), timeout: TimeSpan.FromSeconds(5));
             }
         }
 
@@ -1332,9 +1268,7 @@ namespace Wsashi.Core.Modules
                 var embed = new EmbedBuilder();
                 embed.WithColor(37, 152, 255);
                 embed.Title = $":x:  | You Need the Administrator Permission to do that {Context.User.Username}";
-                var use = await Context.Channel.SendMessageAsync("", embed: embed.Build());
-                await Task.Delay(5000);
-                await use.DeleteAsync();
+                await ReplyAndDeleteAsync("", embed: embed.Build(), timeout: TimeSpan.FromSeconds(5));
             }
         }
 
@@ -1366,9 +1300,7 @@ namespace Wsashi.Core.Modules
                 var embed = new EmbedBuilder();
                 embed.WithColor(37, 152, 255);
                 embed.Title = $":x:  | You Need the Administrator Permission to do that {Context.User.Username}";
-                var use = await Context.Channel.SendMessageAsync("", embed: embed.Build());
-                await Task.Delay(5000);
-                await use.DeleteAsync();
+                await ReplyAndDeleteAsync("", embed: embed.Build(), timeout: TimeSpan.FromSeconds(5));
             }
         }
 
@@ -1401,9 +1333,7 @@ namespace Wsashi.Core.Modules
                 var embed = new EmbedBuilder();
                 embed.WithColor(37, 152, 255);
                 embed.Title = $":x:  | You Need the Administrator Permission to do that {Context.User.Username}";
-                var use = await Context.Channel.SendMessageAsync("", embed: embed.Build());
-                await Task.Delay(5000);
-                await use.DeleteAsync();
+                await ReplyAndDeleteAsync("", embed: embed.Build(), timeout: TimeSpan.FromSeconds(5));
             }
         }
 
@@ -1432,10 +1362,7 @@ namespace Wsashi.Core.Modules
                 var embed = new EmbedBuilder();
                 embed.WithColor(37, 152, 255);
                 embed.Title = $":x:  | You Need the Administrator Permission to do that {Context.User.Username}";
-                var use = await Context.Channel.SendMessageAsync("", embed: embed.Build());
-                await Task.Delay(5000);
-                await use.DeleteAsync();
-                var config = GlobalGuildAccounts.GetGuildAccount(Context.Guild.Id);
+                await ReplyAndDeleteAsync("", embed: embed.Build(), timeout: TimeSpan.FromSeconds(5));
             }
         }
 
@@ -1472,9 +1399,7 @@ namespace Wsashi.Core.Modules
                 var embed = new EmbedBuilder();
                 embed.WithColor(37, 152, 255);
                 embed.Title = $":x:  | You Need the Administrator Permission to do that {Context.User.Username}";
-                var use = await Context.Channel.SendMessageAsync("", embed: embed.Build());
-                await Task.Delay(5000);
-                await use.DeleteAsync();
+                await ReplyAndDeleteAsync("", embed: embed.Build(), timeout: TimeSpan.FromSeconds(5));
             }
         }
 
@@ -1511,9 +1436,7 @@ namespace Wsashi.Core.Modules
                 var embed = new EmbedBuilder();
                 embed.WithColor(37, 152, 255);
                 embed.Title = $":x:  | You Need the Administrator Permission to do that {Context.User.Username}";
-                var use = await Context.Channel.SendMessageAsync("", embed: embed.Build());
-                await Task.Delay(5000);
-                await use.DeleteAsync();
+                await ReplyAndDeleteAsync("", embed: embed.Build(), timeout: TimeSpan.FromSeconds(5));
             }
         }
 
@@ -1541,9 +1464,7 @@ namespace Wsashi.Core.Modules
                 var embed = new EmbedBuilder();
                 embed.WithColor(37, 152, 255);
                 embed.Title = $":x:  | You Need the Administrator Permission to do that {Context.User.Username}";
-                var use = await Context.Channel.SendMessageAsync("", embed: embed.Build());
-                await Task.Delay(5000);
-                await use.DeleteAsync();
+                await ReplyAndDeleteAsync("", embed: embed.Build(), timeout: TimeSpan.FromSeconds(5));
             }
         }
 
@@ -1568,9 +1489,7 @@ namespace Wsashi.Core.Modules
                 var embed = new EmbedBuilder();
                 embed.WithColor(37, 152, 255);
                 embed.Title = $":x:  | You Need the Manage Channels Permission to do that {Context.User.Username}";
-                var use = await Context.Channel.SendMessageAsync("", embed: embed.Build());
-                await Task.Delay(5000);
-                await use.DeleteAsync();
+                await ReplyAndDeleteAsync("", embed: embed.Build(), timeout: TimeSpan.FromSeconds(5));
             }
         }
 
@@ -1595,9 +1514,7 @@ namespace Wsashi.Core.Modules
                 var embed = new EmbedBuilder();
                 embed.WithColor(37, 152, 255);
                 embed.Title = $":x:  | You Need the Manage Channels Permission to do that {Context.User.Username}";
-                var use = await Context.Channel.SendMessageAsync("", embed: embed.Build());
-                await Task.Delay(5000);
-                await use.DeleteAsync();
+                await ReplyAndDeleteAsync("", embed: embed.Build(), timeout: TimeSpan.FromSeconds(5));
             }
         }
 
@@ -1622,9 +1539,7 @@ namespace Wsashi.Core.Modules
                 var embed = new EmbedBuilder();
                 embed.WithColor(37, 152, 255);
                 embed.Title = $":x:  | You Need the Administrator Permission to do that {Context.User.Username}";
-                var use = await Context.Channel.SendMessageAsync("", embed: embed.Build());
-                await Task.Delay(5000);
-                await use.DeleteAsync();
+                await ReplyAndDeleteAsync("", embed: embed.Build(), timeout: TimeSpan.FromSeconds(5));
             }
         }
 
@@ -1658,9 +1573,7 @@ namespace Wsashi.Core.Modules
                 var embed = new EmbedBuilder();
                 embed.WithColor(37, 152, 255);
                 embed.Title = $":x:  | You Need the Administrator Permission to do that {Context.User.Username}";
-                var use = await Context.Channel.SendMessageAsync("", embed: embed.Build());
-                await Task.Delay(5000);
-                await use.DeleteAsync();
+                await ReplyAndDeleteAsync("", embed: embed.Build(), timeout: TimeSpan.FromSeconds(5));
             }
         }
 
@@ -1688,9 +1601,39 @@ namespace Wsashi.Core.Modules
                 var embed = new EmbedBuilder();
                 embed.WithColor(37, 152, 255);
                 embed.Title = $":x:  | You Need the Administrator Permission to do that {Context.User.Username}";
-                var use = await Context.Channel.SendMessageAsync("", embed: embed.Build());
-                await Task.Delay(5000);
-                await use.DeleteAsync();
+                await ReplyAndDeleteAsync("", embed: embed.Build(), timeout: TimeSpan.FromSeconds(5));
+            }
+        }
+
+        [Command("Blacklistlist")]
+        [Alias("Bll")]
+        [Summary("Lists the custom words in the filter")]
+        [Remarks("w!bll")]
+        [Cooldown(5)]
+        public async Task ListBlacklist()
+        {
+            var guser = Context.User as SocketGuildUser;
+            if (guser.GuildPermissions.Administrator)
+            {
+                var config = GlobalGuildAccounts.GetGuildAccount(Context.Guild.Id);
+                string list = string.Empty;
+                foreach(var word in config.CustomFilter)
+                {
+                    list += $"{word}  ";
+                }
+                var embed = new EmbedBuilder();
+                embed.WithTitle($"Blacklisted words in {Context.Guild.Name}");
+                embed.WithDescription(list);
+                embed.WithColor(37, 152, 255);
+
+                await Context.Channel.SendMessageAsync("", embed: embed.Build());
+            }
+            else
+            {
+                var embed = new EmbedBuilder();
+                embed.WithColor(37, 152, 255);
+                embed.Title = $":x:  | You Need the Administrator Permission to do that {Context.User.Username}";
+                await ReplyAndDeleteAsync("", embed: embed.Build(), timeout: TimeSpan.FromSeconds(5));
             }
         }
 
@@ -1720,9 +1663,7 @@ namespace Wsashi.Core.Modules
                 var embed = new EmbedBuilder();
                 embed.WithColor(37, 152, 255);
                 embed.Title = $":x:  | You Need the Administrator Permission to do that {Context.User.Username}";
-                var use = await Context.Channel.SendMessageAsync("", embed: embed.Build());
-                await Task.Delay(5000);
-                await use.DeleteAsync();
+                await ReplyAndDeleteAsync("", embed: embed.Build(), timeout: TimeSpan.FromSeconds(5));
             }
         }
 
@@ -1756,9 +1697,7 @@ namespace Wsashi.Core.Modules
                 var embed = new EmbedBuilder();
                 embed.WithColor(37, 152, 255);
                 embed.Title = $":x:  | You Need the Administrator Permission to do that {Context.User.Username}";
-                var use = await Context.Channel.SendMessageAsync("", embed: embed.Build());
-                await Task.Delay(5000);
-                await use.DeleteAsync();
+                await ReplyAndDeleteAsync("", embed: embed.Build(), timeout: TimeSpan.FromSeconds(5));
             }
         }
 

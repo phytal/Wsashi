@@ -214,32 +214,33 @@ namespace Wsashi
             "```\n" +
             "Use `w!command [command]` to get more info on a specific command. Ex: `w!command xp`  `[Prefix 'w!']` \n " +
             "\n" +
-            "**1. Core -** `help` `invite` `patreon` `ping` \n" +
-            "**2. Social -** `xp` `level` `stats` `topxp`\n" +
-            "**2.5. Interaction -** `cuddle` `feed` `hug` `kiss` `pat` `poke` `tickle` `slap`\n" +
-            "**3. Fun -** `8ball` `pick` `roast` `hello` `normalhello` `goodmorning` `goodnight` `fortune` `echo` `lenny` `ratewaifu` `reverse` `bigletter` `playsong` `rps`\n" +
-            "**4. Duels -** `slash` `absorb` `block` `deflect` `heal` `giveup` `duel` `duelhelp`\n" +
-            "**5. Gambling -** `roll` `coinflip` `newslots` `slots` `showslots`\n" +
+            "**1. Core -** `help` `invite` `patreon` `ping` `dailyvote` \n" +
+            "**2. Social -** `xp` `level` `stats` `topXP`\n" +
+            "**3. Interaction -** `cuddle` `feed` `hug` `kiss` `pat` `poke` `tickle` `slap`\n" +
+            "**4. Fun -** `8ball` `pick` `roast` `hello` `goodMorning` `goodNight` `fortune` `echo` `lenny` `rateWaifu` `reverse` `bigLetter` `playSong` `rps`\n" +
+            "**5. Gambling -** `roll` `coinFlip` `newSlots` `slots` `showSlots`\n" +
             "**5. Economy -** `balance` `daily` `rank`\n" +
             "**6. Utilities -** `dm` `report` `voice`\n" +
             "**7. Calculator (w!calc <command) -** `add` `sub` `mult` `div` `sqrt` `power`\n" +
-            "**8. Information -** `info` `userinfo` `command` `update`\n" +
-            "**9. APIs -** `dog` `doggif` `cat` `catgif` `catfact` `person` `birb` `define` `meme` `gif` `weather` `fortnite`\n" +
-            "**10. Neko API -** `neko` `catemoticon` `foxgirl`\n" +
+            "**8. Information -** `info` `userInfo` `command` `update`\n" +
+            "**9. APIs -** `dog` `dogGif` `cat` `catGif` `catFact` `person` `birb` `define` `meme` `gif` `weather` `fortnite`\n" +
+            "**10. Neko API -** `neko` `catEmoticon` `foxGirl`\n" +
             "**11. Shibe API -** `shiba` `bird`\n" +
-            "**12. Overwatch API -** `owstats` `owstatscomp` `owstatsqp` `myowstats` `myowstatscomp` `myowstatsqp` `owherostats` `owherostatscomp` `owherostatsqp` `myowherostats` `myowstatsherocomp` `myowstatsheroqp` `owaccount`\n" +
-            "**11. osu! API -** `osustats` `maniastats` `taikostats` `ctbstats`\n" +
+            "**12. Overwatch API -** `owStats` `owStatsComp` `owStatsQP` `myOwStats` `myOwStatsComp` `myOwStatsQP` `owHeroStats` `owHeroStatsComp` `owHeroStatsQP` `myOwHeroStats` `myOwHeroStatsComp` `myOwHeroStatsQP` `owAccount`\n" +
+            "**11. osu! API -** `osuStats` `maniaStats` `taikoStats` `ctbStats`\n" +
             "**14. Games -** `2048 start` `trivia`\n" +
             "**15. Blog (w!blog <command>) -** `create` `post` `subscribe` `unsubscribe`\n" +
-            "**16. Self Roles -** `Iam` `Iamnot` `selfrolelist`\n" +
-            "**17. Wasagotchi (w!wasagotchi <command>) -** `stats` `feed` `clean` `train` `play` `name` `buy` `picture` `help`\n" +
+            "**16. Self Roles -** `iAm` `iAmNot` `selfRoleList`\n" +
+            "**17. Wasagotchi (w!wasagotchi <command>) -** `stats` `feed` `clean` `train` `play` `name` `buy` `picture` `help` `opencapsule` `inventory`\n" +
             "**18. Reminders (w!r <command>) -** `add` `remove` `list`\n" +
                         "**19. Personal Tags (w!ptag <command>)-** `new` `update` `remove` `list`\n" + //add gru and butterfly meme when done
+                        "**20. Lootboxes -** `openLootBox` `lootBoxInventory`\n" +
             "\n" +
             "```\n" +
             "# Don't include the example brackets when using commands!\n" +
             "# To view Moderator commands, use w!helpmod\n" +
             "# To view NSFW commands, use w!helpnsfw\n" +
+            "# To view Dueling commands, use w!duelhelp\n" +
             "```";
 
             await ReplyAsync(helpMessage);
@@ -260,16 +261,16 @@ namespace Wsashi
             "```\n" +
             "Use `w!command [command]` to get more info on a specific command. Ex: `w!command xp`  `[Prefix 'w!']`\n" +
             "\n" +
-            "**Filters -** `Antilink` `filter` `PingChecks` `AntilinkIgnore` `filterignore` `BlacklistAdd` `BlacklistRemove` `BlacklistClear`\n" +
-            "**User Management -** `ban` `kick` `mute` `unmute` `clear` `warn` `warnings` `ClearWarnings` `say` `softban` `idban` `promote` `demote`\n" +
-            "**Bot Settings -** `serverprefix` `leveling` `list` `leveling` `levelingmsg` `config`\n" +
+            "**Filters -** `antiLink` `filter` `pingChecks` `antiLinkIgnore` `filterIgnore` `blacklistAdd` `blacklistRemove` `blacklistClear` `blacklistList`\n" +
+            "**User Management -** `ban` `kick` `mute` `unmute` `clear` `warn` `warnings` `clearWarnings` `say` `softban` `idBan` `promote` `demote`\n" +
+            "**Bot Settings -** `serverprefix` `leveling` `list` `leveling` `levelingMsg` `config`\n" +
             "**Welcome Messages (w!welcome <command>) -** `channel` `add` `remove` `list`\n" +
             "**Leaving Messages (w!leave <command>) -** `channel` `add` `remove` `list`\n" +
-            "**Announcements (w!announcements <command>) -** `SetChannel` `UnsetChannel`\n" +
-            "**Server Management -** `rename` `ServerLogging` `SlowMode` `LockChannel` `UnlockChannel`\n" +
-            "**Roles -** `HelperRole` `ModRole` `AdminRole` `SelfRoleAdd` `SelfRoleRem` `SelfRoleClear`\n" +
+            "**Announcements (w!announcements <command>) -** `setChannel` `unsetChannel`\n" +
+            "**Server Management -** `rename` `serverLogging` `slowMode` `lockChannel` `unlockChannel`\n" +
+            "**Roles -** `helperRole` `modRole` `adminRole` `selfRoleAdd` `selfRoleRem` `selfRoleClear`\n" +
                         "**Server Tags (w!tag <command>)-** `new` `update` `remove` `list`\n" +
-            "**Fun Stuff -** `unflip` `vote` `CustomCommandAdd` `CustomCommandRemove`\n" +
+            "**Fun Stuff -** `unFlip` `vote` `customCommandAdd` `customCommandRemove`\n" +
             "\n" +
             "```\n" +
             "# Don't include the example brackets when using commands!\n" +
@@ -307,8 +308,8 @@ namespace Wsashi
                 "```\n" +
                 "Use `w!command [command]` to get more info on a specific command. Ex: `w!command xp`  `[Prefix 'w!']`\n" +
                 "\n" +
-                "**Neko -** `nekolewd` `nekonsfwgif`\n" +
-                "**Hentai -** `anal` `boobs` `cum` `les` `pussy` `blowjob` `classic` `kuni` `OverwatchNSFW`\n" +
+                "**Neko -** `nekoLewd` `nekoNsfwGif`\n" +
+                "**Hentai -** `anal` `boobs` `cum` `les` `pussy` `blowJob` `classic` `kuni` `overwatchNSFW`\n" +
                 "\n" +
                 "```\n" +
                 "# Don't include the example brackets when using commands!\n" +
@@ -382,6 +383,16 @@ namespace Wsashi
         public async Task SendAsync()
         {
             await ReplyAsync("https://discord.gg/NuUdx4h ~~ Here's my server! :blush: ");
+        }
+
+        [Command("dailyvote")]
+        [Summary("Provides Wsashi's daily vote link")]
+        [Alias("dv")]
+        [Remarks("Ex: w!dv")]
+        [Cooldown(10)]
+        public async Task DailyVote()
+        {
+            await ReplyAsync("https://discordbots.org/bot/417160957010116608/vote ~~ Vote for me please! ");
         }
 
         [Command("invite")]

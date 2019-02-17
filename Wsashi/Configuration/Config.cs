@@ -41,6 +41,8 @@ namespace Wsashi
         public string BotGameToSet;
         public string TwitchStreamer;
         public string Version;
+        public string fortniteToken;
+        public string wolkeToken;
     }
 }
 

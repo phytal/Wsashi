@@ -18,11 +18,11 @@ namespace Wsashi.Features.Economy
         public static readonly List<SlotPiece> PossibleSlotPieces = new List<SlotPiece>
         {
           // new SlotPiece("emojiString", minSpawnCount, spawnRate, payoutRate); 
-             new SlotPiece("|:potato:|",      1, 2, 10  ),
-             new SlotPiece("|:candy:|",       2, 2, 5   ),
-             new SlotPiece("|:moneybag:|",    2, 2, 3   ),
-             new SlotPiece("|:grapes:|",      3, 2, 1.5 ),
-             new SlotPiece("|:cherries:|",    4, 2, 0.5 )
+             new SlotPiece(":potato:",      1, 2, 10  ),
+             new SlotPiece(":candy:",       2, 2, 5   ),
+             new SlotPiece(":moneybag:",    2, 2, 3   ),
+             new SlotPiece(":grapes:",      3, 2, 1.5 ),
+             new SlotPiece(":cherries:",    4, 2, 0.5 )
         };
         public readonly List<Cylinder> Cylinders = new List<Cylinder>();
 

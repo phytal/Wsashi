@@ -14,7 +14,7 @@ namespace Wsashi
     {
         public static DiscordShardedClient _client;
         private IServiceProvider _services;
-        private readonly int[] _shardIds = { 0, 1, 2 };
+        private readonly int[] _shardIds = { 0, 1, 2, 3, 4, 5, 6, 7, 8, 9 };
 
         private static void Main()
         {
@@ -33,7 +33,7 @@ namespace Wsashi
                 LogLevel = LogSeverity.Verbose,
                 DefaultRetryMode = RetryMode.AlwaysRetry,
                 MessageCacheSize = 100,
-                TotalShards = 3
+                TotalShards = 10
             });
 
             _client.Log += Logger.Log;

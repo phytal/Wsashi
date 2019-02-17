@@ -164,7 +164,7 @@ namespace Wsashi
                 return;
             _commandHandler.HandleCommandAsync(message);
             _serverActivityLogger.Client_MessageReceived(message);
-            _messageRewardHandler.HandleMessageRewards(message);
+           // _messageRewardHandler.HandleMessageRewards(message);
         }
 
         private async Task MessageUpdated(Cacheable<IMessage, ulong> cacheMessageBefore, SocketMessage messageAfter, ISocketMessageChannel channel)
@@ -185,6 +185,7 @@ namespace Wsashi
             if (reaction.User.Value.IsBot) return;
             _commandHandler.OnReactionAdded(cacheMessage, channel, reaction);
             _commandHandler.ReactionWasAdded(cacheMessage, channel, reaction);
+            _commandHandler.OnReactionAddedDuelRequest(cacheMessage, channel, reaction);
         }
 
         private async Task ReactionRemoved(Cacheable<IUserMessage, ulong> cacheMessage, ISocketMessageChannel channel,

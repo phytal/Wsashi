@@ -11,7 +11,6 @@ namespace Wsashi
     public class WasagotchiTimer
     {
         private static Timer loopingtimer;
-        private readonly DiscordShardedClient _client;
 
         internal Task StartTimer()
         {
@@ -44,12 +43,15 @@ namespace Wsashi
                     if (userAcc.Attention > 0)
                         userAcc.Attention = userAcc.Attention - 1;
                     else userAcc.Attention = 0;
+                    GlobalWasagotchiUserAccounts.SaveAccounts();
 
-                    var user = _client.GetUser(userAcc.Id);
+                    var user = Global.Client.GetUser(userAcc.Id);
+                    Console.WriteLine($"{userAcc.Id}");
                     var message = await user.GetOrCreateDMChannelAsync();
                     if (userAcc.Waste >= 15)
                     {
                         userAcc.Sick = true;
+                        GlobalWasagotchiUserAccounts.SaveAccounts();
                         await message.SendMessageAsync($":exclamation:  | {user.Mention}, **{userAcc.Name}** is sick! Treat her right with medicine with w!buy! ");
                     }
                     if ((userAcc.Waste == 20) && (userAcc.Hunger <= 5) && (userAcc.Attention <= 5))
@@ -60,16 +62,13 @@ namespace Wsashi
                         userAcc.pfp = null;
                         userAcc.RanAway = true;
                         await message.SendMessageAsync($":exclamation:  | {user.Mention}, **{userAcc.Name}** ran away! The living conditions you provided were too low... Maybe try to pay more attention to your Wasagotchi next time! ");
+                        GlobalWasagotchiUserAccounts.SaveAccounts();
                     }
-                    Console.WriteLine("Successfully executed pet crippling effects.");
                     GlobalWasagotchiUserAccounts.SaveAccounts();
-                    return;
                 }
-                else
-                {
-                    return;
-                }
+                else return;
             }
+            Console.WriteLine("Successfully executed pet crippling effects.");
         }
     }
 }

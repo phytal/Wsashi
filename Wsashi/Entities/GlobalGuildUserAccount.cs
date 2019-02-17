@@ -16,26 +16,7 @@ namespace Wsashi.Entities
         public uint Reputation { get; set; }
 
         public uint XP { get; set; }
-        //duels stuff
-        public int Health { get; set; }
 
-        public int Meds { get; set; }
-
-        public bool Blocking { get; set; }
-
-        public bool Deflecting { get; set; }
-
-        public string whosTurn { get; set; }
-
-        public string whoWaits { get; set; }
-
-        public string placeHolder { get; set; }
-
-        public bool Fighting { get; set; }
-
-        public ulong OpponentId { get; set; }
-        public string OpponentName { get; set; }
-        //no more duels stuff
         public DateTime LastRep { get; set; } = DateTime.UtcNow.AddDays(-2);
 
         public DateTime LastXPMessage { get; set; } = DateTime.UtcNow;

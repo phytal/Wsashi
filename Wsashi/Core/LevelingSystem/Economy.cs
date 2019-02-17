@@ -170,7 +170,7 @@ namespace Wsashi.Core.LevelingSystem
             var ordered = accounts.OrderByDescending(acc => acc.Money).ToList();
 
             var embB = new EmbedBuilder()
-                .WithTitle($"Leaderboard:")
+                .WithTitle($"Potato Leaderboard:")
                 .WithFooter($"Page {page}/{lastPageNumber}");
 
             page--;

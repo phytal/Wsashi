@@ -9,7 +9,7 @@ namespace Wsashi.Modules.Fun.Dueling
     {
         public static bool GetCritical()
         {
-            int hit = Global.Rng.Next(1, 10);
+            int hit = Global.Rng.Next(1, 8);
             if (hit == 2) return true;
             else return false;
         }

@@ -12,6 +12,8 @@ using System.Collections.Generic;
 using Wsashi.Handlers;
 using Wsashi.Features.Trivia;
 using System.Collections.Concurrent;
+using Wsashi.Modules;
+using Weeb.net;
 
 namespace Wsashi
 {
@@ -30,6 +32,8 @@ namespace Wsashi
             _client = client;
 
         }
+        WeebClient weebClient = new WeebClient("Wsashi", Config.bot.Version);
+
         public async Task InitializeAsync()
         {
             _commands = new CommandService();
@@ -41,6 +45,8 @@ namespace Wsashi
                 Assembly.GetEntryAssembly(),
                 _services);
             Global.Client = _client;
+            //Will print current weeb.sh API version and Weeb.net wrapper version
+            await weebClient.Authenticate(Config.bot.wolkeToken, Weeb.net.TokenType.Wolke);
         }
 
         public async Task HandleCommandAsync(SocketMessage s)
@@ -108,7 +114,9 @@ namespace Wsashi
             // Leveling up
             if (config.Leveling)
             {
-                await Leveling.UserSentMessage((SocketGuildUser)context.User, (SocketTextChannel)context.Channel);
+                await Leveling.Level((SocketGuildUser)context.User, (SocketTextChannel)context.Channel);
+                await Leveling.WsashiLevel((SocketGuildUser)context.User, (SocketTextChannel)context.Channel);
+                await Leveling.MessageRewards((SocketGuildUser)context.User, (SocketTextChannel)context.Channel, s);
             }
         }
 
@@ -125,7 +133,7 @@ namespace Wsashi
         public async Task ReactionWasAdded(Cacheable<IUserMessage, ulong> message, ISocketMessageChannel channel, SocketReaction reaction)
         {
             if (Timeouts.HasCommandTimeout(reaction.UserId, "REACTION", 1)) return;
-            G1024ReactionInput.HandleReaction(reaction);
+            await G2048ReactionInput.HandleReaction(message, reaction);
         }
 
         public async Task _UserJoined(SocketGuildUser user)
@@ -180,6 +188,38 @@ namespace Wsashi
             }
         }
 
+        public async Task OnReactionAddedDuelRequest(Cacheable<IUserMessage, ulong> cache, ISocketMessageChannel channel, SocketReaction reaction)
+        {
+            if (!reaction.User.Value.IsBot)
+            {
+                var context = new ShardedCommandContext(Global.Client, (SocketUserMessage)reaction.Message);
+                if (!PendingDuelProvider.UserIsPlaying(reaction.UserId)) return;
+                var emote = Emote.Parse("<:no:453716729525174273>");
+                var user = (SocketGuildUser)reaction.User;
+                var req = PendingDuelProvider.RequestUser(reaction.UserId);
+                var requester = Global.Client.GetUser(req);
+                if (reaction.Emote.Name == emote.Name)
+                {
+                    var game = PendingDuelProvider.games.FirstOrDefault(g => g.PlayerId == reaction.UserId);
+                    PendingDuelProvider.games.Remove(game);
+                    await context.Message.DeleteAsync();
+                    await channel.SendMessageAsync($"**{user.Username}** has declined **{requester.Username}**'s duel request!");
+                }
+                if (reaction.Emote.Name == "✅")
+                {
+                    var game = PendingDuelProvider.games.FirstOrDefault(g => g.PlayerId == reaction.UserId);
+                    PendingDuelProvider.games.Remove(game);
+                    await context.Message.DeleteAsync();
+                    await channel.SendMessageAsync($"**{user.Username}** has accepted **{requester.Username}**'s duel request!");
+                    await Duel.StartDuel(channel, user, requester);
+                }
+                else
+                {
+                    return;
+                }
+            }
+        }
+
         private async Task Log(LogMessage msg)
         {
             Console.WriteLine(msg.Message ?? msg.Exception.ToString());
@@ -189,7 +229,7 @@ namespace Wsashi
         {
             try
             {
-                await _client.LoginAsync(TokenType.Bot, Config.bot.token);
+                await _client.LoginAsync(Discord.TokenType.Bot, Config.bot.token);
             }
             catch
             {

@@ -15,6 +15,24 @@ namespace Wsashi.Modules.Wasagotchi
 {
     public class General : WsashiModule
     {
+        [Command("wasagotchi inventory"), Alias("w inventory")]
+        [Summary("View your inventory for Wasagotchi")]
+        [Remarks("Usage: w!inventory")]
+        public async Task WasagotchiInventory()
+        {
+            var account = GlobalWasagotchiUserAccounts.GetWasagotchiAccount(Context.User);
+            var embed = new EmbedBuilder();
+            embed.WithTitle($"{Context.User.Username}'s Wasagotchi Inventory");
+
+            embed.AddField("Common Capsules", $"**x{account.CommonCapsule}**");
+            embed.AddField("Rare Capsules", $"**x{account.RareCapsule}**");
+            embed.AddField("Epic Capsules", $"**x{account.EpicCapsule}**");
+            embed.AddField("Legendary Capsules", $"**x{account.LegendaryCapsule}**");
+            embed.WithFooter("You can get Wasagotchi Capsules from opening loot boxes!");
+
+            await Context.Channel.SendMessageAsync("", embed: embed.Build());
+        }
+
         [Command("wasagotchi stats"), Alias("w stats")]
         [Summary("Brings up the stats/info of your or someone else's Wasagotchi!")]
         [Remarks("w!w stats <specified user (will be yours if left empty)> Ex: w!w stats @Phytal")]
@@ -60,6 +78,7 @@ namespace Wsashi.Modules.Wasagotchi
                     embed.AddField("Name", "*(Name your wasagotchi!)*", true);
                 else
                     embed.AddField("Name", config.Name, true);
+                embed.AddField("Breed", config.Breed, true);
                 embed.AddField("Exp", config.XP, true);
                 embed.AddField("Level", config.LevelNumber, true);
                 embed.AddField("Room",  GetRooms(config.rLvl), true);

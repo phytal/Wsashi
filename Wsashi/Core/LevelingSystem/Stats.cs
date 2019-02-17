@@ -48,6 +48,40 @@ namespace Wsashi.Core.LevelingSystem
 
             await Context.Channel.SendMessageAsync("", embed: embed.Build());
         }
+        [Command("wsashistats")]
+        [Summary("Checks your Wsashi stats (Wsashi Level, XP)")]
+        [Remarks("w!wsashistats <person you want to check(will default to you if left empty)> Ex: w!wsashistats @Phytal")]
+        [Cooldown(10)]
+        public async Task WsashiStats([Remainder]string arg = "")
+        {
+            SocketUser target = null;
+            var mentionedUser = Context.Message.MentionedUsers.FirstOrDefault();
+            target = mentionedUser ?? Context.User;
+
+            var userAccount = GlobalUserAccounts.GetUserAccount(target);
+            uint Level = userAccount.LevelNumber;
+            GlobalUserAccounts.SaveAccounts();
+            var xp = userAccount.XP;
+            var requiredXp = (Math.Pow(userAccount.LevelNumber + 1, 2) * 50);
+
+            var thumbnailurl = target.GetAvatarUrl();
+            var auth = new EmbedAuthorBuilder()
+            {
+                Name = target.Username,
+                IconUrl = thumbnailurl,
+            };
+
+            var embed = new EmbedBuilder()
+            {
+                Author = auth
+            };
+
+            embed.WithColor(37, 152, 255);
+            embed.AddField("Lvl.", Level, true);
+            embed.AddField("Exp.", $"{xp}/{requiredXp} (tot. {userAccount.XP})", true);
+
+            await Context.Channel.SendMessageAsync("", embed: embed.Build());
+        }
     }
 
 

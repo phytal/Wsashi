@@ -109,7 +109,7 @@ namespace Wsashi.Modules
             var ordered = accounts.OrderByDescending(acc => acc.XP).ToList();
 
             var embB = new EmbedBuilder()
-                .WithTitle($"Leaderboard:")
+                .WithTitle($"XP Leaderboard:")
                 .WithFooter($"Page {page}/{lastPageNumber}");
 
             page--;
