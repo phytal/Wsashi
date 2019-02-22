@@ -1456,6 +1456,7 @@ namespace Wsashi.Core.Modules
                 var embed = new EmbedBuilder();
                 embed.WithDescription($"Added the **{arg}** role to Autorole!");
                 embed.WithColor(37, 152, 255);
+                embed.WithFooter("Make sure that Wsashi has a higher role than the autoroled role!");
 
                 await Context.Channel.SendMessageAsync("", embed: embed.Build());
             }
