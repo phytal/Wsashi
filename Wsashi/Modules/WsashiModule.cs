@@ -1,8 +1,8 @@
-﻿using Discord.Commands;
+﻿using Discord.Addons.Interactive;
 
 namespace Wsashi.Core.Modules
 {
-    public abstract class WsashiModule : ModuleBase<ShardedCommandContext>
+    public abstract class WsashiModule : InteractiveBase
     {
         public bool Enabled = true;
         public bool Disabled = false;

@@ -1,21 +1,17 @@
 ﻿using Discord.Commands;
 using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 using Discord.WebSocket;
 using Discord;
 using Wsashi.Features.GlobalAccounts;
 using Wsashi.Helpers;
 using System.IO;
-using System.Threading;
 using Wsashi.Preconditions;
-using Discord.Addons.Interactive;
 
 namespace Wsashi.Core.Modules
 {
-    public class Administrator : InteractiveBase
+    public class Administrator : WsashiModule
     {
         private static readonly OverwritePermissions denyOverwrite = new OverwritePermissions(addReactions: PermValue.Deny, sendMessages: PermValue.Deny, attachFiles: PermValue.Deny);
         DiscordSocketClient _client;
@@ -174,9 +170,7 @@ namespace Wsashi.Core.Modules
                 }
                 catch
                 {
-                    var use = await ReplyAsync(":hand_splayed:  | You must mention a valid user");
-                    await Task.Delay(5000);
-                    await use.DeleteAsync();
+                    await ReplyAndDeleteAsync(":hand_splayed:  | You must mention a valid user", timeout: TimeSpan.FromSeconds(5));
                 }
             }
             else
@@ -288,18 +282,8 @@ namespace Wsashi.Core.Modules
                     {
                         var messagesToDelete = await Context.Channel.GetMessagesAsync(num + 1).FlattenAsync();
                         if (Context.Channel is ITextChannel channel) await channel.DeleteMessagesAsync(messagesToDelete);
-                        if (num == 1)
-                        {
-                            var use = await Context.Channel.SendMessageAsync(":white_check_mark:  | Deleted 1 message.");
-                            await Task.Delay(5000);
-                            await use.DeleteAsync();
-                        }
-                        else
-                        {
-                            var use = await Context.Channel.SendMessageAsync(":white_check_mark:  | Cleared " + num + " messages.");
-                            await Task.Delay(5000);
-                            await use.DeleteAsync();
-                        }
+                        if (num == 1) await ReplyAndDeleteAsync(":white_check_mark:  | Deleted 1 message."); 
+                        else await ReplyAndDeleteAsync(":white_check_mark:  | Cleared " + num + " messages.", timeout: TimeSpan.FromSeconds(5));
                     }
                     else
                     {
@@ -356,9 +340,7 @@ namespace Wsashi.Core.Modules
                     var embed = new EmbedBuilder();
                     embed.WithColor(37, 152, 255);
                     embed.WithTitle(":hand_splayed:  | Please say who and what you want to promote the user to. Ex: w!promote <rank> <@username>");
-                    var use = await Context.Channel.SendMessageAsync("", embed: embed.Build());
-                    await Task.Delay(5000);
-                    await use.DeleteAsync();
+                    await ReplyAndDeleteAsync("", embed: embed.Build(), timeout: TimeSpan.FromSeconds(5));
                 }
             }
             else
@@ -1259,9 +1241,9 @@ namespace Wsashi.Core.Modules
                 var embed = new EmbedBuilder()
                     .WithColor(37, 152, 255)
                     .WithDescription($"Added the {role} to the Config.");
+                await Context.Channel.SendMessageAsync("", embed: embed.Build());
                 config.SelfRoles.Add(role);
                 GlobalGuildAccounts.SaveAccounts();
-                await Context.Channel.SendMessageAsync("", embed: embed.Build());
             }
             else
             {
@@ -1288,6 +1270,7 @@ namespace Wsashi.Core.Modules
                 {
                     config.SelfRoles.Remove(role);
                     embed.WithDescription($"Removed {role} from the Self Roles list.");
+                    GlobalGuildAccounts.SaveAccounts();
                 }
                 else
                 {
@@ -1444,11 +1427,12 @@ namespace Wsashi.Core.Modules
         [Summary("Adds a role that new members will recieve automatically")]
         [Remarks("w!autorole <role name> Ex: w!autorole Member")]
         [Cooldown(5)]
-        public async Task AutoRoleRoleAdd([Remainder]string arg = "")
+        public async Task AutoRoleRoleAdd(string arg = "")
         {
             var guser = Context.User as SocketGuildUser;
             if (guser.GuildPermissions.Administrator)
             {
+                if (arg == null) await ReplyAndDeleteAsync("Please include the name of the role you want to autorole");
                 var config = GlobalGuildAccounts.GetGuildAccount(Context.Guild.Id);
                 config.Autorole = arg;
                 GlobalGuildAccounts.SaveAccounts();

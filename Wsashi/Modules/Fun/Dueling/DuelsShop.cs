@@ -1,16 +1,15 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Discord;
-using Discord.Addons.Interactive;
 using Discord.Commands;
 using Discord.WebSocket;
+using Wsashi.Core.Modules;
 using Wsashi.Features.GlobalAccounts;
 
 namespace Wsashi.Modules
 {
-    public class DuelsShop : InteractiveBase
+    public class DuelsShop : WsashiModule
     {
         [Command("duelsBuy"), Alias("duels shop", "duel buy", "duel shop")]
         [Summary("Opens the duels shop menu!")]

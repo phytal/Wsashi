@@ -9,6 +9,7 @@ using System.Threading.Tasks;
 using Discord.WebSocket;
 using Wsashi.Preconditions;
 using Wsashi.Core.Modules;
+using System;
 
 namespace Wsashi.Modules.API.Nekos.life.NSFW_Neko
 {
@@ -43,9 +44,7 @@ namespace Wsashi.Modules.API.Nekos.life.NSFW_Neko
                 var embed = new EmbedBuilder();
                 embed.WithColor(37, 152, 255);
                 embed.Title = $":x:  | You need to use this command in a NSFW channel, {Context.User.Username}!";
-                var use = await Context.Channel.SendMessageAsync("", embed: embed.Build());
-                await Task.Delay(5000);
-                await use.DeleteAsync();
+                await ReplyAndDeleteAsync("", embed: embed.Build(), timeout: TimeSpan.FromSeconds(5));
             }
         }
     }

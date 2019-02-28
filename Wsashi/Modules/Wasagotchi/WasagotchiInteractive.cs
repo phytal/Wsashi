@@ -4,12 +4,13 @@ using Discord;
 using Discord.Addons.Interactive;
 using Discord.Commands;
 using Discord.WebSocket;
+using Wsashi.Core.Modules;
 using Wsashi.Features.GlobalAccounts;
 using Wsashi.Preconditions;
 
 namespace Wsashi.Modules
 {
-    public class WasagotchiInteractive : InteractiveBase
+    public class WasagotchiInteractive : WsashiModule
     {
         [Command("wasagotchi buy"), Alias("w shop", "w buy")]
         [Summary("Opens the Wasagotchi shop menu!")]
@@ -542,6 +543,7 @@ namespace Wsashi.Modules
         }
 
         [Command("test list")]
+        [RequireOwner]
         public async Task Paginator()
         {
             PaginatedMessage pages = new PaginatedMessage { Pages = new[] { "Page 1", "Page 2", "Page 3", "aaaaaa", "Page 5" }, Content = "gay", Color = Color.Blue, Title = new[] { "Page 1", "Page 2", "Page 3", "aaaaaa", "Page 5" } };

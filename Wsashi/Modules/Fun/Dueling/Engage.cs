@@ -4,16 +4,15 @@ using System.Linq;
 using System.Reflection;
 using System.Threading.Tasks;
 using Discord;
-using Discord.Addons.Interactive;
 using Discord.Commands;
 using Discord.WebSocket;
-using Wsashi.Entities;
+using Wsashi.Core.Modules;
 using Wsashi.Features.GlobalAccounts;
 using Wsashi.Modules.Fun.Dueling;
 
 namespace Wsashi.Modules
 {
-    public class Engage : InteractiveBase
+    public class Engage : WsashiModule
     {
         [Command("engage"), Alias("attack", "item", "giveup")]
         [Summary("Opens the duels engagment GUI")]

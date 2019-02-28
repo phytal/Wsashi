@@ -2,9 +2,6 @@
 using Discord.Addons.Interactive;
 using Discord.Commands;
 using Newtonsoft.Json;
-using System;
-using System.Collections.Generic;
-using System.Text;
 using System.Threading.Tasks;
 using Wsashi.Core.Modules;
 using Wsashi.Features.GlobalAccounts;
@@ -12,7 +9,7 @@ using Wsashi.Preconditions;
 
 namespace Wsashi.Modules.API.Overwatch
 {
-    public class HeroStats : InteractiveBase
+    public class HeroStats : WsashiModule
     {
         [Command("owherostats")]
         [Summary("Get a Overwatch user's statistics for a specific hero on both Quickplay and Competitive.")]

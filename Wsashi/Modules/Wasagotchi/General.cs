@@ -1,15 +1,11 @@
 ﻿using Discord;
-using Discord.Addons.Interactive;
 using Discord.Commands;
 using Discord.WebSocket;
 using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 using Wsashi.Core.Modules;
 using Wsashi.Features.GlobalAccounts;
-using Wsashi.Preconditions;
 
 namespace Wsashi.Modules.Wasagotchi
 {
@@ -78,6 +74,9 @@ namespace Wsashi.Modules.Wasagotchi
                     embed.AddField("Name", "*(Name your wasagotchi!)*", true);
                 else
                     embed.AddField("Name", config.Name, true);
+                if (config.Breed == null)
+                    embed.AddField("Breed", "Breedless (You can get a wasagotchi with a breed from a wasagotchi capsule)", true);
+                else
                 embed.AddField("Breed", config.Breed, true);
                 embed.AddField("Exp", config.XP, true);
                 embed.AddField("Level", config.LevelNumber, true);

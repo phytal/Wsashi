@@ -3,6 +3,7 @@ using Discord.Commands;
 using System.Threading.Tasks;
 using Wsashi.Preconditions;
 using Wsashi.Core.Modules;
+using System;
 
 namespace Wsashi.Modules
 {
@@ -18,9 +19,7 @@ namespace Wsashi.Modules
                 lifetimeInMinutes *= 60000;
                 if (lifetimeInMinutes == 0)
                 {
-                    var use = await Context.Channel.SendMessageAsync("Use: ``!Voice {Time In Minutes}``");
-                    await Task.Delay(5000);
-                    await use.DeleteAsync();
+                    var use = await ReplyAndDeleteAsync("Use: ``!Voice {Time In Minutes}``", timeout: TimeSpan.FromSeconds(5));
                 }
                 else if (lifetimeInMinutes >= maxTimeInMinutes)
                 {

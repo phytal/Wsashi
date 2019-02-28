@@ -25,7 +25,7 @@ namespace Wsashi.Modules
 
             var roleList = new List<string>();
             foreach (var roleName in config.SelfRoles) roleList.Add(roleName.ToLower());
-            if (roleList.Contains(role))
+            if (!roleList.Contains(role))
             {
                 embed.WithDescription("This server doesn't have any self roles set.");
             }
@@ -57,7 +57,7 @@ namespace Wsashi.Modules
 
             var roleList = new List<string>();
             foreach (var roleName in config.SelfRoles) roleList.Add(roleName.ToLower());
-            if (roleList.Contains(role))
+            if (!roleList.Contains(role))
             {
                 embed.WithDescription("This server doesn't have any self roles set.");
             }

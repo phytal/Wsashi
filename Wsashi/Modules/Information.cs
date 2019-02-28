@@ -270,7 +270,7 @@ namespace Wsashi
             "**Server Management -** `rename` `serverLogging` `slowMode` `lockChannel` `unlockChannel`\n" +
             "**Roles -** `helperRole` `modRole` `adminRole` `selfRoleAdd` `selfRoleRem` `selfRoleClear`\n" +
                         "**Server Tags (w!tag <command>)-** `new` `update` `remove` `list`\n" +
-            "**Fun Stuff -** `unFlip` `vote` `customCommandAdd` `customCommandRemove`\n" +
+            "**Fun Stuff -** `unFlip` `vote` `customCommandAdd` `customCommandRemove` `customCommandList`\n" +
             "\n" +
             "```\n" +
             "# Don't include the example brackets when using commands!\n" +
@@ -285,9 +285,7 @@ namespace Wsashi
                 var embed = new EmbedBuilder();
                 embed.WithColor(37, 152, 255);
                 embed.Title = $":x:  | You Need the Administrator Permission to do that {Context.User.Username}";
-                var use = await Context.Channel.SendMessageAsync("", embed: embed.Build());
-                await Task.Delay(5000);
-                await use.DeleteAsync();
+                var use = await ReplyAndDeleteAsync("", embed: embed.Build(), timeout: TimeSpan.FromSeconds(5));
             }
         }
 
@@ -324,9 +322,7 @@ namespace Wsashi
                     var embed = new EmbedBuilder();
                     embed.WithColor(37, 152, 255);
                     embed.Title = $":x:  | You Need to be in a NSFW channel to do that {Context.User.Username}";
-                    var use = await Context.Channel.SendMessageAsync("", embed: embed.Build());
-                    await Task.Delay(5000);
-                    await use.DeleteAsync();
+                    var use = await ReplyAndDeleteAsync("", embed: embed.Build(), timeout: TimeSpan.FromSeconds(5));
                 }
             }
         }
