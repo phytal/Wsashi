@@ -262,12 +262,12 @@ namespace Wsashi
             "Use `w!command [command]` to get more info on a specific command. Ex: `w!command xp`  `[Prefix 'w!']`\n" +
             "\n" +
             "**Filters -** `antiLink` `filter` `pingChecks` `antiLinkIgnore` `filterIgnore` `blacklistAdd` `blacklistRemove` `blacklistClear` `blacklistList`\n" +
-            "**User Management -** `ban` `kick` `mute` `unmute` `clear` `warn` `warnings` `clearWarnings` `say` `softban` `idBan` `promote` `demote`\n" +
-            "**Bot Settings -** `serverprefix` `leveling` `list` `leveling` `levelingMsg` `config`\n" +
+            "**User Management -** `ban` `kick` `mute` `unmute` `clear` `warn` `warnings` `clearWarnings` `say` `softban` `idBan` `promote` `demote` `rename`\n" +
+            "**Bot Settings -** `serverprefix` `leveling` `levelingMsg` `config`\n" +
             "**Welcome Messages (w!welcome <command>) -** `channel` `add` `remove` `list`\n" +
             "**Leaving Messages (w!leave <command>) -** `channel` `add` `remove` `list`\n" +
-            "**Announcements (w!announcements <command>) -** `setChannel` `unsetChannel`\n" +
-            "**Server Management -** `rename` `serverLogging` `slowMode` `lockChannel` `unlockChannel`\n" +
+            "**Announcements (w!announcements <command>) -** `setChannel` `unsetChannel` `announce`\n" +
+            "**Server Management -** `serverLogging` `slowMode` `lockChannel` `unlockChannel`\n" +
             "**Roles -** `helperRole` `modRole` `adminRole` `selfRoleAdd` `selfRoleRem` `selfRoleClear`\n" +
                         "**Server Tags (w!tag <command>)-** `new` `update` `remove` `list`\n" +
             "**Fun Stuff -** `unFlip` `vote` `customCommandAdd` `customCommandRemove` `customCommandList`\n" +

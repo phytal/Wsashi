@@ -282,7 +282,7 @@ namespace Wsashi.Core.Modules
                     {
                         var messagesToDelete = await Context.Channel.GetMessagesAsync(num + 1).FlattenAsync();
                         if (Context.Channel is ITextChannel channel) await channel.DeleteMessagesAsync(messagesToDelete);
-                        if (num == 1) await ReplyAndDeleteAsync(":white_check_mark:  | Deleted 1 message."); 
+                        if (num == 1) await ReplyAndDeleteAsync(":white_check_mark:  | Deleted 1 message.");
                         else await ReplyAndDeleteAsync(":white_check_mark:  | Cleared " + num + " messages.", timeout: TimeSpan.FromSeconds(5));
                     }
                     else
@@ -920,7 +920,7 @@ namespace Wsashi.Core.Modules
             if (guser.GuildPermissions.ManageMessages)
             {
                 await user.ModifyAsync(x => x.Nickname = nick);
-                var embed = MiscHelpers.CreateEmbed(Context, "User Nicked" , $"Set <@{user.Id}>'s nickname on this server to **{nick}**!").WithColor(37, 152, 255);
+                var embed = MiscHelpers.CreateEmbed(Context, "User Nicked", $"Set <@{user.Id}>'s nickname on this server to **{nick}**!").WithColor(37, 152, 255);
                 await MiscHelpers.SendMessage(Context, embed);
             }
             else
@@ -1482,7 +1482,7 @@ namespace Wsashi.Core.Modules
         [Summary("Disables Slowmode")]
         [Remarks("w!slowmodeoff")] //        [Remarks("w! <> Ex: w!")]
         [Cooldown(5)]
-        public async Task SlowModeOff(ulong length)
+        public async Task SlowModeOff()
         {
             var guser = Context.User as SocketGuildUser;
             if (guser.GuildPermissions.ManageChannels)
@@ -1602,7 +1602,7 @@ namespace Wsashi.Core.Modules
             {
                 var config = GlobalGuildAccounts.GetGuildAccount(Context.Guild.Id);
                 string list = string.Empty;
-                foreach(var word in config.CustomFilter)
+                foreach (var word in config.CustomFilter)
                 {
                     list += $"{word}  ";
                 }
@@ -1703,6 +1703,30 @@ namespace Wsashi.Core.Modules
             }
 
             await Context.Channel.SendMessageAsync("", embed: embed.Build());
+        }
+
+        [Command("annouce")]
+        [Summary("Announces a message to the set announcement channel")]
+        [Remarks("w!announce <announcement you want to make> Ex: w!announce free burgers on friday")]
+        public async Task Announce([Remainder] string arg)
+        {
+            var guser = Context.User as SocketGuildUser;
+            if (guser.GuildPermissions.ManageMessages)
+            {
+                var config = GlobalGuildAccounts.GetGuildAccount(Context.Guild.Id);
+                var embed = new EmbedBuilder()
+                    .WithColor(37, 152, 255)
+                    .WithTitle($"**:mega:  Announcement!**");
+                embed.WithDescription(arg);
+                await Context.Channel.SendMessageAsync("", embed: embed.Build());
+            }
+            else
+            {
+                var embed = new EmbedBuilder();
+                embed.WithColor(37, 152, 255);
+                embed.Title = $":x:  | You Need the Manage Messages Permission to do that {Context.User.Username}";
+                await ReplyAndDeleteAsync("", embed: embed.Build(), timeout: TimeSpan.FromSeconds(5));
+            }
         }
     }
 }

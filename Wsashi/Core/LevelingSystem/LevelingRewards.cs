@@ -40,7 +40,58 @@ namespace Wsashi.Core.LevelingSystem
             GlobalUserAccounts.SaveAccounts();
             return Task.CompletedTask;
         }
-        public static async Task CheckLootBoxRewards(SocketGuildUser user)
+        public static async Task CheckDuelLootboxes(SocketGuildUser user)
+        {
+            var config = GlobalUserAccounts.GetUserAccount(user);
+            var channel = await user.GetOrCreateDMChannelAsync();
+            int wins = (int)config.Wins;
+
+            var uc = wins / 10;
+            var rare = wins / 20;
+            var epic = wins / 35;
+            var legendary = wins / 50;
+            if (legendary == config.LegendaryLB)
+            {
+                config.LegendaryLBD += 1;
+                config.LootBoxLegendary += 1;
+                GlobalUserAccounts.SaveAccounts();
+                await channel.SendMessageAsync($"**{user.Username}**, you have recieved a **LEGENDARY** lootbox for reaching {config.Wins} wins!");
+                return;
+            }
+            if (epic == config.EpicLB)
+            {
+                config.EpicLBD += 1;
+                config.LootBoxEpic += 1;
+                GlobalUserAccounts.SaveAccounts();
+                await channel.SendMessageAsync($"**{user.Username}**, you have recieved a **EPIC** lootbox for reaching {config.Wins} wins!");
+                return;
+            }
+            if (rare == config.RareLB)
+            {
+                config.RareLBD += 1;
+                config.LootBoxRare += 1;
+                GlobalUserAccounts.SaveAccounts();
+                await channel.SendMessageAsync($"**{user.Username}**, you have recieved a **RARE** lootbox for reaching {config.Wins} wins!");
+                return;
+            }
+            if (uc == config.UncommonLB)
+            {
+                config.UncommonLBD += 1;
+                config.LootBoxLegendary += 1;
+                GlobalUserAccounts.SaveAccounts();
+                await channel.SendMessageAsync($"**{user.Username}**, you have recieved a **UNCOMMON** lootbox for reaching {config.Wins} wins!");
+                return;
+            }
+            else
+            {
+                config.LootBoxCommon += 1;
+                GlobalUserAccounts.SaveAccounts();
+                await channel.SendMessageAsync($"**{user.Username}**, you have recieved a **COMMON** lootbox for reaching {config.Wins} wins!");
+                return;
+            }
+        }
+
+            public static async Task CheckLootBoxRewards(SocketGuildUser user)
         {
             var config = GlobalUserAccounts.GetUserAccount(user);
             var channel = await user.GetOrCreateDMChannelAsync();

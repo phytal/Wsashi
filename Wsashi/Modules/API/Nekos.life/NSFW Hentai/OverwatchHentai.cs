@@ -37,7 +37,7 @@ namespace Wsashi.Modules.API.Nekos.life.NSFW_Hentai
                 var embed = new EmbedBuilder()
                     .WithTitle(posttitle)
                     .WithImageUrl(image)
-                    .WithFooter($"👍 {ups} | 💬 {comments}")
+                    .WithFooter($"👍 {ups} | 💬 {comments} (If image is not shown you can click on the link)")
                     .WithUrl($"https://www.reddit.com{link}")
                     .WithColor(37, 152, 255);
                 await Context.Channel.SendMessageAsync("", embed: embed.Build());
