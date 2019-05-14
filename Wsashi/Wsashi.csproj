@@ -31,17 +31,17 @@
 
   <ItemGroup>
 
-    <PackageReference Include="Discord.Net" Version="2.0.1" />
+    <PackageReference Include="Discord.Net" Version="2.1.0-dev-20190513.4" />
 
-    <PackageReference Include="Discord.Net.Core" Version="2.0.1" />
+    <PackageReference Include="Discord.Net.Core" Version="2.1.0-dev-20190513.4" />
 
     <PackageReference Include="DiscordBotsList.Api.Adapter.Discord.Net" Version="1.1.0" />
 
-    <PackageReference Include="Magick.NET-Q16-AnyCPU" Version="7.10.0" />
+    <PackageReference Include="Magick.NET-Q16-AnyCPU" Version="7.13.0" />
 
-    <PackageReference Include="Newtonsoft.Json" Version="12.0.1" />
+    <PackageReference Include="Newtonsoft.Json" Version="12.0.2" />
 
-    <PackageReference Include="SixLabors.ImageSharp.Drawing" Version="1.0.0-beta0005" />
+    <PackageReference Include="SixLabors.ImageSharp.Drawing" Version="1.0.0-beta0006" />
 
   </ItemGroup>
 

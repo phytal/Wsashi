@@ -77,7 +77,7 @@ namespace Wsashi.Core.LevelingSystem
             if (uc == config.UncommonLB)
             {
                 config.UncommonLBD += 1;
-                config.LootBoxLegendary += 1;
+                config.LootBoxUncommon += 1;
                 GlobalUserAccounts.SaveAccounts();
                 await channel.SendMessageAsync($"**{user.Username}**, you have recieved a **UNCOMMON** lootbox for reaching {config.Wins} wins!");
                 return;
@@ -128,7 +128,7 @@ namespace Wsashi.Core.LevelingSystem
             if (uc == config.UncommonLB)
             {
                 config.UncommonLB += 1;
-                config.LootBoxLegendary += 1;
+                config.LootBoxUncommon += 1;
                 GlobalUserAccounts.SaveAccounts();
                 await channel.SendMessageAsync($"**{user.Username}**, you have recieved a **UNCOMMON** lootbox for reaching level {config.LevelNumber}");
                 return;

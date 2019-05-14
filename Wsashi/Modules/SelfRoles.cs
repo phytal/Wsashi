@@ -57,7 +57,7 @@ namespace Wsashi.Modules
 
             var roleList = new List<string>();
             foreach (var roleName in config.SelfRoles) roleList.Add(roleName.ToLower());
-            if (!roleList.Contains(role))
+            if (roleList.Contains(role))
             {
                 embed.WithDescription("This server doesn't have any self roles set.");
             }
@@ -78,7 +78,7 @@ namespace Wsashi.Modules
             await ReplyAsync("", embed: embed.Build());
         }
 
-        [Command("SelfRoleList"), Summary("Shows all currently set Self Roles")]
+        [Command("SelfRoleList"), Alias("selfroles", "srl"), Summary("Shows all currently set Self Roles")]
         public async Task SelfRoleList()
         {
             var config = GlobalGuildAccounts.GetGuildAccount(Context.Guild.Id);

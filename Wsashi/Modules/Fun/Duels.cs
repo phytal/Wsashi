@@ -263,6 +263,40 @@ namespace Wsashi.Modules
 
             await ReplyAsync("", embed: embed.Build());
         }
+
+        [Command("endfight")]
+        [Summary("Ends the fight between users (DEBUG PURPOSES ONLY)")]
+        [Remarks("w!endfight")]
+        [Cooldown(15)]
+        public async Task Endfight()
+        {
+            var config = GlobalUserAccounts.GetUserAccount(Context.User);
+            var configg = GlobalUserAccounts.GetUserAccount(config.OpponentId);
+            await ReplyAsync(":flag_white:  | " + Context.User.Mention + " ended the fight.");
+            config.Fighting = false;
+            configg.Fighting = false;
+            config.Health = 100;
+            configg.Health = 100;
+            config.OpponentId = 0;
+            configg.OpponentId = 0;
+            config.OpponentName = null;
+            configg.OpponentName = null;
+            config.whosTurn = null;
+            config.whoWaits = null;
+            config.placeHolder = null;
+            configg.whosTurn = null;
+            configg.whoWaits = null;
+            configg.placeHolder = null;
+            config.Meds = 6;
+            configg.Meds = 6;
+            config.Blocking = false;
+            configg.Blocking = false;
+            configg.Deflecting = false;
+            config.Deflecting = false;
+            config.Wins += 1;
+            configg.Losses += 1;
+            GlobalUserAccounts.SaveAccounts();
+        }
     }
 }
 

@@ -106,7 +106,12 @@ namespace Wsashi
                     if (task.Result.IsSuccess || task.Result.Error == CommandError.UnknownCommand) return;
                     const string errTemplate = "{0}, Error: {1}.";
                     var errMessage = string.Format(errTemplate, context.User.Mention, task.Result.ErrorReason);
-                    context.Channel.SendMessageAsync(errMessage);
+                    var embed = new EmbedBuilder()
+                    .WithColor(37, 152, 255)
+                    .WithTitle("Error!")
+                    .WithDescription(errMessage)
+                    .WithFooter("Did you use the command correctly? If so, please report this to our discord server https://discord.gg/NuUdx4h");
+                    context.Channel.SendMessageAsync("", embed: embed.Build());
                 });
 #pragma warning restore CS4014 // Because this call is not awaited, execution of the current method continues before the call is completed
             }

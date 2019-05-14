@@ -85,9 +85,9 @@ namespace Wsashi.Core.LevelingSystem
         [Command("gift")]
         [Alias("grant", "pay")]
         [Summary("Gifts/Pays Potatoes to a selected user (of course taken from your balance) Ex: w!gift <amount of Potatoes> @user")]
-        [Remarks("w!gift <amount> <user you want to gift to> Ex: w!")]
+        [Remarks("w!gift <amount> <user you want to gift to> Ex: w!gift 500 @Phytal")]
         [Cooldown(10)]
-        public async Task Gift(uint Money, IGuildUser userB, [Remainder]string arg = "")
+        public async Task Gift(uint Money, IGuildUser userB)
         {
             var giveaccount = GlobalUserAccounts.GetUserAccount(Context.User);
 

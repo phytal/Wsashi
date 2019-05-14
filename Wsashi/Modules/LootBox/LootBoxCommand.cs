@@ -5,6 +5,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Wsashi.Core.Modules;
 using Wsashi.Features.GlobalAccounts;
+using Wsashi.Preconditions;
 
 namespace Wsashi.Modules.LootBox
 {
@@ -124,6 +125,57 @@ namespace Wsashi.Modules.LootBox
             GlobalUserAccounts.SaveAccounts();
 
             await Context.Channel.SendMessageAsync($"Successfully added one of every loot box to {target}");
+        }
+
+        [Command("giftLootbox")]
+        [Alias("giftlb", "grantlb", "glb")]
+        [Summary("Gifts a lootbox to a selected user from your arsenal of lootboxes Ex: w!giftlb epic @user")]
+        [Remarks("w!giftlb <rarity> <user you want to gift to> Ex: w!giftlb rare @Phytal")]
+        [Cooldown(10)]
+        public async Task Gift(string Rarity, IGuildUser userB)
+        {
+            var giveaccount = GlobalUserAccounts.GetUserAccount(Context.User);
+
+            Rarity = Rarity.ToUpper();
+            uint numOfLootboxes = 0;
+            if (Rarity == "COMMON") numOfLootboxes = giveaccount.LootBoxCommon;
+            if (Rarity == "UNCOMMON") numOfLootboxes = giveaccount.LootBoxUncommon;
+            if (Rarity == "RARE") numOfLootboxes = giveaccount.LootBoxRare;
+            if (Rarity == "EPIC") numOfLootboxes = giveaccount.LootBoxEpic;
+            if (Rarity == "LEGENDARY") numOfLootboxes = giveaccount.LootBoxLegendary;
+
+            if (numOfLootboxes < 1)
+            {
+                await ReplyAsync(":angry:  | Stop trying to gift lootboxes you don't have!");
+            }
+            else
+            {
+                if (userB == null)
+                {
+                    var embed = new EmbedBuilder();
+                    embed.WithColor(37, 152, 255);
+                    embed.WithTitle(":hand_splayed:  | Please say who you want to gift lootboxes to. Ex: w!gift <rarity of lootbox> @user");
+                    await Context.Channel.SendMessageAsync("", embed: embed.Build());
+                }
+                else
+                {
+                    SocketUser target = null;
+                    var mentionedUser = Context.Message.MentionedUsers.FirstOrDefault();
+                    target = mentionedUser ?? Context.User;
+
+                    var receiver = GlobalUserAccounts.GetUserAccount((SocketUser)userB);
+
+                    if (Rarity == "COMMON") { giveaccount.LootBoxCommon--; receiver.LootBoxCommon++; }
+                    if (Rarity == "UNCOMMON") { giveaccount.LootBoxUncommon--; receiver.LootBoxUncommon++; }
+                    if (Rarity == "RARE") { giveaccount.LootBoxRare--; receiver.LootBoxRare++; }
+                    if (Rarity == "EPIC") { giveaccount.LootBoxEpic--; receiver.LootBoxEpic++; }
+                    if (Rarity == "LEGENDARY") { giveaccount.LootBoxLegendary--; receiver.LootBoxLegendary++; }
+
+                    GlobalUserAccounts.SaveAccounts();
+
+                    await Context.Channel.SendMessageAsync($":gift:  | {Context.User.Mention} has gifted {userB.Mention} a **{Rarity}** Lootbox! How generous.");
+                }
+            }
         }
     }
 }

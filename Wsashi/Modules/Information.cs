@@ -224,17 +224,17 @@ namespace Wsashi
             "**7. Calculator (w!calc <command) -** `add` `sub` `mult` `div` `sqrt` `power`\n" +
             "**8. Information -** `info` `userInfo` `command` `update`\n" +
             "**9. APIs -** `dog` `dogGif` `cat` `catGif` `catFact` `person` `birb` `define` `meme` `gif` `weather` `fortnite`\n" +
-            "**10. Neko API -** `neko` `catEmoticon` `foxGirl`\n" +
-            "**11. Shibe API -** `shiba` `bird`\n" +
-            "**12. Overwatch API -** `owStats` `owStatsComp` `owStatsQP` `myOwStats` `myOwStatsComp` `myOwStatsQP` `owHeroStats` `owHeroStatsComp` `owHeroStatsQP` `myOwHeroStats` `myOwHeroStatsComp` `myOwHeroStatsQP` `owAccount`\n" +
-            "**11. osu! API -** `osuStats` `maniaStats` `taikoStats` `ctbStats`\n" +
+            "**10. Neko -** `neko` `catEmoticon` `foxGirl`\n" +
+            "**11. Shibe -** `shiba` `bird`\n" +
+            "**12. Overwatch -** `owStats` `owStatsComp` `owStatsQP` `myOwStats` `myOwStatsComp` `myOwStatsQP` `owHeroStats` `owHeroStatsComp` `owHeroStatsQP` `myOwHeroStats` `myOwHeroStatsComp` `myOwHeroStatsQP` `owAccount`\n" +
+            "**11. osu! -** `osuStats` `maniaStats` `taikoStats` `ctbStats`\n" +
             "**14. Games -** `2048 start` `trivia`\n" +
             "**15. Blog (w!blog <command>) -** `create` `post` `subscribe` `unsubscribe`\n" +
             "**16. Self Roles -** `iAm` `iAmNot` `selfRoleList`\n" +
             "**17. Wasagotchi (w!wasagotchi <command>) -** `stats` `feed` `clean` `train` `play` `name` `buy` `picture` `help` `opencapsule` `inventory`\n" +
             "**18. Reminders (w!r <command>) -** `add` `remove` `list`\n" +
                         "**19. Personal Tags (w!ptag <command>)-** `new` `update` `remove` `list`\n" + //add gru and butterfly meme when done
-                        "**20. Lootboxes -** `openLootBox` `lootBoxInventory`\n" +
+                        "**20. Lootboxes -** `openLootBox` `lootBoxInventory` `giftLootbox`\n" +
             "\n" +
             "```\n" +
             "# Don't include the example brackets when using commands!\n" +

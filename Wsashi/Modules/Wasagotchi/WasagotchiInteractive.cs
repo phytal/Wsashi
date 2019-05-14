@@ -356,7 +356,7 @@ namespace Wsashi.Modules
 
         [Command("wasagotchi opencapsule"), Alias("w opencapsule")]
         [Summary("Opens one of the Wasagotchi capsules you have! Note: You must have the capsule you want to open.")]
-        [Remarks("w!opencapsule <rarity (common, rare, epic, legendary)> Ex: w!opencapsule common")]
+        [Remarks("w!w opencapsule <rarity (common, rare, epic, legendary)> Ex: w!opencapsule common")]
         [Cooldown(5)]
         public async Task OpenCapsule(string arg)
         {

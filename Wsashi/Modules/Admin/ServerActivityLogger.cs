@@ -59,9 +59,9 @@ namespace Wsashi.Modules.Management
                 }
 
 
-                if (arg is IGuildChannel currentIguildChannel)
+                if (arg is IGuildChannel currentIGuildChannel)
                 {
-                    var guild = GlobalGuildAccounts.GetGuildAccount(currentIguildChannel.Guild.Id);
+                    var guild = GlobalGuildAccounts.GetGuildAccount(currentIGuildChannel.Guild.Id);
                     if (guild.IsServerLoggingEnabled == true)
                     {
                         await _client.GetGuild(guild.Id).GetTextChannel(guild.ServerLoggingChannel)
@@ -402,15 +402,15 @@ namespace Wsashi.Modules.Management
                         audit[0].Action == ActionType.MessageDeleted)
                         name = $"{audit[0].User.Mention}";
 
-                    var embedDel = new EmbedBuilder();
+                    var embed = new EmbedBuilder();
 
-                    embedDel.WithFooter($"MessageId: {messageBefore.Id}");
-                    embedDel.WithTimestamp(DateTimeOffset.UtcNow);
-                    embedDel.WithThumbnailUrl($"{messageBefore.Value.Author.GetAvatarUrl()}");
+                    embed.WithFooter($"MessageId: {messageBefore.Id}");
+                    embed.WithTimestamp(DateTimeOffset.UtcNow);
+                    embed.WithThumbnailUrl($"{messageBefore.Value.Author.GetAvatarUrl()}");
 
-                    embedDel.WithColor(Color.Red);
-                    embedDel.WithTitle($"🗑 Deleted Message");
-                    embedDel.WithDescription($"Where: <#{messageBefore.Value.Channel.Id}>\n" +
+                    embed.WithColor(Color.Red);
+                    embed.WithTitle($"🗑 Deleted Message");
+                    embed.WithDescription($"Where: <#{messageBefore.Value.Channel.Id}>\n" +
                                              $"Who: **{name}** (not always correct)\n" +
                                              $"Message Author: **{messageBefore.Value.Author}**\n");
 
@@ -419,27 +419,26 @@ namespace Wsashi.Modules.Management
                     {
                         var string1 = messageBefore.Value.Content.Substring(0, 1000);
 
-                        embedDel.AddField("Content1", $"{string1}");
+                        embed.AddField("Content1", $"{string1}");
 
                         if (messageBefore.Value.Content.Length <= 2000)
                         {
 
                             var string2 =
                                 messageBefore.Value.Content.Substring(1000, messageBefore.Value.Content.Length - 1000);
-                            embedDel.AddField("Continued", $"...{string2}");
+                            embed.AddField("Continued", $"...{string2}");
 
                         }
                     }
                     else if (messageBefore.Value.Content.Length != 0)
                     {
-                        embedDel.AddField("Content", $"{messageBefore.Value.Content}");
+                        embed.AddField("Content", $"{messageBefore.Value.Content}");
                     }
 
                     if (guild.IsServerLoggingEnabled == true)
                     {
-
                         await _client.GetGuild(guild.Id).GetTextChannel(guild.ServerLoggingChannel)
-                            .SendMessageAsync("", false, embedDel.Build());
+                            .SendMessageAsync("", false, embed.Build());
                     }
 
                 }

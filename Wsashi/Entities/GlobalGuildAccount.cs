@@ -68,6 +68,8 @@ namespace Wsashi.Entities
 
         public bool IsSlowModeEnabled { get; set; }
 
+        public string Currency { get; set; }
+
         public Dictionary<string, string> CustomCommands { get; set; } = new Dictionary<string, string>();
 
         public Dictionary<string, string> Tags { get; set; } = new Dictionary<string, string>();

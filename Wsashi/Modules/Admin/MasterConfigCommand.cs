@@ -9,6 +9,7 @@ using Wsashi.Core.Modules;
 using Wsashi.Features.GlobalAccounts;
 using Wsashi.Preconditions;
 using System;
+using System.IO;
 
 namespace Wsashi.Modules.Management
 {
@@ -114,7 +115,35 @@ namespace Wsashi.Modules.Management
                 embed.Title = $":x:  | You Need the Administrator Permission to do that {Context.User.Username}";
                 await ReplyAndDeleteAsync("", embed: embed.Build(), timeout: TimeSpan.FromSeconds(5));
             }
+        }
 
+        [Command("SyncGuild")]
+        [Summary("Syncs the current guild information with the database")]
+        [Remarks("w!SyncGuild")]
+        [Cooldown(5)]
+        public async Task SyncGuild()
+        {
+            var guser = Context.User as SocketGuildUser;
+            if (guser.GuildPermissions.Administrator)
+            {
+                var info = System.IO.Directory.CreateDirectory(Path.Combine(Constants.ResourceFolder, Constants.ServerUserAccountsFolder));
+                ulong In = Context.Guild.Id;
+                string Out = Convert.ToString(In);
+                if (!Directory.Exists(Out))
+                    Directory.CreateDirectory(Path.Combine(Constants.ServerUserAccountsFolder, Out));
+
+                var config = GlobalGuildAccounts.GetGuildAccount(Context.Guild.Id);
+                config.GuildOwnerId = Context.Guild.Owner.Id;
+                GlobalGuildAccounts.SaveAccounts();
+                await Context.Channel.SendMessageAsync($"Successfully synced the Guild's owner to <@{Context.Guild.OwnerId}>!");
+            }
+            else
+            {
+                var embed = new EmbedBuilder();
+                embed.WithColor(37, 152, 255);
+                embed.Title = $":x:  | You Need the Administrator Permission to do that {Context.User.Username}";
+                await ReplyAndDeleteAsync("", embed: embed.Build(), timeout: TimeSpan.FromSeconds(5));
+            }
         }
     }
 }
