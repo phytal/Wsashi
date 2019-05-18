@@ -31,7 +31,7 @@ namespace Wsashi.Features.GlobalAccounts
         {
             return serverAccounts.GetOrAdd(id, (key) =>
             {
-                var newAccount = new GlobalGuildAccount { Id = id, LevelingMsgs = "server"};
+                var newAccount = new GlobalGuildAccount { Id = id, LevelingMsgs = "server", Currency = "Potatoes"};
                 Configuration.DataStorage.StoreObject(newAccount, Path.Combine(Constants.ServerAccountsFolder, $"{id}.json"), useIndentations: true);
                 return newAccount;
             });

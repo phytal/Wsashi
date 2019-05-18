@@ -46,48 +46,39 @@ namespace Wsashi.Core.LevelingSystem
             var channel = await user.GetOrCreateDMChannelAsync();
             int wins = (int)config.Wins;
 
-            var uc = wins / 10;
-            var rare = wins / 20;
-            var epic = wins / 35;
-            var legendary = wins / 50;
-            if (legendary == config.LegendaryLB)
+            var uc = wins % 10;
+            var rare = wins % 20;
+            var epic = wins % 35;
+            var legendary = wins % 50;
+            if (legendary == 0)
             {
-                config.LegendaryLBD += 1;
                 config.LootBoxLegendary += 1;
                 GlobalUserAccounts.SaveAccounts();
-                await channel.SendMessageAsync($"**{user.Username}**, you have recieved a **LEGENDARY** lootbox for reaching {config.Wins} wins!");
-                return;
+                await channel.SendMessageAsync($"**{user.Username}**, you have received a **LEGENDARY** lootbox for reaching {config.Wins} wins!");
             }
-            if (epic == config.EpicLB)
+            else if (epic == 0)
             {
-                config.EpicLBD += 1;
                 config.LootBoxEpic += 1;
                 GlobalUserAccounts.SaveAccounts();
-                await channel.SendMessageAsync($"**{user.Username}**, you have recieved a **EPIC** lootbox for reaching {config.Wins} wins!");
-                return;
+                await channel.SendMessageAsync($"**{user.Username}**, you have received a **EPIC** lootbox for reaching {config.Wins} wins!");
             }
-            if (rare == config.RareLB)
+            else if (rare == 0)
             {
-                config.RareLBD += 1;
                 config.LootBoxRare += 1;
                 GlobalUserAccounts.SaveAccounts();
-                await channel.SendMessageAsync($"**{user.Username}**, you have recieved a **RARE** lootbox for reaching {config.Wins} wins!");
-                return;
+                await channel.SendMessageAsync($"**{user.Username}**, you have received a **RARE** lootbox for reaching {config.Wins} wins!");
             }
-            if (uc == config.UncommonLB)
+            else if (uc == 0)
             {
-                config.UncommonLBD += 1;
                 config.LootBoxUncommon += 1;
                 GlobalUserAccounts.SaveAccounts();
-                await channel.SendMessageAsync($"**{user.Username}**, you have recieved a **UNCOMMON** lootbox for reaching {config.Wins} wins!");
-                return;
+                await channel.SendMessageAsync($"**{user.Username}**, you have received a **UNCOMMON** lootbox for reaching {config.Wins} wins!");
             }
             else
             {
                 config.LootBoxCommon += 1;
                 GlobalUserAccounts.SaveAccounts();
-                await channel.SendMessageAsync($"**{user.Username}**, you have recieved a **COMMON** lootbox for reaching {config.Wins} wins!");
-                return;
+                await channel.SendMessageAsync($"**{user.Username}**, you have received a **COMMON** lootbox for reaching {config.Wins} wins!");
             }
         }
 
@@ -97,48 +88,39 @@ namespace Wsashi.Core.LevelingSystem
             var channel = await user.GetOrCreateDMChannelAsync();
             int level = (int)config.LevelNumber;
 
-            var uc = level / 5;
-            var rare = level / 10;
-            var epic = level / 15;
-            var legendary = level / 20;
-            if (legendary == config.LegendaryLB)
+            int uc = level % 5;
+            int rare = level % 10;
+            int epic = level % 15;
+            int legendary = level % 20;
+            if (legendary == 0)
             {
-                config.LegendaryLB += 1;
                 config.LootBoxLegendary += 1;
                 GlobalUserAccounts.SaveAccounts();
-                await channel.SendMessageAsync($"**{user.Username}**, you have recieved a **LEGENDARY** lootbox for reaching level {config.LevelNumber}");
-                return;
+                await channel.SendMessageAsync($"**{user.Username}**, you have received a **LEGENDARY** lootbox for reaching level {config.LevelNumber}");
             }
-            if (epic == config.EpicLB)
+            else if (epic == 0)
             {
-                config.EpicLB += 1;
                 config.LootBoxEpic += 1;
                 GlobalUserAccounts.SaveAccounts();
-                await channel.SendMessageAsync($"**{user.Username}**, you have recieved a **EPIC** lootbox for reaching level {config.LevelNumber}");
-                return;
+                await channel.SendMessageAsync($"**{user.Username}**, you have received a **EPIC** lootbox for reaching level {config.LevelNumber}");
             }
-            if (rare == config.RareLB)
+            else if (rare == 0)
             {
-                config.RareLB += 1;
                 config.LootBoxRare += 1;
                 GlobalUserAccounts.SaveAccounts();
-                await channel.SendMessageAsync($"**{user.Username}**, you have recieved a **RARE** lootbox for reaching level {config.LevelNumber}");
-                return;
+                await channel.SendMessageAsync($"**{user.Username}**, you have received a **RARE** lootbox for reaching level {config.LevelNumber}");
             }
-            if (uc == config.UncommonLB)
+            else if (uc == 0)
             {
-                config.UncommonLB += 1;
                 config.LootBoxUncommon += 1;
                 GlobalUserAccounts.SaveAccounts();
-                await channel.SendMessageAsync($"**{user.Username}**, you have recieved a **UNCOMMON** lootbox for reaching level {config.LevelNumber}");
-                return;
+                await channel.SendMessageAsync($"**{user.Username}**, you have received a **UNCOMMON** lootbox for reaching level {config.LevelNumber}");
             }
             else
             {
                 config.LootBoxCommon += 1;
                 GlobalUserAccounts.SaveAccounts();
-                await channel.SendMessageAsync($"**{user.Username}**, you have recieved a **COMMON** lootbox for reaching level {config.LevelNumber}");
-                return;
+                await channel.SendMessageAsync($"**{user.Username}**, you have received a **COMMON** lootbox for reaching level {config.LevelNumber}");
             }
         }
     }

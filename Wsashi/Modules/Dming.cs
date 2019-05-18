@@ -17,9 +17,6 @@ namespace Wsashi.Modules
         [Cooldown(10)]
         public async Task Dm(IGuildUser user, [Remainder] string dm)
         {
-            var rep = user.Id;
-
-            var application = await Context.Client.GetApplicationInfoAsync();
             var message = await user.GetOrCreateDMChannelAsync();
 
             var embed = new EmbedBuilder()

@@ -14,12 +14,24 @@
 
 
   <ItemGroup>
+    <Compile Remove="Libs\Weeb.net\**" />
+    <EmbeddedResource Remove="Libs\Weeb.net\**" />
+    <None Remove="Libs\Weeb.net\**" />
+  </ItemGroup>
+
+
+
+  <ItemGroup>
 
     <Compile Remove="Logging.cs" />
+
+    <Compile Remove="Modules\Blogs.cs" />
 
     <Compile Remove="Modules\Prefix.cs" />
 
     <Compile Remove="Modules\Prefix2.cs" />
+
+    <Compile Remove="Modules\Reminder.cs" />
 
     <Compile Remove="Modules\Wasagotchi\Auto.cs" />
 
@@ -42,6 +54,8 @@
     <PackageReference Include="Newtonsoft.Json" Version="12.0.2" />
 
     <PackageReference Include="SixLabors.ImageSharp.Drawing" Version="1.0.0-beta0006" />
+
+    <PackageReference Include="Weeb.net" Version="1.0.7" />
 
   </ItemGroup>
 

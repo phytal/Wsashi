@@ -70,6 +70,10 @@ namespace Wsashi.Entities
 
         public string Currency { get; set; }
 
+        public ulong AutoLewdChannel { get; set; }
+
+        public bool AutoLewdStatus { get; set; }
+
         public Dictionary<string, string> CustomCommands { get; set; } = new Dictionary<string, string>();
 
         public Dictionary<string, string> Tags { get; set; } = new Dictionary<string, string>();

@@ -155,7 +155,7 @@ namespace Wsashi
                 return;
             if (cacheMessage.Value.Author.IsBot)
                 return;
-            _serverActivityLogger.Client_MessageDeleted(cacheMessage, channel);
+            //_serverActivityLogger.Client_MessageDeleted(cacheMessage, channel);
         }
 
         private async Task MessageReceived(SocketMessage message)

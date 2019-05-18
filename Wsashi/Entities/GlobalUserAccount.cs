@@ -87,15 +87,6 @@ namespace Wsashi.Entities
             }
         }
 
-        public int UncommonLB { get; set; }
-        public int RareLB { get; set; }
-        public int EpicLB { get; set; }
-        public int LegendaryLB { get; set; }
-        public int UncommonLBD { get; set; }//D is for Duels
-        public int RareLBD { get; set; }
-        public int EpicLBD { get; set; }
-        public int LegendaryLBD { get; set; }
-
         public ulong Id { get; set; }
 
         public string OverwatchID { get; set; }

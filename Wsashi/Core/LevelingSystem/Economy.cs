@@ -89,11 +89,12 @@ namespace Wsashi.Core.LevelingSystem
         [Cooldown(10)]
         public async Task Gift(uint Money, IGuildUser userB)
         {
+            var config = GlobalGuildAccounts.GetGuildAccount(Context.Guild.Id);
             var giveaccount = GlobalUserAccounts.GetUserAccount(Context.User);
 
             if (giveaccount.Money < Money)
             {
-                await ReplyAsync(":angry:  | Stop trying to gift an amount of Potatoes over your account balance! ");
+                await ReplyAsync($":angry:  | Stop trying to gift an amount of {config.Currency} over your account balance! ");
             }
             else
             {
@@ -101,7 +102,7 @@ namespace Wsashi.Core.LevelingSystem
                 {
                     var embed = new EmbedBuilder();
                     embed.WithColor(37, 152, 255);
-                    embed.WithTitle(":hand_splayed:  | Please say who you want to gift Potatoes to. Ex: w!gift <amount of Potatoes> @user");
+                    embed.WithTitle($":hand_splayed:  | Please say who you want to gift {config.Currency} to. Ex: w!gift <amount of Potatoes> @user");
                     await Context.Channel.SendMessageAsync("", embed: embed.Build());
                 }
                 else
@@ -116,7 +117,7 @@ namespace Wsashi.Core.LevelingSystem
                     minusaccount.Money += Money;
                     GlobalUserAccounts.SaveAccounts();
 
-                    await Context.Channel.SendMessageAsync($":white_check_mark:  | " + Context.User.Mention + "has gifted " + userB.Mention + Money + " " + "Potatoes. How generous.");
+                    await Context.Channel.SendMessageAsync($":white_check_mark:  | {Context.User.Mention} has gifted {userB.Mention} {Money} {config.Currency}(s). How generous.");
                 }
             }
         }
@@ -127,6 +128,7 @@ namespace Wsashi.Core.LevelingSystem
         [RequireOwner]
         public async Task AddPotatos(uint Money, IGuildUser user, [Remainder]string arg = "")
         {
+            var config = GlobalGuildAccounts.GetGuildAccount(Context.Guild.Id);
             SocketUser target = null;
             var mentionedUser = Context.Message.MentionedUsers.FirstOrDefault();
             target = mentionedUser ?? Context.User;
@@ -137,12 +139,12 @@ namespace Wsashi.Core.LevelingSystem
 
             var embed = new EmbedBuilder();
             embed.WithColor(37, 152, 255);
-            embed.WithTitle($":white_check_mark:  | **{Money}** Potatoes were added to " + target.Username + "'s account.");
+            embed.WithTitle($":white_check_mark:  | **{Money}** {config.Currency} were added to " + target.Username + "'s account.");
             await Context.Channel.SendMessageAsync("", embed: embed.Build());
         }
 
         [Command("levels")]
-        [Summary("Shows a user list of the sorted by Potatoes. Pageable to see lower ranked users.")]
+        [Summary("Shows a user list of the sorted by currency. Pageable to see lower ranked users.")]
         [Alias("Top", "Top10", "richest", "rank")]
         [Remarks("w!level <page number (if left empty it will default to 1)> Ex: w!levels 2")]
         [Cooldown(15)]
@@ -153,7 +155,7 @@ namespace Wsashi.Core.LevelingSystem
                 await ReplyAsync("Are you really trying that right now? ***REALLY?***");
                 return;
             }
-
+            var config = GlobalGuildAccounts.GetGuildAccount(Context.Guild.Id);
             var guildUserIds = Context.Guild.Users.Select(user => user.Id);
             var accounts = GlobalUserAccounts.GetFilteredAccounts(acc => guildUserIds.Contains(acc.Id));
 
@@ -166,11 +168,11 @@ namespace Wsashi.Core.LevelingSystem
                 await ReplyAsync($"There are not that many pages...\nPage {lastPageNumber} is the last one...");
                 return;
             }
-            // Sort the accounts descending by Potatoes
+            // Sort the accounts descending by currency
             var ordered = accounts.OrderByDescending(acc => acc.Money).ToList();
 
             var embB = new EmbedBuilder()
-                .WithTitle($"Potato Leaderboard:")
+                .WithTitle($"{config.Currency} Leaderboard:")
                 .WithFooter($"Page {page}/{lastPageNumber}");
 
             page--;
@@ -179,7 +181,7 @@ namespace Wsashi.Core.LevelingSystem
                 var account = ordered[i - 1 + usersPerPage * page];
                 var user = Global.Client.GetUser(account.Id);
                 embB.WithColor(37, 152, 255);
-                embB.AddField($"#{i + usersPerPage * page} {user.Username}", $"{account.Money} Potatoes", true);
+                embB.AddField($"#{i + usersPerPage * page} {user.Username}", $"{account.Money} {config.Currency}", true);
             }
 
             await ReplyAsync("", false, embB.Build());
@@ -201,15 +203,16 @@ namespace Wsashi.Core.LevelingSystem
 
         public string GetPotatosReport(ulong Potatoes, string mention, string mentionn)
         {
-            return $":potato:  | {mention} has **{Potatoes} Potatoes**! {GetPotatoCountReaction(Potatoes, mention)}";
+            var config = GlobalGuildAccounts.GetGuildAccount(Context.Guild.Id);
+            return $":potato:  | {mention} has **{Potatoes} {config.Currency}**! {GetPotatoCountReaction(Potatoes, mention)}";
         }
 
         private string GetPotatoCountReaction(ulong value, string mention)
         {
-
+            var config = GlobalGuildAccounts.GetGuildAccount(Context.Guild.Id);
             if (value > 100000)
             {
-                return $"Holy sh!t, **{mention}**! You're either cheating or you're really dedicated.";
+                return $"Holy shit, **{mention}**! You're either cheating or you're really dedicated.";
             }
             else if (value > 50000)
             {
@@ -229,7 +232,7 @@ namespace Wsashi.Core.LevelingSystem
             }
             else if (value > 2500)
             {
-                return $"Great, **{mention}!** Now you can give all those Potatoes to your superior mistress, ME.";
+                return $"Great, **{mention}!** Now you can give all those {config.Currency} to your superior mistress, ME.";
             }
             else if (value > 1100)
             {
@@ -237,7 +240,7 @@ namespace Wsashi.Core.LevelingSystem
             }
             else if (value > 800)
             {
-                return $"Alright, **{mention}**. Put the Potatoes in the bag and nobody gets hurt.";
+                return $"Alright, **{mention}**. Put the {config.Currency} in the bag and nobody gets hurt.";
             }
             else if (value > 550)
             {
@@ -252,7 +255,7 @@ namespace Wsashi.Core.LevelingSystem
                 return $"Yeah, **{mention}** is broke. What a surprise.";
             }
 
-            return $"The whole concept of Potatoes is fake. I hope you know that";
+            return $"The whole concept of {config.Currency} is fake. I hope you know that";
         }
     }
 }

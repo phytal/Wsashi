@@ -186,38 +186,6 @@ namespace Wsashi.Modules
             await Context.Channel.SendMessageAsync("", embed: embed.Build());
         }
 
-        [Command("GoodMorning")]
-        [Summary("Says Good Morning")]
-        [Alias("Morning", "Ohayo", "Ohayōgozaimasu")]
-        [Remarks("Ex: w!morning")]
-        [Cooldown(5)]
-        public async Task GoodMorning()
-        {
-            var embed = new EmbedBuilder();
-            embed.WithTitle("Good Morning " + Context.User.Username + "!");
-            embed.WithDescription(":rooster:  | Ohayōgozaimasu!");
-            embed.WithColor(37, 152, 255);
-            embed.WithThumbnailUrl("https://cdn.pixabay.com/photo/2016/03/31/23/34/emote-1297695_960_720.png");
-
-            await Context.Channel.SendMessageAsync("", embed: embed.Build());
-        }
-
-        [Command("GoodNight")]
-        [Summary("Says Good Night")]
-        [Alias("Night", "Oyasumi", "gn")]
-        [Remarks("Ex: w!gn")]
-        [Cooldown(5)]
-        public async Task GoodNight()
-        {
-            var embed = new EmbedBuilder();
-            embed.WithTitle("Good Night " + Context.User.Username + "!");
-            embed.WithDescription(":sleeping_accommodation:  | Oyasumi!");
-            embed.WithColor(37, 152, 255);
-            embed.WithThumbnailUrl("https://cdn.shopify.com/s/files/1/1061/1924/products/Dark_Blue_Moon_Emoji_large.png?v=1480481043");
-
-            await Context.Channel.SendMessageAsync("", embed: embed.Build());
-        }
-
         [Command("echo")]
         [Summary("Make me say a message!")]
         [Remarks("w!echo <what you want the bot to say> Ex: w!echo I like to eat oreos")]

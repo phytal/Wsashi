@@ -49,6 +49,8 @@ namespace Wsashi
             await weebClient.Authenticate(Config.bot.wolkeToken, Weeb.net.TokenType.Wolke);
         }
 
+        public static WeebClient _weebClient;
+
         public async Task HandleCommandAsync(SocketMessage s)
         {
             _ = Events.FilterUnflip(s);

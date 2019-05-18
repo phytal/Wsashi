@@ -75,7 +75,7 @@ namespace Wsashi.Modules.ServerManagement
                 embed.Title = $"{Context.User}'s report of {user.Username}";
                 embed.Description = $"**Username: **{user.Username}\n**Reported by: **{Context.User.Mention}\n**Reason: **{reason}";
                 await channel.SendMessageAsync("", embed: embed.Build());
-                await ReplyAsync(":white_check_mark:  | *Your report has been furthered to staff.* ***(ABUSE OF THIS COMMAND IS PUNISHABLE)***");
+                await ReplyAsync(":white_check_mark:  | *Your report has been furthered to staff.*");
             }
         }
 

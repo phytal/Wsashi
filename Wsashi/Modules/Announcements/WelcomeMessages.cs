@@ -38,7 +38,7 @@ namespace Wsashi.Modules.Announcements
         [Command("welcome add")]
         [Summary("Add a welcome message for people that join!")]
         [Remarks("w!welcome add <welcome message> Ex: `welcome add <usermention>, welcome to **<guildname>**! " +
-                 "Try using ```@<botname>#<botdiscriminator> help``` for all the commands of <botmention>!`\n" +
+                 "`\n" +
                  "Possible placeholders are: `<usermention>`, `<username>`, `<guildname>`, " +
                  "`<botname>`, `<botdiscriminator>`, `<botmention>` ")]
         public async Task AddWelcomeMessage([Remainder] string message)

@@ -132,7 +132,7 @@ namespace Wsashi
                         string text = reactionTexts[randomIndex];
                         await msg.DeleteAsync();
                         var embed = new EmbedBuilder();
-                        embed.WithDescription($":warning:  |  {text} (Inappropiate language)");
+                        embed.WithDescription($":warning:  |  {text} (Inappropriate language)");
                         embed.WithColor(37, 152, 255);
                         //await context.Channel.SendMessageAsync("", embed: embed.Build());
                         var mssg = await context.Channel.SendMessageAsync("", embed: embed.Build());
