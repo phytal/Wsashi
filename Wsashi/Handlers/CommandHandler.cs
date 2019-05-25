@@ -8,12 +8,11 @@ using Wsashi.Core.LevelingSystem;
 using Wsashi.Modules.Games;
 using Wsashi.Features.GlobalAccounts;
 using Discord;
-using System.Collections.Generic;
-using Wsashi.Handlers;
 using Wsashi.Features.Trivia;
-using System.Collections.Concurrent;
+using Victoria;
 using Wsashi.Modules;
 using Weeb.net;
+using Wsashi.Modules.Music;
 
 namespace Wsashi
 {
@@ -22,8 +21,6 @@ namespace Wsashi
         private DiscordShardedClient _client;
         private CommandService _commands;
         private IServiceProvider _services;
-        //readonly ConcurrentDictionary<CooldownInfo, DateTime> _cooldowns = new ConcurrentDictionary<CooldownInfo, DateTime>();
-
         public CommandHandler(IServiceProvider services, CommandService commands,
     DiscordShardedClient client)
         {
@@ -36,6 +33,8 @@ namespace Wsashi
 
         public async Task InitializeAsync()
         {
+            Global.Client = _client;
+
             _commands = new CommandService();
             var cmdConfig = new CommandServiceConfig
             {
@@ -44,10 +43,12 @@ namespace Wsashi
             await _commands.AddModulesAsync(
                 Assembly.GetEntryAssembly(),
                 _services);
-            Global.Client = _client;
+
             //Will print current weeb.sh API version and Weeb.net wrapper version
             await weebClient.Authenticate(Config.bot.wolkeToken, Weeb.net.TokenType.Wolke);
+
         }
+
 
         public static WeebClient _weebClient;
 
@@ -180,7 +181,7 @@ namespace Wsashi
         {
             if (!reaction.User.Value.IsBot)
             {
-                var msgList = Global.MessagesIdToTrack ?? new Dictionary<ulong, string>();
+                /*var msgList = Global.MessagesIdToTrack ?? new Dictionary<ulong, string>();
                 if (msgList.ContainsKey(reaction.MessageId))
                 {
                     if (reaction.Emote.Name == "➕")
@@ -188,7 +189,7 @@ namespace Wsashi
                         var item = msgList.FirstOrDefault(k => k.Key == reaction.MessageId);
                         var embed = BlogHandler.SubscribeToBlog(reaction.User.Value.Id, item.Value);
                     }
-                }
+                }*/
                 // Checks if the rection is associated with a running game and if it is 
                 // from the same user who ran the command - if so it handles it
                 await TriviaGames.HandleReactionAdded(cache, reaction);

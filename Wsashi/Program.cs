@@ -6,7 +6,9 @@ using Discord.Commands;
 using Wsashi.Handlers;
 using Discord.Addons.Interactive;
 using Microsoft.Extensions.DependencyInjection;
+using Victoria;
 using Wsashi.Modules.Management;
+using Wsashi.Modules.Music;
 
 namespace Wsashi
 {
@@ -65,6 +67,9 @@ namespace Wsashi
                 .AddSingleton<WasagotchiTimer>()
                 .AddSingleton<Events>()
                 .AddSingleton<MessageRewardHandler>()
+                .AddSingleton<LavaRestClient>()
+                .AddSingleton<LavaShardClient>()
+                .AddSingleton<MusicService>()
                 .AddScoped<ServerActivityLogger>()
                 .BuildServiceProvider();
 

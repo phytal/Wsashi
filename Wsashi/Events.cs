@@ -35,12 +35,6 @@ namespace Wsashi
 
         public async Task GuildUtils(SocketGuild s)
         {
-            var info = System.IO.Directory.CreateDirectory(Path.Combine(Constants.ResourceFolder, Constants.ServerUserAccountsFolder));
-            ulong In = s.Id;
-            string Out = Convert.ToString(In);
-            if (!Directory.Exists(Out))
-                Directory.CreateDirectory(Path.Combine(Constants.ServerUserAccountsFolder, Out));
-
             var config = GlobalGuildAccounts.GetGuildAccount(s.Id);
 
             var dmChannel = await s.Owner.GetOrCreateDMChannelAsync();

@@ -17,7 +17,14 @@ namespace Wsashi
             Console.ResetColor();
             return Task.CompletedTask;
         }
-
+        /// <summary>Console logging event for music.</summary>
+        public void ConsoleMusicLog(string msg)
+        {
+            Console.ForegroundColor = ConsoleColor.Cyan;
+            Console.WriteLine($"\nMusic Service:" +
+                              $"\n" +
+                              $"\nMessage: [\"{msg}\"]");
+        }
         private static ConsoleColor SeverityToConsoleColor(LogSeverity severity)
         {
             switch (severity)

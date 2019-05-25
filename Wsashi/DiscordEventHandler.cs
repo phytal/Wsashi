@@ -1,9 +1,12 @@
 ﻿using System;
+using System.IO;
 using System.Threading.Tasks;
 using Discord;
 using Discord.WebSocket;
+using Victoria;
 using Wsashi.Handlers;
 using Wsashi.Modules.Management;
+using Wsashi.Modules.Music;
 
 namespace Wsashi
 {
@@ -18,10 +21,13 @@ namespace Wsashi
         private readonly WasagotchiTimer _wasagotchiTimer;
         private readonly Events _events;
         private readonly MessageRewardHandler _messageRewardHandler;
-
+        private readonly LavaShardClient _lavaShardClient;
+        private LavaRestClient _lavaRestClient;
+        private readonly LavaPlayer _lavaPlayer;
+        private readonly MusicService _musicService;
 
         public DiscordEventHandler(DiscordShardedClient client, CommandHandler commandHandler
-            , ServerActivityLogger serverActivityLogger, WasagotchiTimer wasagotchiTimer, Events events, MessageRewardHandler messageRewardHandler)
+            , ServerActivityLogger serverActivityLogger, WasagotchiTimer wasagotchiTimer, Events events, MessageRewardHandler messageRewardHandler, MusicService musicService, LavaShardClient lavaShardClient, LavaRestClient lavaRestClient)
         {
             _client = client;
             _commandHandler = commandHandler;
@@ -29,6 +35,9 @@ namespace Wsashi
             _wasagotchiTimer = wasagotchiTimer;
             _events = events;
             _messageRewardHandler = messageRewardHandler;
+            _musicService = musicService;
+            _lavaShardClient = lavaShardClient;
+            _lavaRestClient = lavaRestClient;
         }
 
         public void InitDiscordEvents()
@@ -69,10 +78,21 @@ namespace Wsashi
             _client.UserUpdated += UserUpdated;
             _client.UserVoiceStateUpdated += UserVoiceStateUpdated;
         }
-
+        private int _shardsReady = 0;
         private async Task _client_ShardReady(DiscordSocketClient arg)
         {
             _wasagotchiTimer.StartTimer();
+
+            _shardsReady++;
+            if (_shardsReady == _client.Shards.Count)
+            {
+                await Task.Delay(500);
+                await _lavaShardClient.StartAsync(_client);
+                _lavaShardClient.Log += _musicService.LogAsync;
+                _lavaShardClient.OnTrackFinished += _musicService.OnTrackFinished;
+                _shardsReady = 0;
+            }
+
         }
 
         private async Task _client_ShardDisconnected(Exception arg1, DiscordSocketClient arg2)

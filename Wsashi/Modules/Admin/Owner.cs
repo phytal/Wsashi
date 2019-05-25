@@ -164,7 +164,7 @@ namespace Wsashi.Core.Modules.Management
             }
             catch (Exception)
             {
-                var embed = EmbedHandler.CreateEmbed("Avatar", "Coult not set the avatar!", EmbedHandler.EmbedMessageType.Exception);
+                var embed = EmbedHandler.CreateEmbed("Avatar", "Could not set the avatar!", EmbedHandler.EmbedMessageType.Exception, Context.User);
                 await Context.Channel.SendMessageAsync("", false, embed);
             }
         }

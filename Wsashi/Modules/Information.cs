@@ -214,7 +214,7 @@ namespace Wsashi
             "```\n" +
             "Use `w!command [command]` to get more info on a specific command. Ex: `w!command xp`  `[Prefix 'w!']` \n " +
             "\n" +
-            "**1. Core -** `help` `invite` `patreon` `ping` `dailyvote` \n" +
+            "**1. Core -** `help` `invite` `patreon` `ping` `dailyVote` \n" +
             "**2. Social -** `xp` `level` `stats` `topXP`\n" +
             "**3. Interactive -** `cuddle` `feed` `hug` `kiss` `pat` `poke` `tickle` `slap` `baka` `bite` `waifuInsult` `dab` `greet` `insult` `kill` `lick` `shrug` `triggered` `bang` `baka` `cry` `dance` `highFive` `holdHand` `pout` `punch` `smug` `stare` `thumbsUp` `wag`\n" +
             "**4. Fun -** `8ball` `pick` `roast` `hello` `fortune` `echo` `lenny` `rateWaifu` `reverse` `bigLetter` `playSong` `rps` `define` `meme` `gif` `catEmoticon`\n" +
@@ -230,7 +230,7 @@ namespace Wsashi
             "**13. osu! -** `osuStats` `maniaStats` `taikoStats` `ctbStats`\n" +
             "**14. Games -** `2048 start` `trivia`\n" +
             "**15. Self Roles -** `iAm` `iAmNot` `selfRoleList`\n" +
-            "**16. Wasagotchi (w!wasagotchi <command>) -** `stats` `feed` `clean` `train` `play` `name` `buy` `picture` `help` `opencapsule` `inventory`\n" +
+            "**16. Wasagotchi (w!wasagotchi <command>) -** `stats` `feed` `clean` `train` `play` `name` `buy` `picture` `help` `openCapsule` `inventory`\n" +
                         "**17. Personal Tags (w!ptag <command>)-** `new` `update` `remove` `list`\n" + //add gru and butterfly meme when done
                         "**18. Lootboxes -** `openLootBox` `lootBoxInventory` `giftLootbox`\n" +
             "\n" +

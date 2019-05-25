@@ -14,14 +14,19 @@
 
 
   <ItemGroup>
+    <Compile Remove="Libs\CustomLibraries\Victoria\**" />
     <Compile Remove="Libs\Weeb.net\**" />
+    <EmbeddedResource Remove="Libs\CustomLibraries\Victoria\**" />
     <EmbeddedResource Remove="Libs\Weeb.net\**" />
+    <None Remove="Libs\CustomLibraries\Victoria\**" />
     <None Remove="Libs\Weeb.net\**" />
   </ItemGroup>
 
 
 
   <ItemGroup>
+
+    <Compile Remove="Handlers\BlogHandler.cs" />
 
     <Compile Remove="Logging.cs" />
 
@@ -43,17 +48,19 @@
 
   <ItemGroup>
 
-    <PackageReference Include="Discord.Net" Version="2.1.0-dev-20190513.4" />
+    <PackageReference Include="Discord.Net" Version="2.1.1-dev-20190519.7" />
 
-    <PackageReference Include="Discord.Net.Core" Version="2.1.0-dev-20190513.4" />
+    <PackageReference Include="Discord.Net.Core" Version="2.1.1-dev-20190519.7" />
 
     <PackageReference Include="DiscordBotsList.Api.Adapter.Discord.Net" Version="1.1.0" />
 
-    <PackageReference Include="Magick.NET-Q16-AnyCPU" Version="7.13.0" />
+    <PackageReference Include="Magick.NET-Q16-AnyCPU" Version="7.13.1" />
 
     <PackageReference Include="Newtonsoft.Json" Version="12.0.2" />
 
     <PackageReference Include="SixLabors.ImageSharp.Drawing" Version="1.0.0-beta0006" />
+
+    <PackageReference Include="Victoria" Version="4.0.10" />
 
     <PackageReference Include="Weeb.net" Version="1.0.7" />
 
